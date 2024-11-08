@@ -77,6 +77,10 @@ const Navbar = () => {
       name: "Pricing",
       link: "/pricing",
     },
+    {
+      name: "Contact",
+      link: "/contact-us",
+    },
   ];
 
   // const profile = [

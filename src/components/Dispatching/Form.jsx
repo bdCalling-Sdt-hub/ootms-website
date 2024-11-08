@@ -28,148 +28,171 @@ const normFile = (e) => {
   }
   return e?.fileList;
 };
-const onFinish = (values) => {
-  console.log("Received values of form: ", values);
-};
+
 const FormFile = () => {
+  const [form] = Form.useForm();
+
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+    form.resetFields();
+  };
   return (
     <>
       <h1 className="text-3xl font-bold text-gray-color text-center my-12">
         Receiver Information
       </h1>
-      <div className=" grid place-items-center">
-        <Form
+
+      <Form form={form} className="grid place-items-center" onFinish={onFinish}>
+        {/* First Name and Contact Number */}
+        <div
+          layout="vertical"
           className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2"
-          onFinish={onFinish}
         >
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               First Name<span className="text-red-500 text-xl">*</span>
             </Typography>
-            <Form.Item name="firstName" className="flex space-x-4">
-              <Input placeholder="Enter full name" className="w-96" />
+            <Form.Item
+              name="firstName"
+              rules={[{ required: true, message: "First name is required" }]}
+            >
+              <Input placeholder="Enter first name" className="w-96 md:w-96" />
             </Form.Item>
           </div>
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               Contact Number<span className="text-red-500 text-xl">*</span>
             </Typography>
-            <Form.Item name="lastName" className="flex space-x-4">
-              <Input placeholder="Enter contact number" className="w-96" />
+            <Form.Item
+              name="contactNumber"
+              rules={[
+                { required: true, message: "Contact number is required" },
+              ]}
+            >
+              <Input
+                placeholder="Enter contact number"
+                className="w-96 md:w-96"
+              />
             </Form.Item>
           </div>
-        </Form>
+        </div>
 
-        {/* email address */}
-        <Form
-          className="grid grid-cols-1 lg:grid-cols-1 md:gap-2"
-          onFinish={onFinish}
-        >
-          <div className="w-full">
+        {/* Email Address */}
+        <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+          <div>
             <Typography className="text-contact-input font-semibold text-xl">
               Email Address
             </Typography>
-            <Form.Item name="email">
-              <Input placeholder="Enter emaill address" className="w-wid" />
+            <Form.Item
+              name="email"
+              rules={[{ required: true, message: "Email is required" }]}
+            >
+              <Input
+                placeholder="Enter email address"
+                className="w-96 md:w-96 lg:w-[774px]"
+              />
             </Form.Item>
           </div>
-        </Form>
+        </div>
 
-        {/* recovery address */}
-        <Form
-          className="grid grid-cols-1 lg:grid-cols-1 md:gap-2"
-          onFinish={onFinish}
-        >
+        {/* Receiver Address */}
+        <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
           <div className="w-full">
             <Typography className="text-contact-input font-semibold text-xl">
-              Recever Address
+              Receiver Address
             </Typography>
-            <Form.Item name="email">
-              <Input placeholder="Enter recever address" className="w-wid" />
+            <Form.Item
+              name="receiverAddress"
+              rules={[
+                { required: true, message: "Receiver address is required" },
+              ]}
+            >
+              <Input
+                placeholder="Enter receiver address"
+                className="w-96 md:w-96 lg:w-[774px]"
+              />
             </Form.Item>
           </div>
-        </Form>
+        </div>
 
-        {/* city state */}
-        <Form
-          className="grid grid-cols-1 lg:grid-cols-3 md:gap-2 lg:gap-2"
-          onFinish={onFinish}
-        >
+        {/* City, State, Zip */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-2 lg:gap-2">
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               City
             </Typography>
-            <Form.Item name="firstName">
-              <Input c placeholder="Enter city" className="w-city" />
+            <Form.Item
+              name="city"
+              rules={[{ required: true, message: "City is required" }]}
+            >
+              <Input placeholder="Enter city" className="w-96 lg:w-[250px]" />
             </Form.Item>
           </div>
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               State
             </Typography>
-            <Form.Item name="lastName">
-              <Input c placeholder="Enter state" className="w-city" />
+            <Form.Item
+              name="state"
+              rules={[{ required: true, message: "State is required" }]}
+            >
+              <Input placeholder="Enter state" className="w-96 lg:w-[250px]" />
             </Form.Item>
           </div>
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               Zip
             </Typography>
-            <Form.Item name="lastName">
-              <Input c placeholder="Enter zip" className="w-city" />
+            <Form.Item
+              name="zip"
+              rules={[{ required: true, message: "Zip code is required" }]}
+            >
+              <Input placeholder="Enter zip" className="w-96 lg:w-[250px]" />
             </Form.Item>
           </div>
-        </Form>
+        </div>
 
-        {/* PO# and bill of loading */}
-        <Form
-          className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2"
-          onFinish={onFinish}
-        >
+        {/* PO# and Bill of Loading */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               PO#
             </Typography>
-            <Form.Item name="firstName">
-              <Input placeholder="Enter po#" className="md:w-96 w-96" />
+            <Form.Item name="poNumber">
+              <Input placeholder="Enter PO#" className="w-96 md:w-96" />
             </Form.Item>
           </div>
           <div>
             <Typography className="text-contact-input font-semibold text-xl">
               Bill of Loading
             </Typography>
-            <Form.Item name="lastName">
+            <Form.Item name="billOfLoading">
               <Input
-                className="md:w-96 w-96"
                 placeholder="Enter bill of loading"
+                className="w-96 md:w-96"
               />
             </Form.Item>
           </div>
-        </Form>
+        </div>
 
         {/* Delivery Instructions */}
-        <Form
-          className="grid grid-cols-1 lg:grid-cols-1 md:gap-2"
-          onFinish={onFinish}
-        >
-          <div className="w-full">
-            <Typography className="text-contact-input font-semibold text-xl">
-              Delivery Instructions
-            </Typography>
-            <Form.Item name="email">
-              <Input
-                placeholder="Enter delivery instructions"
-                className="w-wid"
-              />
-            </Form.Item>
-          </div>
-        </Form>
+        <div>
+          <Typography className="text-contact-input font-semibold text-xl">
+            Delivery Instructions
+          </Typography>
+          <Form.Item name="deliveryInstructions">
+            <textarea
+              placeholder="Enter delivery instructions"
+              className="w-96 md:w-96 lg:w-[774px] p-4 border-2 border-gray-300 rounded-xl focus:outline-none resize-none"
+            />
+          </Form.Item>
+        </div>
 
-        {/* next button */}
-        <button className="bg-next-btn w-next-btn-wid p-2 text-next-text font-bold text-xl mb-12 rounded-xl">
+        {/* Next Button */}
+        <button className="bg-next-btn w-96 md:w-96 lg:w-[774px] p-2 text-next-text font-bold text-xl mb-12 rounded-xl">
           Next
         </button>
-      </div>
+      </Form>
     </>
   );
 };

@@ -33,9 +33,10 @@ module.exports = {
       },
     
       width: {
-        'wid': '776px',
-        "city": "254px",
-        "next-btn-wid":"780px",
+        'wid': '900px', 
+        'city': '300px', 
+        'next-btn-wid': '800px',
+      
       },
     },
   },
