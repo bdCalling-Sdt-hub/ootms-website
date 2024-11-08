@@ -47,6 +47,7 @@ body {
   border-radius: 100%;
   z-index: 100;
   margin-left: 30px;
+  
 }
 
 /* Media query for screens larger than 768px */
@@ -61,3 +62,4 @@ body {
     margin-left: 0px; /* Reset margin-left to 0px */
   }
 }
+

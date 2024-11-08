@@ -19,12 +19,27 @@ module.exports = {
         "base-color": "#222222",
         "highlight-color": "#2F87FC",
         "input-color": "#FCC1BE",
+        "gray-color":"#2B4257",
+        "same-gray":"#BDC4CB",
+        "next-btn": "#1A2834",
+        "next-text": "#EAECEE",
+        "contact-input":"#2B4257",
+
+
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         skia: ["var(--skia)", "sans-serif"], // Skia local font
       },
+    
+      width: {
+        'wid': '776px',
+        "city": "254px",
+        "next-btn-wid":"780px",
+      },
     },
   },
   plugins: [],
 };
+
+

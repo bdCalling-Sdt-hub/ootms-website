@@ -54,6 +54,18 @@ import blog2 from "./images/blog/blogImg2.png";
 import clientFeedbackUser1 from "./images/results/clientFeedbackUser1.png";
 import clientFeedbackUser2 from "./images/results/clientFeedbackUser2.png";
 
+// Use case
+import register1 from "./userGuide/register1.png";
+import register2 from "./userGuide/register2.png";
+import register3 from "./userGuide/register3.png";
+import register4 from "./userGuide/register4.png";
+import register5 from "./userGuide/register5.png";
+import register6 from "./userGuide/register6.png";
+import casing from "./userGuide/casing.png";
+
+// dispatching
+import manImage from "./dispatching/manImage.png";
+
 // Icons
 import facebook from "./icons/facebook.png";
 import insta from "./icons/insta.png";
@@ -79,6 +91,10 @@ import teliphone from "./icons/teliphone.png";
 import resultIcon1 from "./icons/resultIcon1.png";
 import resultIcon2 from "./icons/resultIcon2.png";
 import resultIcon3 from "./icons/resultIcon3.png";
+
+// about_app
+import imageHero from "./about_app/image.png";
+import mobile from "./about_app/mobile.png";
 
 export const AllImages = {
   logo,
@@ -111,6 +127,8 @@ export const AllImages = {
   iPhone,
   Group,
   faq,
+  imageHero,
+  mobile,
 };
 
 export const AllHowItWorks = {
@@ -157,4 +175,18 @@ export const allIcons = {
   resultIcon1,
   resultIcon2,
   resultIcon3,
+};
+
+export const userGuide = {
+  register1,
+  register2,
+  register3,
+  register4,
+  register5,
+  register6,
+  casing,
+};
+
+export const dispatchinImage = {
+  manImage,
 };
