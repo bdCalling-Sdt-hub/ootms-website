@@ -81,6 +81,10 @@ const Navbar = () => {
       name: "Contact",
       link: "/contact-us",
     },
+    {
+      name: "Recruit New Drivers",
+      link: "/recruit-new-drivers",
+    },
   ];
 
   // const profile = [

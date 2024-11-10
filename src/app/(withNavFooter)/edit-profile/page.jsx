@@ -19,15 +19,15 @@ import { BiMessageDetail } from "react-icons/bi";
 import Image from "next/image";
 import React, { useState } from "react";
 import TextArea from "antd/es/input/TextArea";
-import { AllImages, storiesImg } from "../../../public/assets/AllImages";
-import Container from "../ui/Container";
+// import { AllImages } from "../../public/assets/AllImages";
+// import Container from "./ui/Container";
 import { motion } from "framer-motion";
 import { buttonVariants } from "@/lib/variants";
 import { MdOutlineFileUpload } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { AllImages } from "../../../../public/assets/AllImages";
+import Container from "@/components/ui/Container";
 
-const MyProfile = () => {
-  const router = useRouter()
+const EditProfile = () => {
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
@@ -54,27 +54,19 @@ const MyProfile = () => {
       }
     }
   };
-
-
-  // on click edit 
-  function onEdit(){
-   router.push('/edit-profile')
-  }
-  // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
+  const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
   return (
     <div>
       <div className=" my-16 md:mt-20">
         <Container>
-          {/* <div className="flex flex-col sm:flex-row justify-between items-center ">
-            {isOnlyView ? (
-              <div className="text-3xl md:text-3xl lg:text-4xl font-semibold mb-6"></div>
-            ) : (
+          <div className="flex flex-col sm:flex-row justify-between items-center ">
+          
               <h1 className="text-secondary-color text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
                 Add Profile Picture
               </h1>
-            )}
+         
 
-            <div className="mb-10 sm:mb-0">
+            {/* <div className="mb-10 sm:mb-0">
               {isOnlyView ? (
                 <Button
                   onClick={toggleOnlyView}
@@ -92,27 +84,8 @@ const MyProfile = () => {
                   Undo Changes
                 </Button>
               )}
-            </div>
-          </div> */}
-
-
-             <div className="flex flex-col sm:flex-row justify-between items-center ">
-        
-              <h1 className="text-secondary-color text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                Add Profile Picture
-              </h1>
-          
-            <div className="mb-10 sm:mb-0">
-                <Button
-                  onClick={onEdit}
-                  type="primary"
-                  className="px-12  py-6 text-lg md:text-xl font-semibold bg-secondary-color border border-secondary-color text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
-                >
-                  Edit Profile
-                </Button>
-            </div>
+            </div> */}
           </div>
-
 
           <Form
             disabled={isOnlyView}
@@ -131,8 +104,8 @@ const MyProfile = () => {
                   className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
                 />
               </div>
-              {/* <div className="flex items-start flex-col">
-                {isOnlyView ? (
+              <div className="flex items-start flex-col">
+                {/* {isOnlyView ? (
                   <div></div>
                 ) : (
                   <p className="text-xl text-base-color mb-7">
@@ -142,7 +115,7 @@ const MyProfile = () => {
 
                 {isOnlyView ? (
                   ""
-                ) : (
+                ) : ( */}
                   <Form.Item name="profileImage" className="text-white ">
                     <Upload onChange={handleImageUpload}>
                       <Button className="px-12  py-6 text-lg md:text-xl font-semibold bg-[#E6E7E6] border border-[#4E4E4E] text-base-color rounded-3xl ">
@@ -150,8 +123,8 @@ const MyProfile = () => {
                       </Button>
                     </Upload>
                   </Form.Item>
-                )}
-              </div> */}
+             
+              </div>
             </div>
             <div className="mt-16">
               <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
@@ -290,4 +263,4 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default EditProfile;

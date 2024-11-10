@@ -24,6 +24,7 @@ module.exports = {
         "next-btn": "#1A2834",
         "next-text": "#EAECEE",
         "contact-input":"#2B4257",
+        "profile-text-color":"#2B4257"
 
 
       },
