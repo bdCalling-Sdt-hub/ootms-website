@@ -1,49 +1,30 @@
 "use client";
-import {
-  Button,
-  ConfigProvider,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Typography,
-  Upload,
-} from "antd";
-import {
-  CalendarOutlined,
-  DownOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
-import { CiLocationOn } from "react-icons/ci";
-import { BiMessageDetail } from "react-icons/bi";
+import { Button, Form, Input, Typography, Upload } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
-import TextArea from "antd/es/input/TextArea";
-import { AllImages, storiesImg } from "../../../public/assets/AllImages";
-import Container from "../ui/Container";
-import { motion } from "framer-motion";
-import { buttonVariants } from "@/lib/variants";
-import { MdOutlineFileUpload } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { MdEdit } from "react-icons/md";
+import { AllImages } from "../../../public/assets/AllImages";
+import Container from "../ui/Container";
 
 const MyProfile = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
   const users = {
     profilePhoto: AllImages.profile,
     firstName: "Alexder",
-    
-   
+
     email: "Rajin572@gmail.com",
     number: "01644258678",
     address: "Dhaka",
   };
 
   const onFinish = (values) => {
-    // console.log("userUpdate:", values);
+    console.log("userUpdate:", values);
   };
+
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
       setUploadedImage(AllImages.profile); // Reset to null or fallback image
@@ -55,10 +36,9 @@ const MyProfile = () => {
     }
   };
 
-
-  // on click edit 
-  function onEdit(){
-   router.push('/edit-profile')
+  // on click edit
+  function onEdit() {
+    router.push("/edit-profile");
   }
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
   return (
@@ -95,33 +75,31 @@ const MyProfile = () => {
             </div>
           </div> */}
 
+          <div className="flex flex-col sm:flex-row justify-between items-center ">
+            <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
+              Add Profile Picture
+            </h1>
 
-             <div className="flex flex-col sm:flex-row justify-between items-center ">
-        
-              <h1 className="text-secondary-color text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                Add Profile Picture
-              </h1>
-          
             <div className="mb-10 sm:mb-0">
-                <Button
-                  onClick={onEdit}
-                  type="primary"
-                  className="px-12  py-6 text-lg md:text-xl font-semibold bg-secondary-color border border-secondary-color text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
-                >
-                  Edit Profile
-                </Button>
+              <Button
+                onClick={onEdit}
+                type="primary"
+                className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
+              >
+                <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />{" "}
+                Edit Profile
+              </Button>
             </div>
           </div>
 
-
           <Form
-            disabled={isOnlyView}
+            // disabled={isOnlyView}
             onFinish={onFinish}
             layout="vertical"
             className="bg-transparent w-full"
           >
             <div className="flex flex-col sm:flex-row items-center gap-10">
-              <div className="rounded-full border-2 border-secondary-color overflow-hidden">
+              <div className="rounded-full border-2 border-add-profile-border overflow-hidden">
                 <Image
                   src={uploadedImage}
                   alt="profile_img"
@@ -157,89 +135,81 @@ const MyProfile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
                 {/*  First Name  */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                   Full Name
-                  </Typography.Title>
-                  <Form.Item
-                
-                    name="FullName"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
-                    <Input 
+                    Full Name
+                  </Typography.Title>
+                  <Form.Item name="FullName" className="text-white ">
+                    <Input
                       placeholder="Enter your first name "
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
                 {/*  Last Name  */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                   Emaill
-                  </Typography.Title>
-                  <Form.Item
-        
-                    name="Emaill"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Emaill
+                  </Typography.Title>
+                  <Form.Item name="Emaill" className="text-white ">
                     <Input
                       placeholder="Enter your email"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
                 {/*  phone  */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                 Phone
-                  </Typography.Title>
-                  <Form.Item
-              
-                    name="Phone"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Phone
+                  </Typography.Title>
+                  <Form.Item name="Phone" className="text-white ">
                     <Input
                       placeholder="Enter your phone"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
                 {/*  country */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                   Country
-                  </Typography.Title>
-                  <Form.Item
-            
-                    name="Country"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Country
+                  </Typography.Title>
+                  <Form.Item name="Country" className="text-white ">
                     <Input
                       placeholder="Enter your country name"
-                     className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
                 {/*  email address */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                  Address
-                  </Typography.Title>
-                  <Form.Item
-            
-                    name="Address"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Address
+                  </Typography.Title>
+                  <Form.Item name="Address" className="text-white ">
                     <Input
                       placeholder="Enter your address"
-                     className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
-
-              
               </div>
 
-              
               {/* <h2 className="mb-1 text-xl font-semibold">
                 Attach Medical Documents
               </h2> */}
@@ -263,7 +233,7 @@ const MyProfile = () => {
                 </Dragger>
               </Form.Item> */}
 
-              {isOnlyView ? (
+              {/* {isOnlyView ? (
                 <div></div>
               ) : (
                 <Form.Item>
@@ -281,8 +251,17 @@ const MyProfile = () => {
                     Save Changes
                   </motion.button>
                 </Form.Item>
-              )}
+              )} */}
             </div>
+
+            <Button
+              className="bg-next-btn py-6 text-next-text font-bold text-xl mb-12 rounded-xl mt-8"
+              type="primary"
+              block
+              htmlType="submit"
+            >
+              Save Profile
+            </Button>
           </Form>
         </Container>
       </div>

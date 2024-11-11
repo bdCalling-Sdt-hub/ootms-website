@@ -19,29 +19,26 @@ module.exports = {
         "base-color": "#222222",
         "highlight-color": "#2F87FC",
         "input-color": "#FCC1BE",
-        "gray-color":"#2B4257",
-        "same-gray":"#BDC4CB",
-        "next-btn": "#1A2834",
+        "gray-color": "#2B4257",
+        "same-gray": "#BDC4CB",
+        "next-btn": "#2B4257",
         "next-text": "#EAECEE",
-        "contact-input":"#2B4257",
-        "profile-text-color":"#2B4257"
-
-
+        "contact-input": "#2B4257",
+        "profile-text-color": "#2B4257",
+        "add-profile-border": "#2A4094",
+        "shipper-input-bg": "#EAECEE",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         skia: ["var(--skia)", "sans-serif"], // Skia local font
       },
-    
+
       width: {
-        'wid': '900px', 
-        'city': '300px', 
-        'next-btn-wid': '800px',
-      
+        wid: "900px",
+        city: "300px",
+        "next-btn-wid": "800px",
       },
     },
   },
   plugins: [],
 };
-
-

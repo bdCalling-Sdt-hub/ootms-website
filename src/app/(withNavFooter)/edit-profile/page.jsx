@@ -1,48 +1,35 @@
 "use client";
-import {
-  Button,
-  ConfigProvider,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Typography,
-  Upload,
-} from "antd";
-import {
-  CalendarOutlined,
-  DownOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
-import { CiLocationOn } from "react-icons/ci";
-import { BiMessageDetail } from "react-icons/bi";
+import { Button, Form, Input, Typography, Upload } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
-import TextArea from "antd/es/input/TextArea";
+import { useState } from "react";
 // import { AllImages } from "../../public/assets/AllImages";
 // import Container from "./ui/Container";
-import { motion } from "framer-motion";
-import { buttonVariants } from "@/lib/variants";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { AllImages } from "../../../../public/assets/AllImages";
 import Container from "@/components/ui/Container";
+import { AllImages } from "../../../../public/assets/AllImages";
 
 const EditProfile = () => {
+  const data = {
+    FullName: "John Doe",
+    Email: "johndoe@example.com",
+    Phone: "123456789",
+    Country: "USA",
+    Address: "123 Main St",
+  };
+
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
   const users = {
     profilePhoto: AllImages.profile,
     firstName: "Alexder",
-    
-   
+
     email: "Rajin572@gmail.com",
     number: "01644258678",
     address: "Dhaka",
   };
 
   const onFinish = (values) => {
-    // console.log("userUpdate:", values);
+    console.log("userUpdate:", values);
   };
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
@@ -55,16 +42,23 @@ const EditProfile = () => {
     }
   };
   const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
+
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  //   console.log(`${name}: ${value}`);
+  // };
   return (
     <div>
       <div className=" my-16 md:mt-20">
         <Container>
           <div className="flex flex-col sm:flex-row justify-between items-center ">
-          
-              <h1 className="text-secondary-color text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                Add Profile Picture
-              </h1>
-         
+            <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
+              Edit Profile Picture
+            </h1>
 
             {/* <div className="mb-10 sm:mb-0">
               {isOnlyView ? (
@@ -88,16 +82,15 @@ const EditProfile = () => {
           </div>
 
           <Form
-            disabled={isOnlyView}
             onFinish={onFinish}
             layout="vertical"
             className="bg-transparent w-full"
           >
             <div className="flex flex-col sm:flex-row items-center gap-10">
-              <div className="rounded-full border-2 border-secondary-color overflow-hidden">
+              <div className="rounded-full border-2 border-next-btn overflow-hidden">
                 <Image
                   src={uploadedImage}
-                  alt="profile_img"
+                  alt={data.title || "Profile image"}
                   width={0}
                   height={0}
                   sizes="100vw"
@@ -105,156 +98,107 @@ const EditProfile = () => {
                 />
               </div>
               <div className="flex items-start flex-col">
-                {/* {isOnlyView ? (
-                  <div></div>
-                ) : (
-                  <p className="text-xl text-base-color mb-7">
-                    Maximum size 5mb. Format jpg, jpeg, png.
-                  </p>
-                )}
-
-                {isOnlyView ? (
-                  ""
-                ) : ( */}
-                  <Form.Item name="profileImage" className="text-white ">
-                    <Upload onChange={handleImageUpload}>
-                      <Button className="px-12  py-6 text-lg md:text-xl font-semibold bg-[#E6E7E6] border border-[#4E4E4E] text-base-color rounded-3xl ">
-                        Change Picture
-                      </Button>
-                    </Upload>
-                  </Form.Item>
-             
+                <Form.Item name="profileImage" className="text-white ">
+                  <Upload onChange={handleImageUpload}>
+                    <Button className="bg-next-btn py-6 text-next-text font-semibold text-xl md:mt-16 rounded-xl px-8">
+                      Change Picture
+                    </Button>
+                  </Upload>
+                </Form.Item>
               </div>
             </div>
             <div className="mt-16">
-              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 items-center">
                 {/*  First Name  */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                   Full Name
-                  </Typography.Title>
-                  <Form.Item
-                
-                    name="FullName"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
-                    <Input 
-                      placeholder="Enter your first name "
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
-                    />
-                  </Form.Item>
-                </div>
-                {/*  Last Name  */}
-                <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                   Emaill
+                    Full Name
                   </Typography.Title>
                   <Form.Item
-        
-                    name="Emaill"
-                    className="text-white "
+                    initialValue={data.FullName}
+                    name="FullName"
+                    className="text-white"
                   >
                     <Input
-                      placeholder="Enter your email"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      name="FullName" // Ensure the name matches the key in formData
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                      // onChange={handleInputChange}
                     />
                   </Form.Item>
                 </div>
-                {/*  phone  */}
+
+                {/*  Email  */}
                 <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                 Phone
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
+                  >
+                    Country
                   </Typography.Title>
                   <Form.Item
-              
+                    name="country"
+                    initialValue={data.Country}
+                    className="text-white"
+                  >
+                    <Input
+                      placeholder="Enter your country"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
+                    />
+                  </Form.Item>
+                </div>
+
+                {/*  Phone  */}
+                <div>
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
+                  >
+                    Phone
+                  </Typography.Title>
+                  <Form.Item
                     name="Phone"
-                    className="text-white "
+                    initialValue={data.Phone}
+                    className="text-white"
                   >
                     <Input
                       placeholder="Enter your phone"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
-                    />
-                  </Form.Item>
-                </div>
-                {/*  country */}
-                <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                   Country
-                  </Typography.Title>
-                  <Form.Item
-            
-                    name="Country"
-                    className="text-white "
-                  >
-                    <Input
-                      placeholder="Enter your country name"
-                     className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
-                    />
-                  </Form.Item>
-                </div>
-                {/*  email address */}
-                <div>
-                  <Typography.Title level={4} className="text-profile-text-color font-bold">
-                  Address
-                  </Typography.Title>
-                  <Form.Item
-            
-                    name="Address"
-                    className="text-white "
-                  >
-                    <Input
-                      placeholder="Enter your address"
-                     className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  hover:bg-red-400 focus:bg-red-400 "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
                     />
                   </Form.Item>
                 </div>
 
-              
+                {/*  Country  */}
+                <div>
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
+                  >
+                    Address
+                  </Typography.Title>
+                  <Form.Item
+                    name="Address"
+                    initialValue={data.Address}
+                    className="text-white"
+                  >
+                    <Input
+                      placeholder="Enter your Address name"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
+                    />
+                  </Form.Item>
+                </div>
               </div>
 
-              
-              {/* <h2 className="mb-1 text-xl font-semibold">
-                Attach Medical Documents
-              </h2> */}
-              {/* <Form.Item
-                name="medicalDocuments"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Medical Documents is Required",
-                  },
-                ]}
+              <Button
+                className="bg-next-btn py-6 text-next-text font-bold text-xl mb-12 rounded-xl mt-8"
+                type="primary"
+                block
+                htmlType="submit"
               >
-                <Dragger className="p-6   border-red-300 rounded-md">
-                  <div className="flex items-center justify-center !py-10">
-                    <p className="">
-                      <MdOutlineFileUpload className="size-16 text-secondary-color" />
-                    </p>
-                    <p className="text-secondary-color text-3xl">Upload file</p>
-                  </div>
-                </Dragger>
-              </Form.Item> */}
-
-              {isOnlyView ? (
-                <div></div>
-              ) : (
-                <Form.Item>
-                  <motion.button
-                    variants={buttonVariants}
-                    whileTap="tap"
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 7,
-                    }}
-                    className="px-20 py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-lg mt-8"
-                    htmltype="submit"
-                  >
-                    Save Changes
-                  </motion.button>
-                </Form.Item>
-              )}
+                Save Profile
+              </Button>
             </div>
           </Form>
         </Container>

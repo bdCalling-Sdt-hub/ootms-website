@@ -47,7 +47,15 @@ body {
   border-radius: 100%;
   z-index: 100;
   margin-left: 30px;
-  
+}
+
+/* Add this to your CSS file */
+.placeholder-semibold::placeholder {
+  @apply font-semibold;
+}
+
+.placeholder-top::placeholder {
+  text-align: left;
 }
 
 /* Media query for screens larger than 768px */
@@ -62,4 +70,3 @@ body {
     margin-left: 0px; /* Reset margin-left to 0px */
   }
 }
-
