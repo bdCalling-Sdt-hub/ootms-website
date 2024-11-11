@@ -1,7 +1,55 @@
 "use client";
 
-import { Select } from "antd";
+import { ConfigProvider, Select } from "antd";
 const options = [
+  {
+    label: "gold",
+    value: "gold",
+  },
+  {
+    label: "lime",
+    value: "lime",
+  },
+  {
+    label: "green",
+    value: "green",
+  },
+  {
+    label: "cyan",
+    value: "cyan",
+  },
+  {
+    label: "gold",
+    value: "gold",
+  },
+  {
+    label: "lime",
+    value: "lime",
+  },
+  {
+    label: "green",
+    value: "green",
+  },
+  {
+    label: "cyan",
+    value: "cyan",
+  },
+  {
+    label: "gold",
+    value: "gold",
+  },
+  {
+    label: "lime",
+    value: "lime",
+  },
+  {
+    label: "green",
+    value: "green",
+  },
+  {
+    label: "cyan",
+    value: "cyan",
+  },
   {
     label: "gold",
     value: "gold",
@@ -36,7 +84,11 @@ const labelRender = (props) => {
   if (label) {
     return value;
   }
-  return <span>No option match</span>;
+  return (
+    <span className="w-96 md:w-96 lg:w-[774px] text-gray-600 text-shipper-text mb-12">
+      Trailer size
+    </span>
+  );
 };
 
 const ShipperForm = () => {
@@ -214,29 +266,39 @@ const ShipperForm = () => {
             </Form.Item>
           </div>
         </div>
-        {/* Tailer size */}
-        <div>
-          <Typography className="text-contact-input font-semibold text-xl mb-2 mb-2">
-            Tailer size
-          </Typography>
-          <Form.Item name="deliveryInstructions">
-            <Input
-              placeholder="Enter delivery instructions"
-              className="w-96 md:w-96 lg:w-[774px]  bg-shipper-input-bg placeholder-semibold py-2"
-            />
-          </Form.Item>
-        </div>
+
         {/* select item */}
 
-        <div className="w-96 md:w-96 lg:w-[774px]  bg-shipper-input-bg placeholder-semibold py-2">
-          <Select
-            labelRender={labelRender}
-            defaultValue="1"
-            style={{
-              width: "100%",
+        <div>
+          <ConfigProvider
+            theme={{
+              components: {
+                Select: {
+                  selectorBg: "#EAECEE",
+                  colorBgElevated: "#EAECEE",
+                },
+              },
             }}
-            options={options}
-          />
+          >
+            <Select
+              className="w-96 md:w-96 lg:w-[774px] mb-8 mt-4"
+              labelRender={labelRender}
+              defaultValue="1"
+              options={options}
+              dropdownRender={(menu) => (
+                <div
+                  style={{
+                    marginTop: "40px",
+                    // maxHeight: "200px", // Set a maximum height for the dropdown
+                    // overflowY: "auto", // Enable vertical scrolling
+                  }}
+                >
+                  <div>{menu}</div>
+                  <p>p</p>
+                </div>
+              )}
+            />
+          </ConfigProvider>
         </div>
 
         {/* delivey intructure */}

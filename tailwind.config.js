@@ -27,6 +27,7 @@ module.exports = {
         "profile-text-color": "#2B4257",
         "add-profile-border": "#2A4094",
         "shipper-input-bg": "#EAECEE",
+        "shipper-text": "#9E9E9E",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

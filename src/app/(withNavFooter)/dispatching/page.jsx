@@ -1,26 +1,42 @@
-import Image from "next/image";
-import React from "react";
-import { dispatchinImage } from "../../../../public/assets/AllImages";
 import FormFile from "@/components/Dispatching/Form";
+import Image from "next/image";
+import { HiMiniDevicePhoneMobile } from "react-icons/hi2";
+import { dispatchinImage } from "../../../../public/assets/AllImages";
 
 const Dispatching = () => {
   return (
-    <>
-      <div className="relative w-full h-[600px]">
-        {" "}
-        {/* Reduced height */}
-        <Image
-          src={dispatchinImage.manImage}
-          alt="banner-image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="bottom" // Focuses on the bottom of the image
-        />
+    <div>
+      <div className="relative">
+        <div className=" w-full h-[92vh] ">
+          {/* Reduced height */}
+          <Image
+            src={dispatchinImage.manImage}
+            alt="banner-image"
+            width={0}
+            height={0}
+            sizes="100vw"
+            layout="cover"
+            className="object-cover object-top w-full h-[92vh] "
+          />
+        </div>
+        <div className="absolute top-0 left-0 bg-gradient-to-t from-black/70 to-white/10 h-full w-full"></div>
+        <div className="absolute -mt-80 ml-40 sm:ml-20 md:ml-32 lg:ml-96 xl:ml-96">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[50px] sm:leading-[60px] md:leading-[70px]">
+            Shift with <br /> OOTMS.
+          </h1>
+          <button
+            className="font-bold text-white px-6 py-4 rounded-lg text-2xl flex items-center gap-2 mt-6"
+            style={{ background: "#2B4257" }}
+          >
+            <p>
+              <HiMiniDevicePhoneMobile className="text-2xl" />
+            </p>
+            <p> Download app</p>
+          </button>
+        </div>
       </div>
-
-      {/* form dispatching */}
       <FormFile />
-    </>
+    </div>
   );
 };
 

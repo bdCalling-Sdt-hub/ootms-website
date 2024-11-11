@@ -1,25 +1,24 @@
 // / eslint-disable react/no-unescaped-entities /
 "use client";
-import React, { useState, useEffect } from "react";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 // import Container from "../ui/Container";
 import Image from "next/image";
 
 // import SectionHeader from "../ui/SectionHeader";
-import SectionHeader from "@/components/ui/SectionHeader";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 // import required modules
-import { EffectFade, Autoplay } from "swiper/modules";
-import Container from "@/components/ui/Container";
-import { userGuide } from "../../../../public/assets/AllImages";
 import HeaderImage from "@/components/About_App/HeaderImage";
+import Container from "@/components/ui/Container";
+import { Autoplay, EffectFade } from "swiper/modules";
+import { userGuide } from "../../../../public/assets/AllImages";
 
 const sections = [
   { id: "register", label: "Register" },
@@ -122,7 +121,7 @@ const AboutApp = () => {
         <Container>
           <div className="mt-16">
             <h3 className="text-center text-3xl sm:text-4xl lg:text-5xl font-semibold  text-base-color mb-10">
-              <span className="text-secondary-color"> User</span> flow
+              <span className="text-[#2B4257]"> User Flow</span>
             </h3>
           </div>
 
@@ -136,7 +135,7 @@ const AboutApp = () => {
                   >
                     <span
                       className={classNames(
-                        "h-3 w-3 rounded-full bg-secondary-color",
+                        "h-3 w-3 rounded-full bg-[#2B4257]",
                         activeSection === section.id ? "block" : "hidden"
                       )}
                     ></span>
@@ -145,7 +144,7 @@ const AboutApp = () => {
                       className={classNames(
                         "block text-lg font-semibold ps-10",
                         activeSection === section.id
-                          ? "text-secondary-color ps-8 transition ease-in-out scale-110"
+                          ? "text-[#2B4257] ps-8 transition ease-in-out scale-110"
                           : "text-base-color"
                       )}
                     >
