@@ -17,7 +17,7 @@ import GetTheApp from "@/components/Home/GetTheApp";
 const HomePage = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Banner />
       <OurServices />
       <HowItWorkHome />
