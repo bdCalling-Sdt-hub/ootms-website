@@ -5,8 +5,8 @@ export const mainTheme = {
       colorError: "#F5382C",
     },
     Checkbox: {
-      colorPrimary: "#FAA39E",
-      colorPrimaryHover: "#FAA39E",
+      // colorPrimary: "#FAA39E",
+      // colorPrimaryHover: "#FAA39E",
     },
     Select: {
       // colorBgBase: "rgb(255,0,0)",
@@ -14,7 +14,7 @@ export const mainTheme = {
       optionSelectedColor: "#FAFAFA",
       optionSelectedBg: "#000000",
       // optionActiveBg: "#000000",
-      optionActiveColor: "#FAFAFA",
+      // optionActiveColor: "#FAFAFA",
       // colorBorder: "#000000",
       colorBgElevated: "#FAFAFA",
       selectorBg: "#FAFAFA",
@@ -48,5 +48,6 @@ export const mainTheme = {
       colorLinkActive: "rgb(107, 114, 128)",
       headerSplitColor: "rgb(0, 0, 0,0)",
     },
+   
   },
 };

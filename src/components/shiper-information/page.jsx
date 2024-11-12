@@ -1,74 +1,9 @@
 "use client";
 
-import { ConfigProvider, Select } from "antd";
-const options = [
-  {
-    label: "gold",
-    value: "gold",
-  },
-  {
-    label: "lime",
-    value: "lime",
-  },
-  {
-    label: "green",
-    value: "green",
-  },
-  {
-    label: "cyan",
-    value: "cyan",
-  },
-  {
-    label: "gold",
-    value: "gold",
-  },
-  {
-    label: "lime",
-    value: "lime",
-  },
-  {
-    label: "green",
-    value: "green",
-  },
-  {
-    label: "cyan",
-    value: "cyan",
-  },
-  {
-    label: "gold",
-    value: "gold",
-  },
-  {
-    label: "lime",
-    value: "lime",
-  },
-  {
-    label: "green",
-    value: "green",
-  },
-  {
-    label: "cyan",
-    value: "cyan",
-  },
-  {
-    label: "gold",
-    value: "gold",
-  },
-  {
-    label: "lime",
-    value: "lime",
-  },
-  {
-    label: "green",
-    value: "green",
-  },
-  {
-    label: "cyan",
-    value: "cyan",
-  },
-];
+import { Checkbox, ConfigProvider, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
+import { useState } from "react";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -79,20 +14,40 @@ const normFile = (e) => {
   return e?.fileList;
 };
 
-const labelRender = (props) => {
-  const { label, value } = props;
-  if (label) {
-    return value;
-  }
-  return (
-    <span className="w-96 md:w-96 lg:w-[774px] text-gray-600 text-shipper-text mb-12">
-      Trailer size
-    </span>
-  );
-};
-
 const ShipperForm = () => {
   const [form] = Form.useForm();
+  const [checked, setChecked] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
+  const [options, setOptions] = useState([
+    { label: "gold", value: "gold", checked: true },
+    { label: "lime", value: "lime", checked: false },
+    { label: "green", value: "green", checked: false },
+    { label: "cyan", value: "cyan", checked: false },
+  ]);
+
+  const handleCheckboxChange = (value) => {
+    setOptions((prevOptions) =>
+      prevOptions.map((option) =>
+        option.value === value
+          ? { ...option, checked: !option.checked } // Toggle the `checked` state
+          : option
+      )
+    );
+  };
+
+  const labelRender = (value) => {
+    const { label } = value;
+
+    if (label) {
+      return label;
+    }
+
+    return (
+      <span className="w-96 md:w-96 lg:w-[774px]  text-shipper-text mb-12">
+        Trailer size
+      </span>
+    );
+  };
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -281,20 +236,23 @@ const ShipperForm = () => {
             }}
           >
             <Select
-              className="w-96 md:w-96 lg:w-[774px] mb-8 mt-4"
+              className="custom-placeholder w-96 md:w-96 lg:w-[774px] mb-8 mt-4"
               labelRender={labelRender}
-              defaultValue="1"
-              options={options}
-              dropdownRender={(menu) => (
-                <div
-                  style={{
-                    marginTop: "40px",
-                    // maxHeight: "200px", // Set a maximum height for the dropdown
-                    // overflowY: "auto", // Enable vertical scrolling
-                  }}
-                >
-                  <div>{menu}</div>
-                  <p>p</p>
+              placeholder="Trailer size"
+              dropdownRender={() => (
+                <div style={{ marginTop: "40px" }}>
+                  <div>
+                    {options.map((option) => (
+                      <div key={option.value} className="flex justify-between">
+                        <label>{option.label}</label>
+                        <Checkbox
+                          className="my-checkbox"
+                          checked={option.checked}
+                          onChange={() => handleCheckboxChange(option.value)}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             />

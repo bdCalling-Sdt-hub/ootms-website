@@ -65,10 +65,7 @@ const Navbar = () => {
       name: "Home",
       link: "/",
     },
-    {
-      name: "Home",
-      link: "/",
-    },
+
     {
       name: "About App",
       link: "/about-app",
