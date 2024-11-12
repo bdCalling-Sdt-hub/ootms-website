@@ -22,9 +22,10 @@ const HeaderImage = () => {
       />
 
       {/* Content over the image */}
-      <div className="relative z-10 sm:-bottom-28 text-white flex flex-col sm:justify-end items-start h-full sm:pt-[450px] mx-2 sm:mx-10 sm:pb-10 sm:pl-16 xl:pl-64 w-3/5">
-        <p className="text-xs sm:text-xl lg:text-3xl xl:text-6xl font-medium text-white pb-28">
-          Load Board To Help Professional Truck Drivers Find Loads
+      <div className="relative z-10 pb-10 text-white flex flex-col sm:justify-end h-full sm:pt-[450px]  sm:mx-10 sm:pb-10 pl-2 lg:pl-24 w-full md:w-4/5 md:leading-[60px]">
+        <p className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-medium text-white mt-40 leading-[40px] md:leading-[55px] lg:leading-[60px] xl:leading-[80px]">
+          Load Board To Help Professional <br className="md:block lg:block" />
+          Truck Drivers Find Loads
         </p>
       </div>
     </div>

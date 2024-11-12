@@ -95,6 +95,9 @@ import resultIcon3 from "./icons/resultIcon3.png";
 // about_app
 import imageHero from "./about_app/image.png";
 import mobile from "./about_app/mobile.png";
+import mobileMap from "./about_app/mobilemap.png";
+import information from "./about_app/information.png";
+import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
   logo,
@@ -129,6 +132,9 @@ export const AllImages = {
   faq,
   imageHero,
   mobile,
+  mobileMap,
+  information,
+  subscription,
 };
 
 export const AllHowItWorks = {

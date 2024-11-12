@@ -18,13 +18,13 @@ import "swiper/css/pagination";
 import HeaderImage from "@/components/About_App/HeaderImage";
 import Container from "@/components/ui/Container";
 import { Autoplay, EffectFade } from "swiper/modules";
-import { userGuide } from "../../../../public/assets/AllImages";
+import { AllImages, userGuide } from "../../../../public/assets/AllImages";
 
 const sections = [
   { id: "register", label: "Register" },
-  { id: "bookAppointment", label: "Book Appointment" },
-  { id: "bookManagement", label: "Book Management" },
-  { id: "payment", label: "Payment" },
+  { id: "bookAppointment", label: "Live Tracking" },
+  { id: "bookManagement", label: "Information form" },
+  { id: "payment", label: "Subscription" },
 ];
 
 const registerSliderImages = [
@@ -135,7 +135,7 @@ const AboutApp = () => {
                   >
                     <span
                       className={classNames(
-                        "h-3 w-3 rounded-full bg-[#2B4257]",
+                        "h-3 w-3 rounded-full bg-[#f13939]",
                         activeSection === section.id ? "block" : "hidden"
                       )}
                     ></span>
@@ -144,7 +144,7 @@ const AboutApp = () => {
                       className={classNames(
                         "block text-lg font-semibold ps-10",
                         activeSection === section.id
-                          ? "text-[#2B4257] ps-8 transition ease-in-out scale-110"
+                          ? "text-[#e94040] ps-8 transition ease-in-out scale-110"
                           : "text-base-color"
                       )}
                     >
@@ -211,46 +211,19 @@ const AboutApp = () => {
                 </p>
               </section>
 
-              {/* {/ Book Appointment  /} */}
+              {/* {/ mobile map  /} */}
               <section
                 id="bookAppointment"
-                className="w-full flex flex-col justify-center items-center gap-10  py-10"
+                className="w-full flex flex-col justify-center items-center gap-10 -mt-40 py-10"
               >
                 <div>
-                  <div
-                    className="relative h-[520px] w-[250px] sm:w-[300px] sm:h-[620px] lg:h-[620px] p-10  flex justify-center items-center overflow-hidden gap-0 select-none"
-                    style={{
-                      backgroundImage: `url(${userGuide.casing.src})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    {/* <Swiper
-                    spaceBetween={0}
-                    draggable={true}
-                    effect={"fade"}
-                    loop
-                    autoplay={{
-                      delay: 3000,
-                      disableOnInteraction: false,
-                    }}
-                    modules={[EffectFade, Autoplay]}
-                    className="mySwiper absolute sm:top-[15px] sm:left-[12px] h-[96%] w-[93%] sm:h-[95%] sm:w-[92%] rounded-[36px] sm:rounded-[40px] bg-[#FAFAFA]"
-                  >
-                    {bookAppointmentSliderImages.map((img, i) => (
-                      <SwiperSlide key={i}>
-                        <Image
-                          src={img.img}
-                          alt="userGuideRegister"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="h-full w-full"
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper> */}
-                  </div>
+                  <Image
+                    src={AllImages.mobileMap}
+                    alt="mobileMap"
+                    width={600}
+                    height={600}
+                    priority
+                  />
                 </div>
 
                 <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
@@ -266,46 +239,19 @@ const AboutApp = () => {
                 </p>
               </section>
 
-              {/* {/ Book Management  /} */}
+              {/* {/ information  /} */}
               <section
                 id="bookManagement"
-                className="w-full flex flex-col justify-center items-center gap-10  py-10"
+                className="w-full flex flex-col justify-center items-center gap-10 -mt-24 py-10"
               >
                 <div>
-                  <div
-                    className="relative h-[520px] w-[250px] sm:w-[300px] sm:h-[620px] lg:h-[620px] p-10  flex justify-center items-center overflow-hidden gap-0 select-none"
-                    style={{
-                      backgroundImage: `url(${userGuide.casing.src})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    {/* <Swiper
-                    spaceBetween={0}
-                    draggable={true}
-                    effect={"fade"}
-                    loop
-                    autoplay={{
-                      delay: 3000,
-                      disableOnInteraction: false,
-                    }}
-                    modules={[EffectFade, Autoplay]}
-                    className="mySwiper absolute sm:top-[15px] sm:left-[12px] h-[96%] w-[93%] sm:h-[95%] sm:w-[92%] rounded-[36px] sm:rounded-[40px] bg-[#FAFAFA]"
-                  >
-                    {bookManagementSliderImages.map((img, i) => (
-                      <SwiperSlide key={i}>
-                        <Image
-                          src={img.img}
-                          alt="userGuideRegister"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="h-full w-full"
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper> */}
-                  </div>
+                  <Image
+                    src={AllImages.information}
+                    alt="mobileMap"
+                    width={600}
+                    height={600}
+                    priority
+                  />
                 </div>
 
                 <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
@@ -322,46 +268,19 @@ const AboutApp = () => {
                 </p>
               </section>
 
-              {/* {/ Payment   /} */}
+              {/* {/ subscriptons   /} */}
               <section
                 id="payment"
-                className="w-full flex flex-col justify-center items-center gap-10  py-10"
+                className="w-full flex flex-col justify-center items-center gap-10 -mt-24 py-10"
               >
                 <div>
-                  <div
-                    className="relative h-[520px] w-[250px] sm:w-[300px] sm:h-[620px] lg:h-[620px] p-10  flex justify-center items-center overflow-hidden gap-0 select-none"
-                    style={{
-                      backgroundImage: `url(${userGuide.casing.src})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  >
-                    {/* <Swiper
-                    spaceBetween={0}
-                    draggable={true}
-                    effect={"fade"}
-                    loop
-                    autoplay={{
-                      delay: 3000,
-                      disableOnInteraction: false,
-                    }}
-                    modules={[EffectFade, Autoplay]}
-                    className="mySwiper absolute sm:top-[15px] sm:left-[12px] h-[96%] w-[93%] sm:h-[95%] sm:w-[92%] rounded-[36px] sm:rounded-[40px] bg-[#FAFAFA]"
-                  >
-                    {paymentSliderImages.map((img, i) => (
-                      <SwiperSlide key={i}>
-                        <Image
-                          src={img.img}
-                          alt="userGuideRegister"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="h-full w-full"
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper> */}
-                  </div>
+                  <Image
+                    src={AllImages.subscription}
+                    alt="mobileMap"
+                    width={600}
+                    height={600}
+                    priority
+                  />
                 </div>
 
                 <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
