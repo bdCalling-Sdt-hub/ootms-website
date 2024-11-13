@@ -24,7 +24,7 @@ const Shipper = () => {
             Shift with <br /> OOTMS.
           </h1>
           <button
-            className="font-bold text-white px-6 py-4 rounded-lg text-2xl flex items-center gap-2 mt-6"
+            className="custom-negative-margin font-bold text-white px-6 py-4 rounded-lg text-2xl flex items-center gap-2 mt-6"
             style={{ background: "#2B4257" }}
           >
             <p>

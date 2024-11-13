@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { buttonVariants } from "@/lib/variants";
 import Image from "next/image";
 import { allIcons } from "../../../public/assets/AllImages";
+import MapComponent from "../Map/MapComponents";
 
 const ContactUs = () => {
   const TextArea = Input.TextArea;
@@ -140,6 +141,8 @@ const ContactUs = () => {
           </div>
         </div>
       </Container>
+
+      <MapComponent />
     </div>
   );
 };

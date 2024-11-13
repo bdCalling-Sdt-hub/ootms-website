@@ -39,6 +39,10 @@ module.exports = {
         city: "300px",
         "next-btn-wid": "800px",
       },
+
+      screens: {
+        'xs': '460px', // Custom breakpoint for screens <= 460px
+      },
     },
   },
   plugins: [],

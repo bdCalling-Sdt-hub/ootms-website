@@ -16,25 +16,49 @@ const normFile = (e) => {
 
 const ShipperForm = () => {
   const [form] = Form.useForm();
-  const [checked, setChecked] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
+
   const [options, setOptions] = useState([
-    { label: "gold", value: "gold", checked: true },
-    { label: "lime", value: "lime", checked: false },
-    { label: "green", value: "green", checked: false },
-    { label: "cyan", value: "cyan", checked: false },
+    { label: "Dangerous", value: "Dangerous", checked: true },
+    { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
+    { label: "Poison 6", value: "Poison 6", checked: false },
+    { label: "Corrosive", value: "Corrosive", checked: false },
+    { label: "Oxygen 2", value: "Oxygen 2", checked: true },
+    { label: "Danger", value: "Danger", checked: false },
+    { label: "Flammable 3", value: "Flammable 3", checked: false },
+    { label: "Radioactive 7", value: "Radioactive 7", checked: false },
+    { label: "Non-Flammable Gas", value: "Non-Flammable Gas", checked: true },
+    {
+      label: "Organic Peroxide 5.2",
+      value: "Organic Peroxide 5.2",
+      checked: false,
+    },
+    { label: "Spontaneously", value: "Spontaneously", checked: false },
+    { label: "Explosive 1.4", value: "Explosive 1.4", checked: false },
+    { label: "Flammable Solid 4", value: "Flammable Solid 4", checked: true },
+    {
+      label: "Dangerous when wet",
+      value: "Dangerous when wet",
+      checked: false,
+    },
+    {
+      label: "Blasting Agents 1.5d",
+      value: "Blasting Agents 1.5d",
+      checked: false,
+    },
+    { label: "Miscellaneous 9", value: "Miscellaneous 9", checked: false },
+    { label: "PG III", value: "PG III", checked: true },
+    { label: "Inhalation 6", value: "Inhalation 6", checked: false },
   ]);
 
   const handleCheckboxChange = (value) => {
     setOptions((prevOptions) =>
       prevOptions.map((option) =>
         option.value === value
-          ? { ...option, checked: !option.checked } // Toggle the `checked` state
+          ? { ...option, checked: !option.checked }
           : option
       )
     );
   };
-
   const labelRender = (value) => {
     const { label } = value;
 
@@ -60,7 +84,7 @@ const ShipperForm = () => {
       </h1>
 
       <Form form={form} className="grid place-items-center" onFinish={onFinish}>
-        {/* First Name and Contact Number */}
+        {/* Shipper Name and Contact Number */}
         <div
           layout="vertical"
           className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2"
@@ -70,11 +94,11 @@ const ShipperForm = () => {
               Shipper Name<span className="text-red-500 text-xl">*</span>
             </Typography>
             <Form.Item
-              name="firstName"
-              rules={[{ required: true, message: "First name is required" }]}
+              name="Shipper Name"
+              rules={[{ required: true, message: "shipper name is required" }]}
             >
               <Input
-                placeholder="Enter first name"
+                placeholder="Enter shipper name"
                 className="w-96 md:w-96 bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
@@ -120,13 +144,13 @@ const ShipperForm = () => {
               Shipper Address
             </Typography>
             <Form.Item
-              name="receiverAddress"
+              name="shipperAddress"
               rules={[
-                { required: true, message: "Receiver address is required" },
+                { required: true, message: "Shipper address is required" },
               ]}
             >
               <Input
-                placeholder="Enter receiver address"
+                placeholder="Enter shipper address"
                 className="w-96 md:w-96 lg:w-[774px] bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
@@ -185,12 +209,10 @@ const ShipperForm = () => {
             </Typography>
             <Form.Item
               name="receiverAddress"
-              rules={[
-                { required: true, message: "Receiver address is required" },
-              ]}
+              rules={[{ required: true, message: "Load Type is required" }]}
             >
               <Input
-                placeholder="Enter receiver address"
+                placeholder="load type address"
                 className="w-96 md:w-96 lg:w-[774px] bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
@@ -202,9 +224,12 @@ const ShipperForm = () => {
             <Typography className="text-contact-input font-semibold text-xl mb-2">
               Pickup
             </Typography>
-            <Form.Item name="poNumber">
+            <Form.Item
+              name="Pickup"
+              rules={[{ required: true, message: "Pickup is required" }]}
+            >
               <Input
-                placeholder="Enter PO#"
+                placeholder="MM-DD-YYYY"
                 className="w-96 md:w-96 bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
@@ -213,9 +238,12 @@ const ShipperForm = () => {
             <Typography className="text-contact-input font-semibold text-xl mb-2">
               Delivery
             </Typography>
-            <Form.Item name="billOfLoading">
+            <Form.Item
+              name="delivery"
+              rules={[{ required: true, message: "Delivery is required" }]}
+            >
               <Input
-                placeholder="Enter bill of loading"
+                placeholder="MM-DD-YYYY"
                 className="w-96 md:w-96 bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
@@ -236,11 +264,19 @@ const ShipperForm = () => {
             }}
           >
             <Select
+              style={{ overflowY: scroll }}
               className="custom-placeholder w-96 md:w-96 lg:w-[774px] mb-8 mt-4"
               labelRender={labelRender}
               placeholder="Trailer size"
               dropdownRender={() => (
-                <div style={{ marginTop: "40px" }}>
+                <div
+                  style={{
+                    marginTop: "40px",
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                  }}
+                >
+                  {/* Set max height for scroll */}
                   <div>
                     {options.map((option) => (
                       <div key={option.value} className="flex justify-between">
