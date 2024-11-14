@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox, ConfigProvider, Select } from "antd";
+import { ConfigProvider, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,18 @@ const normFile = (e) => {
 const ShipperForm = () => {
   const router = useRouter();
   const [form] = Form.useForm();
+  const [showOptions, setShowOptions] = useState(false);
+  const [noOptions, setNoOptions] = useState(true);
+
+  const handleShowOptionsChange = () => {
+    setShowOptions(true);
+    setNoOptions(false);
+  };
+
+  const handleNoOptionsChange = () => {
+    setNoOptions(true);
+    setShowOptions(false);
+  };
 
   const [options, setOptions] = useState([
     { label: "Dangerous", value: "Dangerous", checked: true },
@@ -80,6 +92,7 @@ const ShipperForm = () => {
     console.log("Received values of form: ", values);
     form.resetFields();
   };
+
   return (
     <>
       {/* <div className="flex gap-8">
@@ -270,30 +283,63 @@ const ShipperForm = () => {
             }}
           >
             <Select
-              style={{ overflowY: scroll }}
-              className="custom-placeholder w-96 md:w-96 lg:w-[774px] mb-8 mt-4"
+              className="custom-placeholder w-96 md:w-96 lg:w-[774px] mb-8"
               labelRender={labelRender}
               placeholder="Trailer size"
               dropdownRender={() => (
-                <div
-                  style={{
-                    marginTop: "40px",
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                  }}
-                >
-                  {/* Set max height for scroll */}
-                  <div>
-                    {options.map((option) => (
-                      <div key={option.value} className="flex justify-between">
-                        <label>{option.label}</label>
-                        <Checkbox
-                          className="my-checkbox"
-                          checked={option.checked}
-                          onChange={() => handleCheckboxChange(option.value)}
+                <div>
+                  <div className="flex justify-between mb-4">
+                    <div>
+                      <h1>Hazmat</h1>
+                    </div>
+                    <div className="flex gap-4">
+                      <label className="flex items-center justify-center gap-1">
+                        <input
+                          className="mt-1"
+                          type="checkbox"
+                          checked={showOptions}
+                          onChange={handleShowOptionsChange}
                         />
-                      </div>
-                    ))}
+                        Yes
+                      </label>
+                      <label className="flex items-center justify-center gap-1">
+                        <input
+                          className="mt-1"
+                          type="checkbox"
+                          checked={noOptions}
+                          onChange={handleNoOptionsChange}
+                        />
+                        No
+                      </label>
+                    </div>
+                  </div>
+                  {/* Set max height for scroll */}
+                  <div
+                    style={{
+                      marginTop: "20px",
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                    }}
+                  >
+                    {/* Conditionally render options or "no data" */}
+                    {showOptions ? (
+                      options.map((option) => (
+                        <div
+                          key={option.value}
+                          className="flex justify-between mb-2"
+                        >
+                          <label>{option.label}</label>
+                          <input
+                            type="checkbox"
+                            className="my-checkbox"
+                            checked={option.checked}
+                            onChange={() => handleCheckboxChange(option.value)}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <p>No data</p>
+                    )}
                   </div>
                 </div>
               )}

@@ -207,7 +207,7 @@ const Navbar = () => {
                   <Button
                     className={`flex flex-col items-center justify-center px-2 py-0 gap-0 cursor-pointer capitalize border-none font-medium xl:text-lg duration-200 hover:scale-110 shadow-none ${
                       item.link === path
-                        ? "bg-slate-800 text-white rounded"
+                        ? " text-cyan-600 rounded"
                         : "text-base-color "
                     }`}
                     style={{
