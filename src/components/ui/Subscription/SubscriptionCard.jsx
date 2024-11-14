@@ -1,7 +1,7 @@
 import { buttonVariants } from "@/lib/variants";
 import { motion } from "framer-motion";
-import { MdOutlineDone } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { MdOutlineDone } from "react-icons/md";
 
 const SubscriptionCard = ({
   plan,
@@ -23,7 +23,7 @@ const SubscriptionCard = ({
         },
       }}
       key={index}
-      className="w-full sm:min-h-[600px] max-w-full sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[400px] flex flex-col justify-between bg-[#EAECF4] text-white p-10 rounded-3xl shadow-lg"
+      className="w-full sm:min-h-[600px] max-w-[300px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[400px] flex flex-col justify-between bg-[#EAECF4] text-white p-10 rounded-3xl shadow-lg"
     >
       <div>
         <div className="flex flex-col ">
@@ -44,7 +44,9 @@ const SubscriptionCard = ({
               <div className="p-1 rounded-full bg-[#3598F126] -mt-4">
                 <MdOutlineDone className="size-5 text-[#037EEE]" />
               </div>
-              <p className="text-sm sm:text-lg lg:text-xl text-black mb-5">{feature}</p>
+              <p className="text-sm sm:text-lg lg:text-xl text-black mb-5">
+                {feature}
+              </p>
             </li>
           ))}
         </ul>

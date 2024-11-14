@@ -1,11 +1,9 @@
 "use client";
-import React, { useRef, useState } from "react";
-import Container from "../ui/Container";
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import Accordion from "../ui/Accordion";
 import Image from "next/image";
 import { AllImages } from "../../../public/assets/AllImages";
+import Accordion from "../ui/Accordion";
+import Container from "../ui/Container";
 
 const FAQ = () => {
   const generalData = [
@@ -41,7 +39,7 @@ const FAQ = () => {
       <Container>
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           <div className="">
-            <Image src={AllImages.faq} />
+            <Image alt="faq" src={AllImages.faq} />
           </div>
           <div>
             <div>

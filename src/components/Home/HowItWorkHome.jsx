@@ -1,20 +1,12 @@
 "use client";
 
-import classNames from "classnames";
-import { useState } from "react";
-import Image from "next/image";
-import { AllImages } from "../../../public/assets/AllImages";
-import { motion } from "framer-motion";
-import { FaArrowRight } from "react-icons/fa6";
-import { buttonVariants } from "@/lib/variants";
-import { FaUsers } from "react-icons/fa";
-import HowUsersWork from "./HowUsersWork";
 import HowDriversWork from "./HowDriversWork";
+import HowUsersWork from "./HowUsersWork";
 
 const HowItWorkHome = () => {
   return (
-    <div className="bg-gradient-to-r from-gray-200 via-white to-gray-100">
-      <div className="w-4/5 mx-auto">
+    <div className="">
+      <div className="">
         <div className="text-center  pt-20 pb-10">
           <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-[#2B4257]">
             How It Work
