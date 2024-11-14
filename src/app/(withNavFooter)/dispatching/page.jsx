@@ -7,8 +7,9 @@ const Dispatching = () => {
   return (
     <div>
       <div className="relative">
-        <div className=" w-full h-[92vh] ">
-          {/* Reduced height */}
+        <div className="w-full h-[92vh]">
+          {" "}
+          {/* Adjust height for different screen sizes */}
           <Image
             src={dispatchinImage.manImage}
             alt="banner-image"
@@ -16,25 +17,28 @@ const Dispatching = () => {
             height={0}
             sizes="100vw"
             layout="cover"
-            className="object-cover object-top w-full h-[92vh] "
+            className="object-cover object-top w-full h-[92vh]"
           />
         </div>
-        <div className="absolute top-0 left-0 bg-gradient-to-t from-black/70 to-white/10 h-full w-full"></div>
-        <div className="absolute -mt-80 ml-40 sm:ml-20 md:ml-32 lg:ml-96 xl:ml-96">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-[50px] sm:leading-[60px] md:leading-[70px]">
+
+        {/* Overlay */}
+        <div className="absolute top-0 left-0 bg-gradient-to-t from-black/70 to-white/10 w-full h-[92vh]"></div>
+
+        {/* Text and Button Container with responsive centering */}
+        <div className="absolute bottom-[10%] left-[10%] max-h-[95vh]">
+          <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight sm:leading-[50px] md:leading-[60px] lg:leading-[70px]">
             Shift with <br /> OOTMS.
           </h1>
           <button
-            className="custom-negative-margin font-bold text-white px-6 py-4 rounded-lg text-2xl flex items-center gap-2 mt-6"
+            className="mt-4 sm:mt-6 md:mt-8 font-bold text-white py-2 px-4 sm:py-3 sm:px-6 md:py-4 md:px-8 rounded-lg text-sm sm:text-lg md:text-xl lg:text-2xl flex items-center justify-center gap-2"
             style={{ background: "#2B4257" }}
           >
-            <p>
-              <HiMiniDevicePhoneMobile className="text-2xl" />
-            </p>
-            <p> Download app</p>
+            <HiMiniDevicePhoneMobile className="text-lg sm:text-xl md:text-2xl" />
+            <span>Download app</span>
           </button>
         </div>
       </div>
+
       <FormFile />
     </div>
   );

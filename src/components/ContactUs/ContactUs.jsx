@@ -1,11 +1,10 @@
 "use client";
-import Container from "../ui/Container";
+import { buttonVariants } from "@/lib/variants";
 import { Form, Input, Typography } from "antd";
 import { motion } from "framer-motion";
-import { buttonVariants } from "@/lib/variants";
 import Image from "next/image";
 import { allIcons } from "../../../public/assets/AllImages";
-import MapComponent from "../Map/MapComponents";
+import Container from "../ui/Container";
 
 const ContactUs = () => {
   const TextArea = Input.TextArea;
@@ -142,7 +141,7 @@ const ContactUs = () => {
         </div>
       </Container>
 
-      <MapComponent />
+      {/* <MapComponent /> */}
     </div>
   );
 };

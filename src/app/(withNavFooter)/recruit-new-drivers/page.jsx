@@ -7,14 +7,14 @@ const Recruit = () => {
     console.log("ok");
   };
   return (
-    <div className="mb-24">
+    <div className="mb-24 container w-[90%] lg:w-[70%] mx-auto lg:px-20">
       <h1 className="text-recruter-heading text-center text-3xl font-semibold my-16">
         Recruit New Drivers
       </h1>
-      <div className="flex justify-center items-center">
+      <div className=" ">
         <Form initialValues={{}} onValuesChange={onFormLayoutChange}>
           <div>
-            <Typography className="text-contact-input font-semibold text-xl mb-2 lg:-ml-12">
+            <Typography className="text-contact-input font-semibold text-xl mb-2 ">
               Driver’s Contact Number
             </Typography>
             <Form.Item
@@ -24,12 +24,12 @@ const Recruit = () => {
               ]}
             >
               <Input
-                className="bg-recruter-input-bg w-96 lg:w-[775px] p-4 lg:-ml-12"
+                className="bg-recruter-input-bg"
                 placeholder="Enter driver’s contact number"
               />
             </Form.Item>
           </div>
-          <button className="bg-next-btn w-96 md:w-96 lg:w-[775px] p-2 text-next-text font-bold text-xl mb-12 rounded-xl lg:-ml-12">
+          <button className="bg-next-btn w-full text-next-text font-bold text-xl mb-12 rounded-xl py-2">
             Submit
           </button>
         </Form>

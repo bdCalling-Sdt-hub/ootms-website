@@ -15,7 +15,7 @@ export default function WhyOOTMS() {
           {/* Section Title */}
           <div className="text-center">
             <h2 className="text-xl sm:text-3xl lg:text-7xl font-semibold text-[#2B4257]">
-              WHY OOTMS?
+              Drivers and Customers
             </h2>
             <p className="text-sm sm:text-xl lg:text-2xl lg:-mt-6">
               Stay Connected with Drivers and Customers.
@@ -23,79 +23,94 @@ export default function WhyOOTMS() {
           </div>
           {/* Feature Cards */}
           <div className="">
-            <div className="flex flex-col sm:flex-row justify-center gap-8">
-              <div className="flex flex-col gap-3 sm:gap-8 lg:w-3/4">
-                {/* Card 1 */}
-                <div className="w-full  mx-auto">
-                  <Card className="shadow-lg h-full transform transition duration-300 hover:scale-110 bg-gray-50">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="rounded-full bg-white p-4 shadow-2xl">
-                        <Image src={AllImages.tab} className="size-12" />
-                      </div>
-                      <h3 className="text-xl font-semibold my-2">
-                        Find booking
-                      </h3>
-                      <p className="text-gray-500">
-                        Easily find and secure bookings quickly with our
-                        user-friendly search platform.
-                      </p>
+            <div className="grid grid-cols-2 items-stretch justify-items-center gap-8">
+              {/* Card 1 */}
+              <div className="w-full  mx-auto">
+                <Card className="shadow-md h-full transform transition duration-300 hover:scale-105 bg-gray-50">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="rounded-full bg-white p-4 shadow-2xl">
+                      <Image
+                        alt="tab"
+                        src={AllImages.tab}
+                        className="size-12"
+                      />
                     </div>
-                  </Card>
-                </div>
-
-                {/* Card 2 */}
-                <div className="w-full mx-auto">
-                  <Card className="shadow-lg h-full transform transition duration-300 hover:scale-110 bg-gray-50">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="rounded-full bg-white p-4 shadow-2xl">
-                        <Image src={AllImages.guard} className="size-12" />
-                      </div>
-                      <h3 className="text-xl font-semibold my-2">
-                        Secured delivery
-                      </h3>
-                      <p className="text-gray-500">
-                        Ensure safe and timely delivery with our reliable and
-                        secure transport services.
-                      </p>
-                    </div>
-                  </Card>
-                </div>
+                    <h3 className="text-xl font-semibold my-2">Connect</h3>
+                    <p className="text-gray-500">
+                      Connect brokers, drivers and customers on a single,
+                      automated end-to-end shipment management tool.
+                    </p>
+                  </div>
+                </Card>
               </div>
 
-              <div className="flex flex-col gap-3 sm:gap-8 lg:w-3/4">
-                {/* Card 3 */}
-                <div className="w-full mx-auto">
-                  <Card className="shadow-lg h-full transform transition duration-300 hover:scale-110 bg-gray-50">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="rounded-full bg-white p-4 shadow-2xl">
-                        <Image src={AllImages.security} className="size-12" />
-                      </div>
-                      <h3 className="text-xl font-semibold my-2">Best rate</h3>
-                      <p className="text-gray-500">
-                        Get the best rate available with our competitive and
-                        transparent pricing options.
-                      </p>
+              {/* Card 2 */}
+              <div className="w-full mx-auto">
+                <Card className="shadow-md h-full transform transition duration-300 hover:scale-105 bg-gray-50">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="rounded-full bg-white p-4 shadow-2xl">
+                      <Image
+                        alt="guard"
+                        src={AllImages.security}
+                        className="size-12"
+                      />
                     </div>
-                  </Card>
-                </div>
+                    <h3 className="text-xl font-semibold my-2">
+                      Real-time visibility for drivers
+                    </h3>
+                    <p className="text-gray-500">
+                      Real-time visibility for drivers, brokers and customers,
+                      no calls, no distractions. Drive, track and deliver all in
+                      one app
+                    </p>
+                  </div>
+                </Card>
+              </div>
 
-                {/* Card 4 */}
-                <div className="w-full mx-auto ">
-                  <Card className="shadow-lg h-full transform transition duration-300 hover:scale-110 bg-gray-50">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="rounded-full bg-white p-4 shadow-2xl">
-                        <Image src={AllImages.tab} className="size-12" />
-                      </div>
-                      <h3 className="text-xl font-semibold my-2">
-                        Verified drivers
-                      </h3>
-                      <p className="text-gray-500">
-                        Connect with reliable, verified drivers for safe and
-                        efficient transportation every time.
-                      </p>
+              {/* Card 3 */}
+              <div className="w-full mx-auto">
+                <Card className="shadow-md h-full transform transition duration-300 hover:scale-105 bg-gray-50">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="rounded-full bg-white p-4 shadow-2xl">
+                      <Image
+                        alt="security"
+                        src={AllImages.security}
+                        className="size-12"
+                      />
                     </div>
-                  </Card>
-                </div>
+                    <h3 className="text-xl font-semibold my-2">
+                      Manage from Anywhere
+                    </h3>
+                    <p className="text-gray-500">
+                      Manage transportation operations with a comprehensive
+                      dashboards and seamlessly “manage at the office” or “on
+                      the go.”
+                    </p>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Card 4 */}
+              <div className="w-full mx-auto ">
+                <Card className="shadow-md h-full transform transition duration-300 hover:scale-105 bg-gray-50">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="rounded-full bg-white p-4 shadow-2xl">
+                      <Image
+                        alt="tab"
+                        src={AllImages.tab}
+                        className="size-12"
+                      />
+                    </div>
+                    <h3 className="text-xl font-semibold my-2">
+                      Industry leading management tool
+                    </h3>
+                    <p className="text-gray-500">
+                      Provide industry-leading real-time shipment visibility
+                      utilizing OOTMS dashboard, mobile apps, and API
+                      integrations.
+                    </p>
+                  </div>
+                </Card>
               </div>
             </div>
           </div>

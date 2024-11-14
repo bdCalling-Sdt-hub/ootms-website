@@ -119,8 +119,21 @@ body {
 }
 
 /* styles.css */
-@media (max-width: 560px) {
-  .custom-negative-margin {
-    margin-left: -4rem; /* Equivalent to -ml-16 */
+
+@media (max-width: 640px) {
+  .custom-text {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 376px) {
+  .custom-text-header {
+    font-size: 18px;
+  }
+  .custom-text-span {
+    font-size: 13px;
+  }
+  .show {
+    display: none;
   }
 }

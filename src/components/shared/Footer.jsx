@@ -1,15 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import Image from "next/image";
-import { allIcons, AllImages } from "../../../public/assets/AllImages";
-import Link from "next/link";
-import Container from "../ui/Container";
 import { Button } from "antd";
-import {
-  FacebookOutlined,
-  InstagramOutlined,
-  LinkedinOutlined,
-} from "@ant-design/icons";
+import Image from "next/image";
+import Link from "next/link";
+import { allIcons, AllImages } from "../../../public/assets/AllImages";
 
 export default function Footer() {
   return (
@@ -107,7 +101,11 @@ export default function Footer() {
               type="primary"
               className="flex items-center bg-black h-14 gap-4 px-5"
             >
-              <Image src={allIcons.playstore} className="size-8" />
+              <Image
+                alt="play_store"
+                src={allIcons.playstore}
+                className="size-8"
+              />
               <div className="flex flex-col text-start mt-5">
                 <p className="text-xs">Get it on</p>
                 <p className="sm:text-xl -mt-4">Google Play</p>
@@ -117,7 +115,7 @@ export default function Footer() {
               type="primary"
               className="flex items-center bg-black h-14 gap-4 px-5"
             >
-              <Image src={allIcons.appleStore} className="size-8" />
+              <Image alt="apple" src={allIcons.appleStore} className="size-8" />
               <div className="flex flex-col text-start mt-5">
                 <p className="text-xs">Download on the</p>
                 <p className="sm:text-xl -mt-4">Apple Store</p>

@@ -26,10 +26,7 @@ const Accordion = ({ title, content, className }) => {
 
   return (
     <div
-      className={cn(
-        "mb-5 bg-[#DFE2EF] duration-500 rounded shadow ",
-        className
-      )}
+      className={cn("mb-5 bg-[#DFE2EF] duration-500 rounded shadow", className)}
     >
       <div
         className="flex justify-between items-center p-4 cursor-pointer  duration-500"
