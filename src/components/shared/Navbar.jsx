@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Button, Dropdown, ConfigProvider } from "antd";
+import { Button, ConfigProvider, Dropdown } from "antd";
 import Image from "next/image";
-import { IoChatbubbles, IoLogOut, IoMenu, IoPerson } from "react-icons/io5";
-import { usePathname } from "next/navigation";
-import { AllImages } from "../../../public/assets/AllImages";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoMenu } from "react-icons/io5";
+import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
-import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const path = usePathname();

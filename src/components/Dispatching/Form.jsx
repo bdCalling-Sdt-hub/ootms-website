@@ -1,6 +1,7 @@
 "use client";
 
 import { DatePicker, Form, Input, Typography } from "antd";
+import { useRouter } from "next/navigation";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const normFile = (e) => {
@@ -11,11 +12,16 @@ const normFile = (e) => {
 };
 
 const FormFile = () => {
+  const router = useRouter();
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    form.resetFields();
+  // const onFinish = (values) => {
+  //   console.log("Received values of form: ", values);
+  //   form.resetFields();
+  // };
+
+  const onNext = () => {
+    router.push("/shipper-form");
   };
   return (
     <>
@@ -23,7 +29,7 @@ const FormFile = () => {
         Receiver Information
       </h1>
 
-      <Form form={form} className="grid place-items-center" onFinish={onFinish}>
+      <Form form={form} className="grid place-items-center">
         {/* First Name and Contact Number */}
         <div
           layout="vertical"
@@ -185,7 +191,10 @@ const FormFile = () => {
         </div>
 
         {/* Next Button */}
-        <button className="bg-next-btn w-96 md:w-96 lg:w-[774px] p-2 text-next-text font-bold text-xl mb-12 rounded-xl">
+        <button
+          onClick={onNext}
+          className="bg-next-btn w-96 md:w-96 lg:w-[774px] p-2 text-next-text font-bold text-xl mb-12 rounded-xl"
+        >
           Next
         </button>
       </Form>

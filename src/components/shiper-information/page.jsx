@@ -3,7 +3,9 @@
 import { Checkbox, ConfigProvider, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -15,6 +17,7 @@ const normFile = (e) => {
 };
 
 const ShipperForm = () => {
+  const router = useRouter();
   const [form] = Form.useForm();
 
   const [options, setOptions] = useState([
@@ -79,9 +82,12 @@ const ShipperForm = () => {
   };
   return (
     <>
+      {/* <div className="flex gap-8">
+        <button className="mr-96">back</button> */}
       <h1 className="text-3xl font-bold text-gray-color text-center my-12">
         Shipper's Information
       </h1>
+      {/* </div> */}
 
       <Form form={form} className="grid place-items-center" onFinish={onFinish}>
         {/* Shipper Name and Contact Number */}
@@ -303,13 +309,20 @@ const ShipperForm = () => {
           <Form.Item name="deliveryInstructions">
             <Input.TextArea
               placeholder="Enter description"
-              className="bg-gray-100 bg-shipper-input-bg placeholder-gray-400 border border-gray-300 rounded-lg py-3 px-4 h-36 w-96 md:w-96 lg:w-[774px] resize-none font-semibold"
+              className=" bg-shipper-input-bg placeholder-gray-400 border border-gray-300 rounded-lg py-3 px-4 h-36 w-96 md:w-96 lg:w-[774px] resize-none font-semibold"
             />
           </Form.Item>
         </div>
         {/* Next Button */}
-        <button className="bg-next-btn w-96 md:w-96 lg:w-[774px] p-2 text-next-text font-bold text-xl mb-12 rounded-xl">
+        <button className="bg-next-btn w-96 md:w-96 lg:w-[774px] p-2 text-next-text font-bold text-xl mb-4 rounded-xl">
           Next
+        </button>
+        <button
+          className="flex items-center justify-center mb-8"
+          onClick={() => router.back()}
+        >
+          <IoChevronBackOutline style={{ marginTop: "1px" }} />
+          <span>Back</span>
         </button>
       </Form>
     </>
