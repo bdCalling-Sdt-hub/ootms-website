@@ -2,17 +2,19 @@ import logo from "./logo/logo.png";
 // import logoLg from "./logo/logoLg.png";
 // import signupLogo from "./logo/signup-logo.png";
 
-import profile from "./images/profile.png";
 import banner from "./images/banner.png";
 import ornament from "./images/Ornament.png";
+import profile from "./images/profile.png";
 
 import brand from "./images/brand.png";
 
-import hands from "./icons/vectors/hands.png";
 import guard from "./icons/vectors/guard.png";
+import hands from "./icons/vectors/hands.png";
+import real from "./icons/vectors/real-2.png";
 import security from "./icons/vectors/security.png";
 import tab from "./icons/vectors/tab.png";
 
+import fordriver from "./images/fordriver.png";
 import howUserWork1 from "./images/howUserWork1.png";
 import howUserWork2 from "./images/howUserWork2.png";
 import howUserWork3 from "./images/howUserWork3.png";
@@ -26,13 +28,13 @@ import cliniveaPay1 from "./images/cliniveaPay1.png";
 import cliniveaPay2 from "./images/cliniveaPay2.png";
 import cliniveaPay3 from "./images/cliniveaPay3.png";
 
+import faq from "./images/faq.png";
+import Group from "./images/Group.png";
+import iPhone from "./images/iPhone 15 Pro.png";
 import testimonia1 from "./images/testimonia1.png";
 import testimonia2 from "./images/testimonia2.png";
 import testimonia3 from "./images/testimonia3.png";
 import testimonia4 from "./images/testimonia4.png";
-import iPhone from "./images/iPhone 15 Pro.png";
-import Group from "./images/Group.png";
-import faq from "./images/faq.png";
 
 import forgotPasswordImg from "./images/authImg/forgotPasswordImg.png";
 import logInImg from "./images/authImg/logInImg.png";
@@ -55,48 +57,48 @@ import clientFeedbackUser1 from "./images/results/clientFeedbackUser1.png";
 import clientFeedbackUser2 from "./images/results/clientFeedbackUser2.png";
 
 // Use case
+import casing from "./userGuide/casing.png";
 import register1 from "./userGuide/register1.png";
 import register2 from "./userGuide/register2.png";
 import register3 from "./userGuide/register3.png";
 import register4 from "./userGuide/register4.png";
 import register5 from "./userGuide/register5.png";
 import register6 from "./userGuide/register6.png";
-import casing from "./userGuide/casing.png";
 
 // dispatching
 import manImage from "./dispatching/manImage.png";
 
 // Icons
-import facebook from "./icons/facebook.png";
-import insta from "./icons/insta.png";
-import linkedIn from "./icons/linkedIn.png";
 import appleStore from "./icons/appleStore.png";
-import playstore from "./icons/playstore.png";
+import book from "./icons/book.png";
 import breed from "./icons/breed.png";
 import chat from "./icons/chat.png";
-import phone from "./icons/phone.png";
-import book from "./icons/book.png";
-import laptop from "./icons/laptop.png";
 import communiaction from "./icons/communiaction.png";
-import plus from "./icons/plus.png";
-import minus from "./icons/minus.png";
 import dollar from "./icons/dollar.png";
-import wallet from "./icons/wallet.png";
-import healthCare from "./icons/health-care.png";
-import technologicalSupport from "./icons/technological-support 1.png";
-import insuranceAgent from "./icons/insurance-agent 1.png";
-import payPerConversion from "./icons/pay-per-conversion.png";
+import facebook from "./icons/facebook.png";
 import gmail from "./icons/gmail.png";
-import teliphone from "./icons/teliphone.png";
+import healthCare from "./icons/health-care.png";
+import insta from "./icons/insta.png";
+import insuranceAgent from "./icons/insurance-agent 1.png";
+import laptop from "./icons/laptop.png";
+import linkedIn from "./icons/linkedIn.png";
+import minus from "./icons/minus.png";
+import payPerConversion from "./icons/pay-per-conversion.png";
+import phone from "./icons/phone.png";
+import playstore from "./icons/playstore.png";
+import plus from "./icons/plus.png";
 import resultIcon1 from "./icons/resultIcon1.png";
 import resultIcon2 from "./icons/resultIcon2.png";
 import resultIcon3 from "./icons/resultIcon3.png";
+import technologicalSupport from "./icons/technological-support 1.png";
+import teliphone from "./icons/teliphone.png";
+import wallet from "./icons/wallet.png";
 
 // about_app
 import imageHero from "./about_app/image.png";
+import information from "./about_app/information.png";
 import mobile from "./about_app/mobile.png";
 import mobileMap from "./about_app/mobilemap.png";
-import information from "./about_app/information.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
@@ -104,6 +106,7 @@ export const AllImages = {
   guard,
   hands,
   security,
+  real,
   tab,
   profile,
   ornament,
@@ -135,6 +138,7 @@ export const AllImages = {
   mobileMap,
   information,
   subscription,
+  fordriver,
 };
 
 export const AllHowItWorks = {

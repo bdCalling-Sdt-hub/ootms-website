@@ -1,9 +1,8 @@
 import Subscription from "@/components/ui/Subscription/Subscription";
-import React from "react";
 
 export default function Pricing() {
   return (
-    <div className="my-20">
+    <div className="my-20 px-2">
       <Subscription />
     </div>
   );

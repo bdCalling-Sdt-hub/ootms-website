@@ -20,9 +20,9 @@ const ContactUs = () => {
       </div>
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-3 items-center">
-          <div className="w-full h-full flex lg:justify-center lg:items-center mb-10 lg:mb-0">
+          <div className="w-full h-full flex lg:justify-center lg:items-center mb-4 lg:mb-0">
             <div className="flex flex-col items-center mx-auto">
-              <h1 className="sm:text-3xl lg:text-4xl text-base-color sm:mb-10">
+              <h1 className="text-lg sm:text-3xl lg:text-4xl text-base-color sm:mb-10">
                 How can i help you?
               </h1>
               <div className="flex items-center gap-3">
@@ -34,7 +34,7 @@ const ContactUs = () => {
                   sizes="100vw"
                   className="size-4 sm:size-8"
                 />
-                <p className="text-base-color text-xs sm:text-lg lg:text-xl mt-4">
+                <p className="text-base-color text-sm sm:text-lg lg:text-xl mt-4">
                   +11-09874680014
                 </p>
               </div>
@@ -47,7 +47,7 @@ const ContactUs = () => {
                   sizes="100vw"
                   className="size-4 sm:size-8"
                 />
-                <p className="text-base-color text-xs sm:text-lg lg:text-xl mt-2 sm:mt-4">
+                <p className="text-base-color text-sm sm:text-lg lg:text-xl mt-2 sm:mt-4">
                   ootms@gmail.com
                 </p>
               </div>

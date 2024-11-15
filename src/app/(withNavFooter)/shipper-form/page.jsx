@@ -24,7 +24,7 @@ const Shipper = () => {
         <div className="absolute top-0 left-0 bg-gradient-to-t from-black/70 to-white/10 h-full w-full"></div>
 
         {/* Text and Button Container with responsive centering */}
-        <div className="absolute top-1/2 left-1/2 md:top-[600px] md:left-[350px] transform -translate-x-1/2 -translate-y-1/2 text-center  sm:px-10 md:px-16 lg:px-32 max-w-[90%] md:max-w-[80%] lg:max-w-[60%] mx-auto">
+        <div className="absolute bottom-[10%] left-[10%] ">
           <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight sm:leading-[50px] md:leading-[60px] lg:leading-[70px]">
             Shift with <br /> OOTMS.
           </h1>

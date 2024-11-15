@@ -23,7 +23,7 @@ export default function WhyOOTMS() {
           </div>
           {/* Feature Cards */}
           <div className="">
-            <div className="grid grid-cols-2 items-stretch justify-items-center gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-stretch justify-items-center gap-8">
               {/* Card 1 */}
               <div className="w-full  mx-auto">
                 <Card className="shadow-md h-full transform transition duration-300 hover:scale-105 bg-gray-50">
@@ -51,7 +51,7 @@ export default function WhyOOTMS() {
                     <div className="rounded-full bg-white p-4 shadow-2xl">
                       <Image
                         alt="guard"
-                        src={AllImages.security}
+                        src={AllImages.guard}
                         className="size-12"
                       />
                     </div>
@@ -74,7 +74,7 @@ export default function WhyOOTMS() {
                     <div className="rounded-full bg-white p-4 shadow-2xl">
                       <Image
                         alt="security"
-                        src={AllImages.security}
+                        src={AllImages.hands}
                         className="size-12"
                       />
                     </div>
@@ -97,7 +97,7 @@ export default function WhyOOTMS() {
                     <div className="rounded-full bg-white p-4 shadow-2xl">
                       <Image
                         alt="tab"
-                        src={AllImages.tab}
+                        src={AllImages.security}
                         className="size-12"
                       />
                     </div>

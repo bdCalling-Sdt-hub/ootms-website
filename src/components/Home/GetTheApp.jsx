@@ -26,7 +26,7 @@ const GetTheApp = () => {
               </h1>
 
               {/* Description */}
-              <p className="text-xs sm:text-base text-start text-gray-500 mb-8 max-w-lg">
+              <p className="text-sm sm:text-base text-start text-gray-500 mb-8 max-w-lg">
                 Download the OOTMS mobile app for one-touch access to your load
                 shifting experience with the OOTMS mobile app. You’ll get access
                 to special features and exclusive offers.
@@ -42,7 +42,7 @@ const GetTheApp = () => {
                     {points.map((point, index) => (
                       <li
                         key={index}
-                        className="flex items-center gap-1 mb-2 text-xs"
+                        className="flex items-center gap-1 mb-2 text-sm"
                         // style={{
                         //   display: "flex",
                         //   alignItems: "center",

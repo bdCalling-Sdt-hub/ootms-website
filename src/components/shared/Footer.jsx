@@ -8,7 +8,7 @@ import { allIcons, AllImages } from "../../../public/assets/AllImages";
 export default function Footer() {
   return (
     <footer className="pt-5 sm:pt-16 pb-5 bg-black text-white sm:px-10 xl:px-72">
-      <div className="flex justify-center items-center gap-10 sm:items-start mx-5 sm:mx-auto mb-12">
+      <div className="flex justify-center items-center gap-10 sm:items-start sm:mx-auto mb-12">
         <div className="flex flex-col sm:flex-row gap-5 sm:gap-16 lg:gap-40 xl:gap-64 sm:mt-0">
           <div className="flex flex-col gap-1">
             <p className="text-xl font-bold">Services</p>

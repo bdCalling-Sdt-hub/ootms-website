@@ -144,7 +144,7 @@ const AboutApp = () => {
                       className={classNames(
                         "block text-lg font-semibold ps-10",
                         activeSection === section.id
-                          ? "text-[#e94040] ps-8 transition ease-in-out scale-110"
+                          ? "text-[#2B4257] ps-8 transition ease-in-out "
                           : "text-base-color"
                       )}
                     >

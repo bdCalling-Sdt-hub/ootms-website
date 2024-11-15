@@ -35,10 +35,10 @@ const FAQ = () => {
   ];
 
   return (
-    <motion.div className="py-10 overflow-hidden my-10">
+    <motion.div className="py-10 overflow-hidden md:my-10">
       <Container>
-        <div className="flex flex-col sm:flex-row gap-5 justify-center">
-          <div className="">
+        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <div className="mb-6 md:mb-0">
             <Image alt="faq" src={AllImages.faq} />
           </div>
           <div>
@@ -46,8 +46,12 @@ const FAQ = () => {
               {generalData.map((item, index) => (
                 <Accordion
                   key={index}
-                  title={item.title}
-                  content={item.content}
+                  title={
+                    <span className="text-sm md:text-2xl">{item.title}</span>
+                  }
+                  content={
+                    <span className="text-sm md:text-2xl">{item.content}</span>
+                  }
                 />
               ))}
             </div>
