@@ -1,5 +1,7 @@
 export const mainTheme = {
-  token: {},
+  token: {
+    borderRadius: "none",
+  },
   components: {
     Form: {
       colorError: "#F5382C",
@@ -40,7 +42,7 @@ export const mainTheme = {
       headerBg: "#F8FAFC",
       colorBgContainer: "#FEFFFF",
       colorText: "#232323",
-      borderColor: "#DFE1E3",
+      borderColor: "gray",
       headerColor: "#000000",
       fontSize: 18,
       // footerColor: "rgba(31, 41, 55, 0.88)",
@@ -48,6 +50,5 @@ export const mainTheme = {
       colorLinkActive: "rgb(107, 114, 128)",
       headerSplitColor: "rgb(0, 0, 0,0)",
     },
-   
   },
 };

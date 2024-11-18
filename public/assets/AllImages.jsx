@@ -67,6 +67,7 @@ import register6 from "./userGuide/register6.png";
 
 // dispatching
 import manImage from "./dispatching/manImage.png";
+import Map from "./dispatching/Map.png";
 
 // Icons
 import appleStore from "./icons/appleStore.png";
@@ -139,6 +140,7 @@ export const AllImages = {
   information,
   subscription,
   fordriver,
+  Map,
 };
 
 export const AllHowItWorks = {

@@ -105,6 +105,8 @@ body {
   text-align: left;
 }
 
+/* map and truck dispatch style */
+
 /* Media query for screens larger than 768px */
 @media (max-width: 767px) {
   .swiper-button-next:after,
