@@ -95,7 +95,7 @@ const ShipperForm = () => {
     <>
       <div className="container w-[90%] lg:w-[70%] mx-auto">
         <h1 className="text-3xl font-bold text-gray-color text-center my-12">
-          Shipper's Information
+          Shipper&apos;s Information
         </h1>
 
         <Form form={form} className="" onFinish={onFinish}>

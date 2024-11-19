@@ -38,7 +38,7 @@ const OtpVerification = () => {
               className="h-[320px] w-[320px] md:h-[380px] md:w-[380px] lg:h-[520px] lg:w-[520px]"
             />
           </div>
-          <div className="h-[80vh] w-[2px] bg-[#F5382C] hidden lg:block"></div>
+          {/* <div className="h-[80vh] w-[2px] bg-[#F5382C] hidden lg:block"></div> */}
           <div className="w-full md:w-[80%] lg:w-[50%] ">
             <div className="">
               <div className="mb-8">
@@ -55,10 +55,10 @@ const OtpVerification = () => {
                 <Form.Item className="">
                   <div className="flex justify-center items-center">
                     <OTPInput
-                      inputStyle="w-[55px] h-[45px] sm:w-[76px] sm:h-[64px] text-[20px] sm:text-[30px] bg-transparent border border-input-color hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color rounded-lg mr-[10px] sm:mr-[20px]"
+                      inputStyle="w-[55px] h-[45px] sm:w-[76px] sm:h-[64px] text-[20px] sm:text-[30px] bg-transparent border border-[#223376] hover:border-[#223376] focus:bg-transparent focus:border-[#223376] rounded-lg mr-[10px] sm:mr-[20px]"
                       value={otp}
                       onChange={setOtp}
-                      numInputs={4}
+                      numInputs={6}
                       renderInput={(props) => <input {...props} required />}
                     />
                   </div>
@@ -67,7 +67,7 @@ const OtpVerification = () => {
                   <p>Didn’t receive code?</p>
                   <Link
                     href="/otp-verification"
-                    className="text-[#F5382C] underline font-semibold"
+                    className="text-[#223376] underline font-semibold"
                   >
                     Resend
                   </Link>
@@ -82,7 +82,7 @@ const OtpVerification = () => {
                       stiffness: 200,
                       damping: 7,
                     }}
-                    className="w-full py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-2xl mt-8"
+                    className="w-full py-3 border border-[#223376] hover:border-[#223376] text-xl text-primary-color bg-[#223376] font-semibold rounded-2xl mt-8"
                     onClick={handleOTPSubmit}
                   >
                     Get OTP

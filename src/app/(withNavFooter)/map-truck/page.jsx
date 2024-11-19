@@ -44,6 +44,10 @@ const MapTruck = () => {
     },
   ]);
 
+  const openDropModal = () => {
+    console.log("clicked");
+  };
+
   const handleDrop = (item) => {
     setTrucksData((prevData) => [
       ...prevData,
@@ -63,7 +67,10 @@ const MapTruck = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="flex gap-8 items-center p-20 overflow-hidden">
         {/* Trucks Data */}
-        <div className="flex flex-col items-center gap-5 w-1/3">
+        <div
+          className="flex flex-col items-center gap-5 w-1/3"
+          onClick={openDropModal}
+        >
           <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-40 text-center">
             Available Trucks
           </p>

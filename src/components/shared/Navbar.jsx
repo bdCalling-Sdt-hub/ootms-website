@@ -83,17 +83,6 @@ const Navbar = () => {
     },
   ];
 
-  // const profile = [
-  //   {
-  //     name: "Personal information",
-  //     link: "/profile",
-  //   },
-  //   {
-  //     name: "Chat with MVR",
-  //     link: "",
-  //   },
-  // ];
-
   const dropdownItems = menu.map((item, index) => ({
     key: String(index),
     label: (
@@ -229,7 +218,7 @@ const Navbar = () => {
                 </Link>
               ))}
             </div>
-            <div className="lg:flex items-center hidden">
+            <div className="lg:flex items-center gap-2 hidden">
               {/* {path === "/" ? (
                 <>
                   <Link href="/sign-in">
@@ -289,10 +278,16 @@ const Navbar = () => {
               {/* </>
               )} */}{" "}
               <Link
-                href="/contact-us"
+                href="/sign-in"
                 className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
               >
-                Contact Us
+                Sign In
+              </Link>
+              <Link
+                href="/sign-up"
+                className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
+              >
+                Sign Up
               </Link>
             </div>
           </div>
