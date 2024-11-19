@@ -198,7 +198,7 @@ const AboutApp = () => {
                   </Swiper>
                 </div>
 
-                <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
+                {/* <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
                   Welcome to Photo Op! Booking a photographer has never been
                   easier. Whether it’s a wedding, birthday, corporate event, or
                   portrait session, we’ve got you covered. Simply select your
@@ -208,7 +208,7 @@ const AboutApp = () => {
                   cancel whenever you need. Plus, secure payment options ensure
                   a worry-free experience. Join us at Photo Op and capture
                   life’s special moments with ease and professionalism!
-                </p>
+                </p> */}
               </section>
 
               {/* {/ mobile map  /} */}
@@ -226,7 +226,7 @@ const AboutApp = () => {
                   />
                 </div>
 
-                <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
+                {/* <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
                   Welcome to Photo Op! Booking a Snapper session has never been
                   easier. Whether it’s a wedding, birthday, corporate event, or
                   portrait session, we’ve got you covered. Simply select your
@@ -236,7 +236,7 @@ const AboutApp = () => {
                   or cancel whenever you need. Plus, secure payment options
                   ensure a worry-free experience. Join us at Photo Op and
                   capture life’s special moments with ease and confidence!
-                </p>
+                </p> */}
               </section>
 
               {/* {/ information  /} */}
@@ -254,17 +254,11 @@ const AboutApp = () => {
                   />
                 </div>
 
-                <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
-                  Welcome to Photo Op's Book Management feature! Effortlessly
-                  stay on top of all your bookings in one place. View your
-                  upcoming, pending, and completed appointments at a glance.
-                  Need to make changes? You can easily reschedule or cancel your
-                  sessions with just a few clicks. Keep track of your booking
-                  history and ensure you’re always prepared for your next
-                  photography session. At Photo Op, we’re here to make managing
-                  your appointments as smooth as booking them. Stay organized
-                  and enjoy a seamless experience with our intuitive Book
-                  Management system!
+                <p className="md:text-lg w-full md:w-[80%] lg:w-[70%] text-center">
+                  Share your cherished memories with the world by uploading your
+                  story. Whether it&apos;s a heartfelt tribute or a special
+                  moment, let your words and photos preserve the memories that
+                  matter most to you.
                 </p>
               </section>
 
@@ -283,12 +277,12 @@ const AboutApp = () => {
                   />
                 </div>
 
-                <p className="md:text-xl w-full md:w-[80%] lg:w-[70%] text-center">
-                  Welcome to Photo Op's Payment feature! We've made secure and
-                  hassle-free payments a top priority. Once your booking is
-                  confirmed, you can easily complete the payment process through
-                  our trusted and secure platform. Track your payment history
-                  and receive instant confirmations for every transaction.
+                <p className="md:text-lg w-full md:w-[80%] lg:w-[70%] text-center">
+                  Subscribe to our app for seamless access to the best loads
+                  tailored for professional truck drivers. Enjoy real-time
+                  updates, easy navigation, and priority access to high-paying
+                  jobs. Maximize your earnings and reduce downtime with our
+                  premium subscription service.
                 </p>
               </section>
             </div>

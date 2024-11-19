@@ -50,8 +50,8 @@ import whyClinivea2 from "./images/how-it-work/whyClinivea2.png";
 import whyClinivea3 from "./images/how-it-work/whyClinivea3.png";
 
 // Blog
-import blog1 from "./images/blog/blogImg1.png";
-import blog2 from "./images/blog/blogImg2.png";
+// import blog1 from "./images/blog/blogImg1.png";
+// import blog2 from "./images/blog/blogImg2.png";
 // Results
 import clientFeedbackUser1 from "./images/results/clientFeedbackUser1.png";
 import clientFeedbackUser2 from "./images/results/clientFeedbackUser2.png";
@@ -152,10 +152,10 @@ export const AllHowItWorks = {
   whyClinivea3,
 };
 
-export const AllBlogs = {
-  blog1,
-  blog2,
-};
+// export const AllBlogs = {
+//   blog1,
+//   blog2,
+// };
 
 export const AllResults = {
   clientFeedbackUser1,

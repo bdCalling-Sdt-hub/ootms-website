@@ -1,40 +1,55 @@
-import { Table } from "antd";
+import { useDrop } from "react-dnd";
+import { ConfigProvider, Table } from "antd";
 
-const Trucks = () => {
+const Trucks = ({ data, onDrop }) => {
+  const [{ isOver }, drop] = useDrop({
+    accept: "ITEM", // Only accept items of type "ITEM"
+    drop: (item) => onDrop(item), // Execute onDrop when the item is dropped
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
   const columns = [
-    { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
-    { title: "Receiver City", dataIndex: "receiverCity", key: "receiverCity" },
-    { title: "Load Type", dataIndex: "loadType", key: "loadType" },
+    { title: "Driver", dataIndex: "driver", key: "driver" },
+    { title: "Truck", dataIndex: "truck", key: "truck" },
     { title: "Pallet Spaces", dataIndex: "palletSpaces", key: "palletSpaces" },
     { title: "Weight", dataIndex: "weight", key: "weight" },
-    { title: "Pickup Date", dataIndex: "pickupDate", key: "pickupDate" },
-    { title: "Delivery Date", dataIndex: "deliveryDate", key: "deliveryDate" },
-  ];
-
-  const data = [
-    {
-      key: "1",
-      shipperCity: "Atlanta",
-      receiverCity: "Denver",
-      loadType: "Full",
-      palletSpaces: 24,
-      weight: 47000,
-      pickupDate: "11/11/2024",
-      deliveryDate: "13/11/2024",
-    },
+    { title: "Trailer Size", dataIndex: "trailerSize", key: "trailerSize" },
+    { title: "Availability", dataIndex: "availability", key: "availability" },
+    { title: "Location", dataIndex: "location", key: "location" },
   ];
 
   return (
-    <div className="mb-6">
-      {/* Table Section */}
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        bordered
-        scroll={{ x: 80 }} // Adds horizontal scrolling to the table on smaller screens
-        style={{ maxWidth: "100%", overflowX: "hidden" }}
-      />
+    <div
+      ref={drop}
+      style={{
+        border: isOver ? "2px solid green" : "2px solid lightgray",
+        padding: "10px",
+        minHeight: "200px",
+      }}
+    >
+      <ConfigProvider
+        theme={{
+          components: {
+            Table: {
+              padding: 10,
+              margin: 10,
+              cellFontSize: 12,
+              headerBg: "rgb(189,196,222)",
+            },
+          },
+        }}
+      >
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          bordered
+          scroll={{ x: "max-content" }}
+          style={{ maxWidth: "100%", overflowX: "hidden" }}
+        />
+      </ConfigProvider>
     </div>
   );
 };

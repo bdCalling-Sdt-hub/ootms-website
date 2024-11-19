@@ -245,9 +245,10 @@ const ShipperForm = () => {
                 name="Pickup"
                 rules={[{ required: true, message: "Pickup is required" }]}
               >
-                <Input
+                <DatePicker
+                  format="MM-DD-YYYY" // Define the format
+                  className="bg-shipper-input-bg py-2 rounded-lg w-full"
                   placeholder="MM-DD-YYYY"
-                  className=" bg-shipper-input-bg placeholder-semibold py-2"
                 />
               </Form.Item>
             </div>
@@ -259,9 +260,10 @@ const ShipperForm = () => {
                 name="delivery"
                 rules={[{ required: true, message: "Delivery is required" }]}
               >
-                <Input
+                <DatePicker
+                  format="MM-DD-YYYY" // Define the format
+                  className="bg-shipper-input-bg py-2 rounded-lg w-full"
                   placeholder="MM-DD-YYYY"
-                  className=" bg-shipper-input-bg placeholder-semibold py-2"
                 />
               </Form.Item>
             </div>

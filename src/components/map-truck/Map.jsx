@@ -6,10 +6,10 @@ export default function Map() {
   return (
     <div>
       <Image
-        className="max-w-full h-auto"
+        className=""
         src={AllImages.Map}
-        width={600}
-        height={500}
+        width={1000}
+        height={1000}
         alt="map"
       />
     </div>

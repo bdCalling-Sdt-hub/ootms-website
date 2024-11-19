@@ -10,36 +10,34 @@ export default function Footer() {
     <footer className="pt-5 sm:pt-16 pb-5 bg-black text-white sm:px-10 xl:px-72">
       <div className="flex justify-center items-center gap-10 sm:items-start sm:mx-auto mb-12">
         <div className="flex flex-col sm:flex-row gap-5 sm:gap-16 lg:gap-40 xl:gap-64 sm:mt-0">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Services</p>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Link href="">Shipping</Link>
               <Link href="">FAQs</Link>
             </div>
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Company</p>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Link href="">Contact Us</Link>
               <Link href="">Live Location</Link>
             </div>
           </div>{" "}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Legal</p>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Link href="">About Us</Link>
               <Link href="">Terms & Condition</Link>
               <Link href="">Privacy Policy</Link>
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Contact Us</p>
-            <div>
-              <p>12456345</p>
+            <div className="flex flex-col gap-2">
               <p>adasdi@gmail.com</p>
-            </div>
-            <div className="flex flex-col gap-6 justify-start mt-6 lg:mt-0">
-              <div>
+              <p>12456345</p>
+              <div className="flex flex-col gap-6 justify-start mt-6 lg:mt-0">
                 <div className="flex space-x-4 mb-4">
                   <div className="p-2 rounded-full bg-[#FEEBEA]">
                     <Link href="#">

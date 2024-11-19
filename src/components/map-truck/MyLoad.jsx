@@ -1,10 +1,15 @@
-"use client";
-import { Col, Row, Table } from "antd";
-import { useState } from "react";
+import { useDrag } from "react-dnd";
+import { ConfigProvider, Table } from "antd";
 
-const MyLoad = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
+const MyLoad = ({ data }) => {
+  const [{ isDragging }, drag] = useDrag({
+    type: "ITEM", // Type is necessary to specify the type of the draggable item
+    item: (monitorProps) => monitorProps, // Pass the item data for drag
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
   const columns = [
     { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
     { title: "Receiver City", dataIndex: "receiverCity", key: "receiverCity" },
@@ -15,120 +20,35 @@ const MyLoad = () => {
     { title: "Delivery Date", dataIndex: "deliveryDate", key: "deliveryDate" },
   ];
 
-  const data = [
-    {
-      key: "1",
-      shipperCity: "Atlanta",
-      receiverCity: "Denver",
-      loadType: "Full",
-      palletSpaces: 24,
-      weight: 47000,
-      pickupDate: "11/11/2024",
-      deliveryDate: "13/11/2024",
-    },
-  ];
-
-  const handleDragStart = (e) => {
-    // Store the initial mouse position when drag starts
-    const offsetX = e.clientX - position.x;
-    const offsetY = e.clientY - position.y;
-
-    const handleDragMove = (e) => {
-      if (e.buttons === 1) {
-        // Check if the mouse button is held down
-        setPosition({
-          x: e.clientX - offsetX,
-          y: e.clientY - offsetY,
-        });
-      }
-    };
-
-    const handleDragEnd = () => {
-      window.removeEventListener("mousemove", handleDragMove);
-      window.removeEventListener("mouseup", handleDragEnd);
-    };
-
-    window.addEventListener("mousemove", handleDragMove);
-    window.addEventListener("mouseup", handleDragEnd);
-  };
-
   return (
     <div
-      className="mb-6 w-2/3 relative"
-      onMouseDown={handleDragStart}
-      style={{
-        position: "absolute",
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        cursor: "move",
-        width: "100%", // Set width as needed
-        maxWidth: "100%",
-      }}
+      ref={drag}
+      style={{ opacity: isDragging ? 0.5 : 1, cursor: "move" }} // Make the item semi-transparent when dragging
     >
-      {/* First Row: Header (Driver and Receiver) */}
-      <Row
-        gutter={0}
-        style={{
-          textAlign: "center",
-          backgroundColor: "#d9d9f0",
-          border: "1px solid gray",
+      <ConfigProvider
+        theme={{
+          components: {
+            Table: {
+              padding: 10,
+              margin: 10,
+              cellFontSize: 12,
+              headerBg: "rgb(189,196,222)",
+            },
+            Input: {
+              colorText: "rgb(255,255,255)",
+            },
+          },
         }}
       >
-        <Col
-          xs={24}
-          sm={12}
-          style={{
-            padding: "10px",
-            fontWeight: "bold",
-            borderRight: "1px solid gray",
-          }}
-        >
-          Driver
-        </Col>
-        <Col
-          xs={24}
-          sm={12}
-          style={{
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-        >
-          Receiver
-        </Col>
-      </Row>
-
-      {/* Second Row: Data (Driver and Receiver Names) */}
-      <Row
-        gutter={0}
-        style={{
-          textAlign: "center",
-          border: "1px solid gray",
-        }}
-      >
-        <Col
-          xs={24}
-          sm={12}
-          style={{
-            padding: "10px",
-            borderRight: "1px solid #ccc",
-          }}
-        >
-          John Smith
-        </Col>
-        <Col xs={24} sm={12} style={{ padding: "10px" }}>
-          Sohagh Ahmed
-        </Col>
-      </Row>
-
-      {/* Table Section */}
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        bordered
-        scroll={{ x: "max-content" }} // Adds horizontal scrolling to the table on smaller screens
-        style={{ maxWidth: "100%", overflowX: "hidden" }}
-      />
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          bordered
+          scroll={{ x: "max-content" }}
+          style={{ maxWidth: "100%", overflowX: "hidden" }}
+        />
+      </ConfigProvider>
     </div>
   );
 };
