@@ -1,15 +1,6 @@
-import { useDrag } from "react-dnd";
 import { ConfigProvider, Table } from "antd";
 
 const MyLoad = ({ data }) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: "ITEM", // Type is necessary to specify the type of the draggable item
-    item: (monitorProps) => monitorProps, // Pass the item data for drag
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
   const columns = [
     { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
     { title: "Receiver City", dataIndex: "receiverCity", key: "receiverCity" },
@@ -21,10 +12,7 @@ const MyLoad = ({ data }) => {
   ];
 
   return (
-    <div
-      ref={drag}
-      style={{ opacity: isDragging ? 0.5 : 1, cursor: "move" }} // Make the item semi-transparent when dragging
-    >
+    <div>
       <ConfigProvider
         theme={{
           components: {
