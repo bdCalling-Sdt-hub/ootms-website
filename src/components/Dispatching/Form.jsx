@@ -12,6 +12,7 @@ const normFile = (e) => {
 };
 
 const FormFile = () => {
+  const user = JSON.parse(localStorage.getItem("ootms-user"));
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -21,7 +22,7 @@ const FormFile = () => {
   // };
 
   const onNext = () => {
-    router.push("/shipper-form");
+    user ? router.push("/shipper") : router.push("/sign-in");
   };
   return (
     <div className="my-12">

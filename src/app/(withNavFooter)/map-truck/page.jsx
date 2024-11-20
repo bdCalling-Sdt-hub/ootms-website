@@ -1,11 +1,10 @@
 "use client";
-import { useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import Trucks from "@/components/map-truck/Trucks";
-import MyLoad from "@/components/map-truck/MyLoad";
 import Map from "@/components/map-truck/Map";
-import { Row, Col, Table } from "antd";
+import MyLoad from "@/components/map-truck/MyLoad";
+import Trucks from "@/components/map-truck/Trucks";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { AllImages } from "../../../../public/assets/AllImages";
 
 const columns = [
   { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
@@ -44,52 +43,53 @@ const MapTruck = () => {
     },
   ]);
 
-  const openDropModal = () => {
-    console.log("clicked");
-  };
-
-  const handleDrop = (item) => {
-    setTrucksData((prevData) => [
-      ...prevData,
-      { ...item, key: String(prevData.length + 1) },
-    ]);
-
-    setMyLoadItems((prevItems) =>
-      prevItems.filter((loadItem) => loadItem.key !== item.key)
-    );
-  };
-
-  console.log("trucksData", trucksData);
-
-  console.log("myLoadItems", myLoadItems);
-
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="flex gap-8 items-center p-20 overflow-hidden">
-        {/* Trucks Data */}
-        <div
-          className="flex flex-col items-center gap-5 w-1/3"
-          onClick={openDropModal}
-        >
-          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-40 text-center">
-            Available Trucks
-          </p>
-          <Trucks data={trucksData} onDrop={handleDrop} />
-        </div>
+    <div className="flex gap-8  p-20 overflow-hidden min-h-screen">
+      {/* Trucks Data */}
+      <div className="flex flex-col items-center gap-5 w-1/3">
+        <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-40 text-center">
+          Available Trucks
+        </p>
+        <Trucks data={trucksData} />
+      </div>
 
-        <div className="w-1/3">
-          <Map />
-        </div>
+      <div className="w-1/3">
+        <Map />
+      </div>
 
-        {/* MyLoad Data */}
-        <div className="w-1/3 flex flex-col items-center gap-5">
-          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-36 text-center">
+      {/* MyLoad Data */}
+      <motion.div className="w-1/3 flex flex-col items-center gap-5">
+        <motion.div className="relative mb-20">
+          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-36 text-center mb-3">
             My Load
           </p>
-          <MyLoad data={myLoadItems} />
-        </div>
-      </div>
-    </DndProvider>
+          <motion.div
+            initial={{ y: 3 }}
+            animate={{ y: -3 }}
+            transition={{
+              ease: "easeInOut",
+              repeat: Infinity,
+              duration: 0.5,
+              repeatType: "reverse", // Ensures the animation reverses on repeat
+            }}
+            drag
+            dragListener
+            dragSnapToOrigin
+            className="absolute left-10 w-fit bg-[#2B4257] !z-[99999] p-2 rounded-full shadow-lg mx-auto cursor-move"
+          >
+            <motion.img
+              draggable="false"
+              alt="bakso"
+              src={AllImages.bakso.src}
+              width={50}
+              height={50}
+              className="select-none "
+            />
+          </motion.div>
+        </motion.div>
+        <MyLoad data={myLoadItems} />
+      </motion.div>
+    </div>
   );
 };
 
