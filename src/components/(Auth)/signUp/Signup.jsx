@@ -1,44 +1,56 @@
 "use client";
 
-import React from "react";
-
-import { Button, DatePicker, Form, Input, Select, Typography } from "antd";
-import { motion } from "framer-motion";
-import { buttonVariants } from "@/lib/variants";
+import Container from "../../ui/Container";
 import {
-  CalendarOutlined,
-  DownOutlined,
-  InboxOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
-import Dragger from "antd/es/upload/Dragger";
-import Container from "@/components/ui/Container";
-
-//* Animation Variants
+  Button,
+  Checkbox,
+  ConfigProvider,
+  Form,
+  Input,
+  Typography,
+} from "antd";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { motion } from "framer-motion";
+import { AllImages } from "../../../../public/assets/AllImages";
+import { buttonVariants } from "@/lib/variants";
 
 const SignUp = () => {
+  const navigate = useRouter();
+  const [form] = Form.useForm();
+
   const onFinish = (values) => {
-    console.log("Connect With MVR Data:", values);
+    console.log("user:", values);
+    navigate.push("/sign-in");
   };
+
   return (
-    <div className="py-20">
+    <div className="text-base-color">
       <Container>
-        <h1 className="text-center text-3xl sm:text-4xl lg:text-5xl font-semibold mb-20 text-secondary-color">
-          Fill out form and connect with an MVR
-        </h1>
-        <div className="">
-          <Form
-            layout="vertical"
-            className="bg-transparent w-full grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-3 items-center"
-            onFinish={onFinish}
-          >
-            {/* Full Name Input */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
+        <div className="flex items-center justify-between min-h-screen mx-40">
+          <div className="hidden lg:block">
+            <Image
+              src={AllImages.logo}
+              alt="largeLogo"
+              width={0}
+              height={0}
+              className="h-52 w-80"
+            />
+          </div>
+          <div className="w-full md:w-4/5 lg:w-1/2">
+            <Form
+              form={form}
+              layout="vertical"
+              className="bg-transparent w-full"
+              onFinish={onFinish}
+            >
+              <Typography.Title level={4} style={{ color: "#222222" }}>
                 Full Name
               </Typography.Title>
               <Form.Item
-                name="fullName"
+                name="name"
                 className="text-base-color"
                 rules={[
                   {
@@ -49,13 +61,11 @@ const SignUp = () => {
               >
                 <Input
                   placeholder="Enter your full name"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
                 />
               </Form.Item>
-            </div>
-            {/* Email Input */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
+
+              <Typography.Title level={4} style={{ color: "#222222" }}>
                 Email
               </Typography.Title>
               <Form.Item
@@ -66,216 +76,99 @@ const SignUp = () => {
                     required: true,
                     message: "Email is Required",
                   },
+                  {
+                    type: "email",
+                    message: "Please enter a valid email!",
+                  },
                 ]}
               >
                 <Input
+                  type="email"
                   placeholder="Enter your email"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
                 />
               </Form.Item>
-            </div>
-            {/* Address Input */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Address
+
+              <Typography.Title level={4} style={{ color: "#222222" }}>
+                Password
               </Typography.Title>
               <Form.Item
-                name="address"
+                name="password"
                 className="text-base-color"
                 rules={[
                   {
                     required: true,
-                    message: "Address is Required",
+                    message: "Password is Required",
                   },
                 ]}
               >
                 <Input
-                  placeholder="Enter your Address"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
+                  type="password"
+                  placeholder="Enter your password"
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
                 />
               </Form.Item>
-            </div>
-            {/* Contact Input */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Contact Number
+
+              <Typography.Title level={4} style={{ color: "#222222" }}>
+                Confirm Password
               </Typography.Title>
               <Form.Item
-                type="number"
-                name="contactNumber"
+                name="confirmPassword"
                 className="text-base-color"
                 rules={[
                   {
                     required: true,
-                    message: "Contact Number is Required",
+                    message: "Confirm Your Password",
+                  },
+                  // Validator to check if confirm password matches password
+                  {
+                    validator: (_, value) => {
+                      const password = form.getFieldValue("password"); // Get password value dynamically
+                      if (!value) {
+                        return Promise.reject("Please confirm your password");
+                      }
+                      if (value !== password) {
+                        return Promise.reject("Passwords do not match");
+                      }
+                      return Promise.resolve();
+                    },
                   },
                 ]}
               >
-                <Input
-                  placeholder="Enter your Contact Number"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
+                <Input.Password
+                  placeholder="Confirm Your Password"
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
                 />
               </Form.Item>
-            </div>
-            {/*  Gender  */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Gender
-              </Typography.Title>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Gender is Required",
-                  },
-                ]}
-                name="gender"
-                className="text-white "
-              >
-                <Select
-                  placeholder="Select Your Gender"
-                  suffixIcon={
-                    <DownOutlined className="text-[#4E4E4E] text-lg mt-1" />
-                  }
-                  className="h-12 text-xl bg-[#F7F8F8]  text-base-color "
+
+              <Form.Item>
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Button: {
+                        defaultHoverBg: "#013564",
+                        defaultHoverColor: "#F3F3F3",
+                      },
+                    },
+                  }}
                 >
-                  <Select.Option value="male">Male</Select.Option>
-                  <Select.Option value="female">Female</Select.Option>
-                  <Select.Option value="others">Others</Select.Option>
-                </Select>
+                  <motion.button
+                    variants={buttonVariants}
+                    whileTap="tap"
+                    transition={{
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 7,
+                    }}
+                    className="w-full py-3 border border-[#223376] hover:border-[#223376] text-xl text-primary-color bg-[#223376] font-semibold rounded-2xl mt-4"
+                    htmltype="submit"
+                  >
+                    Sign Up
+                  </motion.button>
+                </ConfigProvider>
               </Form.Item>
-            </div>
-            {/*  Date of Birth  */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Date of Birth
-              </Typography.Title>
-              <Form.Item
-                name="DOB"
-                rules={[
-                  {
-                    required: true,
-                    message: "Date of Birth is Required",
-                  },
-                ]}
-                className="text-white "
-              >
-                <DatePicker
-                  suffixIcon={
-                    <CalendarOutlined className="text-[#4E4E4E] text-lg mt-1" />
-                  }
-                  placeholder="Date of Birth"
-                  className="w-full py-2 px-3 text-xl bg-[#F7F8F8] border !border-[#E6E7E6] text-base-color  focus:bg-transparent "
-                />
-              </Form.Item>
-            </div>
-
-            {/* Height Input */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Height
-              </Typography.Title>
-              <Form.Item
-                name="height"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Height is Required",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="Enter your Height"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
-                />
-              </Form.Item>
-            </div>
-
-            {/* Weight Input */}
-            <div>
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Weight
-              </Typography.Title>
-              <Form.Item
-                name="weight"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Weight is Required",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="Enter your Weight"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
-                />
-              </Form.Item>
-            </div>
-
-            {/* Medical Condition Input */}
-            <div className="lg:col-span-2">
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Medical Condition
-              </Typography.Title>
-              <Form.Item
-                name="medicalCondition"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Medical Condition is Required",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="Enter your Medical Condition"
-                  className="py-2 px-3 text-xl bg-[#F7F8F8] border border-[#E6E7E6] text-base-color focus:bg-transparent "
-                />
-              </Form.Item>
-            </div>
-
-            {/* Attach Medical Documents Input */}
-            <div className="lg:col-span-2">
-              <Typography.Title level={4} style={{ color: "#F5382C" }}>
-                Attach Health Documents
-              </Typography.Title>
-              <Form.Item
-                name=" medicalDocuments"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: " Health Documents is Required",
-                  },
-                ]}
-              >
-                <Dragger>
-                  <div className=" flex items-center justify-center gap-x-3 py-8">
-                    <UploadOutlined className="text-5xl" />
-                    <p className="text-xl">Upload File</p>
-                  </div>
-                </Dragger>
-              </Form.Item>
-            </div>
-
-            <Form.Item className="lg:col-span-2">
-              <motion.button
-                variants={buttonVariants}
-                whileTap="tap"
-                transition={{
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 7,
-                }}
-                className="w-full py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-lg mt-8"
-                htmltype="submit"
-              >
-                Continue
-              </motion.button>
-            </Form.Item>
-          </Form>
+            </Form>
+          </div>
         </div>
       </Container>
     </div>
