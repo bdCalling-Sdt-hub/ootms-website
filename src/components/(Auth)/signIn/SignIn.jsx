@@ -33,7 +33,7 @@ const SignIn = () => {
               alt="largeLogo"
               width={0}
               height={0}
-              className="h-[400px] w-[500px] mx-auto"
+              className="h-[400px] w-[501px] mx-auto"
             />
           </div>
           <div className="flex flex-col">
