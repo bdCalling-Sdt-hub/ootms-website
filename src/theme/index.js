@@ -6,6 +6,7 @@ export const mainTheme = {
     Form: {
       colorError: "#F5382C",
     },
+
     Checkbox: {
       // colorPrimary: "#FAA39E",
       // colorPrimaryHover: "#FAA39E",
