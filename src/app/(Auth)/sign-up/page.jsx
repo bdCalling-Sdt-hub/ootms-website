@@ -6,9 +6,7 @@ import Footer from "@/components/shared/Footer";
 const signUpPage = () => {
   return (
     <div>
-      <Navbar />
       <Signup />
-      <Footer />
     </div>
   );
 };
