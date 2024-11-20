@@ -1,10 +1,10 @@
 "use client";
 import { Button, ConfigProvider, Modal, Table } from "antd";
-import { useState } from "react";
-import { AllImages } from "../../../public/assets/AllImages";
 import Image from "next/image";
-import { IoMdStar } from "react-icons/io";
+import { useState } from "react";
 import { FaPhone } from "react-icons/fa6";
+import { IoMdStar } from "react-icons/io";
+import { AllImages } from "../../../public/assets/AllImages";
 
 const Trucks = ({ data }) => {
   const [open, setOpen] = useState(false);
@@ -33,7 +33,6 @@ const Trucks = ({ data }) => {
     { title: "Availability", dataIndex: "availability", key: "availability" },
     { title: "Location", dataIndex: "location", key: "location" },
   ];
-
   return (
     <div>
       <ConfigProvider

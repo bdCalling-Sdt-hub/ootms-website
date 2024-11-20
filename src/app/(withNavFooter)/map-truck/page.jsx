@@ -44,16 +44,20 @@ const MapTruck = () => {
   ]);
 
   return (
-    <div className="flex gap-8  p-20 overflow-hidden min-h-screen">
+    <div className="flex gap-8  p-20 overflow-hidden">
       {/* Trucks Data */}
       <div className="flex flex-col items-center gap-5 w-1/3">
         <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-40 text-center">
           Available Trucks
         </p>
         <Trucks data={trucksData} />
+        <Trucks data={trucksData} />
+        <Trucks data={trucksData} />
+        <Trucks data={trucksData} />
+        <Trucks data={trucksData} />
       </div>
 
-      <div className="w-1/3">
+      <div className="w-1/3 place-self-center">
         <Map />
       </div>
 
@@ -87,6 +91,7 @@ const MapTruck = () => {
             />
           </motion.div>
         </motion.div>
+        <MyLoad data={myLoadItems} />
         <MyLoad data={myLoadItems} />
       </motion.div>
     </div>
