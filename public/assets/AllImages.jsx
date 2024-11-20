@@ -2,6 +2,7 @@ import logo from "./logo/logo.png";
 // import logoLg from "./logo/logoLg.png";
 // import signupLogo from "./logo/signup-logo.png";
 
+import bakso from "./images/bakso.png";
 import banner from "./images/banner.png";
 import ornament from "./images/Ornament.png";
 import profile from "./images/profile.png";
@@ -103,6 +104,7 @@ import mobileMap from "./about_app/mobilemap.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
+  bakso,
   logo,
   guard,
   hands,

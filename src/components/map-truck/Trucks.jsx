@@ -1,17 +1,27 @@
-import { useDrop } from "react-dnd";
-import { ConfigProvider, Table } from "antd";
+"use client";
+import { ConfigProvider, Modal, Table } from "antd";
+import { useState } from "react";
 
-const Trucks = ({ data, onDrop }) => {
-  const [{ isOver }, drop] = useDrop({
-    accept: "ITEM", // Only accept items of type "ITEM"
-    drop: (item) => onDrop(item), // Execute onDrop when the item is dropped
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
+const Trucks = ({ data }) => {
+  const [open, setOpen] = useState(false);
 
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = () => {
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
   const columns = [
-    { title: "Driver", dataIndex: "driver", key: "driver" },
+    {
+      title: "Driver",
+      dataIndex: "driver",
+      key: "driver",
+      render: (text, record) => <div onClick={showModal}>{text}</div>,
+    },
     { title: "Truck", dataIndex: "truck", key: "truck" },
     { title: "Pallet Spaces", dataIndex: "palletSpaces", key: "palletSpaces" },
     { title: "Weight", dataIndex: "weight", key: "weight" },
@@ -21,14 +31,7 @@ const Trucks = ({ data, onDrop }) => {
   ];
 
   return (
-    <div
-      ref={drop}
-      style={{
-        border: isOver ? "2px solid green" : "2px solid lightgray",
-        padding: "10px",
-        minHeight: "200px",
-      }}
-    >
+    <div>
       <ConfigProvider
         theme={{
           components: {
@@ -50,6 +53,25 @@ const Trucks = ({ data, onDrop }) => {
           style={{ maxWidth: "100%", overflowX: "hidden" }}
         />
       </ConfigProvider>
+      <Modal
+        className="!rounded-lg"
+        open={open}
+        onOk={handleOk}
+        footer={null}
+        onCancel={handleCancel}
+        maskClosable={false} // Disable closing the modal when clicking outside
+      >
+        <div className="mt-5 rounded-lg">
+          <div className="flex items-center gap-2 w-[90%] mx-auto">
+            <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
+              <span className="w-5 h-5 rounded-full bg-[#90BA7A]"></span>
+            </div>
+            <p className="text-lg font-semibold">
+              The truck is fully available.
+            </p>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
