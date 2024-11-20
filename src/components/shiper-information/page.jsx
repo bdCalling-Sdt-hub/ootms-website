@@ -89,6 +89,7 @@ const ShipperForm = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     form.resetFields();
+    router.push("/map-truck");
   };
 
   return (

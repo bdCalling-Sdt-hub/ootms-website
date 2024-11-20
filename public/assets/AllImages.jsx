@@ -40,6 +40,7 @@ import testimonia3 from "./images/testimonia3.png";
 import testimonia4 from "./images/testimonia4.png";
 
 import forgotPasswordImg from "./images/authImg/forgotPasswordImg.png";
+import signInImage from "./images/authImg/signInImage.png";
 import logInImg from "./images/authImg/logInImg.png";
 import otpImg from "./images/authImg/otpImg.png";
 import setPassImg from "./images/authImg/setPassImg.png";
@@ -106,6 +107,7 @@ import mobileMap from "./about_app/mobilemap.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
+  signInImage,
   user,
   drop,
   bakso,

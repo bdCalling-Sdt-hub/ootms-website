@@ -3,8 +3,8 @@ import { Button, ConfigProvider, Dropdown } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IoMenu } from "react-icons/io5";
+import { use, useEffect, useState } from "react";
+import { IoChatbubbles, IoLogOut, IoMenu, IoPerson } from "react-icons/io5";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
 
@@ -16,6 +16,18 @@ const Navbar = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    // Retrieve user data from localStorage
+    const user = JSON.parse(localStorage.getItem("ootms-user"));
+    if (user) {
+      setUserData(user);
+    } else {
+      setUserData(null);
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,7 +71,7 @@ const Navbar = () => {
     setMobileMenuVisible(false);
   };
 
-  const menu = [
+  const beforeLoginMenu = [
     {
       name: "Home",
       link: "/",
@@ -82,6 +94,22 @@ const Navbar = () => {
       link: "/recruit-new-drivers",
     },
   ];
+  const AfterLoginMenu = [
+    {
+      name: "Dispatching",
+      link: "/dispatching",
+    },
+    {
+      name: "Current Shipment",
+      link: "/pricing",
+    },
+    {
+      name: "Load Request",
+      link: "/load-request",
+    },
+  ];
+
+  const menu = userData ? AfterLoginMenu : beforeLoginMenu;
 
   const dropdownItems = menu.map((item, index) => ({
     key: String(index),
@@ -93,7 +121,7 @@ const Navbar = () => {
           }`}
           style={{
             backgroundColor: "transparent",
-            color: item.link === path ? "text-[#f5382c]" : "text-[#000106]",
+            color: item.link === path ? "text-[#2B4257]" : "text-[#000106]",
           }}
           onClick={() => select(index)}
         >
@@ -110,69 +138,49 @@ const Navbar = () => {
     ),
   }));
 
-  // if (path === "/") {
-  //   dropdownItems.push({
-  //     key: "signIn",
-  //     label: (
-  //       <Link href="/login">
-  //         <Button
-  //           className="py-5 w-full bg-transparent border-secondary-color text-secondary-color font-semibold duration-200 delay-75 rounded-lg shadow-md  drop-shadow-md"
-  //           onMouseEnter={handleMouseEnter}
-  //           onMouseLeave={handleMouseLeave}
-  //         >
-  //           Sign in
-  //         </Button>
-  //       </Link>
-  //     ),
-  //   });
-  //   dropdownItems.push({
-  //     key: "signup",
-  //     label: (
-  //       <Link href="/signup">
-  //         <Button
-  //           className="py-5 w-full bg-secondary-color border-secondary-color text-primary-color font-semibold duration-200 delay-75 rounded-lg shadow-md  drop-shadow-md"
-  //           onMouseEnter={handleMouseEnter2}
-  //           onMouseLeave={handleMouseLeave2}
-  //         >
-  //           Sign up
-  //         </Button>
-  //       </Link>
-  //     ),
-  //   });
-  // }
+  const profile = [
+    {
+      name: "Personal information",
+      link: "/profile",
+    },
+  ];
 
-  // const profileItems = profile.map((item, index) => ({
-  //   key: String(index),
-  //   label: (
-  //     <Link href={item.link} key={index}>
-  //       <Button
-  //         className={`capitalize text-start font-medium flex justify-start items-center border-none hover:text-site-color hover:bg-transparent shadow-none text-lg w-full ${
-  //           item.link === path ? "text-[#f5382c]" : "text-[#000106]"
-  //         }`}
-  //         onClick={() => select(index)}
-  //       >
-  //         {item.name === "Personal information" ? (
-  //           <IoPerson className="text-site-color size-6 text-secondary-color" />
-  //         ) : (
-  //           <IoChatbubbles className="text-site-color size-6 text-secondary-color" />
-  //         )}
-  //         {item.name}
-  //       </Button>
-  //     </Link>
-  //   ),
-  // }));
+  const profileItems = profile.map((item, index) => ({
+    key: String(index),
+    label: (
+      <Link href={item.link} key={index}>
+        <Button
+          className={`capitalize text-start font-medium flex justify-start items-center border-none hover:text-site-color hover:bg-transparent shadow-none text-lg w-full ${
+            item.link === path ? "text-[#2B4257]" : "text-[#000106]"
+          }`}
+          onClick={() => select(index)}
+        >
+          {item.name === "Personal information" ? (
+            <IoPerson className="text-site-color size-6 text-[#2B4257]" />
+          ) : (
+            <IoChatbubbles className="text-site-color size-6 text-[#2B4257]" />
+          )}
+          {item.name}
+        </Button>
+      </Link>
+    ),
+  }));
 
-  // profileItems.push({
-  //   key: "signOut",
-  //   label: (
-  //     <Button
-  //       className={`capitalize text-start font-medium flex justify-start items-center hover:bg-transparent border-none hover:text-site-color shadow-none text-lg w-full `}
-  //     >
-  //       <IoLogOut className="text-site-color size-6 text-secondary-color" />
-  //       Log out
-  //     </Button>
-  //   ),
-  // });
+  profileItems.push({
+    key: "signOut",
+    label: (
+      <Button
+        onClick={() => {
+          localStorage.removeItem("ootms-user");
+          setUserData(null);
+        }}
+        className={`capitalize text-start font-medium flex justify-start items-center hover:bg-transparent border-none hover:text-site-color shadow-none text-lg w-full `}
+      >
+        <IoLogOut className="text-site-color size-6 text-[#2B4257]" />
+        Log out
+      </Button>
+    ),
+  });
 
   return (
     <div className="sticky top-0 left-0 w-full z-50 bg-[#ffffff]">
@@ -201,123 +209,54 @@ const Navbar = () => {
                     }}
                     onClick={() => select(index)}
                   >
-                    {/* {item.icon && (
-                      <Image
-                        src={item.icon}
-                        alt={item.name}
-                        className="inline-block h-6 w-6"
-                      />
-                    )} */}
                     <p className="mb-0">{item.name}</p>
-                    {/* {item.link === path ? (
-                      <p className="w-3 rounded-full bg-[#2B4257]"></p>
-                    ) : (
-                      <p className="w-3 rounded-full bg-transparent"></p>
-                    )} */}
                   </Button>
                 </Link>
               ))}
             </div>
             <div className="lg:flex items-center gap-2 hidden">
-              {/* {path === "/" ? (
-                <>
-                  <Link href="/sign-in">
-                    <Button
-                      className="py-5 w-full bg-transparent border-secondary-color text-secondary-color font-semibold duration-200 delay-75 rounded-lg"
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      Sign In
-                    </Button>
-                  </Link>
-
-                  <Link href="/sign-up">
-                    <Button
-                      className="py-5 mx-3 bg-secondary-color text-white border-none text-site-color font-semibold duration-200 delay-75 rounded-lg"
-                      onMouseEnter={handleMouseEnter2}
-                      onMouseLeave={handleMouseLeave2}
-                    >
-                      Sign Up
-                    </Button>
-                  </Link>
-                </>
+              {userData ? (
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Dropdown: {},
+                    },
+                  }}
+                >
+                  <Dropdown
+                    menu={{ items: profileItems }}
+                    placement="bottomCenter"
+                  >
+                    <Image
+                      src={AllImages.profile}
+                      alt="profile_img"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px]"
+                    />
+                  </Dropdown>
+                </ConfigProvider>
               ) : (
                 <>
-
-                {/* Comment it when in work */}
-              {/* <ConfigProvider
-                    theme={{
-                      components: {
-                        Dropdown: {},
-                      },
-                    }}
+                  <Link
+                    href="/sign-in"
+                    className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
                   >
-                    <Dropdown
-                      menu={{ items: profileItems }}
-                      placement="bottomCenter"
-                    >
-                      <Image
-                        src={AllImages.profile}
-                        alt="profile_img"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px]"
-                      />
-                    </Dropdown>
-                  </ConfigProvider>
-                  <Link href="/sign-up">
-                    <Button
-                      className="py-5 px-8 shadow-inner shadow-white mx-3 bg-secondary-color text-white border-none text-site-color font-semibold duration-200 delay-75 rounded-lg"
-                      onMouseEnter={handleMouseEnter2}
-                      onMouseLeave={handleMouseLeave2}
-                    >
-                      Register
-                    </Button>
-                  </Link> */}
-              {/* </>
-              )} */}{" "}
-              <Link
-                href="/sign-in"
-                className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
-              >
-                Sign Up
-              </Link>
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/sign-up"
+                    className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
           <div className="flex gap-2 items-center lg:hidden">
-            {/* {path !== "/" ? (
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Dropdown: {},
-                  },
-                }}
-              >
-                <Dropdown
-                  menu={{ items: profileItems }}
-                  placement="bottomRight"
-                >
-                  <Image
-                    src={AllImages.profile}
-                    alt="profile_img"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px]"
-                  />
-                </Dropdown>
-              </ConfigProvider>
-            ) : (
-              <div></div>
-            )} */}
             <div className="lg:hidden">
               <ConfigProvider
                 theme={{
