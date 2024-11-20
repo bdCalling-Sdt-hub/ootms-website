@@ -35,6 +35,7 @@ const SignIn = () => {
               alt="largeLogo"
               width={0}
               height={0}
+
               className="w-auto h-auto"
             />
           </div>
