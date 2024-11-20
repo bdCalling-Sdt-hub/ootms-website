@@ -40,6 +40,7 @@ import forgotPasswordImg from "./images/authImg/forgotPasswordImg.png";
 import logInImg from "./images/authImg/logInImg.png";
 import otpImg from "./images/authImg/otpImg.png";
 import setPassImg from "./images/authImg/setPassImg.png";
+import signInImage from "./images/authImg/signInImage.png";
 
 // How It Works
 import howItWorks1 from "./images/how-it-work/how-it-work1.png";
@@ -141,6 +142,7 @@ export const AllImages = {
   subscription,
   fordriver,
   Map,
+  signInImage,
 };
 
 export const AllHowItWorks = {
