@@ -1,48 +1,30 @@
 "use client";
-import {
-  Button,
-  ConfigProvider,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Typography,
-  Upload,
-} from "antd";
-import {
-  CalendarOutlined,
-  DownOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
-import { CiLocationOn } from "react-icons/ci";
-import { BiMessageDetail } from "react-icons/bi";
+import { Button, Form, Input, Typography, Upload } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
-import TextArea from "antd/es/input/TextArea";
-import { AllImages, storiesImg } from "../../../public/assets/AllImages";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { MdEdit } from "react-icons/md";
+import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
-import { motion } from "framer-motion";
-import { buttonVariants } from "@/lib/variants";
-import { MdOutlineFileUpload } from "react-icons/md";
 
 const MyProfile = () => {
+  const router = useRouter();
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
   const users = {
     profilePhoto: AllImages.profile,
-    firstName: "Din Islam",
-    lastName: "Rajin",
-    gender: "Male",
-    dob: "2002-02-02",
-    email: "rajin572@gmail.com",
-    contactNumber: "01644258678",
+    firstName: "Alexder",
+
+    email: "Rajin572@gmail.com",
+    number: "01644258678",
     address: "Dhaka",
   };
 
   const onFinish = (values) => {
-    // console.log("userUpdate:", values);
+    console.log("userUpdate:", values);
   };
+
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
       setUploadedImage(AllImages.profile); // Reset to null or fallback image
@@ -53,12 +35,17 @@ const MyProfile = () => {
       }
     }
   };
-  const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
+
+  // on click edit
+  function onEdit() {
+    router.push("/edit-profile");
+  }
+  // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
   return (
     <div>
       <div className=" my-16 md:mt-20">
         <Container>
-          <div className="flex flex-col sm:flex-row justify-between items-center ">
+          {/* <div className="flex flex-col sm:flex-row justify-between items-center ">
             {isOnlyView ? (
               <div className="text-3xl md:text-3xl lg:text-4xl font-semibold mb-6"></div>
             ) : (
@@ -74,7 +61,7 @@ const MyProfile = () => {
                   type="primary"
                   className="px-12  py-6 text-lg md:text-xl font-semibold bg-secondary-color border border-secondary-color text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
                 >
-                  Edit My Profile
+                  Edit Profile
                 </Button>
               ) : (
                 <Button
@@ -86,16 +73,33 @@ const MyProfile = () => {
                 </Button>
               )}
             </div>
+          </div> */}
+
+          <div className="flex flex-col sm:flex-row justify-between items-center ">
+            <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
+              Add Profile Picture
+            </h1>
+
+            <div className="mb-10 sm:mb-0">
+              <Button
+                onClick={onEdit}
+                type="primary"
+                className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
+              >
+                <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />{" "}
+                Edit Profile
+              </Button>
+            </div>
           </div>
 
           <Form
-            disabled={isOnlyView}
+            // disabled={isOnlyView}
             onFinish={onFinish}
             layout="vertical"
             className="bg-transparent w-full"
           >
             <div className="flex flex-col sm:flex-row items-center gap-10">
-              <div className="rounded-full border-2 border-secondary-color overflow-hidden">
+              <div className="rounded-full border-2 border-add-profile-border overflow-hidden">
                 <Image
                   src={uploadedImage}
                   alt="profile_img"
@@ -105,7 +109,7 @@ const MyProfile = () => {
                   className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
                 />
               </div>
-              <div className="flex items-start flex-col">
+              {/* <div className="flex items-start flex-col">
                 {isOnlyView ? (
                   <div></div>
                 ) : (
@@ -125,340 +129,91 @@ const MyProfile = () => {
                     </Upload>
                   </Form.Item>
                 )}
-              </div>
+              </div> */}
             </div>
             <div className="mt-16">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
                 {/*  First Name  */}
                 <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    First Name
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={users.firstName}
-                    name="firstName"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Full Name
+                  </Typography.Title>
+                  <Form.Item name="FullName" className="text-white ">
                     <Input
-                      placeholder="Enter your first name"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
+                      placeholder="Enter your first name "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
                 {/*  Last Name  */}
                 <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Last Name
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={users.firstName}
-                    name="lastName"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
-                    <Input
-                      placeholder="Enter your first name"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Gender  */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Gender
+                    Emaill
                   </Typography.Title>
-                  <Form.Item
-                    initialValue={users.gender}
-                    name="gender"
-                    className="text-white "
-                  >
-                    <Select
-                      placeholder="Select a shop type"
-                      suffixIcon={
-                        <DownOutlined className="text-[#222222] text-xl mt-1" />
-                      }
-                      className="h-12 !border-[#E6E7E6]  hover:border-base-color"
-                    >
-                      <Select.Option value="male">Male</Select.Option>
-                      <Select.Option value="female">Female</Select.Option>
-                      <Select.Option value="others">Others</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                {/*  Date of Birth  */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Date of Birth
-                  </Typography.Title>
-                  <Form.Item
-                    // initialValue={users.dob}
-                    name="dob"
-                    className="text-white "
-                  >
-                    <DatePicker
-                      suffixIcon={
-                        <CalendarOutlined className="text-[#222222] text-xl mt-1" />
-                      }
-                      placeholder="Enter your validity date"
-                      className="w-full py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Ethnicitys   */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Ethnicitys
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"American"}
-                    name="ethnicitys"
-                    className="text-white "
-                  >
-                    <Input
-                      placeholder="Enter your first name"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Height   */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Height
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"186cm"}
-                    name="height"
-                    className="text-white "
-                  >
-                    <Input
-                      placeholder="Enter your first name"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Height   */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Weight
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"80kg"}
-                    name="weight"
-                    className="text-white "
-                  >
-                    <Input
-                      placeholder="Enter your first name"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Presenting Concerns  */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Presenting Concerns
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"Breathing problem and chest pain"}
-                    name="presentingConcerns"
-                    className="text-white "
-                  >
-                    <Input
-                      placeholder="Enter your first name"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/* Contact Input */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Contact Number
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={users.contactNumber}
-                    type="number"
-                    name="contactNumber"
-                    className="text-base-color"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Contact Number is Required",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Enter your Contact Number"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Email  */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    E-Mail
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={users.email}
-                    name="email"
-                    className="text-white "
-                  >
+                  <Form.Item name="Emaill" className="text-white ">
                     <Input
                       placeholder="Enter your email"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
-
-                {/* Location Input */}
+                {/*  phone  */}
                 <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Location
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={users.address}
-                    name="location"
-                    className="text-base-color"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Address is Required",
-                      },
-                    ]}
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Phone
+                  </Typography.Title>
+                  <Form.Item name="Phone" className="text-white ">
                     <Input
-                      placeholder="Enter your Address"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
+                      placeholder="Enter your phone"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
-
-                {/* Country Input */}
+                {/*  country */}
                 <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    State/Country
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"Bangladesh"}
-                    name="country"
-                    className="text-base-color"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Address is Required",
-                      },
-                    ]}
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
+                    Country
+                  </Typography.Title>
+                  <Form.Item name="Country" className="text-white ">
                     <Input
-                      placeholder="Enter your Address"
-                      className="py-2 px-3 text-xl bg-site-color border border-[#E6E7E6] text-base-color hover:bg-transparent focus:bg-transparent "
+                      placeholder="Enter your country name"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
                     />
                   </Form.Item>
                 </div>
-
-                {/*  Marital Status  */}
+                {/*  email address */}
                 <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Marital Status
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"Married"}
-                    name="maritalStatus"
-                    className="text-white "
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
                   >
-                    <Select
-                      placeholder="Select"
-                      suffixIcon={
-                        <DownOutlined className="text-[#222222] text-xl mt-1" />
-                      }
-                      className="h-12 !border-[#E6E7E6]  hover:border-base-color"
-                    >
-                      <Select.Option value="single">Single</Select.Option>
-                      <Select.Option value="married">Married</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                {/*  Life style(smoke)  */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Life style(smoke)
+                    Address
                   </Typography.Title>
-                  <Form.Item
-                    initialValue={"Yes"}
-                    name="smoke"
-                    className="text-white "
-                  >
-                    <Select
-                      placeholder="Select"
-                      suffixIcon={
-                        <DownOutlined className="text-[#222222] text-xl mt-1" />
-                      }
-                      className="h-12 !border-[#E6E7E6]  hover:border-base-color"
-                    >
-                      <Select.Option value="yes">Yes</Select.Option>
-                      <Select.Option value="no">No</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                {/* Health insurance  */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Health insurance
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"None"}
-                    name="healthInsurance"
-                    className="text-white "
-                  >
-                    <Select
-                      placeholder="Select "
-                      suffixIcon={
-                        <DownOutlined className="text-[#222222] text-xl mt-1" />
-                      }
-                      className="h-12 !border-[#E6E7E6]  hover:border-base-color"
-                    >
-                      <Select.Option value="private">Private</Select.Option>
-                      <Select.Option value="public">Public</Select.Option>
-                      <Select.Option value="no">None</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                {/* Health insurance provider   */}
-                <div>
-                  <Typography.Title level={4} style={{ color: "#222222" }}>
-                    Health insurance provider
-                  </Typography.Title>
-                  <Form.Item
-                    initialValue={"None"}
-                    name="healthInsuranceProvider"
-                    className="text-white "
-                  >
-                    <Select
-                      placeholder="Select a shop type"
-                      suffixIcon={
-                        <DownOutlined className="text-[#222222] text-xl mt-1" />
-                      }
-                      className="h-12 !border-[#E6E7E6]  hover:border-base-color"
-                    >
-                      <Select.Option value="Jhon">Jhon</Select.Option>
-                      <Select.Option value="Merry">Merry</Select.Option>
-                      <Select.Option value="no">None</Select.Option>
-                    </Select>
+                  <Form.Item name="Address" className="text-white ">
+                    <Input
+                      placeholder="Enter your address"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
+                    />
                   </Form.Item>
                 </div>
               </div>
-              <h2 className="mb-1 text-xl font-semibold">
+
+              {/* <h2 className="mb-1 text-xl font-semibold">
                 Attach Medical Documents
-              </h2>
-              <Form.Item
+              </h2> */}
+              {/* <Form.Item
                 name="medicalDocuments"
                 className="text-base-color"
                 rules={[
@@ -476,9 +231,9 @@ const MyProfile = () => {
                     <p className="text-secondary-color text-3xl">Upload file</p>
                   </div>
                 </Dragger>
-              </Form.Item>
+              </Form.Item> */}
 
-              {isOnlyView ? (
+              {/* {isOnlyView ? (
                 <div></div>
               ) : (
                 <Form.Item>
@@ -496,8 +251,17 @@ const MyProfile = () => {
                     Save Changes
                   </motion.button>
                 </Form.Item>
-              )}
+              )} */}
             </div>
+
+            <Button
+              className="bg-next-btn py-6 text-next-text font-bold text-xl mb-12 rounded-xl mt-8"
+              type="primary"
+              block
+              htmlType="submit"
+            >
+              Save Profile
+            </Button>
           </Form>
         </Container>
       </div>

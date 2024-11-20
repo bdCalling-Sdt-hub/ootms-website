@@ -1,11 +1,9 @@
 "use client";
-import React, { useRef, useState } from "react";
-import Container from "../ui/Container";
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import Accordion from "../ui/Accordion";
 import Image from "next/image";
 import { AllImages } from "../../../public/assets/AllImages";
+import Accordion from "../ui/Accordion";
+import Container from "../ui/Container";
 
 const FAQ = () => {
   const generalData = [
@@ -37,19 +35,23 @@ const FAQ = () => {
   ];
 
   return (
-    <motion.div className="py-10 overflow-hidden my-10">
+    <motion.div className="py-10 overflow-hidden md:my-10">
       <Container>
-        <div className="flex flex-col sm:flex-row gap-5 justify-center">
-          <div className="">
-            <Image src={AllImages.faq} />
+        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <div className="mb-6 md:mb-0">
+            <Image alt="faq" src={AllImages.faq} />
           </div>
           <div>
             <div>
               {generalData.map((item, index) => (
                 <Accordion
                   key={index}
-                  title={item.title}
-                  content={item.content}
+                  title={
+                    <span className="text-sm md:text-2xl">{item.title}</span>
+                  }
+                  content={
+                    <span className="text-sm md:text-2xl">{item.content}</span>
+                  }
                 />
               ))}
             </div>

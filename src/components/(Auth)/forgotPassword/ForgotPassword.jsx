@@ -24,10 +24,10 @@ const ForgotPassword = () => {
               width={0}
               height={0}
               sizes="100vw"
-              className="h-[320px] w-[320px] md:h-[380px] md:w-[380px] lg:h-[520px] lg:w-[520px]"
+              className="h-[320px] w-[320px] md:h-[380px] md:w-[380px] lg:h-[520px] lg:w-[520px] shadow-xl"
             />
           </div>
-          <div className="h-[80vh] w-[2px] bg-[#F5382C] hidden lg:block"></div>
+          {/* <div className="h-[80vh] w-[2px] bg-[#F5382C] hidden lg:block"></div> */}
           <div className="w-full md:w-[80%] lg:w-[50%]">
             <div className="">
               <div className="mb-8">
@@ -58,7 +58,7 @@ const ForgotPassword = () => {
                   <Input
                     placeholder="Enter your email"
                     type="email"
-                    className="py-2 px-3 text-xl bg-site-color border border-input-color text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+                    className="py-2 px-3 text-xl bg-site-color border border-[#2A4094] text-base-color hover:bg-transparent hover:border-[#2A4094] focus:bg-transparent focus:border-secoundary-color"
                   />
                 </Form.Item>
 
@@ -71,7 +71,7 @@ const ForgotPassword = () => {
                       stiffness: 200,
                       damping: 7,
                     }}
-                    className="w-full py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-2xl mt-8"
+                    className="w-full py-3 border border-[#2A4094] hover:border-[#2A4094] text-xl text-primary-color bg-[#2A4094] font-semibold rounded-2xl mt-8"
                     htmltype="submit"
                   >
                     Get OTP

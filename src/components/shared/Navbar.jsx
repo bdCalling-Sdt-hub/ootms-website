@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Button, Dropdown, ConfigProvider } from "antd";
+import { Button, ConfigProvider, Dropdown } from "antd";
 import Image from "next/image";
-import { IoChatbubbles, IoLogOut, IoMenu, IoPerson } from "react-icons/io5";
-import { usePathname } from "next/navigation";
-import { AllImages } from "../../../public/assets/AllImages";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoMenu } from "react-icons/io5";
+import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
-import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const path = usePathname();
@@ -65,6 +64,7 @@ const Navbar = () => {
       name: "Home",
       link: "/",
     },
+
     {
       name: "About App",
       link: "/about-app",
@@ -77,18 +77,11 @@ const Navbar = () => {
       name: "Pricing",
       link: "/pricing",
     },
+    {
+      name: "Recruit New Drivers",
+      link: "/recruit-new-drivers",
+    },
   ];
-
-  // const profile = [
-  //   {
-  //     name: "Personal information",
-  //     link: "/profile",
-  //   },
-  //   {
-  //     name: "Chat with MVR",
-  //     link: "",
-  //   },
-  // ];
 
   const dropdownItems = menu.map((item, index) => ({
     key: String(index),
@@ -199,7 +192,7 @@ const Navbar = () => {
                   <Button
                     className={`flex flex-col items-center justify-center px-2 py-0 gap-0 cursor-pointer capitalize border-none font-medium xl:text-lg duration-200 hover:scale-110 shadow-none ${
                       item.link === path
-                        ? "text-base-color rounded-none"
+                        ? " text-cyan-600 rounded"
                         : "text-base-color "
                     }`}
                     style={{
@@ -225,7 +218,7 @@ const Navbar = () => {
                 </Link>
               ))}
             </div>
-            <div className="lg:flex items-center hidden">
+            <div className="lg:flex items-center gap-2 hidden">
               {/* {path === "/" ? (
                 <>
                   <Link href="/sign-in">
@@ -285,10 +278,16 @@ const Navbar = () => {
               {/* </>
               )} */}{" "}
               <Link
-                href="/contact-us"
+                href="/sign-in"
                 className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
               >
-                Contact Us
+                Sign In
+              </Link>
+              <Link
+                href="/sign-up"
+                className=" px-2 py-1 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
+              >
+                Sign Up
               </Link>
             </div>
           </div>

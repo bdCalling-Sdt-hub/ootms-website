@@ -19,10 +19,29 @@ module.exports = {
         "base-color": "#222222",
         "highlight-color": "#2F87FC",
         "input-color": "#FCC1BE",
+        "gray-color": "#2B4257",
+        "same-gray": "#BDC4CB",
+        "next-btn": "#2B4257",
+        "next-text": "#EAECEE",
+        "contact-input": "#2B4257",
+        "profile-text-color": "#2B4257",
+        "add-profile-border": "#2A4094",
+        "shipper-input-bg": "#EAECEE",
+        "shipper-text": "#9E9E9E",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         skia: ["var(--skia)", "sans-serif"], // Skia local font
+      },
+
+      width: {
+        wid: "900px",
+        city: "300px",
+        "next-btn-wid": "800px",
+      },
+
+      screens: {
+        'xs': '460px', // Custom breakpoint for screens <= 460px
       },
     },
   },

@@ -28,7 +28,7 @@ const UpdatePassword = () => {
               className="h-[250px] w-[320px] md:h-[280px] md:w-[380px] lg:h-[390px] lg:w-[520px]"
             />
           </div>
-          <div className="h-[80vh] w-[2px] bg-[#F5382C] hidden lg:block"></div>
+          {/* <div className="h-[80vh] w-[2px] bg-[#223376] hidden lg:block"></div> */}
           <div className="w-full md:w-[80%] lg:w-[50%]">
             {/* -------- update Password Page Header ------------ */}
             <div className="mb-8">
@@ -57,7 +57,7 @@ const UpdatePassword = () => {
               >
                 <Input.Password
                   placeholder="Enter new password"
-                  className="py-2 px-3 text-xl bg-site-color border border-input-color text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-[#223376] focus:bg-transparent focus:border-[#223376]"
                 />
               </Form.Item>
               <Typography.Title level={4} style={{ color: "#222222" }}>
@@ -87,7 +87,7 @@ const UpdatePassword = () => {
               >
                 <Input.Password
                   placeholder="Enter your password"
-                  className="py-2 px-3 text-xl bg-site-color border border-input-color text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-[#223376] focus:bg-transparent focus:border-[#223376]"
                 />
               </Form.Item>
 
@@ -100,7 +100,7 @@ const UpdatePassword = () => {
                     stiffness: 200,
                     damping: 7,
                   }}
-                  className="w-full py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-2xl mt-8"
+                  className="w-full py-3 border border-[#223376] hover:border-[#223376] text-xl text-primary-color bg-[#223376] font-semibold rounded-2xl mt-8"
                   htmltype="submit"
                 >
                   Change Password

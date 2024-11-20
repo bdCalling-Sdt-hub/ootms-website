@@ -33,8 +33,7 @@ const SignIn = () => {
               alt="largeLogo"
               width={0}
               height={0}
-              sizes="100vw"
-              className="h-[60px] w-[245px] mx-auto"
+              className="h-[200px] w-[300px] mx-auto"
             />
           </div>
           <div className="w-full md:w-[80%] lg:w-full mx-auto">
@@ -71,7 +70,7 @@ const SignIn = () => {
               >
                 <Input
                   placeholder="Enter your email"
-                  className="py-2 px-3 text-xl bg-site-color border border-input-color text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
                 />
               </Form.Item>
               <Typography.Title level={4} style={{ color: "#222222" }}>
@@ -89,14 +88,14 @@ const SignIn = () => {
               >
                 <Input.Password
                   placeholder="Enter your password"
-                  className="py-2 px-3 text-xl bg-site-color border border-input-color text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
                 />
               </Form.Item>
               <div className="flex justify-between items-center mt-10">
                 <Checkbox className="">Remember me</Checkbox>
                 <Link
                   href="/forget-password"
-                  className="text-[#F5382C] underline"
+                  className="text-[#223376] underline font-bold"
                 >
                   Forgot Password?
                 </Link>
@@ -121,7 +120,7 @@ const SignIn = () => {
                       stiffness: 200,
                       damping: 7,
                     }}
-                    className="w-full py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-2xl mt-8"
+                    className="w-full py-3 border border-[#223376] hover:border-[#223376] text-xl text-primary-color bg-[#223376] font-semibold rounded-2xl mt-8"
                     htmltype="submit"
                   >
                     Sign In
@@ -136,7 +135,7 @@ const SignIn = () => {
               <span>
                 <Link
                   href="/sign-up"
-                  className="text-[#F5382C] font-semibold underline ml-2"
+                  className="text-[#223376] font-semibold underline ml-2"
                 >
                   Sign Up
                 </Link>

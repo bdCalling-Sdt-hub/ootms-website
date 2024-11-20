@@ -17,7 +17,7 @@ body {
 .swiper-pagination-bullet {
   width: 15px !important;
   height: 15px !important;
-  background-color: #f5382c !important;
+  /* background-color: #f5382c !important; */
 }
 
 /* Styles for Swiper buttons before 768px */
@@ -32,7 +32,7 @@ body {
   color: #ffffff;
   padding: 8px 12px;
   font-size: 1.2rem !important;
-  background-color: #f5382c;
+  /* background-color: #f5382c; */
   border-radius: 100%;
   z-index: 100;
   margin-right: 50px;
@@ -43,11 +43,69 @@ body {
   color: #ffffff;
   padding: 8px 12px;
   font-size: 1rem !important;
-  background-color: #f5382c;
+  /* background-color: #f5382c; */
   border-radius: 100%;
   z-index: 100;
   margin-left: 30px;
 }
+
+/* shipper  */
+.custom-placeholder .ant-select-selection-placeholder {
+  color: #f39c12; /* Custom color */
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Remove hover effect */
+/* Remove hover effect for Ant Design Select input */
+.ant-select:hover .ant-select-selector,
+.ant-input:hover {
+  border-color: inherit !important; /* Prevent border color change on hover */
+  box-shadow: none !important; /* Remove box-shadow on hover */
+}
+
+/* Remove focus effect when Ant Design Select input or Input is focused */
+.ant-select-focused .ant-select-selector,
+.ant-input:focus {
+  border-color: inherit !important; /* Prevent border color change on focus */
+  box-shadow: none !important; /* Remove box-shadow on focus */
+}
+
+.ant-checkbox-input:focus .ant-checkbox-input:hover {
+  border-color: inherit !important; /* Prevent border color change on hover */
+  box-shadow: none !important; /* Remove box-shadow on hover */
+}
+
+/* Style checkbox with a specific class */
+.my-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: rgb(35, 37, 92) !important;
+  border: none !important;
+}
+/* Disable hover effect on the checkbox */
+.my-checkbox:hover .ant-checkbox-input {
+  border-color: inherit !important; /* Prevent border color change on hover */
+  box-shadow: none !important; /* Remove box-shadow on hover */
+}
+
+/* Also disable hover effects for the label if necessary */
+/* Disable hover effect on the checkbox */
+
+/* Also disable hover effects for the label if necessary */
+.my-checkbox:hover .ant-checkbox-inner {
+  border-color: inherit !important; /* Prevent border color change on hover */
+  background-color: none !important; /* Prevent background color change on hover */
+}
+
+/* Add this to your CSS file */
+.placeholder-semibold::placeholder {
+  @apply font-semibold;
+}
+
+.placeholder-top::placeholder {
+  text-align: left;
+}
+
+/* map and truck dispatch style */
 
 /* Media query for screens larger than 768px */
 @media (max-width: 767px) {
@@ -59,5 +117,25 @@ body {
   .swiper-button-prev:after,
   .swiper-rtl .swiper-button-next:after {
     margin-left: 0px; /* Reset margin-left to 0px */
+  }
+}
+
+/* styles.css */
+
+@media (max-width: 640px) {
+  .custom-text {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 376px) {
+  .custom-text-header {
+    font-size: 18px;
+  }
+  .custom-text-span {
+    font-size: 13px;
+  }
+  .show {
+    display: none;
   }
 }

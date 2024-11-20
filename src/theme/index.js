@@ -1,28 +1,31 @@
 export const mainTheme = {
-  token: {},
+  token: {
+    borderRadius: "none",
+  },
   components: {
     Form: {
       colorError: "#F5382C",
     },
     Checkbox: {
-      colorPrimary: "#FAA39E",
-      colorPrimaryHover: "#FAA39E",
+      // colorPrimary: "#FAA39E",
+      // colorPrimaryHover: "#FAA39E",
     },
     Select: {
-      colorBgContainer: "rgba(0,0,0,0)",
+      // colorBgBase: "rgb(255,0,0)",
       fontSize: 20,
       optionSelectedColor: "#FAFAFA",
-      optionSelectedBg: "#F5382C",
-      optionActiveBg: "#F5382C",
-      optionActiveColor: "#FAFAFA",
-      colorBorder: "#E6E7E6",
+      optionSelectedBg: "#000000",
+      // optionActiveBg: "#000000",
+      // optionActiveColor: "#FAFAFA",
+      // colorBorder: "#000000",
       colorBgElevated: "#FAFAFA",
       selectorBg: "#FAFAFA",
       colorText: "#222222",
-      colorTextPlaceholder: "rgb(0, 0, 0,0.5)",
+
+      // colorTextPlaceholder: "rgb(0, 0, 0,0.5)",
       // activeOutlineColor: "#FAA39E",
       // activeBorderColor: "#FAA39E",
-      hoverBorderColor: "#FAA39E",
+      // hoverBorderColor: "#FAA39E",
     },
     DatePicker: {
       fontSize: 20,
@@ -39,7 +42,7 @@ export const mainTheme = {
       headerBg: "#F8FAFC",
       colorBgContainer: "#FEFFFF",
       colorText: "#232323",
-      borderColor: "#DFE1E3",
+      borderColor: "gray",
       headerColor: "#000000",
       fontSize: 18,
       // footerColor: "rgba(31, 41, 55, 0.88)",
