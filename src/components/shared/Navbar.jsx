@@ -101,7 +101,7 @@ const Navbar = () => {
     },
     {
       name: "Current Shipment",
-      link: "/pricing",
+      link: "/current-shipment",
     },
     {
       name: "Load Request",

@@ -2,28 +2,32 @@
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
-const normFile = (e) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
 
 const FormFile = () => {
-  const user = JSON.parse(localStorage.getItem("ootms-user"));
   const router = useRouter();
   const [form] = Form.useForm();
+  const [user, setUser] = useState(null); // Initialize state for user data
 
-  // const onFinish = (values) => {
-  //   console.log("Received values of form: ", values);
-  //   form.resetFields();
-  // };
+  // Use useEffect to handle client-side logic
+  useEffect(() => {
+    // Check if we are in the client-side (browser) environment
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("ootms-user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser)); // Set user if found in localStorage
+      }
+    }
+  }, []);
 
   const onNext = () => {
+    // Check if user is available and navigate accordingly
     user ? router.push("/shipper") : router.push("/sign-in");
   };
+
   return (
     <div className="my-12">
       <div className="container w-[90%] lg:w-[70%] mx-auto">
@@ -44,15 +48,12 @@ const FormFile = () => {
               <Form.Item
                 name="firstName"
                 rules={[
-                  {
-                    required: true,
-                    message: "Receiver's name is required",
-                  },
+                  { required: true, message: "Receiver's name is required" },
                 ]}
               >
                 <Input
                   placeholder="Enter first name"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -68,7 +69,7 @@ const FormFile = () => {
               >
                 <Input
                   placeholder="Enter contact number"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -86,7 +87,7 @@ const FormFile = () => {
               >
                 <Input
                   placeholder="Enter email address"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -102,14 +103,11 @@ const FormFile = () => {
               >
                 <Input
                   placeholder="Enter receiver address"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
           </div>
-
-          {/* Receiver Address */}
-          {/* <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2"></div> */}
 
           {/* City, State, Zip */}
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5 lg:gap-5">
@@ -123,7 +121,7 @@ const FormFile = () => {
               >
                 <Input
                   placeholder="Enter city"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -137,7 +135,7 @@ const FormFile = () => {
               >
                 <Input
                   placeholder="Enter state"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -151,7 +149,7 @@ const FormFile = () => {
               >
                 <Input
                   placeholder="Enter zip"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -166,7 +164,7 @@ const FormFile = () => {
               <Form.Item name="poNumber">
                 <Input
                   placeholder="Enter PO#"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -177,7 +175,7 @@ const FormFile = () => {
               <Form.Item name="billOfLoading">
                 <Input
                   placeholder="Enter bill of loading"
-                  className=" bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
                 />
               </Form.Item>
             </div>
@@ -191,7 +189,7 @@ const FormFile = () => {
             <Form.Item name="deliveryInstructions">
               <textarea
                 placeholder="Enter delivery instructions"
-                className="h-40 w-full p-4 border-2 border-gray-300 rounded-xl focus:outline-none resize-none bg-shipper-input-bg placeholder-semibold py-2 "
+                className="h-40 w-full p-4 border-2 border-gray-300 rounded-xl focus:outline-none resize-none bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
           </div>
@@ -208,4 +206,5 @@ const FormFile = () => {
     </div>
   );
 };
+
 export default FormFile;
