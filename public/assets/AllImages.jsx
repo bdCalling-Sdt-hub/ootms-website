@@ -6,6 +6,8 @@ import bakso from "./images/bakso.png";
 import banner from "./images/banner.png";
 import ornament from "./images/Ornament.png";
 import profile from "./images/profile.png";
+import user from "./images/user.png";
+import drop from "./images/drop.png";
 
 import brand from "./images/brand.png";
 
@@ -104,6 +106,8 @@ import mobileMap from "./about_app/mobilemap.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
+  user,
+  drop,
   bakso,
   logo,
   guard,
