@@ -2,12 +2,19 @@ import logo from "./logo/logo.png";
 // import logoLg from "./logo/logoLg.png";
 // import signupLogo from "./logo/signup-logo.png";
 
+// chat image here
+import musk from "./chat/musk.png";
+import stave from "./chat/stave.png";
+
+// map images
+import map from "./images/map.png";
+
 import bakso from "./images/bakso.png";
 import banner from "./images/banner.png";
+import drop from "./images/drop.png";
 import ornament from "./images/Ornament.png";
 import profile from "./images/profile.png";
 import user from "./images/user.png";
-import drop from "./images/drop.png";
 
 import brand from "./images/brand.png";
 
@@ -40,10 +47,10 @@ import testimonia3 from "./images/testimonia3.png";
 import testimonia4 from "./images/testimonia4.png";
 
 import forgotPasswordImg from "./images/authImg/forgotPasswordImg.png";
-import signInImage from "./images/authImg/signInImage.png";
 import logInImg from "./images/authImg/logInImg.png";
 import otpImg from "./images/authImg/otpImg.png";
 import setPassImg from "./images/authImg/setPassImg.png";
+import signInImage from "./images/authImg/signInImage.png";
 
 // How It Works
 import howItWorks1 from "./images/how-it-work/how-it-work1.png";
@@ -107,6 +114,8 @@ import mobileMap from "./about_app/mobilemap.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
+  stave,
+  musk,
   signInImage,
   user,
   drop,
@@ -150,6 +159,7 @@ export const AllImages = {
   fordriver,
   Map,
   signInImage,
+  map,
 };
 
 export const AllHowItWorks = {

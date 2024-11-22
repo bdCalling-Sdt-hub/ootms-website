@@ -55,3 +55,27 @@
             ) : (
               <div></div>
             )} */} -->
+
+ <!-- {item.sender && (
+<div className="flex items-center gap-2">
+<div>
+<Image
+                      src={data?.reciverImg}
+                      alt="user"
+                      width={50}
+                      height={50}
+                    />
+</div>
+<div>
+<h1 className="text-xl mt-12">{item.user}</h1>
+</div>
+</div>
+)}
+
+              {item.receiver && (
+                <div className="text-right float-right mr-4 bg-[#2B4257] w-auto p-2 rounded-xl ">
+                  <h1 className="text-xl text-white">
+                    <strong></strong> {item.message}
+                  </h1>
+                </div>
+              )} -->
