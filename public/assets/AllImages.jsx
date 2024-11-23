@@ -81,6 +81,7 @@ import chat from "./icons/chat.png";
 import communiaction from "./icons/communiaction.png";
 import dollar from "./icons/dollar.png";
 import facebook from "./icons/facebook.png";
+import google from "./icons/google.png";
 import gmail from "./icons/gmail.png";
 import healthCare from "./icons/health-care.png";
 import insta from "./icons/insta.png";
@@ -173,6 +174,7 @@ export const AllResults = {
 
 export const allIcons = {
   facebook,
+  google,
   insta,
   linkedIn,
   playstore,

@@ -139,3 +139,17 @@ body {
     display: none;
   }
 }
+
+/** Leaflet's required styles */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-popup-content {
+  font-size: 1rem; /* Adjust font size for Tailwind */
+}
+
+.leaflet-control {
+  box-shadow: none; /* Optional: remove shadow */
+}

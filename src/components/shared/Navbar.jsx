@@ -19,13 +19,14 @@ const Navbar = () => {
 
   const [userData, setUserData] = useState(null);
 
+  // Use useEffect to handle client-side logic
   useEffect(() => {
-    // Retrieve user data from localStorage
-    const user = JSON.parse(localStorage.getItem("ootms-user"));
-    if (user) {
-      setUserData(user);
-    } else {
-      setUserData(null);
+    // Check if we are in the client-side (browser) environment
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("ootms-user");
+      if (storedUser) {
+        setUserData(JSON.parse(storedUser)); // Set user if found in localStorage
+      }
     }
   }, []);
 
@@ -76,22 +77,13 @@ const Navbar = () => {
       name: "Home",
       link: "/",
     },
-
     {
       name: "About App",
       link: "/about-app",
     },
     {
-      name: "Dispatching",
-      link: "/dispatching",
-    },
-    {
       name: "Pricing",
       link: "/pricing",
-    },
-    {
-      name: "Recruit New Drivers",
-      link: "/recruit-new-drivers",
     },
   ];
   const AfterLoginMenu = [
@@ -106,6 +98,10 @@ const Navbar = () => {
     {
       name: "Load Request",
       link: "/load-request",
+    },
+    {
+      name: "Recruit New Drivers",
+      link: "/recruit-new-drivers",
     },
   ];
 

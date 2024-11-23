@@ -1,10 +1,10 @@
-import CurrentShipment from "@/components/CurrentShipment/CurrentShipment";
+import CurrentShipmentList from "@/components/CurrentShipment/CurrentShipmentList";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <CurrentShipment />
+      <CurrentShipmentList />
     </div>
   );
 };

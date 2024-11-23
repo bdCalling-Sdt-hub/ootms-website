@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { motion } from "framer-motion";
-import { AllImages } from "../../../../public/assets/AllImages";
+import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
 
 const SignUp = () => {
@@ -61,7 +61,7 @@ const SignUp = () => {
               >
                 <Input
                   placeholder="Enter your full name"
-                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
+                  className="py-2 px-3 text-xl bg-site-color !border border-[#2B4257] text-base-color hover:bg-transparent hover:border-[#2B4257] focus:bg-transparent focus:border-[#2B4257] focus:border-x rounded-md"
                 />
               </Form.Item>
 
@@ -85,7 +85,7 @@ const SignUp = () => {
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
+                  className="py-2 px-3 text-xl bg-site-color !border border-[#2B4257] text-base-color hover:bg-transparent hover:border-[#2B4257] focus:bg-transparent focus:border-[#2B4257] focus:border-x rounded-md"
                 />
               </Form.Item>
 
@@ -105,7 +105,7 @@ const SignUp = () => {
                 <Input
                   type="password"
                   placeholder="Enter your password"
-                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
+                  className="py-2 px-3 text-xl bg-site-color !border border-[#2B4257] text-base-color hover:bg-transparent hover:border-[#2B4257] focus:bg-transparent focus:border-[#2B4257] focus:border-x rounded-md"
                 />
               </Form.Item>
 
@@ -137,7 +137,7 @@ const SignUp = () => {
               >
                 <Input.Password
                   placeholder="Confirm Your Password"
-                  className="py-2 px-3 text-xl bg-site-color border border-[#223376] text-base-color hover:bg-transparent hover:border-2 hover:border-[#223376] focus:bg-transparent focus:border-[#223376] focus:border-x rounded-md"
+                  className="py-2 px-3 text-xl bg-site-color !border border-[#2B4257] text-base-color hover:bg-transparent hover:border-[#2B4257] focus:bg-transparent focus:border-[#2B4257] focus:border-x rounded-md"
                 />
               </Form.Item>
 
@@ -160,7 +160,7 @@ const SignUp = () => {
                       stiffness: 200,
                       damping: 7,
                     }}
-                    className="w-full py-3 border border-[#223376] hover:border-[#223376] text-xl text-primary-color bg-[#223376] font-semibold rounded-2xl mt-4"
+                    className="w-full py-3 !border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-4"
                     htmltype="submit"
                   >
                     Sign Up
@@ -168,6 +168,40 @@ const SignUp = () => {
                 </ConfigProvider>
               </Form.Item>
             </Form>
+            {/* -------- Social Sign In Buttons ------------ */}
+            <div className="flex flex-col gap-3 my-5">
+              <div className="flex items-center justify-center mt-2">
+                <span className="border-t border-gray-300 flex-grow"></span>
+                <span className="px-4 text-gray-500">or</span>
+                <span className="border-t border-gray-300 flex-grow"></span>
+              </div>
+              <Button
+                className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg"
+                icon={
+                  <Image
+                    src={allIcons.google}
+                    alt="Google Icon"
+                    width={20}
+                    height={20}
+                  />
+                }
+              >
+                Sign in with Google
+              </Button>
+              <Button
+                className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg mt-2"
+                icon={
+                  <Image
+                    src={allIcons.facebook}
+                    alt="Apple Icon"
+                    width={20}
+                    height={20}
+                  />
+                }
+              >
+                Sign in with Facebook
+              </Button>
+            </div>
           </div>
         </div>
       </Container>

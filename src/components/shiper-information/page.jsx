@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfigProvider, Select } from "antd";
+import { ConfigProvider, Modal, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,17 @@ const ShipperForm = () => {
   const handleNoOptionsChange = () => {
     setNoOptions(true);
     setShowOptions(false);
+  };
+
+  //* It's Use to Show Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showViewModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const [options, setOptions] = useState([
@@ -363,7 +374,10 @@ const ShipperForm = () => {
             </Form.Item>
           </div>
           {/* Next Button */}
-          <button className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl">
+          <button
+            onClick={showViewModal}
+            className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+          >
             Find a driver
           </button>
 
@@ -376,6 +390,33 @@ const ShipperForm = () => {
           </button>
         </Form>
       </div>
+      <Modal
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        style={{ textAlign: "center" }}
+        className="lg:!w-[500px]"
+      >
+        <div className="px-10 pt-10">
+          <p className="text-2xl text-center font-semibold">
+            Do you have preferred Driver?
+          </p>
+          <div className="flex justify-between items-center gap-5 mt-5">
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => router.push("/map-truck")}
+            >
+              No
+            </button>{" "}
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => router.push("/assign-diver")}
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

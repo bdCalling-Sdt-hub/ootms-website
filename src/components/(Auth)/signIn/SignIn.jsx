@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { motion } from "framer-motion";
-import { AllImages } from "../../../../public/assets/AllImages";
+import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
 
 const SignIn = () => {
@@ -35,7 +35,6 @@ const SignIn = () => {
               alt="largeLogo"
               width={0}
               height={0}
-
               className="w-auto h-auto"
             />
           </div>
@@ -58,6 +57,7 @@ const SignIn = () => {
                 </p>
               </div>
             </div>
+
             {/* -------- Form Start ------------ */}
 
             <Form
@@ -105,7 +105,7 @@ const SignIn = () => {
                 <Checkbox className="">Remember me</Checkbox>
                 <Link
                   href="/forget-password"
-                  className="text-[#223376] underline font-bold"
+                  className="text-[#2B4257] underline font-bold"
                 >
                   Forgot Password?
                 </Link>
@@ -130,7 +130,7 @@ const SignIn = () => {
                       stiffness: 200,
                       damping: 7,
                     }}
-                    className="w-full py-3 border border-[#223376] hover:border-[#223376] text-xl text-primary-color bg-[#223376] font-semibold rounded-2xl mt-8"
+                    className="w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8"
                     htmltype="submit"
                   >
                     Sign In
@@ -139,13 +139,47 @@ const SignIn = () => {
               </Form.Item>
             </Form>
 
+            {/* -------- Social Sign In Buttons ------------ */}
+            <div className="flex flex-col gap-3 my-5">
+              <div className="flex items-center justify-center mt-2">
+                <span className="border-t border-gray-300 flex-grow"></span>
+                <span className="px-4 text-gray-500">or</span>
+                <span className="border-t border-gray-300 flex-grow"></span>
+              </div>
+              <Button
+                className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg"
+                icon={
+                  <Image
+                    src={allIcons.google}
+                    alt="Google Icon"
+                    width={20}
+                    height={20}
+                  />
+                }
+              >
+                Sign in with Google
+              </Button>
+              <Button
+                className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg mt-2"
+                icon={
+                  <Image
+                    src={allIcons.facebook}
+                    alt="Apple Icon"
+                    width={20}
+                    height={20}
+                  />
+                }
+              >
+                Sign in with Facebook
+              </Button>
+            </div>
             {/* -------- Redirect to Sign Up ------------ */}
             <p className="text-center text-ellipsis mt-4">
               Don’t have an account?
               <span>
                 <Link
                   href="/sign-up"
-                  className="text-[#223376] font-semibold underline ml-2"
+                  className="text-[#2B4257] font-semibold underline ml-2"
                 >
                   Sign Up
                 </Link>

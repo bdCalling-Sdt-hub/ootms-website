@@ -5,6 +5,8 @@ import Trucks from "@/components/map-truck/Trucks";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { AllImages } from "../../../../public/assets/AllImages";
+import { useRouter } from "next/navigation";
+import LeafletAllTrack from "@/components/LeafletMap/LeafletAllTrack";
 
 const columns = [
   { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
@@ -17,6 +19,7 @@ const columns = [
 ];
 
 const MapTruck = () => {
+  const router = useRouter();
   const [trucksData, setTrucksData] = useState([
     {
       key: "1",
@@ -43,31 +46,38 @@ const MapTruck = () => {
     },
   ]);
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="flex gap-8  p-20 overflow-hidden">
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-4  gap-8  py-10 lg:py-20 px-5 lg:px-10 ">
       {/* Trucks Data */}
-      <div className="flex flex-col items-center gap-5 w-1/3">
-        <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-40 text-center">
+      <div className=" gap-5 ">
+        <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white  text-center mb-10 w-full">
           Available Trucks
         </p>
-        <Trucks data={trucksData} />
-        <Trucks data={trucksData} />
-        <Trucks data={trucksData} />
-        <Trucks data={trucksData} />
-        <Trucks data={trucksData} />
+        <div className=" flex flex-col gap-5 overflow-x-auto">
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+        </div>
       </div>
 
-      <div className="w-1/3 place-self-center">
-        <Map />
+      <div className="lg:col-span-2 w-full h-fit place-self-center order-first lg:order-none z-10">
+        <LeafletAllTrack setOpen={setOpen} />
       </div>
 
       {/* MyLoad Data */}
-      <motion.div className="w-1/3 flex flex-col items-center gap-5">
-        <motion.div className="relative mb-20">
-          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-36 text-center mb-3">
+      <motion.div className=" gap-5 ">
+        <motion.div className="relative mb-5 mx-auto">
+          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
             My Load
           </p>
           <motion.div
+            // onClick={() =>
+            //   setTimeout(() => router.push("/load-request?req=myRequest"), 5000)
+            // }
             initial={{ y: 3 }}
             animate={{ y: -3 }}
             transition={{
@@ -79,7 +89,7 @@ const MapTruck = () => {
             drag
             dragListener
             dragSnapToOrigin
-            className="absolute left-10 w-fit bg-[#2B4257] !z-[99999] p-2 rounded-full shadow-lg mx-auto cursor-move"
+            className="relative  w-fit bg-[#2B4257] !z-[99999] p-2 rounded-full shadow-lg mx-auto cursor-move "
           >
             <motion.img
               draggable="false"
@@ -91,8 +101,10 @@ const MapTruck = () => {
             />
           </motion.div>
         </motion.div>
-        <MyLoad data={myLoadItems} />
-        <MyLoad data={myLoadItems} />
+        <div className=" flex flex-col gap-5 overflow-x-auto">
+          <MyLoad data={myLoadItems} />
+          <MyLoad data={myLoadItems} />
+        </div>
       </motion.div>
     </div>
   );

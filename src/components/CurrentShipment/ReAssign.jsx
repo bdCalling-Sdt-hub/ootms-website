@@ -1,15 +1,19 @@
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const ReAssign = (props) => {
   const router = useRouter();
   const { setIsOpen } = props;
   return (
-    <div
-      onClick={() => setIsOpen(!open)}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-    >
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 rounded shadow-md w-1/2">
+        <div
+          className="w-fit ml-auto cursor-pointer mb-3"
+          onClick={() => setIsOpen(!open)}
+        >
+          <IoMdCloseCircleOutline className="text-3xl" />
+        </div>
         <div className="max-w-6xl mx-auto p-6  ">
           <h1 className="text-2xl font-bold mb-6 ms-4">Current Shipment</h1>
           <hr className="my-6 ms-4  opacity-60" />

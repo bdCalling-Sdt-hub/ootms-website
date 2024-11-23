@@ -1,13 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../ui/Container";
 import Image from "next/image";
 import { AllImages } from "../../../public/assets/AllImages";
 import { Button, ConfigProvider, Input, Modal } from "antd";
 import { FaPhone, FaStar } from "react-icons/fa6";
 import { BiSolidMessageSquareDetail } from "react-icons/bi";
-import { useRouter } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 const loadData = [
   {
@@ -173,6 +178,23 @@ const requestData = [
 
 const LoadRequest = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // const { req } = router.query; // Extract the "req" parameter from the query
+
+  // useEffect(() => {
+  //   if (req) {
+  //     console.log("Query parameter 'req':", req);
+  //     // You can use 'req' to fetch data or perform other actions
+  //   }
+  // }, [req]);
+  const [tab, setTab] = useState("loadRequest");
+  useEffect(() => {
+    const typeParam = searchParams.get("req");
+    if (typeParam === "myRequest") {
+      setTab("myRequest");
+    }
+  }, [searchParams]);
   const [isTruckModalVisible, setIsTruckModalVisible] = useState(false);
 
   const showModal = () => {
@@ -191,7 +213,6 @@ const LoadRequest = () => {
   const handleCancelRequest = () => {
     setIsRequestModalVisible(false);
   };
-  const [tab, setTab] = useState("loadRequest");
   return (
     <div className="py-10 bg-[#F3F3F3]">
       <Container>
@@ -260,12 +281,12 @@ const LoadRequest = () => {
               ))}
             </div>
           ) : (
-            <div
-              onClick={showModalRequest}
-              className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 "
-            >
+            <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
               {requestData.map((truck, index) => (
                 <div
+                  onClick={() =>
+                    router.push(`load-request/my-request/1431dfvgd464`)
+                  }
                   key={index}
                   className="flex flex-col p-4 mb-5 border rounded-lg shadow-md bg-white"
                 >
@@ -308,15 +329,6 @@ const LoadRequest = () => {
                       ))}
                     </div>
                   </div>
-
-                  {/* <div className="flex flex-col gap-1 mb-4">
-                  <p className="text-sm font-semibold">Locations:</p>
-                  {truck.locations.map((location, idx) => (
-                    <p key={idx} className="text-md text-gray-600">
-                      {location}
-                    </p>
-                  ))}
-                </div> */}
                 </div>
               ))}
             </div>
@@ -423,7 +435,11 @@ const LoadRequest = () => {
                 Cancel
               </Button>
               <Button
-                onClick={handleCancel}
+                onClick={() => {
+                  handleCancel();
+                  router.push("/current-shipment");
+                  router.refresh();
+                }}
                 className="!bg-[#2B4257] w-full py-5 rounded-xl text-xl font-semibold !text-white border border-[#2B4257]"
               >
                 Assign Load

@@ -6,9 +6,7 @@ import { FaPhone } from "react-icons/fa6";
 import { IoMdStar } from "react-icons/io";
 import { AllImages } from "../../../public/assets/AllImages";
 
-const Trucks = ({ data }) => {
-  const [open, setOpen] = useState(false);
-
+const Trucks = ({ data, setOpen, open }) => {
   const showModal = () => {
     setOpen(true);
   };
@@ -25,16 +23,47 @@ const Trucks = ({ data }) => {
       dataIndex: "driver",
       key: "driver",
       render: (text, record) => <div>{text}</div>,
+      responsive: ["xs", "sm"], // Display on extra small and small screens
     },
-    { title: "Truck", dataIndex: "truck", key: "truck" },
-    { title: "Pallet Spaces", dataIndex: "palletSpaces", key: "palletSpaces" },
-    { title: "Weight", dataIndex: "weight", key: "weight" },
-    { title: "Trailer Size", dataIndex: "trailerSize", key: "trailerSize" },
-    { title: "Availability", dataIndex: "availability", key: "availability" },
-    { title: "Location", dataIndex: "location", key: "location" },
+    {
+      title: "Truck",
+      dataIndex: "truck",
+      key: "truck",
+      responsive: ["xs", "sm"], // Display on small and medium screens and above
+    },
+    {
+      title: "Pallet Spaces",
+      dataIndex: "palletSpaces",
+      key: "palletSpaces",
+      responsive: ["xs", "sm"], // Display on medium screens and above
+    },
+    {
+      title: "Weight",
+      dataIndex: "weight",
+      key: "weight",
+      responsive: ["xs", "sm"], // Display on medium and large screens
+    },
+    {
+      title: "Trailer Size",
+      dataIndex: "trailerSize",
+      key: "trailerSize",
+      responsive: ["xs", "sm"], // Display only on large screens
+    },
+    {
+      title: "Availability",
+      dataIndex: "availability",
+      key: "availability",
+      responsive: ["xs", "sm"], // Display on large and extra large screens
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
+      responsive: ["xs", "sm"], // Display on small screens and above
+    },
   ];
   return (
-    <div>
+    <div className="">
       <ConfigProvider
         theme={{
           components: {
@@ -47,14 +76,13 @@ const Trucks = ({ data }) => {
           },
         }}
       >
-        <div onClick={showModal}>
+        <div className="cursor-pointer " onClick={showModal}>
           <Table
             columns={columns}
             dataSource={data}
             pagination={false}
             bordered
-            scroll={{ x: "max-content" }}
-            style={{ maxWidth: "100%", overflowX: "hidden" }}
+            scroll={{ x: "100%" }}
           />
         </div>
       </ConfigProvider>

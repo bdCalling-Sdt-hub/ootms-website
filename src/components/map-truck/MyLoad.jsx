@@ -58,7 +58,7 @@ const MyLoad = ({ data }) => {
   ];
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 overflow-x-auto">
       <Row
         gutter={0}
         style={{

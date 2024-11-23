@@ -1,10 +1,12 @@
 import LoadRequest from "@/components/LoadRequest/LoadRequest";
-import React from "react";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
     <div>
-      <LoadRequest />
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoadRequest />
+      </Suspense>
     </div>
   );
 };
