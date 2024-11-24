@@ -166,17 +166,6 @@ export default function ReceiverMap() {
       {/* Message  */}
       <div className="sticky  bottom-0 ml-auto flex flex-col mr-[1%] w-fit z-20">
         {chatBoxVisible && (
-          // <div className="h-48 w-72 bg-[#2B4257] mb-auto p-2 ">
-          //   <p
-          //     onClick={() => {
-          //       setChatBoxVisible(false);
-          //       setIsChatIconVisible(true);
-          //     }}
-          //     className="text-2xl text-primary-color cursor-pointer"
-          //   >
-          //     x
-          //   </p>
-          // </div>
           <ReciverChat
             data={chat}
             setChatBoxVisible={setChatBoxVisible}

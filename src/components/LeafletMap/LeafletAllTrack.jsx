@@ -1,58 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic"; // Import dynamic for conditional SSR
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 
-import truck from "../../../public/assets/images/truck.png";
-import redTruck from "../../../public/assets/images/redTruck.png";
-import greenTruck from "../../../public/assets/images/greenTruck.png";
-
-// Custom Marker Icon
-const customIcon = new L.Icon({
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-
-const randomTruckIcon = new L.Icon({
-  iconUrl: truck.src, // Replace with your vehicle icon URL
-  iconSize: [75, 75],
-  iconAnchor: [0, 0],
-});
-const trackOne = new L.Icon({
-  iconUrl: greenTruck.src, // Replace with your vehicle icon URL
-  iconSize: [75, 75],
-  iconAnchor: [0, 0],
-});
-const trackTwo = new L.Icon({
-  iconUrl: greenTruck.src, // Replace with your vehicle icon URL
-  iconSize: [75, 75],
-  iconAnchor: [0, 0],
-});
-const trackThree = new L.Icon({
-  iconUrl: greenTruck.src, // Replace with your vehicle icon URL
-  iconSize: [75, 75],
-  iconAnchor: [0, 0],
+// Dynamically import Leaflet components
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
 });
 
-// Function to calculate a new position (lat, lng) based on a distance in kilometers and bearing
+// Function to calculate new positions
 const calculateNewPosition = ([lat, lng], distanceKm, bearing = 0) => {
-  const earthRadiusKm = 6371; // Radius of the Earth in kilometers
-  const dByR = distanceKm / earthRadiusKm; // Angular distance in radians
+  const earthRadiusKm = 6371;
+  const dByR = distanceKm / earthRadiusKm;
 
-  const lat1 = (lat * Math.PI) / 180; // Convert latitude to radians
-  const lng1 = (lng * Math.PI) / 180; // Convert longitude to radians
+  const lat1 = (lat * Math.PI) / 180;
+  const lng1 = (lng * Math.PI) / 180;
 
-  // Calculate new latitude
   const newLat = Math.asin(
     Math.sin(lat1) * Math.cos(dByR) +
       Math.cos(lat1) * Math.sin(dByR) * Math.cos(bearing)
   );
-
-  // Calculate new longitude
   const newLng =
     lng1 +
     Math.atan2(
@@ -60,27 +40,37 @@ const calculateNewPosition = ([lat, lng], distanceKm, bearing = 0) => {
       Math.cos(dByR) - Math.sin(lat1) * Math.sin(newLat)
     );
 
-  // Convert back to degrees
   return [(newLat * 180) / Math.PI, (newLng * 180) / Math.PI];
 };
 
-// Function to generate a random position within a given radius (in km) around a central point
-const generateRandomPosition = ([lat, lng], minDistanceKm, maxDistanceKm) => {
-  // Random angle between 0 and 360 degrees (0 to 2π radians)
-  const randomAngle = Math.random() * 2 * Math.PI;
-  // Random distance between minDistanceKm and maxDistanceKm
-  const randomDistance =
-    Math.random() * (maxDistanceKm - minDistanceKm) + minDistanceKm;
-  // Calculate new position using random angle and distance
-  return calculateNewPosition([lat, lng], randomDistance, randomAngle);
-};
-
-const LeafletAllTrack = ({ setOpen, open }) => {
-  const [userLocation, setUserLocation] = useState(null); // Store user location
+const LeafletAllTrack = ({ setOpen }) => {
+  const [userLocation, setUserLocation] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([]);
-  const [randomMarkers, setRandomMarkers] = useState([]);
+  const [isLeafletReady, setIsLeafletReady] = useState(false);
+  const [customIcons, setCustomIcons] = useState(null);
 
-  // Fetch user's location on component mount
+  // Initialize custom icons dynamically
+  useEffect(() => {
+    const initializeLeaflet = async () => {
+      const leaflet = await import("leaflet");
+      setCustomIcons({
+        userLocationIcon: new leaflet.Icon({
+          iconUrl: "/assets/images/location.png", // Icon for user location
+          iconSize: [35, 45],
+          iconAnchor: [17, 45],
+        }),
+        markerIcon: new leaflet.Icon({
+          iconUrl: "/assets/images/truck.png", // Icon for other markers
+          iconSize: [75, 75],
+          iconAnchor: [37, 75],
+        }),
+      });
+      setIsLeafletReady(true);
+    };
+    initializeLeaflet();
+  }, []);
+
+  // Fetch user location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -89,24 +79,15 @@ const LeafletAllTrack = ({ setOpen, open }) => {
           const userLoc = [latitude, longitude];
           setUserLocation(userLoc);
 
-          // Calculate 1 km to the left (west), 2 km north, and 3 km to the bottom (south)
-          const marker1kmLeft = calculateNewPosition(userLoc, 2, Math.PI); // 1km Left (West)
-          const marker2kmNorth = calculateNewPosition(userLoc, 1.5, 0); // 2km North
-          const marker3kmSouth = calculateNewPosition(userLoc, 4, Math.PI / 2); // 3km Bottom (South)
-
-          setMarkerLocations([marker1kmLeft, marker2kmNorth, marker3kmSouth]);
-
-          // Generate 3 random markers with a distance between 5 km and 10 km
-          const randomMarkersArray = [];
-          for (let i = 0; i < 3; i++) {
-            const randomMarker = generateRandomPosition(userLoc, 1, 3.5);
-            randomMarkersArray.push(randomMarker);
-          }
-          setRandomMarkers(randomMarkersArray);
+          // Generate markers
+          const marker1kmWest = calculateNewPosition(userLoc, 1, Math.PI); // West
+          const marker2kmNorth = calculateNewPosition(userLoc, 2, 0); // North
+          const marker3kmSouth = calculateNewPosition(userLoc, 3, Math.PI / 2); // South
+          setMarkerLocations([marker1kmWest, marker2kmNorth, marker3kmSouth]);
         },
         (error) => {
           console.error("Error fetching location:", error);
-          alert("Unable to fetch location. Please enable location access.");
+          alert("Unable to fetch location.");
         }
       );
     } else {
@@ -114,80 +95,45 @@ const LeafletAllTrack = ({ setOpen, open }) => {
     }
   }, []);
 
-  if (!userLocation) {
-    return <div>Loading map and fetching your location...</div>; // Show a loading message while fetching the location
-  }
+  // Memoized MapContainer to avoid unnecessary reinitialization
+  const map = useMemo(() => {
+    if (!isLeafletReady || !userLocation || !customIcons) return null;
+
+    return (
+      <MapContainer
+        center={userLocation}
+        zoom={13.5}
+        scrollWheelZoom={true}
+        className="h-full"
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+
+        {/* User Location Marker */}
+        <Marker position={userLocation} icon={customIcons.userLocationIcon}>
+          <Popup>Your Location</Popup>
+        </Marker>
+
+        {/* Other Markers */}
+        {markerLocations.map((position, index) => (
+          <Marker key={index} position={position} icon={customIcons.markerIcon}>
+            <Popup>
+              <div onClick={() => setOpen(true)}>
+                <button className="py-2 px-2 bg-[#2B4257] text-primary-color rounded-lg ml-1">
+                  Load Truck
+                </button>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    );
+  }, [isLeafletReady, userLocation, customIcons, markerLocations]);
 
   return (
-    <div className="h-full w-full">
-      <div className="relative w-full h-96 rounded-lg shadow-lg overflow-hidden">
-        <MapContainer
-          center={userLocation} // Set center to the user's current location
-          zoom={13}
-          scrollWheelZoom={true}
-          className="w-full h-full"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-
-          {/* User Marker */}
-          <Marker position={userLocation} icon={customIcon}>
-            <Popup>Your Current Location</Popup>
-          </Marker>
-
-          {/* 1 km Left (West) Marker */}
-          <Marker
-            onClick={() => setOpen(!open)}
-            position={markerLocations[0]}
-            icon={trackOne}
-          >
-            <Popup>
-              <div>1 km Left (West) from your location. </div>
-            </Popup>
-          </Marker>
-
-          {/* 2 km North Marker */}
-          <Marker position={markerLocations[1]} icon={trackTwo}>
-            <Popup>
-              <div onClick={() => setOpen(!open)}>
-                2 km North from your location
-                <button className="py-2 px-2 bg-[#2B4257] text-primary-color rounded-lg ml-1">
-                  Load Truck
-                </button>
-              </div>
-            </Popup>
-          </Marker>
-
-          {/* 3 km Bottom (South) Marker */}
-          <Marker position={markerLocations[2]} icon={trackThree}>
-            <Popup>
-              <div onClick={() => setOpen(!open)}>
-                3 km Bottom (South) from your location
-                <button className="py-2 px-2 bg-[#2B4257] text-primary-color rounded-lg ml-1">
-                  Load Truck
-                </button>
-              </div>
-            </Popup>
-          </Marker>
-
-          {/* Random Markers */}
-          {randomMarkers.map((randomMarker, index) => (
-            <Marker position={randomMarker} icon={randomTruckIcon} key={index}>
-              <Popup>
-                {" "}
-                <div onClick={() => setOpen(!open)}>
-                  <button className="py-2 px-2 bg-[#2B4257] text-primary-color rounded-lg ml-1">
-                    Load Truck
-                  </button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
-      </div>
-    </div>
+    <div className="h-[600px] w-full">{map || <div>Loading map...</div>}</div>
   );
 };
 

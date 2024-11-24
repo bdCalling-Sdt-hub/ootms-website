@@ -1,33 +1,43 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import truck from "../../../public/assets/images/truck.png";
-import location from "../../../public/assets/images/location.png";
 
-// Custom Vehicle Icon
-const vehicleIcon = new L.Icon({
-  iconUrl: truck.src, // Replace with your vehicle icon URL
-  iconSize: [100, 100],
-  iconAnchor: [60, 80],
+// Dynamically import Leaflet components and library
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  {
+    ssr: false,
+  }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  {
+    ssr: false,
+  }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
 });
-const userLocationIcon = new L.Icon({
-  iconUrl: location.src, // Replace with your vehicle icon URL
-  iconSize: [50, 50],
-  iconAnchor: [25, 48],
-});
+const Polyline = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Polyline),
+  {
+    ssr: false,
+  }
+);
+
+// Import Leaflet dynamically to ensure compatibility with Next.js
+const L = dynamic(() => import("leaflet"), { ssr: false });
 
 const LeafletDeliveryMap = () => {
   const [userLocation, setUserLocation] = useState(null); // Store user's location
   const [vehicleLocation, setVehicleLocation] = useState(null); // Store calculated vehicle location
+  const [icons, setIcons] = useState(null); // Store custom icons
 
   // Distance in kilometers
   const distance = 5; // 5km
@@ -55,6 +65,26 @@ const LeafletDeliveryMap = () => {
     return [(newLat * 180) / Math.PI, (newLng * 180) / Math.PI]; // Convert back to degrees
   };
 
+  // Initialize custom icons once Leaflet is loaded
+  useEffect(() => {
+    const initializeIcons = async () => {
+      const leaflet = await import("leaflet");
+      setIcons({
+        vehicleIcon: new leaflet.Icon({
+          iconUrl: "/assets/images/truck.png", // Corrected path
+          iconSize: [100, 100],
+          iconAnchor: [50, 50],
+        }),
+        userLocationIcon: new leaflet.Icon({
+          iconUrl: "/assets/images/location.png", // Corrected path
+          iconSize: [50, 50],
+          iconAnchor: [25, 48],
+        }),
+      });
+    };
+    initializeIcons();
+  }, []);
+
   // Fetch user's location on component mount
   useEffect(() => {
     if (navigator.geolocation) {
@@ -78,45 +108,47 @@ const LeafletDeliveryMap = () => {
     }
   }, []);
 
+  if (!userLocation || !vehicleLocation || !icons) {
+    return (
+      <div className="text-center text-lg">
+        Loading map and fetching your location...
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full">
-      {userLocation && vehicleLocation ? (
-        <MapContainer
-          center={vehicleLocation} // Center the map on user's location
-          zoom={12.5}
-          scrollWheelZoom={true}
-          className="h-full w-full"
+      <MapContainer
+        center={vehicleLocation} // Center the map on the vehicle location
+        zoom={12.5}
+        scrollWheelZoom={true}
+        className="h-full w-full"
+      >
+        {/* Base Tile Layer */}
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+
+        {/* User Marker */}
+        <Marker position={userLocation} icon={icons.userLocationIcon}>
+          <Popup>Your Current Location</Popup>
+        </Marker>
+
+        {/* Vehicle Marker */}
+        <Marker position={vehicleLocation} icon={icons.vehicleIcon}>
+          <Popup>Vehicle Location (5km Away)</Popup>
+        </Marker>
+
+        {/* Route Polyline */}
+        <Polyline
+          positions={[userLocation, vehicleLocation]}
+          color="red"
+          weight={4}
         >
-          {/* Base Tile Layer */}
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-
-          {/* User Marker */}
-          <Marker position={userLocation} icon={userLocationIcon}>
-            <Popup>Your Current Location</Popup>
-          </Marker>
-
-          {/* Vehicle Marker */}
-          <Marker position={vehicleLocation} icon={vehicleIcon}>
-            <Popup>Vehicle Location (5km Away)</Popup>
-          </Marker>
-
-          {/* Route Polyline */}
-          <Polyline
-            positions={[userLocation, vehicleLocation]}
-            color="red"
-            weight={4}
-          >
-            <Popup>Route Path</Popup>
-          </Polyline>
-        </MapContainer>
-      ) : (
-        <div className="text-center text-lg">
-          Loading map and fetching your location...
-        </div>
-      )}
+          <Popup>Route Path</Popup>
+        </Polyline>
+      </MapContainer>
     </div>
   );
 };
