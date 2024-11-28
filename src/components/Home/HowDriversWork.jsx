@@ -13,7 +13,7 @@ export default function HowDriversWork() {
     { id: "Scheduling", label: "Flexible Load Scheduling" },
     {
       id: "Shipper",
-      label: "Maintain Shipper Connections",
+      label: "Maintain shipper and receiver connection",
     },
   ];
   return (

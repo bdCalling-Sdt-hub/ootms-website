@@ -5,6 +5,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import localFont from "next/font/local";
 import { ConfigProvider } from "antd";
 import { mainTheme } from "@/theme";
+import FeedBack from "@/components/shared/FeedBack";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,7 +28,9 @@ export default function RootLayout({ children }) {
       <body className={`font-poppins ${skia.variable}`}>
         <Toaster />
         <AntdRegistry>
-          <ConfigProvider theme={mainTheme}>{children}</ConfigProvider>
+          <ConfigProvider theme={mainTheme}>
+            {children} <FeedBack />
+          </ConfigProvider>
         </AntdRegistry>
       </body>
     </html>

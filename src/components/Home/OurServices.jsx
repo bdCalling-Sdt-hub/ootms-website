@@ -13,12 +13,12 @@ export default function WhyOOTMS() {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10">
           {" "}
           {/* Section Title */}
-          <div className="text-center">
-            <h2 className="text-xl sm:text-3xl lg:text-7xl font-semibold text-[#2B4257]">
-              Drivers and Customers
+          <div className="text-center  lg:w-1/2">
+            <h2 className="text-xl sm:text-3xl lg:text-6xl font-semibold text-[#2B4257]">
+              Stay Connected
             </h2>
             <p className="text-sm sm:text-xl lg:text-2xl lg:-mt-6">
-              Stay Connected with Drivers and Customers.
+              Stay Connected with Shippers
             </p>
           </div>
           {/* Feature Cards */}

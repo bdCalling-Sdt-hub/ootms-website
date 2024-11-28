@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import Trucks from "@/components/map-truck/Trucks";
-import MyLoad from "@/components/map-truck/MyLoad";
 import Map from "@/components/map-truck/Map";
-import { Row, Col, Table } from "antd";
+import MyLoad from "@/components/map-truck/MyLoad";
+import Trucks from "@/components/map-truck/Trucks";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { AllImages } from "../../../../public/assets/AllImages";
+import { useRouter } from "next/navigation";
+import LeafletAllTrack from "@/components/LeafletMap/LeafletAllTrack";
 
 const columns = [
   { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
@@ -18,6 +19,7 @@ const columns = [
 ];
 
 const MapTruck = () => {
+  const router = useRouter();
   const [trucksData, setTrucksData] = useState([
     {
       key: "1",
@@ -44,52 +46,67 @@ const MapTruck = () => {
     },
   ]);
 
-  const openDropModal = () => {
-    console.log("clicked");
-  };
-
-  const handleDrop = (item) => {
-    setTrucksData((prevData) => [
-      ...prevData,
-      { ...item, key: String(prevData.length + 1) },
-    ]);
-
-    setMyLoadItems((prevItems) =>
-      prevItems.filter((loadItem) => loadItem.key !== item.key)
-    );
-  };
-
-  console.log("trucksData", trucksData);
-
-  console.log("myLoadItems", myLoadItems);
+  const [open, setOpen] = useState(false);
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="flex gap-8 items-center p-20 overflow-hidden">
-        {/* Trucks Data */}
-        <div
-          className="flex flex-col items-center gap-5 w-1/3"
-          onClick={openDropModal}
-        >
-          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-40 text-center">
-            Available Trucks
-          </p>
-          <Trucks data={trucksData} onDrop={handleDrop} />
-        </div>
-
-        <div className="w-1/3">
-          <Map />
-        </div>
-
-        {/* MyLoad Data */}
-        <div className="w-1/3 flex flex-col items-center gap-5">
-          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white w-36 text-center">
-            My Load
-          </p>
-          <MyLoad data={myLoadItems} />
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-4  gap-8  py-10 lg:py-20 px-5 lg:px-10 ">
+      {/* Trucks Data */}
+      <div className=" gap-5 ">
+        <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white  text-center mb-10 w-full">
+          Available Trucks
+        </p>
+        <div className=" flex flex-col gap-5 overflow-x-auto">
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
+          <Trucks data={trucksData} setOpen={setOpen} open={open} />
         </div>
       </div>
-    </DndProvider>
+
+      <div className="lg:col-span-2 w-full h-fit place-self-center order-first lg:order-none z-10">
+        <LeafletAllTrack setOpen={setOpen} />
+      </div>
+
+      {/* MyLoad Data */}
+      <motion.div className=" gap-5 ">
+        <motion.div className="relative mb-5 mx-auto">
+          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
+            Shipment
+          </p>
+          <motion.div
+            // onClick={() =>
+            //   setTimeout(() => router.push("/load-request?req=myRequest"), 5000)
+            // }
+            initial={{ y: 3 }}
+            animate={{ y: -3 }}
+            transition={{
+              ease: "easeInOut",
+              repeat: Infinity,
+              duration: 0.5,
+              repeatType: "reverse", // Ensures the animation reverses on repeat
+            }}
+            drag
+            dragListener
+            dragSnapToOrigin
+            className="relative  w-fit bg-[#2B4257] !z-[99999] p-2 rounded-full shadow-lg mx-auto cursor-move "
+          >
+            <motion.img
+              draggable="false"
+              alt="bakso"
+              src={AllImages.bakso.src}
+              width={50}
+              height={50}
+              className="select-none "
+            />
+          </motion.div>
+        </motion.div>
+        <div className=" flex flex-col gap-5 overflow-x-auto">
+          <MyLoad data={myLoadItems} />
+          <MyLoad data={myLoadItems} />
+        </div>
+      </motion.div>
+    </div>
   );
 };
 

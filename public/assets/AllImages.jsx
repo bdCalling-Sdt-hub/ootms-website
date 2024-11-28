@@ -2,9 +2,13 @@ import logo from "./logo/logo.png";
 // import logoLg from "./logo/logoLg.png";
 // import signupLogo from "./logo/signup-logo.png";
 
+import feedback from "./images/feedback.png";
+import bakso from "./images/bakso.png";
 import banner from "./images/banner.png";
 import ornament from "./images/Ornament.png";
 import profile from "./images/profile.png";
+import user from "./images/user.png";
+import drop from "./images/drop.png";
 
 import brand from "./images/brand.png";
 
@@ -37,10 +41,10 @@ import testimonia3 from "./images/testimonia3.png";
 import testimonia4 from "./images/testimonia4.png";
 
 import forgotPasswordImg from "./images/authImg/forgotPasswordImg.png";
+import signInImage from "./images/authImg/signInImage.png";
 import logInImg from "./images/authImg/logInImg.png";
 import otpImg from "./images/authImg/otpImg.png";
 import setPassImg from "./images/authImg/setPassImg.png";
-import signInImage from "./images/authImg/signInImage.png";
 
 // How It Works
 import howItWorks1 from "./images/how-it-work/how-it-work1.png";
@@ -78,6 +82,7 @@ import chat from "./icons/chat.png";
 import communiaction from "./icons/communiaction.png";
 import dollar from "./icons/dollar.png";
 import facebook from "./icons/facebook.png";
+import google from "./icons/google.png";
 import gmail from "./icons/gmail.png";
 import healthCare from "./icons/health-care.png";
 import insta from "./icons/insta.png";
@@ -104,6 +109,11 @@ import mobileMap from "./about_app/mobilemap.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
+  feedback,
+  signInImage,
+  user,
+  drop,
+  bakso,
   logo,
   guard,
   hands,
@@ -166,6 +176,7 @@ export const AllResults = {
 
 export const allIcons = {
   facebook,
+  google,
   insta,
   linkedIn,
   playstore,

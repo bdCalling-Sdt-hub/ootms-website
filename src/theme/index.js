@@ -6,9 +6,10 @@ export const mainTheme = {
     Form: {
       colorError: "#F5382C",
     },
+
     Checkbox: {
-      // colorPrimary: "#FAA39E",
-      // colorPrimaryHover: "#FAA39E",
+      colorPrimary: "#19363D",
+      colorPrimaryHover: "#19363D",
     },
     Select: {
       // colorBgBase: "rgb(255,0,0)",

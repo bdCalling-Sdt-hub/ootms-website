@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfigProvider, Select } from "antd";
+import { ConfigProvider, Modal, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,11 @@ const normFile = (e) => {
   return e?.fileList;
 };
 
-const ShipperForm = () => {
+const ShipperForm = ({
+  setShipperData,
+  handleOpenShipperFromCancel,
+  showoOpenAddDriverIdModal,
+}) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [showOptions, setShowOptions] = useState(false);
@@ -30,6 +34,18 @@ const ShipperForm = () => {
   const handleNoOptionsChange = () => {
     setNoOptions(true);
     setShowOptions(false);
+  };
+
+  //* It's Use to Show Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showViewModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    handleOpenShipperFromCancel();
   };
 
   const [options, setOptions] = useState([
@@ -88,12 +104,13 @@ const ShipperForm = () => {
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    setShipperData(values);
     form.resetFields();
   };
 
   return (
     <>
-      <div className="container w-[90%] lg:w-[70%] mx-auto">
+      <div className="mt-10">
         <h1 className="text-3xl font-bold text-gray-color text-center my-12">
           Shipper&apos;s Information
         </h1>
@@ -362,7 +379,10 @@ const ShipperForm = () => {
             </Form.Item>
           </div>
           {/* Next Button */}
-          <button className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl">
+          <button
+            onClick={showViewModal}
+            className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+          >
             Find a driver
           </button>
 
@@ -375,6 +395,36 @@ const ShipperForm = () => {
           </button>
         </Form>
       </div>
+      <Modal
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        style={{ textAlign: "center" }}
+        className="lg:!w-[500px]"
+      >
+        <div className="px-10 pt-10">
+          <p className="text-2xl text-center font-semibold">
+            Do you have preferred Driver?
+          </p>
+          <div className="flex justify-between items-center gap-5 mt-5">
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => router.push("/map-truck")}
+            >
+              No
+            </button>{" "}
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => {
+                showoOpenAddDriverIdModal();
+                handleCancel();
+              }}
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };
