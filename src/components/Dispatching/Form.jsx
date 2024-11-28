@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const FormFile = () => {
+const FormFile = ({
+  setReciverData,
+  handleOpenReciverFromCancel,
+  showoOenShipperFromModal,
+}) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [user, setUser] = useState(null); // Initialize state for user data
@@ -23,19 +27,27 @@ const FormFile = () => {
     }
   }, []);
 
+  const navigate = useRouter();
+  const onFinish = (values) => {
+    console.log("user:", values);
+    setReciverData(values);
+    handleOpenReciverFromCancel();
+    showoOenShipperFromModal();
+  };
+
   const onNext = () => {
     // Check if user is available and navigate accordingly
-    user ? router.push("/shipper") : router.push("/sign-in");
+    //
   };
 
   return (
-    <div className="my-12">
-      <div className="container w-[90%] lg:w-[70%] mx-auto">
+    <div className="mt-10">
+      <div className="">
         <h1 className="sm:text-3xl font-bold text-gray-color text-center">
           Receiver Information
         </h1>
 
-        <Form form={form} className="my-4">
+        <Form form={form} onFinish={onFinish} className="my-4">
           {/* First Name and Contact Number */}
           <div
             layout="vertical"
@@ -196,7 +208,7 @@ const FormFile = () => {
 
           {/* Next Button */}
           <button
-            onClick={onNext}
+            type="submit"
             className="bg-next-btn w-full p-2 text-next-text font-bold sm:text-xl rounded-xl sm:h-12"
           >
             Next

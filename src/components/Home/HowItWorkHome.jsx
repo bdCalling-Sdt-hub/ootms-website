@@ -11,7 +11,9 @@ const HowItWorkHome = () => {
           <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-[#2B4257]">
             How It Work
           </h1>
-          <p className="sm:text-3xl">A simple and quick truck hiring process</p>
+          <p className="sm:text-3xl">
+            A simple and quick truck dispatch process
+          </p>
         </div>
 
         {/* Flexbox layout */}

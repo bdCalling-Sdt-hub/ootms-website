@@ -16,7 +16,11 @@ const normFile = (e) => {
   return e?.fileList;
 };
 
-const ShipperForm = () => {
+const ShipperForm = ({
+  setShipperData,
+  handleOpenShipperFromCancel,
+  showoOpenAddDriverIdModal,
+}) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [showOptions, setShowOptions] = useState(false);
@@ -41,6 +45,7 @@ const ShipperForm = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    handleOpenShipperFromCancel();
   };
 
   const [options, setOptions] = useState([
@@ -99,13 +104,13 @@ const ShipperForm = () => {
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    setShipperData(values);
     form.resetFields();
-    router.push("/map-truck");
   };
 
   return (
     <>
-      <div className="container w-[90%] lg:w-[70%] mx-auto">
+      <div className="mt-10">
         <h1 className="text-3xl font-bold text-gray-color text-center my-12">
           Shipper&apos;s Information
         </h1>
@@ -410,7 +415,10 @@ const ShipperForm = () => {
             </button>{" "}
             <button
               className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
-              onClick={() => router.push("/assign-diver")}
+              onClick={() => {
+                showoOpenAddDriverIdModal();
+                handleCancel();
+              }}
             >
               Yes
             </button>

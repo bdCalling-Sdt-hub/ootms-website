@@ -23,7 +23,7 @@ export default function HowUsersWork() {
           <div>
             <div className="flex gap-2  sm:w-44 xl:w-52 bg-[#2B4257] text-white py-2 sm:py-3 rounded-lg h-8 sm:h-14 px-5 sm:text-2xl xl:text-3xl mb-5 sm:mb-10 lg:mb-20">
               <HiOutlineUserGroup />
-              <p>For User</p>
+              <p>For Customer</p>
             </div>
             {/* Navigation */}
             <div className="flex lg:justify-center items-center py-10 sm:py-20 lg:py-5 w-full">

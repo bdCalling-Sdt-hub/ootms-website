@@ -2,6 +2,7 @@ import logo from "./logo/logo.png";
 // import logoLg from "./logo/logoLg.png";
 // import signupLogo from "./logo/signup-logo.png";
 
+import feedback from "./images/feedback.png";
 import bakso from "./images/bakso.png";
 import banner from "./images/banner.png";
 import ornament from "./images/Ornament.png";
@@ -108,6 +109,7 @@ import mobileMap from "./about_app/mobilemap.png";
 import subscription from "./about_app/subscription.png";
 
 export const AllImages = {
+  feedback,
   signInImage,
   user,
   drop,

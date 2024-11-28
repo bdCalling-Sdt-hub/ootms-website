@@ -255,10 +255,11 @@ const AboutApp = () => {
                 </div>
 
                 <p className="md:text-lg w-full md:w-[80%] lg:w-[70%] text-center">
-                  Share your cherished memories with the world by uploading your
-                  story. Whether it&apos;s a heartfelt tribute or a special
-                  moment, let your words and photos preserve the memories that
-                  matter most to you.
+                  The mobile application streamlines truck loading by
+                  efficiently managing shipper and receiver information,
+                  enabling seamless communication, real-time updates, and
+                  accurate tracking for improved logistics and delivery
+                  coordination.
                 </p>
               </section>
 

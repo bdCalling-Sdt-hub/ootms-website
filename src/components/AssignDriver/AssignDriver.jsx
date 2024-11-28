@@ -18,7 +18,7 @@ const AssignDiver = () => {
           <h2 className="text-4xl font-bold text-center mb-10">
             Assign A Diver
           </h2>
-          <div className="w-full sm:w-[90%] lg:w-[70%] mx-auto">
+          <div className="">
             <Form
               layout="vertical"
               className="bg-transparent w-full"

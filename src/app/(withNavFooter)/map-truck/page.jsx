@@ -72,7 +72,7 @@ const MapTruck = () => {
       <motion.div className=" gap-5 ">
         <motion.div className="relative mb-5 mx-auto">
           <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
-            My Load
+            Shipment
           </p>
           <motion.div
             // onClick={() =>

@@ -162,6 +162,37 @@ const Navbar = () => {
     ),
   }));
 
+  if (!userData) {
+    dropdownItems.push({
+      key: "sign-in",
+      label: (
+        <Link href="/sign-in">
+          <Button
+            className="py-5 px-3 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
+            onMouseEnter={handleMouseEnter2}
+            onMouseLeave={handleMouseLeave2}
+          >
+            Sign in
+          </Button>
+        </Link>
+      ),
+    });
+    dropdownItems.push({
+      key: "sign-up",
+      label: (
+        <Link href="/sign-up">
+          <Button
+            className="py-5 px-3 rounded-lg border-2 text-[#2B4257] border-[#2B4257] hover:bg-[#2B4257] hover:text-white"
+            onMouseEnter={handleMouseEnter2}
+            onMouseLeave={handleMouseLeave2}
+          >
+            Sign up
+          </Button>
+        </Link>
+      ),
+    });
+  }
+
   profileItems.push({
     key: "signOut",
     label: (
@@ -253,6 +284,29 @@ const Navbar = () => {
           </div>
 
           <div className="flex gap-2 items-center lg:hidden">
+            {userData && (
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Dropdown: {},
+                  },
+                }}
+              >
+                <Dropdown
+                  menu={{ items: profileItems }}
+                  placement="bottomCenter"
+                >
+                  <Image
+                    src={AllImages.profile}
+                    alt="profile_img"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px]"
+                  />
+                </Dropdown>
+              </ConfigProvider>
+            )}
             <div className="lg:hidden">
               <ConfigProvider
                 theme={{
