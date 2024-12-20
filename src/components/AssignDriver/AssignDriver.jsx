@@ -9,7 +9,7 @@ const AssignDiver = () => {
   const onFinish = (values) => {
     console.log("assign diver:", values);
 
-    navigate.push("/assign-load");
+    navigate.push("/load-request?req=myRequest");
   };
   return (
     <div className="py-20">

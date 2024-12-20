@@ -1,17 +1,38 @@
 "use client";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Checkbox, Form, Space } from "antd";
+import { Avatar, Button, Checkbox, Form, Modal, Space } from "antd";
 import { PiArrowSquareDownLight, PiArrowSquareUpLight } from "react-icons/pi";
 import Container from "../ui/Container";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import { FiPlusCircle } from "react-icons/fi";
+import AssignDiver from "../AssignDriver/AssignDriver";
+import { useState } from "react";
 
 const AssignLoad = () => {
   const navigate = useRouter();
+  const [openAddDriverIdModal, setOpenAddDriverIdModal] = useState(false);
+  //* It's Use to Show Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showViewModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  // Add Driver
+  const showoOpenAddDriverIdModal = () => {
+    setOpenAddDriverIdModal(true);
+  };
+  const handleOpenAddDriverIdModalCancle = () => {
+    setOpenAddDriverIdModal(false);
+  };
   const onFinish = (values) => {
     console.log("Selected loads:", values);
-    navigate.push("/load-request?req=myRequest");
+    showViewModal();
   };
   return (
     <div className=" py-20">
@@ -20,7 +41,7 @@ const AssignLoad = () => {
           <div className="flex justify-between items-center ">
             <IoChevronBackOutline
               className="text-3xl cursor-pointer text-[#2B4257] font-semibold"
-              onClick={() => window.history.back()}
+              onClick={() => window.location.replace("/dispatching")}
             />
             <p className="text-4xl text-[#2B4257] font-semibold">Assign Load</p>
             <div></div>
@@ -247,19 +268,48 @@ const AssignLoad = () => {
               </button>
             </Form.Item>
           </Form>
-
-          {/* Additional options for assigning another driver */}
-          <div className="mt-6 flex justify-between items-center">
+        </div>
+      </Container>
+      <Modal
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        style={{ textAlign: "center" }}
+        className="lg:!w-[500px]"
+      >
+        <div className="px-10 pt-10">
+          <p className="text-2xl text-center font-semibold">
+            Do you have preferred Driver?
+          </p>
+          <div className="flex justify-between items-center gap-5 mt-5">
             <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
               onClick={() => navigate.push("/map-truck")}
-              className="w-full py-3 flex items-center justify-center gap-x-2 border border-[#2B4257] hover:border-[#2B4257] text-xl text-[#2B4257] bg-primary-color font-semibold rounded-2xl mt-2"
             >
-              <FiPlusCircle className="text-[#2B4257] text-2xl" /> Assign
-              Another Driver
+              No
+            </button>{" "}
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => {
+                showoOpenAddDriverIdModal();
+                handleCancel();
+              }}
+            >
+              Yes
             </button>
           </div>
         </div>
-      </Container>
+      </Modal>
+      <Modal
+        open={openAddDriverIdModal}
+        onCancel={handleOpenAddDriverIdModalCancle}
+        footer={null}
+        centered
+        style={{ textAlign: "center" }}
+        className="lg:min-w-[800px]"
+      >
+        <AssignDiver />
+      </Modal>
     </div>
   );
 };

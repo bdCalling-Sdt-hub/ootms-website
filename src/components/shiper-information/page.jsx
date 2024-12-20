@@ -122,8 +122,8 @@ const ShipperForm = ({
             className="grid grid-cols-1 lg:grid-cols-2 md:gap-5 lg:gap-5"
           >
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
-                Shipper Name<span className="text-red-500 text-xl">*</span>
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Shipper Name<span className="text-red-500 ">*</span>
               </Typography>
               <Form.Item
                 name="Shipper Name"
@@ -138,8 +138,8 @@ const ShipperForm = ({
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
-                Contact Number<span className="text-red-500 text-xl">*</span>
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Contact Number<span className="text-red-500 ">*</span>
               </Typography>
               <Form.Item
                 name="contactNumber"
@@ -157,7 +157,7 @@ const ShipperForm = ({
           {/* Email Address */}
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 Email Address
               </Typography>
               <Form.Item
@@ -174,7 +174,7 @@ const ShipperForm = ({
           {/* Shipper Address */}
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 Shipper Address
               </Typography>
               <Form.Item
@@ -193,7 +193,7 @@ const ShipperForm = ({
           {/* City, State, Zip */}
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-2 lg:gap-2">
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 City
               </Typography>
               <Form.Item
@@ -207,7 +207,7 @@ const ShipperForm = ({
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 State
               </Typography>
               <Form.Item
@@ -221,7 +221,7 @@ const ShipperForm = ({
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 Zip
               </Typography>
               <Form.Item
@@ -238,7 +238,7 @@ const ShipperForm = ({
           {/* load type */}
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 Load Type
               </Typography>
               <Form.Item
@@ -255,7 +255,7 @@ const ShipperForm = ({
           {/* pick up and  delivery*/}
           <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 Pickup
               </Typography>
               <Form.Item
@@ -264,13 +264,13 @@ const ShipperForm = ({
               >
                 <DatePicker
                   format="MM-DD-YYYY" // Define the format
-                  className="bg-shipper-input-bg py-2 rounded-lg w-full"
+                  className="bg-shipper-input-bg  rounded-lg w-full"
                   placeholder="MM-DD-YYYY"
                 />
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold text-xl mb-2">
+              <Typography className="text-contact-input font-semibold  mb-2">
                 Delivery
               </Typography>
               <Form.Item
@@ -279,7 +279,7 @@ const ShipperForm = ({
               >
                 <DatePicker
                   format="MM-DD-YYYY" // Define the format
-                  className="bg-shipper-input-bg py-2 rounded-lg w-full"
+                  className="bg-shipper-input-bg  rounded-lg w-full"
                   placeholder="MM-DD-YYYY"
                 />
               </Form.Item>
@@ -368,7 +368,7 @@ const ShipperForm = ({
 
           {/* delivey intructure */}
           <div>
-            <Typography className="text-contact-input font-semibold text-xl mb-2">
+            <Typography className="text-contact-input font-semibold  mb-2">
               Delivery Instructions
             </Typography>
             <Form.Item name="deliveryInstructions">
@@ -380,18 +380,13 @@ const ShipperForm = ({
           </div>
           {/* Next Button */}
           <button
-            onClick={showViewModal}
+            onClick={() => {
+              showViewModal();
+              handleOpenShipperFromCancel();
+            }}
             className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
           >
             Find a driver
-          </button>
-
-          <button
-            className="flex items-center justify-center mx-auto mb-8"
-            onClick={() => router.back()}
-          >
-            <IoChevronBackOutline style={{ marginTop: "1px" }} />
-            <span>Back</span>
           </button>
         </Form>
       </div>

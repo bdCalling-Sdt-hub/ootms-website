@@ -12,9 +12,10 @@ import LeafletAllTrack from "@/components/LeafletMap/LeafletAllTrack";
 import { motion } from "framer-motion";
 import MyLoad from "@/components/map-truck/MyLoad";
 import { useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, ConfigProvider, Dropdown, Modal } from "antd";
 import ShipperForm from "@/components/shiper-information/page";
 import AssignDiver from "@/components/AssignDriver/AssignDriver";
+import ExcelDataForm from "@/components/Dispatching/ExcelDataForm";
 
 const columns = [
   { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
@@ -27,6 +28,32 @@ const columns = [
 ];
 
 const Dispatching = () => {
+  const items = [
+    {
+      label: (
+        <a
+          href="https://www.antgroup.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          1st menu item
+        </a>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <a
+          href="https://www.aliyun.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          2nd menu item
+        </a>
+      ),
+      key: "1",
+    },
+  ];
   const router = useRouter();
   const [trucksData, setTrucksData] = useState([
     {
@@ -65,23 +92,38 @@ const Dispatching = () => {
   const [openShipperFrom, setOpenShipperFrom] = useState(false);
   const [openAddDriverIdModal, setOpenAddDriverIdModal] = useState(false);
 
+  const [openExcelFromModal, setOpenExcelFromModal] = useState(false);
+
+  //reciver
   const showoOenReciverFromModal = () => {
     setOpenReciverFrom(true);
   };
   const handleOpenReciverFromCancel = () => {
     setOpenReciverFrom(false);
   };
+
+  // Shipper
   const showoOenShipperFromModal = () => {
     setOpenShipperFrom(true);
   };
   const handleOpenShipperFromCancel = () => {
     setOpenShipperFrom(false);
   };
+
+  // Add Driver
   const showoOpenAddDriverIdModal = () => {
     setOpenAddDriverIdModal(true);
   };
   const handleOpenAddDriverIdModal = () => {
     setOpenAddDriverIdModal(false);
+  };
+
+  // Add Excel
+  const showoOpenExcelFromModal = () => {
+    setOpenExcelFromModal(true);
+  };
+  const handleOpenExcelFromModalCancle = () => {
+    setOpenExcelFromModal(false);
   };
 
   return (
@@ -101,54 +143,58 @@ const Dispatching = () => {
       </div>
 
       <div className="lg:col-span-2 w-full h-fit order-first lg:order-none z-10">
-        <Button
-          type="primary"
-          onClick={showoOenReciverFromModal}
-          className="bg-[#2B4257] px-5 py-5 rounded-lg text-lg text-white text-center mb-16 w-full"
+        <ConfigProvider
+          theme={{
+            components: {
+              Dropdown: {
+                colorBgElevated: "#2B4257",
+              },
+            },
+          }}
         >
-          Create New Shipment
-        </Button>
-        <LeafletAllTrack setOpen={setOpen} />
-      </div>
-
-      {/* MyLoad Data */}
-      {/* <motion.div className=" gap-5 ">
-        <motion.div className="relative mb-5 mx-auto">
-          <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
-            Shipment
-          </p>
-          <motion.div
-            // onClick={() =>
-            //   setTimeout(() => router.push("/load-request?req=myRequest"), 5000)
-            // }
-            initial={{ y: 3 }}
-            animate={{ y: -3 }}
-            transition={{
-              ease: "easeInOut",
-              repeat: Infinity,
-              duration: 0.5,
-              repeatType: "reverse", // Ensures the animation reverses on repeat
+          <Dropdown
+            menu={{
+              items: [
+                {
+                  label: (
+                    <div
+                      onClick={showoOenReciverFromModal}
+                      className="text-white w-full text-lg"
+                    >
+                      Create Load from Form
+                    </div>
+                  ),
+                  key: "0",
+                },
+                {
+                  label: (
+                    <div
+                      onClick={showoOpenExcelFromModal}
+                      className="text-white w-full text-lg"
+                    >
+                      Create Load from Excel Sheet
+                    </div>
+                  ),
+                  key: "1",
+                },
+              ],
             }}
-            drag
-            dragListener
-            dragSnapToOrigin
-            className="relative  w-fit bg-[#2B4257] !z-[99999] p-2 rounded-full shadow-lg mx-auto cursor-move "
+            trigger={["click"]}
           >
-            <motion.img
-              draggable="false"
-              alt="bakso"
-              src={AllImages.bakso.src}
-              width={50}
-              height={50}
-              className="select-none "
-            />
-          </motion.div>
-        </motion.div>
-        <div className=" flex flex-col gap-5 overflow-x-auto">
-          <MyLoad data={myLoadItems} />
-          <MyLoad data={myLoadItems} />
+            <Button
+              type="primary"
+              className="bg-[#2B4257] px-5 py-5 rounded-lg text-lg text-white text-center mb-16 w-full"
+            >
+              Create New Shipment
+            </Button>
+          </Dropdown>
+        </ConfigProvider>
+
+        <div className="-mt-5">
+          {" "}
+          <LeafletAllTrack setOpen={setOpen} />
         </div>
-      </motion.div> */}
+      </div>
 
       {/* Reciver Modal  */}
       <Modal
@@ -181,6 +227,22 @@ const Dispatching = () => {
           handleOpenShipperFromCancel={handleOpenShipperFromCancel}
         />
       </Modal>
+
+      {/* Excel Sheet Modal  */}
+
+      <Modal
+        open={openExcelFromModal}
+        onCancel={handleOpenExcelFromModalCancle}
+        footer={null}
+        centered
+        style={{ textAlign: "center" }}
+        className="lg:min-w-[800px]"
+      >
+        <ExcelDataForm
+          handleOpenExcelFromModalCancle={handleOpenExcelFromModalCancle}
+        />
+      </Modal>
+
       {/* Add Driver ID Modal  */}
       <Modal
         open={openAddDriverIdModal}
@@ -197,6 +259,3 @@ const Dispatching = () => {
 };
 
 export default Dispatching;
-{
-  /*  */
-}

@@ -54,7 +54,7 @@ const FormFile = ({
             className="grid grid-cols-1 lg:grid-cols-2 md:gap-5"
           >
             <div>
-              <p className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <p className="text-contact-input font-semibold text-start sm:mb-2">
                 Receiver&apos;s Name
               </p>
               <Form.Item
@@ -65,12 +65,12 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter first name"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
             <div>
-              <p className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <p className="text-contact-input font-semibold text-start sm:mb-2">
                 Contact Number
               </p>
               <Form.Item
@@ -81,7 +81,7 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter contact number"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
@@ -90,7 +90,7 @@ const FormFile = ({
           {/* Email Address */}
           <div className="flex flex-col">
             <div>
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Email Address
               </Typography>
               <Form.Item
@@ -99,12 +99,12 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter email address"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
             <div className="w-full">
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Receiver Address
               </Typography>
               <Form.Item
@@ -115,7 +115,7 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter receiver address"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
@@ -124,7 +124,7 @@ const FormFile = ({
           {/* City, State, Zip */}
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5 lg:gap-5">
             <div>
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 City
               </Typography>
               <Form.Item
@@ -133,12 +133,12 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter city"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 State
               </Typography>
               <Form.Item
@@ -147,12 +147,12 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter state"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Zip
               </Typography>
               <Form.Item
@@ -161,7 +161,7 @@ const FormFile = ({
               >
                 <Input
                   placeholder="Enter zip"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
@@ -170,24 +170,24 @@ const FormFile = ({
           {/* PO# and Bill of Loading */}
           <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
             <div>
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 PO#
               </Typography>
               <Form.Item name="poNumber">
                 <Input
                   placeholder="Enter PO#"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Bill of Loading
               </Typography>
               <Form.Item name="billOfLoading">
                 <Input
                   placeholder="Enter bill of loading"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-12"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
@@ -195,7 +195,7 @@ const FormFile = ({
 
           {/* Delivery Instructions */}
           <div>
-            <Typography className="text-contact-input font-semibold sm:text-xl sm:mb-2">
+            <Typography className="text-contact-input font-semibold text-start sm:mb-2">
               Delivery Instructions
             </Typography>
             <Form.Item name="deliveryInstructions">
@@ -209,7 +209,7 @@ const FormFile = ({
           {/* Next Button */}
           <button
             type="submit"
-            className="bg-next-btn w-full p-2 text-next-text font-bold sm:text-xl rounded-xl sm:h-12"
+            className="bg-next-btn w-full p-2 text-next-text font-bold  rounded-xl sm:h-12"
           >
             Next
           </button>
