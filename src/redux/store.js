@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice"; // Import your auth slice
 import { baseApi } from "./api/baseApi";
 import { persistStore, persistReducer } from "redux-persist";
@@ -37,17 +37,25 @@ const persistConfig = {
   key: "memomrial-auth",
   storage,
   whitelist: ["accessToken"], // Persist only the accessToken
+  blacklist: ["baseApi"], // Don't persist userInfo
+};
+
+
+const rootReducer = {
+  [baseApi.reducerPath]: baseApi.reducer,
+
+  auth: authReducer, // Regular auth reducer (will be persisted separately)
 };
 
 // Create persisted reducer for the auth slice
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const persistedAuthReducer = persistReducer(
+  persistConfig,
+  combineReducers(rootReducer)
+);
 
 // Configure store with persisted authReducer and baseApi reducer
 export const store = configureStore({
-  reducer: {
-    [baseApi.reducerPath]: baseApi.reducer, // Add baseApi reducer
-    auth: persistedAuthReducer, // Add persisted auth slice
-  },
+  reducer: persistedAuthReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

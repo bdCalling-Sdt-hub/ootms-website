@@ -40,9 +40,9 @@ export const authApi = baseApi.injectEndpoints({
     }),
     resendOTP: build.mutation({
       query: () => {
-        const token = localStorage.getItem("ootms_createUserToken");
-        const decoded = decodedToken(token);
-        const email = decoded?.email;
+        // const token = localStorage.getItem("ootms_createUserToken");
+        // const decoded = decodedToken(token);
+        // const email = decoded?.email;
         return {
           url: `/otp/resend-otp`,
           method: "PATCH",
@@ -67,7 +67,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (userEmail) => {
         return {
           url: `/auth/forgot-password-otp`,
-          method: "PATCH",
+          method: "POST",
           body: userEmail,
         };
       },

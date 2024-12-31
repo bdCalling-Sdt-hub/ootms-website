@@ -17,13 +17,52 @@ import { motion } from "framer-motion";
 import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
 
+import { toast } from "sonner";
+import { useSignUpMutation } from "@/redux/api/authApi";
+
 const SignUp = () => {
   const navigate = useRouter();
   const [form] = Form.useForm();
+    const [signUp] = useSignUpMutation();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    // navigate.push("/sign-in");
+    const toastId = toast.loading("Signing Up...");
+
     console.log("user:", values);
-    navigate.push("/sign-in");
+
+
+    let data = {
+      fullName: values.fullName,
+      password: values.password,
+      email: values.email,
+    };
+
+    try {
+      const res = await signUp(data).unwrap();
+
+      console.log("res: ", res);
+
+      if (res?.success) {
+        if (res?.data?.createUserToken) {
+          localStorage.setItem(
+            "ootms_createUserToken",
+            res?.data?.createUserToken
+          );
+        }
+        e.target.reset();
+        toast.success(res.message, {
+          id: toastId,
+          duration: 2000,
+        });
+        router.push("/sign-up/verify");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred during Signup", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
 
   return (
@@ -50,7 +89,7 @@ const SignUp = () => {
                 Full Name
               </Typography.Title>
               <Form.Item
-                name="name"
+                name="fullName"
                 className="text-base-color"
                 rules={[
                   {
