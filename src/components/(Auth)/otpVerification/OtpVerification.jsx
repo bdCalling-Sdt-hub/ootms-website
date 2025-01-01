@@ -9,18 +9,72 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
+import {
+  useForgetOtpVerifyMutation,
+  useResendForgetOTPMutation,
+} from "@/redux/api/authApi";
+import { toast } from "sonner";
 
 const OtpVerification = () => {
-  const navigate = useRouter();
+  const [forgetPasswordOTPResend] = useResendForgetOTPMutation();
+  const [ForgetVerifiedEmail] = useForgetOtpVerifyMutation();
+  const router = useRouter();
   const [otp, setOtp] = useState("");
 
-  const handleOTPSubmit = () => {
-    if (otp.length < 4) {
-      alert("Please fill in all OTP fields");
+  const token = localStorage.getItem("ootms_forgetPasswordVerifyToken");
+  if (!token) {
+    router.push("/forget-password");
+  }
+
+  const handleOTPSubmit =async () => {
+    const toastId = toast.loading("Verifying...");
+    if (otp.length < 6) {
+      toast.error("The OTP must be 6 digits long", {
+        id: toastId,
+        duration: 2000,
+      });
     } else {
       // Proceed with form submission logic
       // console.log("OTP submitted:", otp);
-      navigate.push("/update-password");
+      // navigate.push("/update-password");
+      const data = {
+        otp: otp,
+      };
+
+    try {
+        const res = await ForgetVerifiedEmail(data).unwrap();
+
+        if (res.success) {
+          toast.success("Email verified successfully", {
+            id: toastId,
+            duration: 2000,
+          });
+          router.push("/update-password");
+          router.refresh();
+          localStorage.setItem(
+            "ootms_otp_match_token",
+            res.data?.forgetOtpMatchToken
+          );
+          setTimeout(() => {
+            localStorage.removeItem("ootms_forgetPasswordVerifyToken");
+          }, 2000);
+        }
+      } catch (error) {
+        toast.error(error?.data?.message || "An error occurred during login", {
+          id: toastId,
+          duration: 3000,
+        });
+      }
+
+
+
+
+
+
+
+
+
+
     }
   };
 

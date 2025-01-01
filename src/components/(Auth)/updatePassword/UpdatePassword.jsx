@@ -7,12 +7,60 @@ import React from "react";
 import { AllImages } from "../../../../public/assets/AllImages";
 import { motion } from "framer-motion";
 import { buttonVariants } from "@/lib/variants";
+import { useResetPasswordMutation } from "@/redux/api/authApi";
+import { toast } from "sonner";
 
 const UpdatePassword = () => {
   const navigate = useRouter();
-  const onFinish = (values) => {
-    // console.log("passwords:", values);
-    navigate.push("/sign-in");
+  const [resetPassword] = useResetPasswordMutation();
+
+  const token = localStorage.getItem("ootms_otp_match_token");
+  if (!token) {
+    navigate.push("/forget-password");
+  }
+
+  const onFinish = async(values) => {
+    const toastId = toast.loading("Updateing Password...");
+    console.log("passwords:", values);
+    // navigate.push("/sign-in");
+    const value = { newPassword, confirmPassword };
+    
+    try {
+      // if (newPassword !== confirmPassword) {
+      //   throw new Error("Passwords do not match.");
+      // }
+      const res = await resetPassword(value).unwrap();
+      if (res.success) {
+        toast.success(res.message, {
+          id: toastId,
+          duration: 2000,
+        });
+        setTimeout(() => {
+          localStorage.removeItem("ootms_otp_match_token");
+        }, 2000);
+        router.push("/sign-in");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.message ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+
+
+
+
+
+
+
+
+
   };
   return (
     <div className="text-base-color">

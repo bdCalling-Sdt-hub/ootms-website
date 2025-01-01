@@ -16,14 +16,64 @@ import React from "react";
 import { motion } from "framer-motion";
 import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
+import { useDispatch } from "react-redux";
+import { useUserLoginMutation } from "@/redux/api/authApi";
+import { toast } from "sonner";
 
 const SignIn = () => {
+  const [userLogin] = useUserLoginMutation();
+  const dispatch = useDispatch();
+
   const navigate = useRouter();
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log("user:", values);
     localStorage.removeItem("ootms-user");
     localStorage.setItem("ootms-user", JSON.stringify(values));
-    navigate.push("/");
+    // navigate.push("/");
+
+    const loginData = {
+      email: values.email,
+      password: values.password,
+    };
+
+    try {
+      const res = await userLogin(loginData).unwrap();
+      console.log("res: ", res);
+      if (res.success) {
+        toast.success(res.message, {
+          id: toastId,
+          duration: 2000,
+        });
+
+        //* Dispatch the accessToken and userInfo to Redux store
+        dispatch(setAccessToken(res?.data?.accessToken));
+        // dispatch(setAccessToken(res?.data?.user));
+
+        //* Set cookies if needed
+        // cookies.set("woof_spot_accessToken", res?.data?.accessToken, {
+        //   path: "/",
+        // });
+        // cookies.set("woof_spot_refreshToken", res?.data?.refreshToken, {
+        //   path: "/",
+        // });
+
+        e.target.reset();
+        // Navigate after login
+        // navigate.refresh();
+        // navigate.push("/");
+      }
+    } catch (error) {
+      console.error("Login Error:", error); // Log the error for debugging
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
   return (
     <div className="text-base-color">
