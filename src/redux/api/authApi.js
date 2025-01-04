@@ -94,7 +94,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (otpData) => {
         const token = localStorage.getItem("ootms_forgetPasswordVerifyToken");
         return {
-          url: `/auth/forgot-password-otp-match`,
+          url: `/auth/verify-otp`,
           method: "PATCH",
           body: otpData,
         };
@@ -115,7 +115,7 @@ export const authApi = baseApi.injectEndpoints({
     myProfile: build.query({
       query: () => {
         return {
-          url: `${AUTH_URL}/users/user-details`,
+          url: `/users/user-details`,
           method: "GET",
         };
       },

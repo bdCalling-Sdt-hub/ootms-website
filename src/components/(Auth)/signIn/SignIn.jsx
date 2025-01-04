@@ -19,6 +19,7 @@ import { buttonVariants } from "@/lib/variants";
 import { useDispatch } from "react-redux";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
+import { setAccessToken } from "@/redux/slices/authSlice";
 
 const SignIn = () => {
   const [userLogin] = useUserLoginMutation();
@@ -28,8 +29,7 @@ const SignIn = () => {
   const onFinish = async (values) => {
     const toastId = toast.loading(" Logging in...");
     console.log("user:", values);
-    localStorage.removeItem("ootms-user");
-    localStorage.setItem("ootms-user", JSON.stringify(values));
+
     // navigate.push("/");
 
     const loginData = {
@@ -39,30 +39,17 @@ const SignIn = () => {
 
     try {
       const res = await userLogin(loginData).unwrap();
+      //* Dispatch the accessToken and userInfo to Redux store
+      dispatch(setAccessToken(res?.data?.accessToken));
       console.log("res: ", res);
-      if (res.success) {
-        toast.success(res.message, {
-          id: toastId,
-          duration: 2000,
-        });
 
-        //* Dispatch the accessToken and userInfo to Redux store
-        dispatch(setAccessToken(res?.data?.accessToken));
-        // dispatch(setAccessToken(res?.data?.user));
-
-        //* Set cookies if needed
-        // cookies.set("woof_spot_accessToken", res?.data?.accessToken, {
-        //   path: "/",
-        // });
-        // cookies.set("woof_spot_refreshToken", res?.data?.refreshToken, {
-        //   path: "/",
-        // });
-
-        e.target.reset();
-        // Navigate after login
-        // navigate.refresh();
-        // navigate.push("/");
-      }
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      // Navigate after login
+      navigate.refresh();
+      navigate.push("/");
     } catch (error) {
       console.error("Login Error:", error); // Log the error for debugging
       toast.error(
@@ -155,7 +142,7 @@ const SignIn = () => {
               <div className="flex justify-between items-center mt-10">
                 <Checkbox className="">Remember me</Checkbox>
                 <Link
-                  href="/forget-password"
+                  href="/sign-in/forget-password"
                   className="text-[#2B4257] underline font-bold"
                 >
                   Forgot Password?

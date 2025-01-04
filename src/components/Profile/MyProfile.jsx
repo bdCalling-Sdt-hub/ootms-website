@@ -6,20 +6,24 @@ import { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
+import { useMyProfileQuery } from "@/redux/api/authApi";
+import { getImageUrl } from "@/helpers/config/envConfig";
+import { m } from "framer-motion";
 
 const MyProfile = () => {
+  const { data: myProfile, isFetching } = useMyProfileQuery();
+
+  console.log("myProfile:", myProfile?.data?.attributes);
+  const url = getImageUrl();
+  const userImage = url + myProfile?.data?.attributes?.image;
+
+  console.log("userImage:", userImage);
+  console.log("userName:", myProfile?.data?.attributes?.fullName);
+
   const router = useRouter();
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
-  const users = {
-    profilePhoto: AllImages.profile,
-    firstName: "Alexder",
-
-    email: "Rajin572@gmail.com",
-    number: "01644258678",
-    address: "Dhaka",
-  };
 
   const onFinish = (values) => {
     console.log("userUpdate:", values);
@@ -109,6 +113,7 @@ const MyProfile = () => {
                   className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
                 />
               </div>
+
               {/* <div className="flex items-start flex-col">
                 {isOnlyView ? (
                   <div></div>
@@ -131,6 +136,16 @@ const MyProfile = () => {
                 )}
               </div> */}
             </div>
+            {myProfile?.data?.attributes?.phoneNumber &&
+            myProfile?.data?.attributes?.address ? (
+              ""
+            ) : (
+              <>
+                <div className="text-base sm:text-lgmd:text-xl lg:text-2xl text-base-color mt-10">
+                  Please Update Your Profile
+                </div>
+              </>
+            )}
             <div className="mt-16">
               <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
                 {/*  First Name  */}
@@ -141,14 +156,11 @@ const MyProfile = () => {
                   >
                     Full Name
                   </Typography.Title>
-                  <Form.Item name="FullName" className="text-white ">
-                    <Input
-                      placeholder="Enter your first name "
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                    />
-                  </Form.Item>
+                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
+                    {myProfile?.data?.attributes?.fullName}
+                  </div>
                 </div>
-                {/*  Last Name  */}
+                {/* Email  */}
                 <div>
                   <Typography.Title
                     level={4}
@@ -156,58 +168,60 @@ const MyProfile = () => {
                   >
                     Emaill
                   </Typography.Title>
-                  <Form.Item name="Emaill" className="text-white ">
-                    <Input
-                      placeholder="Enter your email"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                    />
-                  </Form.Item>
+                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
+                    {myProfile?.data?.attributes?.email}
+                  </div>
                 </div>
-                {/*  phone  */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Phone
-                  </Typography.Title>
-                  <Form.Item name="Phone" className="text-white ">
-                    <Input
-                      placeholder="Enter your phone"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                    />
-                  </Form.Item>
-                </div>
-                {/*  country */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Country
-                  </Typography.Title>
-                  <Form.Item name="Country" className="text-white ">
-                    <Input
-                      placeholder="Enter your country name"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                    />
-                  </Form.Item>
-                </div>
-                {/*  email address */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Address
-                  </Typography.Title>
-                  <Form.Item name="Address" className="text-white ">
-                    <Input
-                      placeholder="Enter your address"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                    />
-                  </Form.Item>
-                </div>
+                {myProfile?.data?.attributes?.phoneNumber && (
+                  <>
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Phone
+                      </Typography.Title>
+                      <Form.Item name="Phone" className="text-white ">
+                        <Input
+                          placeholder="Enter your phone"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
+                        />
+                      </Form.Item>
+                    </div>
+                  </>
+                )}
+                {myProfile?.data?.attributes?.address && (
+                  <>
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Phone
+                      </Typography.Title>
+                      <Form.Item name="Phone" className="text-white ">
+                        <Input
+                          placeholder="Enter your phone"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
+                        />
+                      </Form.Item>
+                    </div>
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Address
+                      </Typography.Title>
+                      <Form.Item name="Address" className="text-white ">
+                        <Input
+                          placeholder="Enter your address"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
+                        />
+                      </Form.Item>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* <h2 className="mb-1 text-xl font-semibold">
@@ -254,14 +268,14 @@ const MyProfile = () => {
               )} */}
             </div>
 
-            <Button
+            {/* <Button
               className="bg-next-btn py-6 text-next-text font-bold text-xl mb-12 rounded-xl mt-8"
               type="primary"
               block
               htmlType="submit"
             >
               Save Profile
-            </Button>
+            </Button> */}
           </Form>
         </Container>
       </div>

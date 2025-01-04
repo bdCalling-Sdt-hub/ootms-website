@@ -28,7 +28,7 @@ const OtpVerification = () => {
 
   const handleOTPSubmit = async () => {
     const toastId = toast.loading("Verifying...");
-    if (otp.length < 6) {
+    if (otp.length < 4) {
       toast.error("The OTP must be 6 digits long", {
         id: toastId,
         duration: 2000,
@@ -49,7 +49,7 @@ const OtpVerification = () => {
             id: toastId,
             duration: 2000,
           });
-          router.push("/update-password");
+          router.push("/sign-in/update-password");
           router.refresh();
           localStorage.setItem(
             "ootms_otp_match_token",
@@ -102,12 +102,12 @@ const OtpVerification = () => {
                       inputStyle="w-[55px] h-[45px] sm:w-[76px] sm:h-[64px] text-[20px] sm:text-[30px] bg-transparent border border-[#223376] hover:border-[#223376] focus:bg-transparent focus:border-[#223376] rounded-lg mr-[10px] sm:mr-[20px]"
                       value={otp}
                       onChange={setOtp}
-                      numInputs={6}
+                      numInputs={4}
                       renderInput={(props) => <input {...props} required />}
                     />
                   </div>
                 </Form.Item>
-                <div className="flex justify-between py-1">
+                {/* <div className="flex justify-between py-1">
                   <p>Didn’t receive code?</p>
                   <Link
                     href="/otp-verification"
@@ -115,7 +115,7 @@ const OtpVerification = () => {
                   >
                     Resend
                   </Link>
-                </div>
+                </div> */}
 
                 <Form.Item>
                   <motion.button

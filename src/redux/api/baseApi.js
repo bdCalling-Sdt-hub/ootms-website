@@ -7,9 +7,8 @@ import Cookies from "universal-cookie";
 const baseQuery = fetchBaseQuery({
   baseUrl: getBaseUrl(),
   // credentials: "include",
-  prepareHeaders: (headers) => {
-    const cookie = new Cookies();
-    const accessToken = cookie.get("ootms_accessToken");
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.accessToken;
     const signUpToken = getFromLocalStorage("ootms_createUserToken");
     console.log("signUpToken", signUpToken);
 
@@ -17,7 +16,6 @@ const baseQuery = fetchBaseQuery({
       "ootms_forgetPasswordVerifyToken"
     );
     const changePassToken = getFromLocalStorage("ootms_otp_match_token");
-    const token = accessToken;
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);

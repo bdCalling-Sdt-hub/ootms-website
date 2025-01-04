@@ -7,6 +7,8 @@ import { use, useEffect, useState } from "react";
 import { IoChatbubbles, IoLogOut, IoMenu, IoPerson } from "react-icons/io5";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
+import { useSelector } from "react-redux";
+import { decodedToken } from "@/utils/jwt";
 
 const Navbar = () => {
   const path = usePathname();
@@ -20,15 +22,20 @@ const Navbar = () => {
   const [userData, setUserData] = useState(null);
 
   // Use useEffect to handle client-side logic
+  const token = useSelector((state) => state.auth.accessToken);
+
   useEffect(() => {
-    // Check if we are in the client-side (browser) environment
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("ootms-user");
-      if (storedUser) {
-        setUserData(JSON.parse(storedUser)); // Set user if found in localStorage
+    if (token) {
+      try {
+        const userInfo = decodedToken(token);
+        setUserData(userInfo);
+      } catch (err) {
+        setUserData(null);
       }
     }
-  }, []);
+  }, [token]);
+
+  console.log(userData);
 
   useEffect(() => {
     const handleResize = () => {

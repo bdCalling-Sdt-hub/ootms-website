@@ -16,9 +16,12 @@ import {
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setAccessToken } from "@/redux/slices/authSlice";
 
 const SignUpVerify = () => {
   const [verifiedEmail] = useVerifiedEmailMutation();
+  const dispatch = useDispatch();
   const [resendOTP] = useResendOTPMutation();
   const navigate = useRouter();
   const [otp, setOtp] = useState("");
@@ -42,12 +45,13 @@ const SignUpVerify = () => {
         const res = await verifiedEmail(data).unwrap();
         console.log(res);
 
-        toast.success("Email verified successfully", {
+        toast.success("Login successful", {
           id: toastId,
           duration: 2000,
         });
-        navigate.push("/sign-in");
-        navigate.refresh();
+        dispatch(setAccessToken(res?.data?.accessToken));
+        // navigate.refresh();
+        // navigate.push("/");
 
         setTimeout(() => {
           localStorage.removeItem("ootms_createUserToken");
@@ -121,7 +125,7 @@ const SignUpVerify = () => {
                     />
                   </div>
                 </Form.Item>
-                <div className="flex justify-between py-1">
+                {/* <div className="flex justify-between py-1">
                   <p>Didn’t receive code?</p>
                   <div
                     onClick={handleResendOTP}
@@ -129,7 +133,7 @@ const SignUpVerify = () => {
                   >
                     Resend
                   </div>
-                </div>
+                </div> */}
 
                 <Form.Item>
                   <motion.button

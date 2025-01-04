@@ -18,19 +18,19 @@ const ForgotPassword = () => {
     // navigate.push("/otp-verification");
 
     try {
-      const res = await forgetPassword({ email: email }).unwrap();
-      if (res.success) {
-        toast.success(res.message, {
-          id: toastId,
-          duration: 2000,
-        });
-        localStorage.setItem(
-          "ootms_forgetPasswordVerifyToken",
-          res.data?.forgetToken
-        );
-        router.push("/otp-verification");
-      }
+      const res = await forgetPassword(values).unwrap();
+      console.log(res);
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      localStorage.setItem(
+        "ootms_forgetPasswordVerifyToken",
+        res.data?.forgetToken
+      );
+      navigate.push("/sign-in/otp-verification");
     } catch (error) {
+      console.log(error);
       toast.error(error?.data?.message || "An error occurred during Login", {
         id: toastId,
         duration: 2000,
