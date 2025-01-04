@@ -7,13 +7,13 @@ import { tagTypes } from "../tagTypes";
 
 const accessToken = cookies.get("ootms_accessToken");
 
-const AUTH_URL = "/users";
+const AUTH_URL = "";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     userLogin: build.mutation({
       query: (loginData) => ({
-        url: `/auth/login`,
+        url: `/auth/local`,
         method: "POST",
         body: loginData,
       }),
@@ -21,7 +21,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     signUp: build.mutation({
       query: (signupData) => ({
-        url: `${AUTH_URL}/create`,
+        url: `${AUTH_URL}/auth/sign-up`,
         method: "POST",
         body: signupData,
       }),
@@ -31,20 +31,24 @@ export const authApi = baseApi.injectEndpoints({
       query: (otpData) => {
         const token = localStorage.getItem("ootms_createUserToken");
         return {
-          url: `${AUTH_URL}/create-user-verify-otp`,
+          url: `${AUTH_URL}/auth/verify-email`,
           method: "POST",
           body: otpData,
+          // headers: {
+          //   SignUpToken: `signUpToken ${token}`,
+          //   "Content-Type": "application/json",
+          // },
         };
       },
       invalidatesTags: [tagTypes.user],
     }),
     resendOTP: build.mutation({
       query: () => {
-        const token = localStorage.getItem("ootms_createUserToken");
-        const decoded = decodedToken(token);
-        const email = decoded?.email;
+        // const token = localStorage.getItem("ootms_createUserToken");
+        // const decoded = decodedToken(token);
+        // const email = decoded?.email;
         return {
-          url: `/otp/resend-otp`,
+          url: `/auth/verify-otp`,
           method: "PATCH",
           body: { email: email },
         };
@@ -66,8 +70,8 @@ export const authApi = baseApi.injectEndpoints({
     forgetPassword: build.mutation({
       query: (userEmail) => {
         return {
-          url: `/auth/forgot-password-otp`,
-          method: "PATCH",
+          url: `/auth/forget-password`,
+          method: "POST",
           body: userEmail,
         };
       },
@@ -101,7 +105,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (resetData) => {
         const token = localStorage.getItem("ootms_otp_match_token");
         return {
-          url: `/auth/forgot-password-reset`,
+          url: `/auth/reset-password`,
           method: "PATCH",
           body: resetData,
         };
@@ -111,7 +115,7 @@ export const authApi = baseApi.injectEndpoints({
     myProfile: build.query({
       query: () => {
         return {
-          url: `${AUTH_URL}/my-profile`,
+          url: `${AUTH_URL}/users/user-details`,
           method: "GET",
         };
       },

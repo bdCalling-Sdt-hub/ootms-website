@@ -6,12 +6,36 @@ import { useRouter } from "next/navigation";
 import { AllImages } from "../../../../public/assets/AllImages";
 import { motion } from "framer-motion";
 import { buttonVariants } from "@/lib/variants";
+import { useForgetPasswordMutation } from "@/redux/api/authApi";
+import { toast } from "sonner";
 
 const ForgotPassword = () => {
+  const [forgetPassword] = useForgetPasswordMutation();
   const navigate = useRouter();
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    const toastId = toast.loading("Requesting...");
     // console.log("Success:", values);
-    navigate.push("/otp-verification");
+    // navigate.push("/otp-verification");
+
+    try {
+      const res = await forgetPassword({ email: email }).unwrap();
+      if (res.success) {
+        toast.success(res.message, {
+          id: toastId,
+          duration: 2000,
+        });
+        localStorage.setItem(
+          "ootms_forgetPasswordVerifyToken",
+          res.data?.forgetToken
+        );
+        router.push("/otp-verification");
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred during Login", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
   return (
     <div className="text-base-color">

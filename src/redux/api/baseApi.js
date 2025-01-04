@@ -6,11 +6,13 @@ import Cookies from "universal-cookie";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: getBaseUrl(),
-  credentials: "include",
+  // credentials: "include",
   prepareHeaders: (headers) => {
     const cookie = new Cookies();
     const accessToken = cookie.get("ootms_accessToken");
     const signUpToken = getFromLocalStorage("ootms_createUserToken");
+    console.log("signUpToken", signUpToken);
+
     const forgotPassToken = getFromLocalStorage(
       "ootms_forgetPasswordVerifyToken"
     );
@@ -22,7 +24,7 @@ const baseQuery = fetchBaseQuery({
     }
 
     if (signUpToken) {
-      headers.set("token", signUpToken);
+      headers.set("SignUpToken", `signUpToken ${signUpToken}`);
     }
 
     if (forgotPassToken) {
