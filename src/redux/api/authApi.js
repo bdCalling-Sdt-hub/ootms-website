@@ -34,6 +34,10 @@ export const authApi = baseApi.injectEndpoints({
           url: `${AUTH_URL}/auth/verify-email`,
           method: "POST",
           body: otpData,
+          // headers: {
+          //   SignUpToken: `signUpToken ${token}`,
+          //   "Content-Type": "application/json",
+          // },
         };
       },
       invalidatesTags: [tagTypes.user],

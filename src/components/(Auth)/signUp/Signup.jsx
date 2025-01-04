@@ -21,43 +21,36 @@ import { toast } from "sonner";
 import { useSignUpMutation } from "@/redux/api/authApi";
 
 const SignUp = () => {
-  const navigate = useRouter();
+  const [signUp] = useSignUpMutation();
+  const router = useRouter();
   const [form] = Form.useForm();
-    const [signUp] = useSignUpMutation();
 
   const onFinish = async (values) => {
     // navigate.push("/sign-in");
     const toastId = toast.loading("Signing Up...");
 
-    
-    
-    let data = {
-      fullName: values.fullName,
-      password: values.password,
-      email: values.email,
-    };
-    console.log("user:", data);
-    
     try {
+      let data = {
+        fullName: values.fullName,
+        password: values.password,
+        email: values.email,
+      };
+
       const res = await signUp(data).unwrap();
 
       console.log("res: ", res);
 
-      if (res?.success) {
-        if (res?.data?.createUserToken) {
-          localStorage.setItem(
-            "ootms_createUserToken",
-            res?.data?.createUserToken
-          );
-        }
-        e.target.reset();
-        toast.success(res.message, {
-          id: toastId,
-          duration: 2000,
-        });
-        router.push("/sign-up/verify");
-      }
+      localStorage.setItem("ootms_createUserToken", res?.data?.signUpToken);
+
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      // form.reset();
+
+      router.push("/sign-up/verify");
     } catch (error) {
+      console.log(error);
       toast.error(error?.data?.message || "An error occurred during Signup", {
         id: toastId,
         duration: 2000,

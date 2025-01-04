@@ -34,12 +34,11 @@ const storage =
 
 // Configuration for persisting only the accessToken from authSlice
 const persistConfig = {
-  key: "memomrial-auth",
+  key: "ootms_auth",
   storage,
-  whitelist: ["accessToken"], // Persist only the accessToken
+  whitelist: ["auth"], // Persist only the accessToken
   blacklist: ["baseApi"], // Don't persist userInfo
 };
-
 
 const rootReducer = {
   [baseApi.reducerPath]: baseApi.reducer,

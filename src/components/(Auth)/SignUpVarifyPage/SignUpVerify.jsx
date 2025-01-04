@@ -1,70 +1,84 @@
 "use client";
-import { Button, ConfigProvider, Form, Input } from "antd";
-import { useState } from "react";
 import Container from "@/components/ui/Container";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import OTPInput from "react-otp-input";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
-import {
-  useForgetOtpVerifyMutation,
-  useResendForgetOTPMutation,
-} from "@/redux/api/authApi";
+import { Form } from "antd";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import OTPInput from "react-otp-input";
 import { toast } from "sonner";
+import { AllImages } from "../../../../public/assets/AllImages";
+import {
+  useResendOTPMutation,
+  useVerifiedEmailMutation,
+} from "@/redux/api/authApi";
 
-const OtpVerification = () => {
-  const [forgetPasswordOTPResend] = useResendForgetOTPMutation();
-  const [ForgetVerifiedEmail] = useForgetOtpVerifyMutation();
-  const router = useRouter();
+import Cookies from "universal-cookie";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+const SignUpVerify = () => {
+  const [verifiedEmail] = useVerifiedEmailMutation();
+  const [resendOTP] = useResendOTPMutation();
+  const navigate = useRouter();
   const [otp, setOtp] = useState("");
-
-  const token = localStorage.getItem("ootms_forgetPasswordVerifyToken");
-  if (!token) {
-    router.push("/forget-password");
-  }
 
   const handleOTPSubmit = async () => {
     const toastId = toast.loading("Verifying...");
-    if (otp.length < 6) {
+
+    if (otp.length < 4) {
       toast.error("The OTP must be 6 digits long", {
         id: toastId,
         duration: 2000,
       });
     } else {
-      // Proceed with form submission logic
-      // console.log("OTP submitted:", otp);
-      // navigate.push("/update-password");
       const data = {
         otp: otp,
       };
 
-      try {
-        const res = await ForgetVerifiedEmail(data).unwrap();
+      console.log(data);
 
-        if (res.success) {
-          toast.success("Email verified successfully", {
-            id: toastId,
-            duration: 2000,
-          });
-          router.push("/update-password");
-          router.refresh();
-          localStorage.setItem(
-            "ootms_otp_match_token",
-            res.data?.forgetOtpMatchToken
-          );
-          setTimeout(() => {
-            localStorage.removeItem("ootms_forgetPasswordVerifyToken");
-          }, 2000);
-        }
+      try {
+        const res = await verifiedEmail(data).unwrap();
+        console.log(res);
+
+        toast.success("Email verified successfully", {
+          id: toastId,
+          duration: 2000,
+        });
+        navigate.push("/sign-in");
+        navigate.refresh();
+
+        setTimeout(() => {
+          localStorage.removeItem("ootms_createUserToken");
+        }, 2000);
       } catch (error) {
+        console.log(error);
         toast.error(error?.data?.message || "An error occurred during login", {
           id: toastId,
           duration: 3000,
         });
       }
+    }
+  };
+
+  const handleResendOTP = async () => {
+    const toastId = toast.loading("Resending OTP...");
+
+    try {
+      const res = await resendOTP().unwrap();
+
+      if (res.success) {
+        toast.success("OTP resent successfully!", {
+          id: toastId,
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to resend OTP", {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 
@@ -102,19 +116,19 @@ const OtpVerification = () => {
                       inputStyle="w-[55px] h-[45px] sm:w-[76px] sm:h-[64px] text-[20px] sm:text-[30px] bg-transparent border border-[#223376] hover:border-[#223376] focus:bg-transparent focus:border-[#223376] rounded-lg mr-[10px] sm:mr-[20px]"
                       value={otp}
                       onChange={setOtp}
-                      numInputs={6}
+                      numInputs={4}
                       renderInput={(props) => <input {...props} required />}
                     />
                   </div>
                 </Form.Item>
                 <div className="flex justify-between py-1">
                   <p>Didn’t receive code?</p>
-                  <Link
-                    href="/otp-verification"
-                    className="text-[#223376] underline font-semibold"
+                  <div
+                    onClick={handleResendOTP}
+                    className="text-[#223376] underline font-semibold cursor-pointer"
                   >
                     Resend
-                  </Link>
+                  </div>
                 </div>
 
                 <Form.Item>
@@ -140,4 +154,4 @@ const OtpVerification = () => {
     </div>
   );
 };
-export default OtpVerification;
+export default SignUpVerify;
