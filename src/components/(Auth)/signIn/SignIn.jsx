@@ -26,6 +26,7 @@ const SignIn = () => {
 
   const navigate = useRouter();
   const onFinish = async (values) => {
+    const toastId = toast.loading(" Logging in...");
     console.log("user:", values);
     localStorage.removeItem("ootms-user");
     localStorage.setItem("ootms-user", JSON.stringify(values));
