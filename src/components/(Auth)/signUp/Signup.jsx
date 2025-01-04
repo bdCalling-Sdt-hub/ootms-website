@@ -29,15 +29,15 @@ const SignUp = () => {
     // navigate.push("/sign-in");
     const toastId = toast.loading("Signing Up...");
 
-    console.log("user:", values);
-
-
+    
+    
     let data = {
       fullName: values.fullName,
       password: values.password,
       email: values.email,
     };
-
+    console.log("user:", data);
+    
     try {
       const res = await signUp(data).unwrap();
 
