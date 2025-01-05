@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import { Button, ConfigProvider, Form, Input, Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { AllImages } from "../../../../public/assets/AllImages";
 import { motion } from "framer-motion";
 import { buttonVariants } from "@/lib/variants";
@@ -11,35 +11,44 @@ import { useResetPasswordMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
 
 const UpdatePassword = () => {
-  const navigate = useRouter();
+  const router = useRouter();
   const [resetPassword] = useResetPasswordMutation();
 
-  const token = localStorage.getItem("ootms_otp_match_token");
-  if (!token) {
-    navigate.push("/forget-password");
-  }
+  let email = localStorage.getItem("ootms_forgetPasswordEmail");
+  let token = localStorage.getItem("ootms_otp_match_token");
 
-  const onFinish = async(values) => {
+  useEffect(() => {
+    if (!email && !token) {
+      router.push("/sign-in/forget-password");
+    }
+  }, [router, email, token]);
+
+  email = JSON.parse(email);
+
+  const onFinish = async (values) => {
     const toastId = toast.loading("Updateing Password...");
     console.log("passwords:", values);
     // navigate.push("/sign-in");
-    const value = { newPassword, confirmPassword };
-    
+    const value = { email: email.email, password: values.password };
+    console.log(value);
+
     try {
-      // if (newPassword !== confirmPassword) {
-      //   throw new Error("Passwords do not match.");
-      // }
       const res = await resetPassword(value).unwrap();
-      if (res.success) {
-        toast.success(res.message, {
-          id: toastId,
-          duration: 2000,
-        });
-        setTimeout(() => {
-          localStorage.removeItem("ootms_otp_match_token");
-        }, 2000);
-        router.push("/sign-in");
-      }
+      console.log(res);
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+
+      setTimeout(() => {
+        localStorage.removeItem("ootms_forgetPasswordEmail");
+      }, 2000);
+
+      setTimeout(() => {
+        localStorage.removeItem("ootms_otp_match_token");
+      }, 2000);
+
+      router.push("/sign-in");
     } catch (error) {
       console.log(error);
       toast.error(
@@ -52,15 +61,6 @@ const UpdatePassword = () => {
         }
       );
     }
-
-
-
-
-
-
-
-
-
   };
   return (
     <div className="text-base-color">

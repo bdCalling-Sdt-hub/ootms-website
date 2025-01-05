@@ -15,7 +15,7 @@ import {
 
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "@/redux/slices/authSlice";
 
@@ -25,6 +25,14 @@ const SignUpVerify = () => {
   const [resendOTP] = useResendOTPMutation();
   const navigate = useRouter();
   const [otp, setOtp] = useState("");
+
+  const token = localStorage.getItem("ootms_createUserToken");
+
+  useEffect(() => {
+    if (!token) {
+      navigate.push("/sign-up");
+    }
+  }, [navigate, token]);
 
   const handleOTPSubmit = async () => {
     const toastId = toast.loading("Verifying...");
@@ -50,8 +58,8 @@ const SignUpVerify = () => {
           duration: 2000,
         });
         dispatch(setAccessToken(res?.data?.accessToken));
-        // navigate.refresh();
-        // navigate.push("/");
+        navigate.refresh();
+        navigate.push("/");
 
         setTimeout(() => {
           localStorage.removeItem("ootms_createUserToken");

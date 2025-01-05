@@ -95,7 +95,7 @@ export const authApi = baseApi.injectEndpoints({
         const token = localStorage.getItem("ootms_forgetPasswordVerifyToken");
         return {
           url: `/auth/verify-otp`,
-          method: "PATCH",
+          method: "POST",
           body: otpData,
         };
       },
@@ -103,10 +103,9 @@ export const authApi = baseApi.injectEndpoints({
     }),
     resetPassword: build.mutation({
       query: (resetData) => {
-        const token = localStorage.getItem("ootms_otp_match_token");
         return {
           url: `/auth/reset-password`,
-          method: "PATCH",
+          method: "POST",
           body: resetData,
         };
       },

@@ -12,18 +12,27 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
 
 import { toast } from "sonner";
 import { useSignUpMutation } from "@/redux/api/authApi";
+import { useSelector } from "react-redux";
 
 const SignUp = () => {
   const [signUp] = useSignUpMutation();
   const router = useRouter();
   const [form] = Form.useForm();
+
+  const token = useSelector((state) => state.auth.accessToken);
+
+  useEffect(() => {
+    if (token) {
+      router.push("/");
+    }
+  }, [router, token]);
 
   const onFinish = async (values) => {
     // navigate.push("/sign-in");

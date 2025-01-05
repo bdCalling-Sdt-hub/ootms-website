@@ -10,11 +10,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.accessToken;
     const signUpToken = getFromLocalStorage("ootms_createUserToken");
-    console.log("signUpToken", signUpToken);
 
-    const forgotPassToken = getFromLocalStorage(
-      "ootms_forgetPasswordVerifyToken"
-    );
     const changePassToken = getFromLocalStorage("ootms_otp_match_token");
 
     if (token) {
@@ -25,12 +21,8 @@ const baseQuery = fetchBaseQuery({
       headers.set("SignUpToken", `signUpToken ${signUpToken}`);
     }
 
-    if (forgotPassToken) {
-      headers.set("token", forgotPassToken);
-    }
-
     if (changePassToken) {
-      headers.set("token", changePassToken);
+      headers.set("Forget-password", `Forget-password ${changePassToken}`);
     }
 
     return headers;

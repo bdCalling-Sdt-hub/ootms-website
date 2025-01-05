@@ -12,11 +12,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
 import { setAccessToken } from "@/redux/slices/authSlice";
@@ -26,6 +26,13 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const navigate = useRouter();
+  const token = useSelector((state) => state.auth.accessToken);
+
+  useEffect(() => {
+    if (token) {
+      navigate.push("/");
+    }
+  }, [navigate, token]);
   const onFinish = async (values) => {
     const toastId = toast.loading(" Logging in...");
     console.log("user:", values);

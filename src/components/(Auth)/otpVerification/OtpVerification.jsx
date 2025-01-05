@@ -1,6 +1,6 @@
 "use client";
 import { Button, ConfigProvider, Form, Input } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "@/components/ui/Container";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -20,16 +20,20 @@ const OtpVerification = () => {
   const [ForgetVerifiedEmail] = useForgetOtpVerifyMutation();
   const router = useRouter();
   const [otp, setOtp] = useState("");
+  let email = localStorage.getItem("ootms_forgetPasswordEmail");
 
-  const token = localStorage.getItem("ootms_forgetPasswordVerifyToken");
-  if (!token) {
-    router.push("/forget-password");
-  }
+  useEffect(() => {
+    if (!email) {
+      router.push("/sign-in/forget-password");
+    }
+  }, [router, email]);
+
+  email = JSON.parse(email);
 
   const handleOTPSubmit = async () => {
     const toastId = toast.loading("Verifying...");
     if (otp.length < 4) {
-      toast.error("The OTP must be 6 digits long", {
+      toast.error("The OTP must be 4 digits long", {
         id: toastId,
         duration: 2000,
       });
@@ -37,28 +41,25 @@ const OtpVerification = () => {
       // Proceed with form submission logic
       // console.log("OTP submitted:", otp);
       // navigate.push("/update-password");
+
       const data = {
+        email: email.email,
         otp: otp,
       };
 
       try {
         const res = await ForgetVerifiedEmail(data).unwrap();
-
-        if (res.success) {
-          toast.success("Email verified successfully", {
-            id: toastId,
-            duration: 2000,
-          });
-          router.push("/sign-in/update-password");
-          router.refresh();
-          localStorage.setItem(
-            "ootms_otp_match_token",
-            res.data?.forgetOtpMatchToken
-          );
-          setTimeout(() => {
-            localStorage.removeItem("ootms_forgetPasswordVerifyToken");
-          }, 2000);
-        }
+        console.log(res);
+        toast.success("Email verified successfully", {
+          id: toastId,
+          duration: 2000,
+        });
+        localStorage.setItem(
+          "ootms_otp_match_token",
+          res.data?.forgetPasswordToken
+        );
+        router.push("/sign-in/update-password");
+        router.refresh();
       } catch (error) {
         toast.error(error?.data?.message || "An error occurred during login", {
           id: toastId,

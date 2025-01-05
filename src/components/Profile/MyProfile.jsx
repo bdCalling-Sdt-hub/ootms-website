@@ -47,7 +47,7 @@ const MyProfile = () => {
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
   return (
     <div>
-      <div className=" my-16 md:mt-20">
+      <div className="min-h-screen my-16 md:mt-20">
         <Container>
           {/* <div className="flex flex-col sm:flex-row justify-between items-center ">
             {isOnlyView ? (
@@ -80,9 +80,16 @@ const MyProfile = () => {
           </div> */}
 
           <div className="flex flex-col sm:flex-row justify-between items-center ">
-            <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-              Add Profile Picture
-            </h1>
+            {myProfile?.data?.attributes?.phoneNumber &&
+            myProfile?.data?.attributes?.address ? (
+              ""
+            ) : (
+              <>
+                <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
+                  Please Update Your Profile
+                </h1>
+              </>
+            )}
 
             <div className="mb-10 sm:mb-0">
               <Button
@@ -136,16 +143,7 @@ const MyProfile = () => {
                 )}
               </div> */}
             </div>
-            {myProfile?.data?.attributes?.phoneNumber &&
-            myProfile?.data?.attributes?.address ? (
-              ""
-            ) : (
-              <>
-                <div className="text-base sm:text-lgmd:text-xl lg:text-2xl text-base-color mt-10">
-                  Please Update Your Profile
-                </div>
-              </>
-            )}
+
             <div className="mt-16">
               <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
                 {/*  First Name  */}

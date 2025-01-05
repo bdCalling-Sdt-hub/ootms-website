@@ -8,10 +8,21 @@ import { motion } from "framer-motion";
 import { buttonVariants } from "@/lib/variants";
 import { useForgetPasswordMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const ForgotPassword = () => {
   const [forgetPassword] = useForgetPasswordMutation();
   const navigate = useRouter();
+
+  const token = useSelector((state) => state.auth.accessToken);
+
+  useEffect(() => {
+    if (token) {
+      navigate.push("/");
+    }
+  }, [navigate, token]);
+
   const onFinish = async (values) => {
     const toastId = toast.loading("Requesting...");
     // console.log("Success:", values);
@@ -24,10 +35,7 @@ const ForgotPassword = () => {
         id: toastId,
         duration: 2000,
       });
-      localStorage.setItem(
-        "ootms_forgetPasswordVerifyToken",
-        res.data?.forgetToken
-      );
+      localStorage.setItem("ootms_forgetPasswordEmail", JSON.stringify(values));
       navigate.push("/sign-in/otp-verification");
     } catch (error) {
       console.log(error);

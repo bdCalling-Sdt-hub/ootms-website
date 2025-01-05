@@ -2,13 +2,15 @@
 import { Button, ConfigProvider, Dropdown } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { IoChatbubbles, IoLogOut, IoMenu, IoPerson } from "react-icons/io5";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { decodedToken } from "@/utils/jwt";
+import { clearAuth } from "@/redux/slices/authSlice";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const path = usePathname();
@@ -18,6 +20,8 @@ const Navbar = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const [userData, setUserData] = useState(null);
 
@@ -205,7 +209,9 @@ const Navbar = () => {
     label: (
       <Button
         onClick={() => {
-          localStorage.removeItem("ootms-user");
+          dispatch(clearAuth());
+          router.refresh();
+          toast.success("Sign out successfully!");
           setUserData(null);
         }}
         className={`capitalize text-start font-medium flex justify-start items-center hover:bg-transparent border-none hover:text-site-color shadow-none text-lg w-full `}
