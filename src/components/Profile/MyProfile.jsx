@@ -1,4 +1,6 @@
 "use client";
+import { getImageUrl } from "@/helpers/config/envConfig";
+import { useMyProfileQuery } from "@/redux/api/authApi";
 import { Button, Form, Input, Typography, Upload } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -6,9 +8,6 @@ import { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
-import { useMyProfileQuery } from "@/redux/api/authApi";
-import { getImageUrl } from "@/helpers/config/envConfig";
-import { m } from "framer-motion";
 
 const MyProfile = () => {
   const { data: myProfile, isFetching } = useMyProfileQuery();
@@ -44,6 +43,10 @@ const MyProfile = () => {
   function onEdit() {
     router.push("/edit-profile");
   }
+
+  // const isCompleted = false;
+console.log(myProfile?.data?.attributes?.isComplete );
+
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
   return (
     <div>
@@ -80,16 +83,16 @@ const MyProfile = () => {
           </div> */}
 
           <div className="flex flex-col sm:flex-row justify-between items-center ">
-            {myProfile?.data?.attributes?.phoneNumber &&
-            myProfile?.data?.attributes?.address ? (
-              ""
-            ) : (
-              <>
-                <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                  Please Update Your Profile
-                </h1>
-              </>
-            )}
+            {/* {isCompleted ? <></> : <></>} */}
+            <>
+              <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
+                {myProfile?.data?.attributes?.isComplete ? (
+                  <>Edit Your Profile</>
+                ) : (
+                  <> Please Complete Your Profile</>
+                )}
+              </h1>
+            </>
 
             <div className="mb-10 sm:mb-0">
               <Button
@@ -98,7 +101,11 @@ const MyProfile = () => {
                 className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
               >
                 <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />{" "}
-                Edit Profile
+                {myProfile?.data?.attributes?.isComplete ? (
+                  <>Edit Profile</>
+                ) : (
+                  <> Complete your Profile</>
+                )}
               </Button>
             </div>
           </div>
@@ -170,55 +177,125 @@ const MyProfile = () => {
                     {myProfile?.data?.attributes?.email}
                   </div>
                 </div>
-                {myProfile?.data?.attributes?.phoneNumber && (
+
+                {myProfile?.data?.attributes?.isComplete  ? (
                   <>
-                    <div>
-                      <Typography.Title
-                        level={4}
-                        className="text-profile-text-color font-bold"
-                      >
-                        Phone
-                      </Typography.Title>
-                      <Form.Item name="Phone" className="text-white ">
-                        <Input
-                          placeholder="Enter your phone"
-                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                        />
-                      </Form.Item>
-                    </div>
+                    {myProfile?.data?.attributes?.roll === "user" && (
+                      <>
+                        {/* {data.roll === "user" && ( */}
+                        {/*  Tax ID  */}
+                        <div>
+                          <Typography.Title
+                            level={4}
+                            className="text-profile-text-color font-bold"
+                          >
+                            Tax ID
+                          </Typography.Title>
+                          <Form.Item
+                            name="taxid"
+                            initialValue={myProfile?.data?.attributes?.taxid}
+                            className="text-white"
+                          >
+                            <Input
+                              placeholder="Enter your Tax ID"
+                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
+                            />
+                          </Form.Item>
+                        </div>
+                      </>
+                    )}
+
+                    {myProfile?.data?.attributes?.role === "driver" && (
+                      <>
+                        {/* Truck Number */}
+                        <div>
+                          <Typography.Title
+                            level={4}
+                            className="text-profile-text-color font-bold"
+                          >
+                            Truck Number
+                          </Typography.Title>
+                          <Form.Item
+                            name="truckNumber"
+                            initialValue={
+                              myProfile?.data?.attributes?.truckNumber
+                            }
+                            className="text-white"
+                          >
+                            <Input
+                              placeholder="Enter your Truck Number"
+                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                            />
+                          </Form.Item>
+                        </div>
+                        {/* CDL Number */}
+                        <div>
+                          <Typography.Title
+                            level={4}
+                            className="text-profile-text-color font-bold"
+                          >
+                            CDL Number
+                          </Typography.Title>
+                          <Form.Item
+                            name="cdlNumber"
+                            initialValue={
+                              myProfile?.data?.attributes?.cdlNumber
+                            }
+                            className="text-white"
+                          >
+                            <Input
+                              placeholder="Enter your CDL Number"
+                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                            />
+                          </Form.Item>
+                        </div>
+                        {/* Trailer Size */}
+                        <div>
+                          <Typography.Title
+                            level={4}
+                            className="text-profile-text-color font-bold"
+                          >
+                            Trailer Size
+                          </Typography.Title>
+                          <Form.Item
+                            name="trailerSize"
+                            initialValue={
+                              myProfile?.data?.attributes?.trailerSize
+                            }
+                            className="text-white"
+                          >
+                            <Input
+                              placeholder="Enter your Trailer Size"
+                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                            />
+                          </Form.Item>
+                        </div>
+                        {/* Pallet Space */}
+                        <div>
+                          <Typography.Title
+                            level={4}
+                            className="text-profile-text-color font-bold"
+                          >
+                            Pallet Space
+                          </Typography.Title>
+                          <Form.Item
+                            name="palletSpace"
+                            initialValue={
+                              myProfile?.data?.attributes?.palletSpace
+                            }
+                            className="text-white"
+                          >
+                            <Input
+                              placeholder="Enter your Pallet Space"
+                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                            />
+                          </Form.Item>
+                        </div>
+                      </>
+                    )}
                   </>
-                )}
-                {myProfile?.data?.attributes?.address && (
-                  <>
-                    <div>
-                      <Typography.Title
-                        level={4}
-                        className="text-profile-text-color font-bold"
-                      >
-                        Phone
-                      </Typography.Title>
-                      <Form.Item name="Phone" className="text-white ">
-                        <Input
-                          placeholder="Enter your phone"
-                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                        />
-                      </Form.Item>
-                    </div>
-                    <div>
-                      <Typography.Title
-                        level={4}
-                        className="text-profile-text-color font-bold"
-                      >
-                        Address
-                      </Typography.Title>
-                      <Form.Item name="Address" className="text-white ">
-                        <Input
-                          placeholder="Enter your address"
-                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   "
-                        />
-                      </Form.Item>
-                    </div>
-                  </>
+                ) : (
+                  <></>
                 )}
               </div>
 

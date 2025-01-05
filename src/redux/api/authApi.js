@@ -120,6 +120,24 @@ export const authApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.user], // Ensures that the profile data can be invalidated if needed
     }),
+
+    updateProfile: build.mutation({
+      query: (updateProfileData) => ({
+        url: `/users/complete`,
+        method: "POST",
+        body: updateProfileData,
+      }),
+      invalidatesTags: [tagTypes.updateProfile],
+    }),
+
+    editProfile: build.mutation({
+      query: (editProfileData) => ({
+        url: `/users/`,
+        method: "PUT",
+        body: editProfileData,
+      }),
+      invalidatesTags: [tagTypes.editProfile],
+    }),
   }),
 });
 
@@ -133,7 +151,8 @@ export const {
   useForgetOtpVerifyMutation,
   useResetPasswordMutation,
   useMyProfileQuery,
-  //   useUpdateProfileMutation,
+  useUpdateProfileMutation,
+  useEditProfileMutation,
   //   useGetAllUserQuery,
   //   useGetSingleUserQuery,
 } = authApi;

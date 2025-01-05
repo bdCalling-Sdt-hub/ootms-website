@@ -6,30 +6,77 @@ import { useState } from "react";
 // import Container from "./ui/Container";
 import Container from "@/components/ui/Container";
 import { AllImages } from "../../../../public/assets/AllImages";
+import {
+  useEditProfileMutation,
+  useMyProfileQuery,
+  useUpdateProfileMutation,
+} from "@/redux/api/authApi";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const EditProfile = () => {
-  const data = {
-    FullName: "John Doe",
-    Email: "johndoe@example.com",
-    Phone: "123456789",
-    Country: "USA",
-    Address: "123 Main St",
-  };
+  const { data: myProfile, isFetching } = useMyProfileQuery();
+  const { data: editProfile, isFetching:loading } = useEditProfileMutation();
+  // const data = {
+  //   FullName: "John Doe",
+  //   Email: "johndoe@example.com",
+  //   Phone: "123456789",
+  //   Country: "USA",
+  //   Address: "123 Main St",
+  //   roll: "user",
+  // };
+
+  const [updateProfileData] = useUpdateProfileMutation();
+
+  const router = useRouter();
+  const [form] = Form.useForm();
+
+  console.log("myProfile2", myProfile?.data?.attributes);
 
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
-  const users = {
-    profilePhoto: AllImages.profile,
-    firstName: "Alexder",
 
-    email: "Rajin572@gmail.com",
-    number: "01644258678",
-    address: "Dhaka",
-  };
+  // const users = {
+  //   profilePhoto: AllImages.profile,
+  //   firstName: "Alexder",
 
-  const onFinish = (values) => {
+  //   email: "Rajin572@gmail.com",
+  //   number: "01644258678",
+  //   address: "Dhaka",
+  // };
+
+  const onFinish = async (values) => {
     console.log("userUpdate:", values);
+    const toastId = toast.loading("Profile updating...");
+
+    try {
+      // let data = {
+      //   fullName: values.fullName,
+      //   password: values.password,
+      //   email: values.email,
+      // };
+
+      const res = await updateProfileData(values).unwrap();
+
+      console.log("res: ", res);
+
+      // localStorage.setItem("ootms_createUserToken", res?.data?.signUpToken);
+
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      // form.reset();
+
+      // router.push("/sign-up/verify");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message || "An error occurred during Signup", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
@@ -51,6 +98,11 @@ const EditProfile = () => {
   //   }));
   //   console.log(`${name}: ${value}`);
   // };
+  
+
+  if (isFetching) {
+  return <div>Loading....</div>
+}
   return (
     <div>
       <div className=" my-16 md:mt-20">
@@ -89,8 +141,8 @@ const EditProfile = () => {
             <div className="flex flex-col sm:flex-row items-center gap-10">
               <div className="rounded-full border-2 border-next-btn overflow-hidden">
                 <Image
-                  src={uploadedImage}
-                  alt={data.title || "Profile image"}
+                  src={myProfile?.data?.attributes?.image || uploadedImage}
+                  alt={myProfile?.data?.attributes?.fullName || "Profile image"}
                   width={0}
                   height={0}
                   sizes="100vw"
@@ -109,7 +161,7 @@ const EditProfile = () => {
             </div>
             <div className="mt-16">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 items-center">
-                {/*  First Name  */}
+                {/*   Full Name */}
                 <div>
                   <Typography.Title
                     level={4}
@@ -118,8 +170,8 @@ const EditProfile = () => {
                     Full Name
                   </Typography.Title>
                   <Form.Item
-                    initialValue={data.FullName}
-                    name="FullName"
+                    initialValue={myProfile?.data?.attributes?.fullName}
+                    name="fullName"
                     className="text-white"
                   >
                     <Input
@@ -129,48 +181,26 @@ const EditProfile = () => {
                     />
                   </Form.Item>
                 </div>
-
-                {/*  Email  */}
+                {/*  Phone Number  */}
                 <div>
                   <Typography.Title
                     level={4}
                     className="text-profile-text-color font-bold"
                   >
-                    Country
+                    Phone Number
                   </Typography.Title>
                   <Form.Item
-                    name="country"
-                    initialValue={data.Country}
+                    name="phoneNumber"
+                    initialValue={myProfile?.data?.attributes?.phoneNumber}
                     className="text-white"
                   >
                     <Input
-                      placeholder="Enter your country"
+                      placeholder="Enter your Phone Number"
                       className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
                     />
                   </Form.Item>
                 </div>
-
-                {/*  Phone  */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Phone
-                  </Typography.Title>
-                  <Form.Item
-                    name="Phone"
-                    initialValue={data.Phone}
-                    className="text-white"
-                  >
-                    <Input
-                      placeholder="Enter your phone"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
-                    />
-                  </Form.Item>
-                </div>
-
-                {/*  Country  */}
+                {/*  Address  */}
                 <div>
                   <Typography.Title
                     level={4}
@@ -179,16 +209,121 @@ const EditProfile = () => {
                     Address
                   </Typography.Title>
                   <Form.Item
-                    name="Address"
-                    initialValue={data.Address}
+                    name="address"
+                    initialValue={myProfile?.data?.attributes?.address}
                     className="text-white"
                   >
                     <Input
-                      placeholder="Enter your Address name"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
+                      placeholder="Enter your Address"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
                     />
                   </Form.Item>
                 </div>
+                {myProfile?.data?.attributes?.role === "user" && (
+                  <>
+                    {/* {data.roll === "user" && ( */}
+                    {/*  Tax ID  */}
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Tax ID
+                      </Typography.Title>
+                      <Form.Item
+                        name="taxid"
+                        initialValue={myProfile?.data?.attributes?.taxid}
+                        className="text-white"
+                      >
+                        <Input
+                          placeholder="Enter your Tax ID"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
+                        />
+                      </Form.Item>
+                    </div>
+                  </>
+                )}
+
+                {myProfile?.data?.attributes?.role === "driver" && (
+                  <>
+                    {/* Truck Number */}
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Truck Number
+                      </Typography.Title>
+                      <Form.Item
+                        name="truckNumber"
+                        initialValue={myProfile?.data?.attributes?.truckNumber}
+                        className="text-white"
+                      >
+                        <Input
+                          placeholder="Enter your Truck Number"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                        />
+                      </Form.Item>
+                    </div>
+                    {/* CDL Number */}
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        CDL Number
+                      </Typography.Title>
+                      <Form.Item
+                        name="cdlNumber"
+                        initialValue={myProfile?.data?.attributes?.cdlNumber}
+                        className="text-white"
+                      >
+                        <Input
+                          placeholder="Enter your CDL Number"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                        />
+                      </Form.Item>
+                    </div>
+                    {/* Trailer Size */}
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Trailer Size
+                      </Typography.Title>
+                      <Form.Item
+                        name="trailerSize"
+                        initialValue={myProfile?.data?.attributes?.trailerSize}
+                        className="text-white"
+                      >
+                        <Input
+                          placeholder="Enter your Trailer Size"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                        />
+                      </Form.Item>
+                    </div>
+                    {/* Pallet Space */}
+                    <div>
+                      <Typography.Title
+                        level={4}
+                        className="text-profile-text-color font-bold"
+                      >
+                        Pallet Space
+                      </Typography.Title>
+                      <Form.Item
+                        name="palletSpace"
+                        initialValue={myProfile?.data?.attributes?.palletSpace}
+                        className="text-white"
+                      >
+                        <Input
+                          placeholder="Enter your Pallet Space"
+                          className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                        />
+                      </Form.Item>
+                    </div>
+                  </>
+                )}
               </div>
 
               <Button
