@@ -16,17 +16,10 @@ import { toast } from "sonner";
 
 const EditProfile = () => {
   const { data: myProfile, isFetching } = useMyProfileQuery();
-  const { data: editProfile, isFetching:loading } = useEditProfileMutation();
-  // const data = {
-  //   FullName: "John Doe",
-  //   Email: "johndoe@example.com",
-  //   Phone: "123456789",
-  //   Country: "USA",
-  //   Address: "123 Main St",
-  //   roll: "user",
-  // };
+  const [ updateProfile] =useUpdateProfileMutation();
+  const [  editProfile ] = useEditProfileMutation();
 
-  const [updateProfileData] = useUpdateProfileMutation();
+ 
 
   const router = useRouter();
   const [form] = Form.useForm();
@@ -57,7 +50,7 @@ const EditProfile = () => {
       //   email: values.email,
       // };
 
-      const res = await updateProfileData(values).unwrap();
+      const res = await editProfile(values).unwrap();
 
       console.log("res: ", res);
 

@@ -1,6 +1,7 @@
 export const getBaseUrl = () => {
-  return "https://95t1pwkb-8020.asse.devtunnels.ms/api/v1";
-  // "http://137.184.95.36:8020/api/v1";
+  return "http://137.184.95.36:8020/api/v1";
+  // "https://95t1pwkb-8020.asse.devtunnels.ms/api/v1";
+
 
   // "http://10.0.70.36:8020/api/v1"
   // "http://10.0.70.36:8000/api/v1"
