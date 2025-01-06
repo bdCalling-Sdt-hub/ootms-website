@@ -1,64 +1,48 @@
-// import { ConfigProvider, Table } from "antd";
-
-// const MyLoad = ({ data }) => {
-//   const columns = [
-//     { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
-//     { title: "Receiver City", dataIndex: "receiverCity", key: "receiverCity" },
-//     { title: "Load Type", dataIndex: "loadType", key: "loadType" },
-//     { title: "Pallet Spaces", dataIndex: "palletSpaces", key: "palletSpaces" },
-//     { title: "Weight", dataIndex: "weight", key: "weight" },
-//     { title: "Pickup Date", dataIndex: "pickupDate", key: "pickupDate" },
-//     { title: "Delivery Date", dataIndex: "deliveryDate", key: "deliveryDate" },
-//   ];
-
-//   return (
-//     <div>
-//       <ConfigProvider
-//         theme={{
-//           components: {
-//             Table: {
-//               padding: 10,
-//               margin: 10,
-//               cellFontSize: 12,
-//               headerBg: "rgb(189,196,222)",
-//             },
-//             Input: {
-//               colorText: "rgb(255,255,255)",
-//             },
-//           },
-//         }}
-//       >
-//         <Table
-//           columns={columns}
-//           dataSource={data}
-//           pagination={false}
-//           bordered
-//           scroll={{ x: "max-content" }}
-//           style={{ maxWidth: "100%", overflowX: "hidden" }}
-//         />
-//       </ConfigProvider>
-//     </div>
-//   );
-// };
-
-// export default MyLoad;
-
 "use client";
 import { Col, ConfigProvider, Row, Table } from "antd";
 
-const MyLoad = ({ data }) => {
+const MyLoad = ({ data, isFetching }) => {
+  console.log(data);
+
+  // Ensure `data` is an array
+  const tableData = [data];
+
+  // Define columns correctly
   const columns = [
-    { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
-    { title: "Receiver City", dataIndex: "receiverCity", key: "receiverCity" },
+    {
+      title: "Shipper City",
+      dataIndex: "shippingCity", // Refers to the key in each object
+      key: "shippingCity",
+    },
+    {
+      title: "Receiver City",
+      dataIndex: "receiverCity",
+      key: "receiverCity",
+    },
     { title: "Load Type", dataIndex: "loadType", key: "loadType" },
-    { title: "Pallet Spaces", dataIndex: "palletSpaces", key: "palletSpaces" },
+    {
+      title: "Pallet Spaces",
+      dataIndex: "palletSpace",
+      key: "palletSpace",
+    },
     { title: "Weight", dataIndex: "weight", key: "weight" },
-    { title: "Pickup Date", dataIndex: "pickupDate", key: "pickupDate" },
-    { title: "Delivery Date", dataIndex: "deliveryDate", key: "deliveryDate" },
+    {
+      title: "Pickup Date",
+      dataIndex: "pickupDate",
+      key: "pickupDate",
+    },
+    {
+      title: "Delivery Date",
+      dataIndex: "deliveryDate",
+      key: "deliveryDate",
+    },
   ];
+
+  // Display the first record for Shipper and Receiver sections
 
   return (
     <div className="mb-6 overflow-x-auto">
+      {/* Shipper and Receiver Section */}
       <Row
         gutter={0}
         style={{
@@ -105,13 +89,14 @@ const MyLoad = ({ data }) => {
             borderRight: "1px solid #ccc",
           }}
         >
-          John Smith
+          {data?.shipperName || "N/A"}
         </Col>
         <Col xs={24} sm={12} style={{ padding: "10px" }}>
-          Sohagh Ahmed
+          {data?.receiverName || "N/A"}
         </Col>
       </Row>
 
+      {/* Data Table */}
       <ConfigProvider
         theme={{
           components: {
@@ -129,7 +114,9 @@ const MyLoad = ({ data }) => {
       >
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={tableData}
+          loading={isFetching}
+          rowKey="_id" // Use `_id` as a unique key for rows
           pagination={false}
           bordered
           scroll={{ x: "max-content" }}

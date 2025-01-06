@@ -1,11 +1,13 @@
 "use client";
 
+import { useCreateLoadMutation } from "@/redux/api/loadApi";
 import { ConfigProvider, Modal, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { toast } from "sonner";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -17,6 +19,8 @@ const normFile = (e) => {
 };
 
 const ShipperForm = ({
+  reciverData,
+  shipperData,
   setShipperData,
   handleOpenShipperFromCancel,
   showoOpenAddDriverIdModal,
@@ -26,6 +30,10 @@ const ShipperForm = ({
   const [showOptions, setShowOptions] = useState(false);
   const [noOptions, setNoOptions] = useState(true);
 
+  const [createLoad] = useCreateLoadMutation();
+
+  const [selectedValue, setSelectedValue] = useState(null);
+
   const handleShowOptionsChange = () => {
     setShowOptions(true);
     setNoOptions(false);
@@ -34,6 +42,16 @@ const ShipperForm = ({
   const handleNoOptionsChange = () => {
     setNoOptions(true);
     setShowOptions(false);
+
+    // Uncheck all trailer size options
+    setOptions((prevOptions) =>
+      prevOptions.map((option) => ({ ...option, checked: false }))
+    );
+
+    // Explicitly set `trailerSize` to an empty array
+    form.setFieldsValue({
+      hazmat: [], // Clear trailerSize to an empty array
+    });
   };
 
   //* It's Use to Show Modal
@@ -49,15 +67,15 @@ const ShipperForm = ({
   };
 
   const [options, setOptions] = useState([
-    { label: "Dangerous", value: "Dangerous", checked: true },
+    { label: "Dangerous", value: "Dangerous", checked: false },
     { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
     { label: "Poison 6", value: "Poison 6", checked: false },
     { label: "Corrosive", value: "Corrosive", checked: false },
-    { label: "Oxygen 2", value: "Oxygen 2", checked: true },
+    { label: "Oxygen 2", value: "Oxygen 2", checked: false },
     { label: "Danger", value: "Danger", checked: false },
     { label: "Flammable 3", value: "Flammable 3", checked: false },
     { label: "Radioactive 7", value: "Radioactive 7", checked: false },
-    { label: "Non-Flammable Gas", value: "Non-Flammable Gas", checked: true },
+    { label: "Non-Flammable Gas", value: "Non-Flammable Gas", checked: false },
     {
       label: "Organic Peroxide 5.2",
       value: "Organic Peroxide 5.2",
@@ -65,7 +83,7 @@ const ShipperForm = ({
     },
     { label: "Spontaneously", value: "Spontaneously", checked: false },
     { label: "Explosive 1.4", value: "Explosive 1.4", checked: false },
-    { label: "Flammable Solid 4", value: "Flammable Solid 4", checked: true },
+    { label: "Flammable Solid 4", value: "Flammable Solid 4", checked: false },
     {
       label: "Dangerous when wet",
       value: "Dangerous when wet",
@@ -77,19 +95,38 @@ const ShipperForm = ({
       checked: false,
     },
     { label: "Miscellaneous 9", value: "Miscellaneous 9", checked: false },
-    { label: "PG III", value: "PG III", checked: true },
+    { label: "PG III", value: "PG III", checked: false },
     { label: "Inhalation 6", value: "Inhalation 6", checked: false },
   ]);
 
   const handleCheckboxChange = (value) => {
-    setOptions((prevOptions) =>
-      prevOptions.map((option) =>
+    setOptions((prevOptions) => {
+      const updatedOptions = prevOptions.map((option) =>
         option.value === value
-          ? { ...option, checked: !option.checked }
+          ? { ...option, checked: !option.checked } // Toggle the selected option
           : option
-      )
-    );
+      );
+
+      // Get all selected values as an array
+      const selectedValues = updatedOptions
+        .filter((option) => option.checked)
+        .map((option) => option.value);
+
+      // Update the form field with the selected values
+      if (selectedValues.length > 0) {
+        form.setFieldsValue({
+          hazmat: selectedValues,
+        });
+      } else {
+        form.setFieldsValue({
+          hazmat: [],
+        });
+      }
+
+      return updatedOptions;
+    });
   };
+
   const labelRender = (value) => {
     const { label } = value;
 
@@ -102,10 +139,71 @@ const ShipperForm = ({
     );
   };
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values) => {
+    const toastId = toast.loading("Load Data Added...");
+    if (
+      !Array.isArray(values.hazmat) ||
+      values.hazmat.length <= 0 ||
+      values.hazmat === undefined ||
+      values.hazmat === null ||
+      values.hazmat === ""
+    ) {
+      // If hazmat is not an array or has no selected values, reset it to an empty array
+      values.hazmat = [];
+    } else {
+      // Use the existing values
+      values.hazmat = values.hazmat;
+    }
+
     setShipperData(values);
-    form.resetFields();
+
+    // Reset the `options` state to uncheck all checkboxes
+    setOptions((prevOptions) =>
+      prevOptions.map((option) => ({ ...option, checked: false }))
+    );
+
+    console.log("shipperData", shipperData);
+
+    console.log([{ ...reciverData, ...shipperData }]);
+    setTimeout(async () => {
+      try {
+        const res = await createLoad([
+          { ...reciverData, ...shipperData },
+        ]).unwrap();
+
+        console.log(res);
+
+        // form.resetFields();
+        // Reset Hazmat toggles (optional, if required)
+        setShowOptions(false);
+        setNoOptions(true);
+        toast.success("Load Added Successfully", {
+          id: toastId,
+          duration: 2000,
+        });
+        handleOpenShipperFromCancel();
+        showViewModal();
+
+        // if (res?.data?.success === false) {
+        //   throw new Error(res?.data?.message);
+        // } else {
+        //
+        // }
+      } catch (error) {
+        console.log("error", error);
+        toast.error(
+          error?.data?.message ||
+            error.message ||
+            "An error occurred during Add New Product",
+          {
+            id: toastId,
+            duration: 2000,
+          }
+        );
+      }
+    }, 1000);
+
+    // Reset the form fields
   };
 
   return (
@@ -126,7 +224,7 @@ const ShipperForm = ({
                 Shipper Name<span className="text-red-500 ">*</span>
               </Typography>
               <Form.Item
-                name="Shipper Name"
+                name="shipperName"
                 rules={[
                   { required: true, message: "shipper name is required" },
                 ]}
@@ -142,7 +240,7 @@ const ShipperForm = ({
                 Contact Number<span className="text-red-500 ">*</span>
               </Typography>
               <Form.Item
-                name="contactNumber"
+                name="shipperPhoneNumber"
                 rules={[
                   { required: true, message: "Contact number is required" },
                 ]}
@@ -161,7 +259,7 @@ const ShipperForm = ({
                 Email Address
               </Typography>
               <Form.Item
-                name="email"
+                name="shipperEmail"
                 rules={[{ required: true, message: "Email is required" }]}
               >
                 <Input
@@ -178,7 +276,7 @@ const ShipperForm = ({
                 Shipper Address
               </Typography>
               <Form.Item
-                name="shipperAddress"
+                name="shippingAddress"
                 rules={[
                   { required: true, message: "Shipper address is required" },
                 ]}
@@ -197,7 +295,7 @@ const ShipperForm = ({
                 City
               </Typography>
               <Form.Item
-                name="city"
+                name="shippingCity"
                 rules={[{ required: true, message: "City is required" }]}
               >
                 <Input
@@ -211,7 +309,7 @@ const ShipperForm = ({
                 State
               </Typography>
               <Form.Item
-                name="state"
+                name="shippingState"
                 rules={[{ required: true, message: "State is required" }]}
               >
                 <Input
@@ -225,12 +323,33 @@ const ShipperForm = ({
                 Zip
               </Typography>
               <Form.Item
-                name="zip"
+                name="shippingZip"
                 rules={[{ required: true, message: "Zip code is required" }]}
               >
                 <Input
                   placeholder="Enter zip"
                   className="w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
+          </div>
+
+          {/* Pallate Space */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Pallet Space
+              </Typography>
+              <Form.Item
+                name="palletSpace"
+                rules={[
+                  { required: true, message: "Pallet space is required" },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Enter pallet space"
+                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
                 />
               </Form.Item>
             </div>
@@ -242,7 +361,7 @@ const ShipperForm = ({
                 Load Type
               </Typography>
               <Form.Item
-                name="receiverAddress"
+                name="loadType"
                 rules={[{ required: true, message: "Load Type is required" }]}
               >
                 <Input
@@ -252,6 +371,63 @@ const ShipperForm = ({
               </Form.Item>
             </div>
           </div>
+          {/* weight */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Weight
+              </Typography>
+              <Form.Item
+                name="weight"
+                rules={[{ required: true, message: "Weight is required" }]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Weight"
+                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
+          </div>
+          {/* loadDetails */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Load Details
+              </Typography>
+              <Form.Item
+                name="loadDetails"
+                rules={[
+                  { required: true, message: " Load Details is required" },
+                ]}
+              >
+                <Input
+                  placeholder="Load Details"
+                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
+          </div>
+          {/* productType */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Product Type
+              </Typography>
+              <Form.Item
+                name="productType"
+                rules={[
+                  { required: true, message: "Product Type is required" },
+                ]}
+              >
+                <Input
+                  placeholder="Product Types"
+                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
+          </div>
+
           {/* pick up and  delivery*/}
           <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
             <div>
@@ -259,7 +435,7 @@ const ShipperForm = ({
                 Pickup
               </Typography>
               <Form.Item
-                name="Pickup"
+                name="pickupDate"
                 rules={[{ required: true, message: "Pickup is required" }]}
               >
                 <DatePicker
@@ -274,7 +450,7 @@ const ShipperForm = ({
                 Delivery
               </Typography>
               <Form.Item
-                name="delivery"
+                name="deliveryDate"
                 rules={[{ required: true, message: "Delivery is required" }]}
               >
                 <DatePicker
@@ -286,92 +462,92 @@ const ShipperForm = ({
             </div>
           </div>
 
-          {/* select item */}
-
-          <div>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Select: {
-                    selectorBg: "#EAECEE",
-                    colorBgElevated: "#EAECEE",
-                  },
-                },
-              }}
-            >
-              <Select
-                className="custom-placeholder  w-full mb-8"
-                labelRender={labelRender}
-                placeholder="Trailer size"
-                dropdownRender={() => (
-                  <div>
-                    <div className="flex justify-between mb-4">
-                      <div>
-                        <h1>Hazmat</h1>
-                      </div>
-                      <div className="flex gap-4">
-                        <label className="flex items-center justify-center gap-1">
-                          <input
-                            className="mt-1"
-                            type="checkbox"
-                            checked={showOptions}
-                            onChange={handleShowOptionsChange}
-                          />
-                          Yes
-                        </label>
-                        <label className="flex items-center justify-center gap-1">
-                          <input
-                            className="mt-1"
-                            type="checkbox"
-                            checked={noOptions}
-                            onChange={handleNoOptionsChange}
-                          />
-                          No
-                        </label>
-                      </div>
-                    </div>
-                    {/* Set max height for scroll */}
-                    <div
-                      style={{
-                        marginTop: "20px",
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                      }}
-                    >
-                      {/* Conditionally render options or "no data" */}
-                      {showOptions ? (
-                        options.map((option) => (
-                          <div
-                            key={option.value}
-                            className="flex justify-between mb-2"
-                          >
-                            <label>{option.label}</label>
-                            <input
-                              type="checkbox"
-                              className="my-checkbox"
-                              checked={option.checked}
-                              onChange={() =>
-                                handleCheckboxChange(option.value)
-                              }
-                            />
-                          </div>
-                        ))
-                      ) : (
-                        <p>No data</p>
-                      )}
-                    </div>
-                  </div>
-                )}
-              />
-            </ConfigProvider>
+          {/* Trailer Size */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div>
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Trailer Size
+              </Typography>
+              <Form.Item
+                name="trailerSize"
+                rules={[
+                  { required: true, message: "Trailer Size is required" },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Enter Trailer Size"
+                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
           </div>
+
+          {/* select item */}
+          <Form.Item name="hazmat">
+            <div>
+              {/* Hazmat Options */}
+              <div className="flex justify-between mb-4">
+                <div>
+                  <h1>Hazmat</h1>
+                </div>
+                <div className="flex gap-4">
+                  <label className="flex items-center justify-center gap-1">
+                    <input
+                      className="mt-1"
+                      type="checkbox"
+                      checked={showOptions}
+                      onChange={handleShowOptionsChange}
+                    />
+                    Yes
+                  </label>
+                  <label className="flex items-center justify-center gap-1">
+                    <input
+                      className="mt-1"
+                      type="checkbox"
+                      value={[]}
+                      checked={noOptions}
+                      onChange={handleNoOptionsChange}
+                    />
+                    No
+                  </label>
+                </div>
+              </div>
+
+              {/* Trailer Size Options */}
+              {showOptions && (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                  }}
+                >
+                  {options.map((option) => (
+                    <div
+                      key={option.value}
+                      className="flex justify-between mb-2"
+                    >
+                      <label>{option.label}</label>
+                      <input
+                        type="checkbox"
+                        value={option.value} // Explicitly set the value
+                        checked={option.checked} // Controlled by state
+                        onChange={() => handleCheckboxChange(option.value)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </Form.Item>
 
           {/* delivey intructure */}
           <div>
             <Typography className="text-contact-input font-semibold  mb-2">
               Delivery Instructions
             </Typography>
-            <Form.Item name="deliveryInstructions">
+            <Form.Item name="deliveryInstruction">
               <Input.TextArea
                 placeholder="Enter description"
                 className=" bg-shipper-input-bg placeholder-gray-400 border border-gray-300 rounded-lg py-3 px-4 h-36  w-full resize-none font-semibold"
@@ -380,10 +556,11 @@ const ShipperForm = ({
           </div>
           {/* Next Button */}
           <button
-            onClick={() => {
-              showViewModal();
-              handleOpenShipperFromCancel();
-            }}
+            type="submit"
+            // onClick={() => {
+            //   showViewModal();
+            //   handleOpenShipperFromCancel();
+            // }}
             className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
           >
             Find a driver

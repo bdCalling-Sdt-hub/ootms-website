@@ -31,6 +31,7 @@ const FormFile = ({
   const onFinish = (values) => {
     console.log("user:", values);
     setReciverData(values);
+    form.resetFields();
     handleOpenReciverFromCancel();
     showoOenShipperFromModal();
   };
@@ -58,7 +59,7 @@ const FormFile = ({
                 Receiver&apos;s Name
               </p>
               <Form.Item
-                name="firstName"
+                name="receiverName"
                 rules={[
                   { required: true, message: "Receiver's name is required" },
                 ]}
@@ -74,7 +75,7 @@ const FormFile = ({
                 Contact Number
               </p>
               <Form.Item
-                name="contactNumber"
+                name="receiverPhoneNumber"
                 rules={[
                   { required: true, message: "Contact number is required" },
                 ]}
@@ -94,7 +95,7 @@ const FormFile = ({
                 Email Address
               </Typography>
               <Form.Item
-                name="email"
+                name="receiverEmail"
                 rules={[{ required: true, message: "Email is required" }]}
               >
                 <Input
@@ -108,7 +109,7 @@ const FormFile = ({
                 Receiver Address
               </Typography>
               <Form.Item
-                name="receiverAddress"
+                name="receivingAddress"
                 rules={[
                   { required: true, message: "Receiver address is required" },
                 ]}
@@ -128,7 +129,7 @@ const FormFile = ({
                 City
               </Typography>
               <Form.Item
-                name="city"
+                name="receiverCity"
                 rules={[{ required: true, message: "City is required" }]}
               >
                 <Input
@@ -142,7 +143,7 @@ const FormFile = ({
                 State
               </Typography>
               <Form.Item
-                name="state"
+                name="receiverState"
                 rules={[{ required: true, message: "State is required" }]}
               >
                 <Input
@@ -156,7 +157,7 @@ const FormFile = ({
                 Zip
               </Typography>
               <Form.Item
-                name="zip"
+                name="receiverZip"
                 rules={[{ required: true, message: "Zip code is required" }]}
               >
                 <Input
@@ -173,7 +174,7 @@ const FormFile = ({
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 PO#
               </Typography>
-              <Form.Item name="poNumber">
+              <Form.Item name="receiverpostalCode">
                 <Input
                   placeholder="Enter PO#"
                   className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
@@ -184,7 +185,7 @@ const FormFile = ({
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Bill of Loading
               </Typography>
-              <Form.Item name="billOfLoading">
+              <Form.Item name="billOfLading">
                 <Input
                   placeholder="Enter bill of loading"
                   className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
@@ -193,14 +194,14 @@ const FormFile = ({
             </div>
           </div>
 
-          {/* Delivery Instructions */}
+          {/* description */}
           <div>
             <Typography className="text-contact-input font-semibold text-start sm:mb-2">
-              Delivery Instructions
+              Description
             </Typography>
-            <Form.Item name="deliveryInstructions">
+            <Form.Item name="description">
               <textarea
-                placeholder="Enter delivery instructions"
+                placeholder="Enter description "
                 className="h-40 w-full p-4 border-2 border-gray-300 rounded-xl focus:outline-none resize-none bg-shipper-input-bg placeholder-semibold py-2"
               />
             </Form.Item>
