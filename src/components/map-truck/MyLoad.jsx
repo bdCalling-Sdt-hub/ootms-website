@@ -2,8 +2,6 @@
 import { Col, ConfigProvider, Row, Table } from "antd";
 
 const MyLoad = ({ data, isFetching }) => {
-  console.log(data);
-
   // Ensure `data` is an array
   const tableData = [data];
 

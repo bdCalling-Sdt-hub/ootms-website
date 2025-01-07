@@ -25,7 +25,6 @@ const columns = [
 
 const DispatchingPage = () => {
   const { data: allPendingLoads, isFetching } = useGetAllPendingLoadsQuery();
-  console.log("allPendingLoads", allPendingLoads?.data[0]);
 
   const items = [
     {

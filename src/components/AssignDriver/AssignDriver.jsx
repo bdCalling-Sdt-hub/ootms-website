@@ -1,15 +1,46 @@
 "use client";
 import Container from "@/components/ui/Container";
+import { useCreateLoadRequestMutation } from "@/redux/api/loadRequestApi";
 import { ConfigProvider, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 
 const AssignDiver = () => {
+  const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
   const navigate = useRouter();
-  const onFinish = (values) => {
-    console.log("assign diver:", values);
+  const onFinish = async (values) => {
+    const toastId = toast.loading("Assigning Diver...");
+    const load = JSON.parse(localStorage.getItem("loadId"));
+    const data = [
+      {
+        load: "677ce776176e4150add24980",
+        driver: values.driver,
+      },
+    ];
 
-    navigate.push("/load-request?req=myRequest");
+    const jsonData = JSON.stringify(data);
+    console.log(jsonData);
+    try {
+      const res = await createLoadRequest(data).unwrap();
+      console.log(res);
+
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
   return (
     <div className="py-20">
@@ -32,7 +63,7 @@ const AssignDiver = () => {
                 Driver ID
               </Typography.Title>
               <Form.Item
-                name="driverId"
+                name="driver"
                 className="text-base-color"
                 rules={[
                   {
@@ -42,6 +73,7 @@ const AssignDiver = () => {
                 ]}
               >
                 <Input
+                  type="number"
                   placeholder="Enter your Driver ID"
                   className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
                 />

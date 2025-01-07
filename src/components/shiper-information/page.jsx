@@ -165,43 +165,43 @@ const ShipperForm = ({
     console.log("shipperData", shipperData);
 
     console.log([{ ...reciverData, ...shipperData }]);
-    setTimeout(async () => {
-      try {
-        const res = await createLoad([
-          { ...reciverData, ...shipperData },
-        ]).unwrap();
 
-        console.log(res);
+    try {
+      const res = await createLoad([{ ...reciverData, ...values }]).unwrap();
+      localStorage.setItem(
+        "loadId",
+        JSON.stringify(res.data.attributes[0]._id)
+      );
+      console.log(res);
 
-        // form.resetFields();
-        // Reset Hazmat toggles (optional, if required)
-        setShowOptions(false);
-        setNoOptions(true);
-        toast.success("Load Added Successfully", {
+      // form.resetFields();
+      // Reset Hazmat toggles (optional, if required)
+      setShowOptions(false);
+      setNoOptions(true);
+      toast.success("Load Added Successfully", {
+        id: toastId,
+        duration: 2000,
+      });
+      handleOpenShipperFromCancel();
+      showViewModal();
+
+      // if (res?.data?.success === false) {
+      //   throw new Error(res?.data?.message);
+      // } else {
+      //
+      // }
+    } catch (error) {
+      console.log("error", error);
+      toast.error(
+        error?.data?.message ||
+          error.message ||
+          "An error occurred during Add New Product",
+        {
           id: toastId,
           duration: 2000,
-        });
-        handleOpenShipperFromCancel();
-        showViewModal();
-
-        // if (res?.data?.success === false) {
-        //   throw new Error(res?.data?.message);
-        // } else {
-        //
-        // }
-      } catch (error) {
-        console.log("error", error);
-        toast.error(
-          error?.data?.message ||
-            error.message ||
-            "An error occurred during Add New Product",
-          {
-            id: toastId,
-            duration: 2000,
-          }
-        );
-      }
-    }, 1000);
+        }
+      );
+    }
 
     // Reset the form fields
   };
@@ -581,7 +581,10 @@ const ShipperForm = ({
           <div className="flex justify-between items-center gap-5 mt-5">
             <button
               className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
-              onClick={() => router.push("/map-truck")}
+              onClick={() => {
+                localStorage.removeItem("loadId");
+                handleCancel();
+              }}
             >
               No
             </button>{" "}
