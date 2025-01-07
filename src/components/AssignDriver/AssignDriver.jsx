@@ -73,7 +73,7 @@ const AssignDiver = () => {
                 ]}
               >
                 <Input
-                  type="number"
+                  type="text"
                   placeholder="Enter your Driver ID"
                   className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
                 />
