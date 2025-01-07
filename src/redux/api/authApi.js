@@ -111,6 +111,7 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.user],
     }),
+
     myProfile: build.query({
       query: () => {
         return {
@@ -119,6 +120,16 @@ export const authApi = baseApi.injectEndpoints({
         };
       },
       providesTags: [tagTypes.user], // Ensures that the profile data can be invalidated if needed
+    }),
+
+    mytruck: build.query({
+      query: () => {
+        return {
+          url: `/truck-details`,
+          method: "GET",
+        };
+      },
+      providesTags: [tagTypes.truckDetails], // Ensures that the profile data can be invalidated if needed
     }),
 
     updateProfile: build.mutation({
@@ -153,6 +164,7 @@ export const {
   useMyProfileQuery,
   useUpdateProfileMutation,
   useEditProfileMutation,
+  useMytruckQuery,
   //   useGetAllUserQuery,
   //   useGetSingleUserQuery,
 } = authApi;

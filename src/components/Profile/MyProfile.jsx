@@ -1,7 +1,7 @@
 "use client";
 import { getImageUrl } from "@/helpers/config/envConfig";
-import { useMyProfileQuery } from "@/redux/api/authApi";
-import { Button, Form, Input, Typography, Upload } from "antd";
+import { useMyProfileQuery, useMytruckQuery } from "@/redux/api/authApi";
+import { Button, Flex, Form, Input, Spin, Typography, Upload } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,10 +11,15 @@ import Container from "../ui/Container";
 
 const MyProfile = () => {
   const { data: myProfile, isFetching } = useMyProfileQuery();
+  const { data: myTruck, isFetching: loading } = useMytruckQuery();
 
   console.log("myProfile:", myProfile?.data?.attributes);
+  console.log("myTruck:", myTruck?.data?.attributes);
   const url = getImageUrl();
-  const userImage = url + myProfile?.data?.attributes?.image;
+  const userImage = `${url.replace(
+    /\/+$/,
+    ""
+  )}/${myProfile?.data?.attributes?.image?.replace(/^\/+/, "")}`;
 
   console.log("userImage:", userImage);
   console.log("userName:", myProfile?.data?.attributes?.fullName);
@@ -45,9 +50,21 @@ const MyProfile = () => {
   }
 
   // const isCompleted = false;
-console.log(myProfile?.data?.attributes?.isComplete );
+  // console.log(myProfile?.data?.attributes?.isComplete );
+  console.log(userImage);
 
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
+
+  if (isFetching || loading) {
+    return (
+      <div>
+        <div className="my-10 flex justify-center items-center">
+          <Spin size="large" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="min-h-screen my-16 md:mt-20">
@@ -119,7 +136,7 @@ console.log(myProfile?.data?.attributes?.isComplete );
             <div className="flex flex-col sm:flex-row items-center gap-10">
               <div className="rounded-full border-2 border-add-profile-border overflow-hidden">
                 <Image
-                  src={uploadedImage}
+                  src={userImage}
                   alt="profile_img"
                   width={0}
                   height={0}
@@ -171,14 +188,38 @@ console.log(myProfile?.data?.attributes?.isComplete );
                     level={4}
                     className="text-profile-text-color font-bold"
                   >
-                    Emaill
+                    Email
                   </Typography.Title>
                   <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
                     {myProfile?.data?.attributes?.email}
                   </div>
                 </div>
+                {/* Address  */}
+                <div>
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
+                  >
+                    Address
+                  </Typography.Title>
+                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
+                    {myProfile?.data?.attributes?.address}
+                  </div>
+                </div>
+                {/* Phone  */}
+                <div>
+                  <Typography.Title
+                    level={4}
+                    className="text-profile-text-color font-bold"
+                  >
+                    Phone
+                  </Typography.Title>
+                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
+                    {myProfile?.data?.attributes?.phoneNumber}
+                  </div>
+                </div>
 
-                {myProfile?.data?.attributes?.isComplete  ? (
+                {myProfile?.data?.attributes?.isComplete ? (
                   <>
                     {myProfile?.data?.attributes?.roll === "user" && (
                       <>
@@ -218,7 +259,7 @@ console.log(myProfile?.data?.attributes?.isComplete );
                           <Form.Item
                             name="truckNumber"
                             initialValue={
-                              myProfile?.data?.attributes?.truckNumber
+                              myTruck?.data?.attributes[0]?.truckNumber
                             }
                             className="text-white"
                           >
@@ -239,7 +280,7 @@ console.log(myProfile?.data?.attributes?.isComplete );
                           <Form.Item
                             name="cdlNumber"
                             initialValue={
-                              myProfile?.data?.attributes?.cdlNumber
+                              myTruck?.data?.attributes[0]?.cdlNumber
                             }
                             className="text-white"
                           >
@@ -260,7 +301,7 @@ console.log(myProfile?.data?.attributes?.isComplete );
                           <Form.Item
                             name="trailerSize"
                             initialValue={
-                              myProfile?.data?.attributes?.trailerSize
+                              myTruck?.data?.attributes[0]?.trailerSize
                             }
                             className="text-white"
                           >
@@ -281,7 +322,7 @@ console.log(myProfile?.data?.attributes?.isComplete );
                           <Form.Item
                             name="palletSpace"
                             initialValue={
-                              myProfile?.data?.attributes?.palletSpace
+                              myTruck?.data?.attributes[0]?.palletSpace
                             }
                             className="text-white"
                           >
