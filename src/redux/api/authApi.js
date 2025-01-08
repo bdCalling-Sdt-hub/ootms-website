@@ -132,13 +132,13 @@ export const authApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.truckDetails], // Ensures that the profile data can be invalidated if needed
     }),
 
-    updateProfile: build.mutation({
-      query: (updateProfileData) => ({
+    completeProfile: build.mutation({
+      query: (completeProfileData) => ({
         url: `/users/complete`,
         method: "POST",
-        body: updateProfileData,
+        body: completeProfileData,
       }),
-      invalidatesTags: [tagTypes.updateProfile],
+      invalidatesTags: [tagTypes.user],
     }),
 
     editProfile: build.mutation({
@@ -147,7 +147,7 @@ export const authApi = baseApi.injectEndpoints({
         method: "PUT",
         body: editProfileData,
       }),
-      invalidatesTags: [tagTypes.editProfile],
+      invalidatesTags: [tagTypes.user],
     }),
   }),
 });
@@ -162,7 +162,7 @@ export const {
   useForgetOtpVerifyMutation,
   useResetPasswordMutation,
   useMyProfileQuery,
-  useUpdateProfileMutation,
+  useCompleteProfileMutation,
   useEditProfileMutation,
   useMytruckQuery,
   //   useGetAllUserQuery,

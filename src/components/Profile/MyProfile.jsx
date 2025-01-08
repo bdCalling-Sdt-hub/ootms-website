@@ -69,36 +69,6 @@ const MyProfile = () => {
     <div>
       <div className="min-h-screen my-16 md:mt-20">
         <Container>
-          {/* <div className="flex flex-col sm:flex-row justify-between items-center ">
-            {isOnlyView ? (
-              <div className="text-3xl md:text-3xl lg:text-4xl font-semibold mb-6"></div>
-            ) : (
-              <h1 className="text-secondary-color text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                Add Profile Picture
-              </h1>
-            )}
-
-            <div className="mb-10 sm:mb-0">
-              {isOnlyView ? (
-                <Button
-                  onClick={toggleOnlyView}
-                  type="primary"
-                  className="px-12  py-6 text-lg md:text-xl font-semibold bg-secondary-color border border-secondary-color text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
-                >
-                  Edit Profile
-                </Button>
-              ) : (
-                <Button
-                  onClick={toggleOnlyView}
-                  type="primary"
-                  className="px-12 py-6 text-lg md:text-xl font-semibold bg-transparent border-secondary-color text-base-color rounded-3xl"
-                >
-                  Undo Changes
-                </Button>
-              )}
-            </div>
-          </div> */}
-
           <div className="flex flex-col sm:flex-row justify-between items-center ">
             {/* {isCompleted ? <></> : <></>} */}
             <>
@@ -144,28 +114,6 @@ const MyProfile = () => {
                   className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
                 />
               </div>
-
-              {/* <div className="flex items-start flex-col">
-                {isOnlyView ? (
-                  <div></div>
-                ) : (
-                  <p className="text-xl text-base-color mb-7">
-                    Maximum size 5mb. Format jpg, jpeg, png.
-                  </p>
-                )}
-
-                {isOnlyView ? (
-                  ""
-                ) : (
-                  <Form.Item name="profileImage" className="text-white ">
-                    <Upload onChange={handleImageUpload}>
-                      <Button className="px-12  py-6 text-lg md:text-xl font-semibold bg-[#E6E7E6] border border-[#4E4E4E] text-base-color rounded-3xl ">
-                        Change Picture
-                      </Button>
-                    </Upload>
-                  </Form.Item>
-                )}
-              </div> */}
             </div>
 
             <div className="mt-16">
@@ -178,11 +126,21 @@ const MyProfile = () => {
                   >
                     Full Name
                   </Typography.Title>
-                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.fullName}
-                  </div>
+                  <Form.Item
+                    name="fullName"
+                    initialValue={myProfile?.data?.attributes?.fullName}
+                    className="text-white"
+                  >
+                    <Input
+                      placeholder="Enter your fullName"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                    />
+                  </Form.Item>
                 </div>
+
                 {/* Email  */}
+  
+
                 <div>
                   <Typography.Title
                     level={4}
@@ -190,10 +148,18 @@ const MyProfile = () => {
                   >
                     Email
                   </Typography.Title>
-                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.email}
-                  </div>
+                  <Form.Item
+                    name="email"
+                    initialValue={myProfile?.data?.attributes?.email}
+                    className="text-white"
+                  >
+                    <Input
+                      placeholder="Enter your email"
+                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                    />
+                  </Form.Item>
                 </div>
+
                 {/* Address  */}
                 <div>
                   <Typography.Title
@@ -203,7 +169,8 @@ const MyProfile = () => {
                     Address
                   </Typography.Title>
                   <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.address}
+                    {myProfile?.data?.attributes?.address ||
+                      "Please Complete your profile"}
                   </div>
                 </div>
                 {/* Phone  */}
@@ -215,13 +182,14 @@ const MyProfile = () => {
                     Phone
                   </Typography.Title>
                   <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.phoneNumber}
+                    {myProfile?.data?.attributes?.phoneNumber ||
+                      "Please Complete your profile"}
                   </div>
                 </div>
 
                 {myProfile?.data?.attributes?.isComplete ? (
                   <>
-                    {myProfile?.data?.attributes?.roll === "user" && (
+                    {myProfile?.data?.attributes?.role === "user" && (
                       <>
                         {/* {data.roll === "user" && ( */}
                         {/*  Tax ID  */}
@@ -336,8 +304,13 @@ const MyProfile = () => {
                     )}
                   </>
                 ) : (
-                  <></>
+                    <>
+                    </>
                 )}
+
+
+
+
               </div>
 
               {/* <h2 className="mb-1 text-xl font-semibold">
