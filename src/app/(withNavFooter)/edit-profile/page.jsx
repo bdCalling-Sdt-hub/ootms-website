@@ -29,9 +29,15 @@ const EditProfile = () => {
   const [isOnlyView, setIsOnlyView] = useState(true);
   const imageUrl = getImageUrl(); // Base URL for images
   const userImagePath = myProfile?.data?.attributes?.image?.replace(/^\/+/, ""); // Remove leading slashes
+
   const userImage = `${imageUrl.replace(/\/+$/, "")}/${userImagePath}`; // Remove trailing slashes from base URL
 
+
+
+
   const [uploadedImage, setUploadedImage] = useState(userImage);
+
+    useEffect(() => {setUploadedImage(userImage)}, [myProfile]);
 
   console.log("uploaded Image", userImage);
 
@@ -67,6 +73,8 @@ const EditProfile = () => {
       console.warn("Profile image is not a file. Check your data:", data.image);
     }
 
+
+
     // Append other fields
     formData.append("fullName", data.fullName);
     formData.append("phoneNumber", data.phoneNumber);
@@ -75,10 +83,10 @@ const EditProfile = () => {
     // console.log({ ...values, image: values.image });
     try {
       if (myProfile?.data?.attributes?.isComplete) {
-        // console.log("edit", formData);
-        // formData.forEach((value, key) => {
-        //   console.log(key, value);
-        // });
+        console.log("edit", formData);
+        formData.forEach((value, key) => {
+          console.log(key, value);
+        });
 
         res = await editProfile(formData).unwrap();
       } else {
@@ -204,11 +212,12 @@ const EditProfile = () => {
                       alt={
                         myProfile?.data?.attributes?.fullName || "Profile image"
                       }
+                      sizes="100vw"
                       className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
                     />
                   </div>
                   <div className="flex items-start flex-col">
-                    <Form.Item name="image" className="text-white">
+                    <Form.Item name="profileImage" className="text-white">
                       {isFetching ? (
                         <p>Loading...</p>
                       ) : (

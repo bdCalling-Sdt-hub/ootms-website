@@ -21,7 +21,7 @@ const MyProfile = () => {
     ""
   )}/${myProfile?.data?.attributes?.image?.replace(/^\/+/, "")}`;
 
-  console.log("userImage:", userImage);
+
   console.log("userName:", myProfile?.data?.attributes?.fullName);
 
   const router = useRouter();
@@ -51,7 +51,7 @@ const MyProfile = () => {
 
   // const isCompleted = false;
   // console.log(myProfile?.data?.attributes?.isComplete );
-  console.log(userImage);
+  console.log("userImage:", userImage);
 
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
 
