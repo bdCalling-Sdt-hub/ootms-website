@@ -3,6 +3,7 @@ export const tagTypes = {
   load: "Load",
   loadRequest: "LoadRequest",
   truckDetails: "truckDetails",
+  current: "Current",
 };
 
 export const tagTypesList = [
@@ -10,4 +11,5 @@ export const tagTypesList = [
   tagTypes.load,
   tagTypes.loadRequest,
   tagTypes.truckDetails,
+  tagTypes.current
 ];

@@ -7,6 +7,7 @@ import { PiArrowSquareUpLight } from "react-icons/pi";
 import { Input } from "antd";
 import { FaTruckFront } from "react-icons/fa6";
 import Link from "next/link";
+import { useGetCurrentShipmentQuery } from "@/redux/api/loadRequestApi";
 
 const requestData = [
   {
@@ -96,6 +97,10 @@ const requestData = [
 ];
 
 const CurrentShipmentList = () => {
+  const { data: currentShipment, isFetching } = useGetCurrentShipmentQuery();
+  console.log("currentShipment", currentShipment);
+  
+
   const [searchText, setSearchText] = useState("");
   //* Use to set user
   const [data, setData] = useState(requestData);

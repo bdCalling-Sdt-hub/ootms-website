@@ -12,6 +12,10 @@ const loadRequestApi = baseApi.injectEndpoints({
       query: (id) => `/loads/${id}`,
       providesTags: [tagTypes.loadRequest],
     }),
+    getCurrentShipment: builder.query({
+      query: () => `/shipment/current`,
+      providesTags: [tagTypes.current],
+    }),
 
     createLoadRequest: builder.mutation({
       query: (data) => ({
@@ -24,5 +28,5 @@ const loadRequestApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllLoadRequestQuery, useGetSingleLoadRequestQuery, useCreateLoadRequestMutation } =
+export const { useGetAllLoadRequestQuery, useGetSingleLoadRequestQuery, useCreateLoadRequestMutation,useGetCurrentShipmentQuery } =
   loadRequestApi;
