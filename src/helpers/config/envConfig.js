@@ -1,5 +1,5 @@
 export const getBaseUrl = () => {
-  return "http://137.184.95.36:8020/api/v1";
+  return "http://10.0.70.37:8020/api/v1";
 
 
   // "https://c2v5088h-8020.asse.devtunnels.ms/api/v1";
@@ -11,5 +11,5 @@ export const getBaseUrl = () => {
 };
 
 export const getImageUrl = (key) => {
-  return process.env.IMAGE_URL || "http://137.184.95.36:8020/";
+  return process.env.IMAGE_URL || "http://10.0.70.37:8020/";
 };

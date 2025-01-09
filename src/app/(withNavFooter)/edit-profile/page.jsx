@@ -23,7 +23,7 @@ const EditProfile = () => {
   const router = useRouter();
   const [form] = Form.useForm();
 
-  console.log("myProfile2", myProfile?.data?.attributes?.image);
+  // console.log("myProfile2", myProfile?.data?.attributes?.image);
 
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
@@ -32,14 +32,13 @@ const EditProfile = () => {
 
   const userImage = `${imageUrl.replace(/\/+$/, "")}/${userImagePath}`; // Remove trailing slashes from base URL
 
-
-
-
   const [uploadedImage, setUploadedImage] = useState(userImage);
 
-    useEffect(() => {setUploadedImage(userImage)}, [myProfile]);
+  useEffect(() => {
+    setUploadedImage(userImage);
+  }, [myProfile]);
 
-  console.log("uploaded Image", userImage);
+  // console.log("uploaded Image", userImage);
 
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
@@ -62,9 +61,14 @@ const EditProfile = () => {
       phoneNumber: values.phoneNumber,
       address: values.address,
       profileImage:
-        values?.image?.file?.originFileObj ||
+        values?.profileImage?.file?.originFileObj ||
         myProfile?.data?.attributes?.image,
     };
+    // console.log(
+    //   "302r498590843958t395482395r9340985r9342909",
+    //   values?.image?.file
+    // );
+
     let newData;
     // Append the file directly
     if (data.image instanceof File) {
@@ -72,8 +76,6 @@ const EditProfile = () => {
     } else {
       console.warn("Profile image is not a file. Check your data:", data.image);
     }
-
-
 
     // Append other fields
     formData.append("fullName", data.fullName);
