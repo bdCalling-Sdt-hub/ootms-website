@@ -50,7 +50,7 @@ const ShipperForm = ({
 
     // Explicitly set `trailerSize` to an empty array
     form.setFieldsValue({
-      hazmat: [], // Clear trailerSize to an empty array
+      Hazmat: [], // Clear trailerSize to an empty array
     });
   };
 
@@ -67,36 +67,15 @@ const ShipperForm = ({
   };
 
   const [options, setOptions] = useState([
+    { label: "Hazmat", value: "Hazmat", checked: false },
     { label: "Dangerous", value: "Dangerous", checked: false },
     { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
     { label: "Poison 6", value: "Poison 6", checked: false },
     { label: "Corrosive", value: "Corrosive", checked: false },
-    { label: "Oxygen 2", value: "Oxygen 2", checked: false },
-    { label: "Danger", value: "Danger", checked: false },
-    { label: "Flammable 3", value: "Flammable 3", checked: false },
-    { label: "Radioactive 7", value: "Radioactive 7", checked: false },
-    { label: "Non-Flammable Gas", value: "Non-Flammable Gas", checked: false },
-    {
-      label: "Organic Peroxide 5.2",
-      value: "Organic Peroxide 5.2",
-      checked: false,
-    },
-    { label: "Spontaneously", value: "Spontaneously", checked: false },
-    { label: "Explosive 1.4", value: "Explosive 1.4", checked: false },
-    { label: "Flammable Solid 4", value: "Flammable Solid 4", checked: false },
-    {
-      label: "Dangerous when wet",
-      value: "Dangerous when wet",
-      checked: false,
-    },
-    {
-      label: "Blasting Agents 1.5d",
-      value: "Blasting Agents 1.5d",
-      checked: false,
-    },
-    { label: "Miscellaneous 9", value: "Miscellaneous 9", checked: false },
-    { label: "PG III", value: "PG III", checked: false },
-    { label: "Inhalation 6", value: "Inhalation 6", checked: false },
+    { label: "Oxygen 2", value: "Oxygen 2", checked: false }, // Corrected from Oxygen2 to Oxygen 2
+    { label: "Flammable 3", value: "Flammable 3", checked: false }, // Corrected from Flamable 3 to Flammable 3
+    { label: "Radioactive 7", value: "Radioactive 7", checked: false }, // Assuming you meant Radioactive 7 from Radioactive
+    { label: "Non-Flammable Gas", value: "Non-Flammable Gas", checked: false }, // Listed as Non-Flammable in the modal
   ]);
 
   const handleCheckboxChange = (value) => {
@@ -115,11 +94,11 @@ const ShipperForm = ({
       // Update the form field with the selected values
       if (selectedValues.length > 0) {
         form.setFieldsValue({
-          hazmat: selectedValues,
+          Hazmat: selectedValues,
         });
       } else {
         form.setFieldsValue({
-          hazmat: [],
+          Hazmat: [],
         });
       }
 
@@ -142,29 +121,20 @@ const ShipperForm = ({
   const onFinish = async (values) => {
     const toastId = toast.loading("Load Data Added...");
     if (
-      !Array.isArray(values.hazmat) ||
-      values.hazmat.length <= 0 ||
-      values.hazmat === undefined ||
-      values.hazmat === null ||
-      values.hazmat === ""
+      !Array.isArray(values.Hazmat) ||
+      values.Hazmat.length <= 0 ||
+      values.Hazmat === undefined ||
+      values.Hazmat === null ||
+      values.Hazmat === ""
     ) {
-      // If hazmat is not an array or has no selected values, reset it to an empty array
-      values.hazmat = [];
+      // If Hazmat is not an array or has no selected values, reset it to an empty array
+      values.Hazmat = [];
     } else {
       // Use the existing values
-      values.hazmat = values.hazmat;
+      values.Hazmat = values.Hazmat;
     }
 
-    setShipperData(values);
-
-    // Reset the `options` state to uncheck all checkboxes
-    setOptions((prevOptions) =>
-      prevOptions.map((option) => ({ ...option, checked: false }))
-    );
-
-    console.log("shipperData", shipperData);
-
-    console.log([{ ...reciverData, ...shipperData }]);
+    console.log(values);
 
     try {
       const res = await createLoad([{ ...reciverData, ...values }]).unwrap();
@@ -174,6 +144,8 @@ const ShipperForm = ({
       );
       console.log(res);
 
+      console.log("Hazmat vai Returns : ", values);
+
       // form.resetFields();
       // Reset Hazmat toggles (optional, if required)
       setShowOptions(false);
@@ -182,6 +154,10 @@ const ShipperForm = ({
         id: toastId,
         duration: 2000,
       });
+      // Reset the `options` state to uncheck all checkboxes
+      setOptions((prevOptions) =>
+        prevOptions.map((option) => ({ ...option, checked: false }))
+      );
       handleOpenShipperFromCancel();
       showViewModal();
 
@@ -484,7 +460,7 @@ const ShipperForm = ({
           </div>
 
           {/* select item */}
-          <Form.Item name="hazmat">
+          <Form.Item name="Hazmat">
             <div>
               {/* Hazmat Options */}
               <div className="flex justify-between mb-4">

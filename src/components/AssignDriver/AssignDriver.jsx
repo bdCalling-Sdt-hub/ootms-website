@@ -14,7 +14,7 @@ const AssignDiver = () => {
     const load = JSON.parse(localStorage.getItem("loadId"));
     const data = [
       {
-        load: "677ce776176e4150add24980",
+        load,
         driver: values.driver,
       },
     ];
