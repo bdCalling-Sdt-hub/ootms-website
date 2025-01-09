@@ -60,9 +60,7 @@ const EditProfile = () => {
       fullName: values.fullName,
       phoneNumber: values.phoneNumber,
       address: values.address,
-      profileImage:
-        values?.profileImage?.file?.originFileObj ||
-        myProfile?.data?.attributes?.image,
+      profileImage: values?.profileImage?.file?.originFileObj,
     };
     // console.log(
     //   "302r498590843958t395482395r9340985r9342909",
@@ -71,13 +69,15 @@ const EditProfile = () => {
 
     let newData;
     // Append the file directly
-    if (data.image instanceof File) {
-      formData.append("profileImage", data.profileImage);
-    } else {
-      console.warn("Profile image is not a file. Check your data:", data.image);
-    }
+    // if (data.image instanceof File) {
+    // } else {
+    //   console.warn("Profile image is not a file. Check your data:", data.image);
+    // }
 
     // Append other fields
+    if (data.profileImage) {
+      formData.append("profileImage", data.profileImage);
+    }
     formData.append("fullName", data.fullName);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("address", data.address);
