@@ -1,12 +1,18 @@
 "use client";
 import Container from "@/components/ui/Container";
+import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
 import { Button } from "antd";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
 
 const MyRequestId = () => {
+  const params = useParams();
+  const { data } = useGetSingleLoadRequestQuery(params?.id);
+
+  console.log("data", data?.data?.attributes?.query);
+
   const router = useRouter();
   return (
     <div className="py-20 bg-[#F3F3F3]">
@@ -67,13 +73,15 @@ const MyRequestId = () => {
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Trailer Size: </p>
-                    <p>48-foot trailer.</p>
+                    <p>
+                      {data?.data?.attributes?.query?.trailerSize}-foot trailer.
+                    </p>
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div>
                     <p className="text-lg font-semibold">Pallet Spaces: </p>
-                    <p>24 pallets.</p>
+                    <p>{data?.data?.attributes?.query?.palletSpace} pallets.</p>
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Availability: </p>
@@ -97,20 +105,22 @@ const MyRequestId = () => {
                   <div className="flex text-yellow-400 mr-2">
                     {"★".repeat(1)}
                   </div>
-                  <span>4.65 AL Shakib</span>
+                  <span>
+                    4.65 {data?.data?.attributes?.query?.receiverName}
+                  </span>
                 </div>
               </div>
               <div>
                 <p className="font-semibold">Reciver Phone</p>
-                <p>123-456-789</p>
+                <p>{data?.data?.attributes?.query?.receiverPhoneNumber}</p>
               </div>
               <div>
                 <p className="font-semibold">Reciver Email</p>
-                <p>example@gmail.com</p>
+                <p>{data?.data?.attributes?.query?.receiverEmail} </p>
               </div>
               <div>
                 <p className="font-semibold">Reciver Address</p>
-                <p>Uttara, Dhaka</p>
+                <p>{data?.data?.attributes?.query?.receivingAddress}</p>
               </div>
             </div>
           </div>
@@ -123,7 +133,7 @@ const MyRequestId = () => {
               <div className="flex flex-col gap-4">
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
-                  <p>Dry Load</p>
+                  <p>{data?.data?.attributes?.query?.loadType}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Weight: </p>
@@ -131,21 +141,24 @@ const MyRequestId = () => {
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Pickup: </p>
-                  <p>12-12-2024, Rupatoli, Barishal.</p>
+                  <p>{data?.data?.attributes?.query?.shippingAddress}</p>
                 </div>
               </div>
               <div className="flex flex-col gap-4">
                 <div>
                   <p className="text-lg font-semibold">Trailer Size: </p>
-                  <p>48-foot trailer—24 pallets.</p>
+                  <p>
+                    {data?.data?.attributes?.query?.trailerSize}-foot trailer—
+                    {data?.data?.attributes?.query?.palletSpace}pallets.
+                  </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
-                  <p>Flammable Gas 2, Corrosive, Danger.</p>
+                  <p>{data?.data?.attributes?.query?.Hazmat[0]}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Delivery: </p>
-                  <p>13-12-2024, Banasree, Dhaka.</p>
+                  <p>{data?.data?.attributes?.query?.receivingAddress}</p>
                 </div>
               </div>
             </div>

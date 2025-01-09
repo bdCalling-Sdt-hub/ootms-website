@@ -13,6 +13,8 @@ import {
   useRouter,
   useSearchParams,
 } from "next/navigation";
+import MyRequest from "./MyRequest";
+import { useGetAllLoadRequestQuery } from "@/redux/api/loadRequestApi";
 
 const loadData = [
   {
@@ -177,6 +179,10 @@ const requestData = [
 ];
 
 const LoadRequest = () => {
+  const { data: allLoad, isFetching } = useGetAllLoadRequestQuery();
+
+  console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
+  
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -282,54 +288,8 @@ const LoadRequest = () => {
             </div>
           ) : (
             <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
-              {requestData.map((truck, index) => (
-                <div
-                  onClick={() =>
-                    router.push(`load-request/my-request/1431dfvgd464`)
-                  }
-                  key={index}
-                  className="flex flex-col p-4 mb-5 border rounded-lg shadow-md bg-white"
-                >
-                  <div className="flex items-center mb-4 gap-4">
-                    <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
-                      <Image
-                        src={AllImages.user}
-                        alt="user"
-                        className="w-16 h-16 rounded-full"
-                      />
-                    </div>
-
-                    <div className="">
-                      <h1 className="text-xl font-semibold">{truck.name}</h1>
-                      <p className="text-lg text-gray-500">{truck.trailer}</p>
-                      <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
-                        <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
-                          <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
-                        </div>
-                        <p>The truck is fully available.</p>
-                      </div>
-                      {/* <div className="flex items-center justify-center gap-4">
-                        <p className="bg-[#90BA7A] h-8 w-8 rounded-full"></p>
-                        <p
-                          className={`text-md ${
-                            truck.status === "available"
-                              ? "text-green-600"
-                              : truck.status === "partially available"
-                              ? "text-yellow-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {truck.truckAvailability}
-                        </p>
-                      </div> */}
-                      {truck.locations.map((location, idx) => (
-                        <p key={idx} className="text-md text-gray-600 flex">
-                          {location}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+              {allLoad?.data?.attributes?.loadRequests.map((truck, index) => (
+                <MyRequest data={truck} />
               ))}
             </div>
           )}
