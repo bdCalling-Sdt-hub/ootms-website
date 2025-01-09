@@ -29,6 +29,7 @@ const AssignDiver = () => {
         id: toastId,
         duration: 2000,
       });
+      navigate.push("/load-request?req=myRequest");
     } catch (error) {
       console.log(error);
       toast.error(

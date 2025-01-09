@@ -36,13 +36,13 @@ const EditProfile = () => {
 
   useEffect(() => {
     setUploadedImage(userImage);
-  }, [myProfile]);
+  }, [myProfile, userImage]);
 
   // console.log("uploaded Image", userImage);
 
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
-      setUploadedImage(myProfile?.data?.attributes?.image);
+      setUploadedImage(userImage);
     } else {
       const file = info.file.originFileObj;
       if (file) {
@@ -62,17 +62,8 @@ const EditProfile = () => {
       address: values.address,
       profileImage: values?.profileImage?.file?.originFileObj,
     };
-    // console.log(
-    //   "302r498590843958t395482395r9340985r9342909",
-    //   values?.image?.file
-    // );
 
     let newData;
-    // Append the file directly
-    // if (data.image instanceof File) {
-    // } else {
-    //   console.warn("Profile image is not a file. Check your data:", data.image);
-    // }
 
     // Append other fields
     if (data.profileImage) {
@@ -223,7 +214,17 @@ const EditProfile = () => {
                       {isFetching ? (
                         <p>Loading...</p>
                       ) : (
-                        <Upload maxCount={1} onChange={handleImageUpload}>
+                        <Upload
+                          customRequest={(options) => {
+                            console.log("File to upload:", options.file);
+
+                            setTimeout(() => {
+                              options.onSuccess("ok");
+                            }, 1000);
+                          }}
+                          maxCount={1}
+                          onChange={handleImageUpload}
+                        >
                           <Button className="bg-next-btn py-6 text-next-text font-semibold text-xl md:mt-16 rounded-xl px-8">
                             Change Picture
                           </Button>
