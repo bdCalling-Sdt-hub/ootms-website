@@ -3,8 +3,8 @@ import { baseApi } from "./baseApi";
 
 const loadRequestApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    loadRequest: builder.query({
-      query: () => "/loads-request",
+    getAllLoadRequest: builder.query({
+      query: () => "/shipment/pending",
       providesTags: [tagTypes.loadRequest],
     }),
     createLoadRequest: builder.mutation({
@@ -18,5 +18,5 @@ const loadRequestApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useLoadRequestQuery, useCreateLoadRequestMutation } =
+export const { useGetAllLoadRequestQuery, useCreateLoadRequestMutation } =
   loadRequestApi;
