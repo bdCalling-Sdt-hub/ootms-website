@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`font-poppins ${skia.variable}`}>
         <Providers>
-          <Toaster />
+          <Toaster richColors />
           <AntdRegistry>
             <ConfigProvider theme={mainTheme}>
               {children} <FeedBack />

@@ -182,7 +182,7 @@ const LoadRequest = () => {
   const { data: allLoad, isFetching } = useGetAllLoadRequestQuery();
 
   console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -289,7 +289,7 @@ const LoadRequest = () => {
           ) : (
             <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
               {allLoad?.data?.attributes?.loadRequests.map((truck, index) => (
-                <MyRequest data={truck} />
+                <MyRequest key={index} data={truck} />
               ))}
             </div>
           )}

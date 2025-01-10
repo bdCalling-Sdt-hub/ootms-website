@@ -1,12 +1,12 @@
 "use client";
-import { Button, ConfigProvider, Modal, Table } from "antd";
+import { Button, Col, ConfigProvider, Modal, Row, Table } from "antd";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoMdStar } from "react-icons/io";
 import { AllImages } from "../../../public/assets/AllImages";
 
-const Trucks = ({ data, setOpen, open }) => {
+const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
   const showModal = () => {
     setOpen(true);
   };
@@ -16,6 +16,7 @@ const Trucks = ({ data, setOpen, open }) => {
 
   const handleCancel = () => {
     setOpen(false);
+    setDragData(null);
   };
   const columns = [
     {
@@ -60,6 +61,36 @@ const Trucks = ({ data, setOpen, open }) => {
       dataIndex: "location",
       key: "location",
       responsive: ["xs", "sm"], // Display on small screens and above
+    },
+  ];
+
+  const dragColumns = [
+    {
+      title: "Shipper City",
+      dataIndex: "shippingCity", // Refers to the key in each object
+      key: "shippingCity",
+    },
+    {
+      title: "Receiver City",
+      dataIndex: "receiverCity",
+      key: "receiverCity",
+    },
+    { title: "Load Type", dataIndex: "loadType", key: "loadType" },
+    {
+      title: "Pallet Spaces",
+      dataIndex: "palletSpace",
+      key: "palletSpace",
+    },
+    { title: "Weight", dataIndex: "weight", key: "weight" },
+    {
+      title: "Pickup Date",
+      dataIndex: "pickupDate",
+      key: "pickupDate",
+    },
+    {
+      title: "Delivery Date",
+      dataIndex: "deliveryDate",
+      key: "deliveryDate",
     },
   ];
   return (
@@ -144,7 +175,7 @@ const Trucks = ({ data, setOpen, open }) => {
               <FaPhone className="w-6 h-6" />
             </div>
           </div>
-          <div className="bg-[#EEF2FC] rounded-lg">
+          <div ref={inputRef} className="bg-[#EEF2FC] rounded-lg">
             {/* Assign And Cancle  */}
             <div className=" flex justify-center items-center gap-5 pt-5 p-3">
               <Button
@@ -159,17 +190,106 @@ const Trucks = ({ data, setOpen, open }) => {
             </div>
             {/* Drag Input  */}
             <div className="  p-3">
-              <p className="text-xl text-center text-[#7D7D7D] mb-3">- OR -</p>
-              <div className="">
-                <Image
-                  src={AllImages.drop}
-                  alt="drag"
-                  className="h-40 w-auto mx-auto"
-                />
-              </div>
-              <p className="text-2xl  text-center text-[#7D7D7D] my-2 font-semibold">
-                Drop Your Load Here
-              </p>
+              {dragData ? (
+                <div className="my-6 overflow-x-auto">
+                  {/* Shipper and Receiver Section */}
+                  <Row
+                    gutter={0}
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#d9d9f0",
+                      border: "1px solid gray",
+                    }}
+                  >
+                    <Col
+                      xs={24}
+                      sm={12}
+                      style={{
+                        padding: "10px",
+                        fontWeight: "bold",
+                        borderRight: "1px solid gray",
+                      }}
+                    >
+                      Shipper
+                    </Col>
+                    <Col
+                      xs={24}
+                      sm={12}
+                      style={{
+                        padding: "10px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Receiver
+                    </Col>
+                  </Row>
+
+                  <Row
+                    gutter={0}
+                    style={{
+                      textAlign: "center",
+                      border: "1px solid gray",
+                    }}
+                  >
+                    <Col
+                      xs={24}
+                      sm={12}
+                      style={{
+                        padding: "10px",
+                        borderRight: "1px solid #ccc",
+                      }}
+                    >
+                      {dragData?.shipperName || "N/A"}
+                    </Col>
+                    <Col xs={24} sm={12} style={{ padding: "10px" }}>
+                      {dragData?.receiverName || "N/A"}
+                    </Col>
+                  </Row>
+
+                  {/* Data Table */}
+                  <ConfigProvider
+                    theme={{
+                      components: {
+                        Table: {
+                          padding: 10,
+                          margin: 10,
+                          cellFontSize: 12,
+                          headerBg: "rgb(189,196,222)",
+                        },
+                        Input: {
+                          colorText: "rgb(255,255,255)",
+                        },
+                      },
+                    }}
+                  >
+                    <Table
+                      columns={dragColumns}
+                      dataSource={[dragData]}
+                      rowKey="_id" // Use `_id` as a unique key for rows
+                      pagination={false}
+                      bordered
+                      scroll={{ x: "max-content" }}
+                      style={{ maxWidth: "100%", overflowX: "hidden" }}
+                    />
+                  </ConfigProvider>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-xl text-center text-[#7D7D7D] mb-3">
+                    - OR -
+                  </p>
+                  <div className="">
+                    <Image
+                      src={AllImages.drop}
+                      alt="drag"
+                      className="h-40 w-auto mx-auto"
+                    />
+                  </div>
+                  <p className="text-2xl  text-center text-[#7D7D7D] my-2 font-semibold">
+                    Drop Your Load Here
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

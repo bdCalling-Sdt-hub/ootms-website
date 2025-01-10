@@ -146,7 +146,7 @@ const ShipperForm = ({
 
       console.log("Hazmat vai Returns : ", values);
 
-      // form.resetFields();
+      form.resetFields();
       // Reset Hazmat toggles (optional, if required)
       setShowOptions(false);
       setNoOptions(true);

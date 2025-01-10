@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../ui/Container";
 import Image from "next/image";
 import { GoClock } from "react-icons/go";
-import { AllBlogs } from "../../../public/assets/AllImages";
+import { AllImages } from "../../../public/assets/AllImages";
 
 const BlogDetails = () => {
   return (
@@ -15,7 +15,7 @@ const BlogDetails = () => {
         </div>
         <div className="rounded-2xl shadow p-4 border border-[#E6E7E6] bg-[#F7F8F8]">
           <Image
-            src={AllBlogs.blog1}
+            src={AllImages.feedback}
             alt="blog_img"
             width={0}
             height={0}

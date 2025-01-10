@@ -3,7 +3,7 @@ import FormFile from "@/components/Dispatching/Form";
 import { useRouter } from "next/navigation";
 import Trucks from "@/components/map-truck/Trucks";
 import LeafletAllTrack from "@/components/LeafletMap/LeafletAllTrack";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button, ConfigProvider, Dropdown, Modal } from "antd";
 import ShipperForm from "@/components/shiper-information/page";
 import AssignDiver from "@/components/AssignDriver/AssignDriver";
@@ -13,60 +13,45 @@ import { useGetAllPendingLoadsQuery } from "@/redux/api/loadApi";
 import MyLoad from "../map-truck/MyLoad";
 import { AllImages } from "../../../public/assets/AllImages";
 
-const columns = [
-  { title: "Shipper City", dataIndex: "shipperCity", key: "shipperCity" },
-  { title: "Receiver City", dataIndex: "receiverCity", key: "receiverCity" },
-  { title: "Load Type", dataIndex: "loadType", key: "loadType" },
-  { title: "Pallet Spaces", dataIndex: "palletSpaces", key: "palletSpaces" },
-  { title: "Weight", dataIndex: "weight", key: "weight" },
-  { title: "Pickup Date", dataIndex: "pickupDate", key: "pickupDate" },
-  { title: "Delivery Date", dataIndex: "deliveryDate", key: "deliveryDate" },
+const trucksData = [
+  {
+    key: "1",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 24,
+    weight: 47000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
 ];
 
 const DispatchingPage = () => {
   const { data: allPendingLoads, isFetching } = useGetAllPendingLoadsQuery();
 
-  console.log("allPendingLoads", allPendingLoads?.data[0]);
+  //* Drag And Drop--------------------------------------------------------------
+  const inputRef = useRef(null);
+  const [dragData, setDragData] = useState(null);
 
-  const items = [
-    {
-      label: (
-        <a
-          href="https://www.antgroup.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          1st menu item
-        </a>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <a
-          href="https://www.aliyun.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          2nd menu item
-        </a>
-      ),
-      key: "1",
-    },
-  ];
-  const router = useRouter();
-  const [trucksData, setTrucksData] = useState([
-    {
-      key: "1",
-      driver: "John Doe",
-      truck: "Volvo FH16",
-      palletSpaces: 24,
-      weight: 47000,
-      trailerSize: "53 ft",
-      availability: "Available",
-      location: "Atlanta, GA",
-    },
-  ]);
+  console.log("dragable Load Data:", dragData);
+
+  const handleDragEnd = (event, info) => {
+    const inputBox = inputRef.current.getBoundingClientRect();
+    // Check if the item was dropped within the bounds of Box 2
+    if (
+      info.point.x >= inputBox.left &&
+      info.point.x <= inputBox.right &&
+      info.point.y >= inputBox.top &&
+      info.point.y <= inputBox.bottom
+    ) {
+      const fullData = JSON.parse(event.target.getAttribute("data-full-data"));
+
+      setDragData(fullData);
+    }
+  };
+
+  console.log(dragData);
+  //* Drag And Drop--------------------------------------------------------------
 
   const [reciverData, setReciverData] = useState(null);
   const [shipperData, setShipperData] = useState(null);
@@ -112,19 +97,6 @@ const DispatchingPage = () => {
     setOpenExcelFromModal(false);
   };
 
-  const [myLoadItems, setMyLoadItems] = useState([
-    {
-      key: "1",
-      shipperCity: "Atlanta",
-      receiverCity: "Denver",
-      loadType: "Full",
-      palletSpaces: 24,
-      weight: 47000,
-      pickupDate: "11/11/2024",
-      deliveryDate: "13/11/2024",
-    },
-  ]);
-
   return (
     <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
       {isFetching ? (
@@ -139,11 +111,46 @@ const DispatchingPage = () => {
               Available Trucks
             </p>
             <div className=" flex flex-col gap-5 overflow-x-auto">
-              <Trucks data={trucksData} setOpen={setOpen} open={open} />
-              <Trucks data={trucksData} setOpen={setOpen} open={open} />
-              <Trucks data={trucksData} setOpen={setOpen} open={open} />
-              <Trucks data={trucksData} setOpen={setOpen} open={open} />
-              <Trucks data={trucksData} setOpen={setOpen} open={open} />
+              <Trucks
+                data={trucksData}
+                setOpen={setOpen}
+                open={open}
+                inputRef={inputRef}
+                dragData={dragData}
+                setDragData={setDragData}
+              />
+              <Trucks
+                data={trucksData}
+                setOpen={setOpen}
+                open={open}
+                inputRef={inputRef}
+                dragData={dragData}
+                setDragData={setDragData}
+              />
+              <Trucks
+                data={trucksData}
+                setOpen={setOpen}
+                open={open}
+                inputRef={inputRef}
+                dragData={dragData}
+                setDragData={setDragData}
+              />
+              <Trucks
+                data={trucksData}
+                setOpen={setOpen}
+                open={open}
+                inputRef={inputRef}
+                dragData={dragData}
+                setDragData={setDragData}
+              />
+              <Trucks
+                data={trucksData}
+                setOpen={setOpen}
+                open={open}
+                inputRef={inputRef}
+                dragData={dragData}
+                setDragData={setDragData}
+              />
             </div>
           </div>
 
@@ -215,40 +222,16 @@ const DispatchingPage = () => {
                 <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
                   Shipment
                 </p>
-                <motion.div
-                  // onClick={() =>
-                  //   setTimeout(() => router.push("/load-request?req=myRequest"), 5000)
-                  // }
-                  initial={{ y: 3 }}
-                  animate={{ y: -3 }}
-                  transition={{
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                    duration: 0.5,
-                    repeatType: "reverse", // Ensures the animation reverses on repeat
-                  }}
-                  drag
-                  dragListener
-                  dragSnapToOrigin
-                  className="relative  w-fit bg-[#2B4257] !z-[99999] p-2 rounded-full shadow-lg mx-auto cursor-move "
-                >
-                  <motion.img
-                    draggable="false"
-                    alt="bakso"
-                    src={AllImages.bakso.src}
-                    width={50}
-                    height={50}
-                    className="select-none "
-                  />
-                </motion.div>
               </motion.div>
-              <div className=" flex flex-col gap-5 overflow-x-auto">
+              <div className=" flex flex-col gap-5">
                 {allPendingLoads?.data?.map((item, index) => (
                   <MyLoad
                     data={item}
-                    key={index}
+                    key={item?._id}
                     isFetching={isFetching}
-                    allPendingLoads={allPendingLoads?.data}
+                    allPendingLoads={item}
+                    open={open}
+                    handleDragEnd={handleDragEnd}
                   />
                 ))}
               </div>
