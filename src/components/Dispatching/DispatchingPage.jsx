@@ -123,8 +123,6 @@ const DispatchingPage = () => {
   const inputRef = useRef(null);
   const [dragData, setDragData] = useState(null);
 
-  console.log("dragable Load Data:", dragData);
-
   const handleDragEnd = (event, info) => {
     const inputBox = inputRef.current.getBoundingClientRect();
     // Check if the item was dropped within the bounds of Box 2
@@ -140,7 +138,6 @@ const DispatchingPage = () => {
     }
   };
 
-  console.log(dragData);
   //* Drag And Drop--------------------------------------------------------------
 
   const [reciverData, setReciverData] = useState(null);
@@ -203,7 +200,8 @@ const DispatchingPage = () => {
             <div className=" flex flex-col gap-5 overflow-x-auto">
               {trucksData?.map((data) => (
                 <Trucks
-                  data={[data]}
+                  key={data.key}
+                  data={data}
                   setOpen={setOpen}
                   open={open}
                   inputRef={inputRef}

@@ -7,16 +7,17 @@ import { IoMdStar } from "react-icons/io";
 import { AllImages } from "../../../public/assets/AllImages";
 
 const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
-  const showModal = () => {
-    setOpen(true);
-  };
-  const handleOk = () => {
-    setOpen(false);
-  };
+  const [currentData, setCurrentData] = useState(null);
 
+  const showModal = (data) => {
+    console.log("Received data:", data);
+    setOpen(true);
+    setCurrentData(data);
+  };
   const handleCancel = () => {
     setOpen(false);
     setDragData(null);
+    setCurrentData(null);
   };
   const columns = [
     {
@@ -93,8 +94,8 @@ const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
       key: "deliveryDate",
     },
   ];
-  console.log("data", data);
 
+  console.log("currentData", currentData);
   return (
     <div className="">
       <ConfigProvider
@@ -109,10 +110,10 @@ const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
           },
         }}
       >
-        <div className="cursor-pointer " onClick={showModal}>
+        <div className="cursor-pointer " onClick={() => showModal(data)}>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={[data]}
             pagination={false}
             bordered
             scroll={{ x: "100%" }}
@@ -122,7 +123,6 @@ const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
       <Modal
         className="!rounded-lg "
         open={open}
-        onOk={handleOk}
         footer={null}
         onCancel={handleCancel}
         mask={false}
@@ -135,18 +135,18 @@ const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
               <span className="w-5 h-5 rounded-full bg-[#90BA7A]"></span>
             </div>
             <p className="text-lg font-semibold">
-              The truck is {data[0].availability}
+              The truck is {currentData?.availability}
             </p>
           </div>
           {/* Track Details  */}
           <div className="bg-[#EEF2FC] p-3 rounded mt-2">
             <div className="">
               <p className="text-2xl font-semibold mb-1">
-                {data[0].truck} weight {data[0].weight}
+                {currentData?.truck} weight {currentData?.weight}
               </p>
               <p className="text-lg font-semibold mb-1">
-                {data[0].trailerSize}-foot trailer—{data[0].palletSpaces}{" "}
-                pallets
+                {currentData?.trailerSize}-foot trailer—
+                {currentData?.palletSpaces} pallets
               </p>
             </div>
           </div>
@@ -164,7 +164,7 @@ const Trucks = ({ data, setOpen, open, inputRef, dragData, setDragData }) => {
                 />
               </div>
               <div>
-                <p className="text-xl font-semibold">{data[0].driver}</p>
+                <p className="text-xl font-semibold">{currentData?.driver}</p>
                 {/* <p className="mt-1 text-lg flex items-center">
                   <span className="pr-2 mr-1 border-r border-[#474747] flex items-center">
                     <IoMdStar className="text-[#FFCE31] mr-1 inline-block text-lg" />

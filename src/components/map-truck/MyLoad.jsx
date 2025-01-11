@@ -38,8 +38,6 @@ const MyLoad = ({ data, isFetching, open, handleDragEnd }) => {
     },
   ];
 
-  console.log({ _id: data?._id });
-
   // Display the first record for Shipper and Receiver sections
 
   return (
