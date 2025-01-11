@@ -186,6 +186,8 @@ const DispatchingPage = () => {
   const [shipperData, setShipperData] = useState(null);
   const [driverId, setDriverId] = useState(null);
 
+  console.log("shipperData", shipperData);
+
   const [open, setOpen] = useState(false);
 
   const [openReciverFrom, setOpenReciverFrom] = useState(false);
@@ -195,16 +197,16 @@ const DispatchingPage = () => {
   const [openExcelFromModal, setOpenExcelFromModal] = useState(false);
 
   //reciver
-  const showoOenReciverFromModal = () => {
-    setOpenReciverFrom(true);
+  const showOenShipperFromModal = () => {
+    setOpenShipperFrom(true);
   };
   const handleOpenReciverFromCancel = () => {
     setOpenReciverFrom(false);
   };
 
   // Shipper
-  const showoOenShipperFromModal = () => {
-    setOpenShipperFrom(true);
+  const showOpenReciverFromModal = () => {
+    setOpenReciverFrom(true);
   };
   const handleOpenShipperFromCancel = () => {
     setOpenShipperFrom(false);
@@ -492,7 +494,7 @@ const DispatchingPage = () => {
                     {
                       label: (
                         <div
-                          onClick={showoOenReciverFromModal}
+                          onClick={showOenShipperFromModal}
                           className="text-white w-full text-lg"
                         >
                           Create Load from Form
@@ -568,12 +570,13 @@ const DispatchingPage = () => {
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <FormFile
+          shipperData={shipperData}
           setReciverData={setReciverData}
           handleOpenReciverFromCancel={handleOpenReciverFromCancel}
-          showoOenShipperFromModal={showoOenShipperFromModal}
+          showoOpenAddDriverIdModal={showoOpenAddDriverIdModal}
         />
       </Modal>
 
@@ -584,14 +587,14 @@ const DispatchingPage = () => {
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <ShipperForm
           reciverData={reciverData}
           shipperData={shipperData}
-          showoOpenAddDriverIdModal={showoOpenAddDriverIdModal}
           setShipperData={setShipperData}
           handleOpenShipperFromCancel={handleOpenShipperFromCancel}
+          showOpenReciverFromModal={showOpenReciverFromModal}
         />
       </Modal>
 
@@ -603,7 +606,7 @@ const DispatchingPage = () => {
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <ExcelDataForm
           handleOpenExcelFromModalCancle={handleOpenExcelFromModalCancle}
@@ -617,7 +620,7 @@ const DispatchingPage = () => {
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <AssignDiver />
       </Modal>
