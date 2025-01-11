@@ -70,7 +70,7 @@ const ShipperForm = ({
     { label: "Hazmat", value: "Hazmat", checked: false },
     { label: "Dangerous", value: "Dangerous", checked: false },
     { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
-    { label: "Poison 6", value: "Poison 6", checked: false },
+    { label: "Poison 6", value: "Poson 6", checked: false },
     { label: "Corrosive", value: "Corrosive", checked: false },
     { label: "Oxygen 2", value: "Oxygen 2", checked: false }, // Corrected from Oxygen2 to Oxygen 2
     { label: "Flammable 3", value: "Flammable 3", checked: false }, // Corrected from Flamable 3 to Flammable 3

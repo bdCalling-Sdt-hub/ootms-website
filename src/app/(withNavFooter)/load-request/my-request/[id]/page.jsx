@@ -154,7 +154,16 @@ const MyRequestId = () => {
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
-                  <p>{data?.data?.attributes?.query?.Hazmat[0]}</p>
+                  {data?.data?.attributes?.query?.Hazmat
+                    ? data?.data?.attributes?.query?.Hazmat?.map((value, i) => (
+                        <span
+                          className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
+                          key={i}
+                        >
+                          {value}{" "}
+                        </span>
+                      ))
+                    : ""}
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Delivery: </p>

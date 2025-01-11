@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Trucks from "@/components/map-truck/Trucks";
 import LeafletAllTrack from "@/components/LeafletMap/LeafletAllTrack";
 import { useRef, useState } from "react";
-import { Button, ConfigProvider, Dropdown, Modal } from "antd";
+import { Button, ConfigProvider, Dropdown, Modal, Pagination } from "antd";
 import ShipperForm from "@/components/shiper-information/page";
 import AssignDiver from "@/components/AssignDriver/AssignDriver";
 import ExcelDataForm from "@/components/Dispatching/ExcelDataForm";
@@ -18,10 +18,100 @@ const trucksData = [
     key: "1",
     driver: "John Doe",
     truck: "Volvo FH16",
-    palletSpaces: 24,
+    palletSpaces: 20,
+    weight: 47090,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "2",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 21,
+    weight: 47000,
+    trailerSize: "53 ft",
+    availability: "Not Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "3",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 22,
     weight: 47000,
     trailerSize: "53 ft",
     availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "4",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 23,
+    weight: 47000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "5",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 24,
+    weight: 45000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "6",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 25,
+    weight: 89000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "7",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 26,
+    weight: 75000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "8",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 27,
+    weight: 47000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "9",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 28,
+    weight: 47000,
+    trailerSize: "53 ft",
+    availability: "Available",
+    location: "Atlanta, GA",
+  },
+  {
+    key: "10",
+    driver: "John Doe",
+    truck: "Volvo FH16",
+    palletSpaces: 29,
+    weight: 47000,
+    trailerSize: "53 ft",
+    availability: "Not Available",
     location: "Atlanta, GA",
   },
 ];
@@ -111,7 +201,37 @@ const DispatchingPage = () => {
               Available Trucks
             </p>
             <div className=" flex flex-col gap-5 overflow-x-auto">
-              <Trucks
+              {trucksData?.map((data) => (
+                <Trucks
+                  data={[data]}
+                  setOpen={setOpen}
+                  open={open}
+                  inputRef={inputRef}
+                  dragData={dragData}
+                  setDragData={setDragData}
+                />
+              ))}
+              <div className="flex justify-center my-20">
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Pagination: {
+                        itemActiveBg: "#F88D58",
+                        colorPrimary: "#F3F3F3",
+                        colorPrimaryHover: "#F3F3F3",
+                      },
+                    },
+                  }}
+                >
+                  <Pagination
+                    onChange={(page) => setPage(page)}
+                    pageSize={5}
+                    total={10}
+                  />
+                </ConfigProvider>
+              </div>
+
+              {/* <Trucks
                 data={trucksData}
                 setOpen={setOpen}
                 open={open}
@@ -142,15 +262,7 @@ const DispatchingPage = () => {
                 inputRef={inputRef}
                 dragData={dragData}
                 setDragData={setDragData}
-              />
-              <Trucks
-                data={trucksData}
-                setOpen={setOpen}
-                open={open}
-                inputRef={inputRef}
-                dragData={dragData}
-                setDragData={setDragData}
-              />
+              /> */}
             </div>
           </div>
 
