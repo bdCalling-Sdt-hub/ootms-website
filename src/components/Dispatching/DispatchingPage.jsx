@@ -4,7 +4,16 @@ import { useRouter } from "next/navigation";
 import Trucks from "@/components/map-truck/Trucks";
 import LeafletAllTrack from "@/components/LeafletMap/LeafletAllTrack";
 import { useRef, useState } from "react";
-import { Button, ConfigProvider, Dropdown, Modal, Pagination } from "antd";
+import {
+  Button,
+  Col,
+  ConfigProvider,
+  Dropdown,
+  Modal,
+  Pagination,
+  Row,
+  Table,
+} from "antd";
 import ShipperForm from "@/components/shiper-information/page";
 import AssignDiver from "@/components/AssignDriver/AssignDriver";
 import ExcelDataForm from "@/components/Dispatching/ExcelDataForm";
@@ -12,6 +21,8 @@ import { motion } from "framer-motion";
 import { useGetAllPendingLoadsQuery } from "@/redux/api/loadApi";
 import MyLoad from "../map-truck/MyLoad";
 import { AllImages } from "../../../public/assets/AllImages";
+import { FaPhone } from "react-icons/fa6";
+import Image from "next/image";
 
 const trucksData = [
   {
@@ -116,12 +127,43 @@ const trucksData = [
   },
 ];
 
+const dragColumns = [
+  {
+    title: "Shipper City",
+    dataIndex: "shippingCity", // Refers to the key in each object
+    key: "shippingCity",
+  },
+  {
+    title: "Receiver City",
+    dataIndex: "receiverCity",
+    key: "receiverCity",
+  },
+  { title: "Load Type", dataIndex: "loadType", key: "loadType" },
+  {
+    title: "Pallet Spaces",
+    dataIndex: "palletSpace",
+    key: "palletSpace",
+  },
+  { title: "Weight", dataIndex: "weight", key: "weight" },
+  {
+    title: "Pickup Date",
+    dataIndex: "pickupDate",
+    key: "pickupDate",
+  },
+  {
+    title: "Delivery Date",
+    dataIndex: "deliveryDate",
+    key: "deliveryDate",
+  },
+];
+
 const DispatchingPage = () => {
   const { data: allPendingLoads, isFetching } = useGetAllPendingLoadsQuery();
 
   //* Drag And Drop--------------------------------------------------------------
   const inputRef = useRef(null);
   const [dragData, setDragData] = useState(null);
+  const [currentDriverModalData, setCurrentDriverModalData] = useState(null);
 
   const handleDragEnd = (event, info) => {
     const inputBox = inputRef.current.getBoundingClientRect();
@@ -183,6 +225,17 @@ const DispatchingPage = () => {
   const handleOpenExcelFromModalCancle = () => {
     setOpenExcelFromModal(false);
   };
+  const handleCancel = () => {
+    setOpen(false);
+    // setDragData(null);
+    // setCurrentData(null);
+  };
+
+  const handleDriverModalCancel = () => {
+    setOpen(false);
+    setDragData(null);
+    setCurrentDriverModalData(null);
+  };
 
   return (
     <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
@@ -199,16 +252,18 @@ const DispatchingPage = () => {
             </p>
             <div className=" flex flex-col gap-5 overflow-x-auto">
               {trucksData?.map((data) => (
-                <Trucks
-                  key={data.key}
-                  data={data}
-                  setOpen={setOpen}
-                  open={open}
-                  inputRef={inputRef}
-                  dragData={dragData}
-                  setDragData={setDragData}
-                />
+                <>
+                  <Trucks
+                    key={data.key}
+                    data={data}
+                    setOpen={setOpen}
+                    open={open}
+                    setCurrentDriverModalData={setCurrentDriverModalData}
+                    setDragData={setDragData}
+                  />
+                </>
               ))}
+
               <div className="flex justify-center my-20">
                 <ConfigProvider
                   theme={{
@@ -228,39 +283,189 @@ const DispatchingPage = () => {
                   />
                 </ConfigProvider>
               </div>
+              <Modal
+                className="!rounded-lg "
+                open={open}
+                footer={null}
+                onCancel={handleDriverModalCancel}
+                mask={false}
+                maskClosable={false} // Disable closing the modal when clicking outside
+              >
+                <div className="mt-5 rounded-lg ">
+                  {/* Header Text  */}
+                  <div className="flex items-center gap-2 mx-auto p-2 bg-white">
+                    <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
+                      <span className="w-5 h-5 rounded-full bg-[#90BA7A]"></span>
+                    </div>
+                    <p className="text-lg font-semibold">
+                      The truck is {currentDriverModalData?.availability}
+                    </p>
+                  </div>
+                  {/* Track Details  */}
+                  <div className="bg-[#EEF2FC] p-3 rounded mt-2">
+                    <div className="">
+                      <p className="text-2xl font-semibold mb-1">
+                        {currentDriverModalData?.truck} weight{" "}
+                        {currentDriverModalData?.weight}
+                      </p>
+                      <p className="text-lg font-semibold mb-1">
+                        {currentDriverModalData?.trailerSize}-foot trailer—
+                        {currentDriverModalData?.palletSpaces} pallets
+                      </p>
+                    </div>
+                  </div>
+                  {/* Driver Details  */}
+                  <div className="bg-white flex justify-between items-center mt-5 p-3">
+                    <div className="flex items-center gap-x-5">
+                      <div className="p-1 rounded-full bg-[#2B4257] w-fit">
+                        <Image
+                          src={AllImages.user}
+                          alt="user"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-12 h-12 "
+                        />
+                      </div>
+                      <div>
+                        <p className="text-xl font-semibold">
+                          {currentDriverModalData?.driver}
+                        </p>
+                        {/* <p className="mt-1 text-lg flex items-center">
+                  <span className="pr-2 mr-1 border-r border-[#474747] flex items-center">
+                    <IoMdStar className="text-[#FFCE31] mr-1 inline-block text-lg" />
+                    4.65
+                  </span>
+                  <span>+995 654654</span>
+                </p> */}
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-full w-fit bg-[#FDFDFD] border border-[#DDDDDD]">
+                      <FaPhone className="w-6 h-6" />
+                    </div>
+                  </div>
+                  <div ref={inputRef} className="bg-[#EEF2FC] rounded-lg">
+                    {/* Assign And Cancle  */}
+                    <div className=" flex justify-center items-center gap-5 pt-5 p-3">
+                      <Button
+                        onClick={handleDriverModalCancel}
+                        className="!bg-[#DDDDDD] w-full py-6 rounded-xl text-2xl font-semibold !text-black border border-[#2B4257]"
+                      >
+                        Cancel
+                      </Button>
+                      <Button className="!bg-[#2B4257] w-full py-6 rounded-xl text-2xl font-semibold !text-white border border-[#2B4257]">
+                        Assign Load
+                      </Button>
+                    </div>
+                    {/* Drag Input  */}
+                    <div className="  p-3">
+                      {dragData ? (
+                        <div className="my-6 overflow-x-auto">
+                          {/* Shipper and Receiver Section */}
+                          <Row
+                            gutter={0}
+                            style={{
+                              textAlign: "center",
+                              backgroundColor: "#d9d9f0",
+                              border: "1px solid gray",
+                            }}
+                          >
+                            <Col
+                              xs={24}
+                              sm={12}
+                              style={{
+                                padding: "10px",
+                                fontWeight: "bold",
+                                borderRight: "1px solid gray",
+                              }}
+                            >
+                              Shipper
+                            </Col>
+                            <Col
+                              xs={24}
+                              sm={12}
+                              style={{
+                                padding: "10px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Receiver
+                            </Col>
+                          </Row>
 
-              {/* <Trucks
-                data={trucksData}
-                setOpen={setOpen}
-                open={open}
-                inputRef={inputRef}
-                dragData={dragData}
-                setDragData={setDragData}
-              />
-              <Trucks
-                data={trucksData}
-                setOpen={setOpen}
-                open={open}
-                inputRef={inputRef}
-                dragData={dragData}
-                setDragData={setDragData}
-              />
-              <Trucks
-                data={trucksData}
-                setOpen={setOpen}
-                open={open}
-                inputRef={inputRef}
-                dragData={dragData}
-                setDragData={setDragData}
-              />
-              <Trucks
-                data={trucksData}
-                setOpen={setOpen}
-                open={open}
-                inputRef={inputRef}
-                dragData={dragData}
-                setDragData={setDragData}
-              /> */}
+                          <Row
+                            gutter={0}
+                            style={{
+                              textAlign: "center",
+                              border: "1px solid gray",
+                            }}
+                          >
+                            <Col
+                              xs={24}
+                              sm={12}
+                              style={{
+                                padding: "10px",
+                                borderRight: "1px solid #ccc",
+                              }}
+                            >
+                              {dragData?.shipperName || "N/A"}
+                            </Col>
+                            <Col xs={24} sm={12} style={{ padding: "10px" }}>
+                              {dragData?.receiverName || "N/A"}
+                            </Col>
+                          </Row>
+
+                          {/* Data Table */}
+                          <ConfigProvider
+                            theme={{
+                              components: {
+                                Table: {
+                                  padding: 10,
+                                  margin: 10,
+                                  cellFontSize: 12,
+                                  headerBg: "rgb(189,196,222)",
+                                },
+                                Input: {
+                                  colorText: "rgb(255,255,255)",
+                                },
+                              },
+                            }}
+                          >
+                            <Table
+                              columns={dragColumns}
+                              dataSource={[dragData]}
+                              rowKey="_id" // Use `_id` as a unique key for rows
+                              pagination={false}
+                              bordered
+                              scroll={{ x: "max-content" }}
+                              style={{
+                                maxWidth: "100%",
+                                overflowX: "hidden",
+                              }}
+                            />
+                          </ConfigProvider>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-xl text-center text-[#7D7D7D] mb-3">
+                            - OR -
+                          </p>
+                          <div className="">
+                            <Image
+                              src={AllImages.drop}
+                              alt="drag"
+                              className="h-40 w-auto mx-auto"
+                            />
+                          </div>
+                          <p className="text-2xl  text-center text-[#7D7D7D] my-2 font-semibold">
+                            Drop Your Load Here
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Modal>
             </div>
           </div>
 
