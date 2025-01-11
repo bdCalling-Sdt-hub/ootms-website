@@ -203,6 +203,8 @@ console.log("truck", allTrucks?.data?.attributes);
   const [shipperData, setShipperData] = useState(null);
   const [driverId, setDriverId] = useState(null);
 
+  console.log("shipperData", shipperData);
+
   const [open, setOpen] = useState(false);
 
   const [openReciverFrom, setOpenReciverFrom] = useState(false);
@@ -212,16 +214,16 @@ console.log("truck", allTrucks?.data?.attributes);
   const [openExcelFromModal, setOpenExcelFromModal] = useState(false);
 
   //reciver
-  const showoOenReciverFromModal = () => {
-    setOpenReciverFrom(true);
+  const showOenShipperFromModal = () => {
+    setOpenShipperFrom(true);
   };
   const handleOpenReciverFromCancel = () => {
     setOpenReciverFrom(false);
   };
 
   // Shipper
-  const showoOenShipperFromModal = () => {
-    setOpenShipperFrom(true);
+  const showOpenReciverFromModal = () => {
+    setOpenReciverFrom(true);
   };
   const handleOpenShipperFromCancel = () => {
     setOpenShipperFrom(false);
@@ -554,7 +556,7 @@ console.log("truck", allTrucks?.data?.attributes);
                     {
                       label: (
                         <div
-                          onClick={showoOenReciverFromModal}
+                          onClick={showOenShipperFromModal}
                           className="text-white w-full text-lg"
                         >
                           Create Load from Form
@@ -646,12 +648,13 @@ console.log("truck", allTrucks?.data?.attributes);
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <FormFile
+          shipperData={shipperData}
           setReciverData={setReciverData}
           handleOpenReciverFromCancel={handleOpenReciverFromCancel}
-          showoOenShipperFromModal={showoOenShipperFromModal}
+          showoOpenAddDriverIdModal={showoOpenAddDriverIdModal}
         />
       </Modal>
 
@@ -662,14 +665,14 @@ console.log("truck", allTrucks?.data?.attributes);
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <ShipperForm
           reciverData={reciverData}
           shipperData={shipperData}
-          showoOpenAddDriverIdModal={showoOpenAddDriverIdModal}
           setShipperData={setShipperData}
           handleOpenShipperFromCancel={handleOpenShipperFromCancel}
+          showOpenReciverFromModal={showOpenReciverFromModal}
         />
       </Modal>
 
@@ -681,7 +684,7 @@ console.log("truck", allTrucks?.data?.attributes);
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <ExcelDataForm
           handleOpenExcelFromModalCancle={handleOpenExcelFromModalCancle}
@@ -695,7 +698,7 @@ console.log("truck", allTrucks?.data?.attributes);
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-24"
       >
         <AssignDiver />
       </Modal>

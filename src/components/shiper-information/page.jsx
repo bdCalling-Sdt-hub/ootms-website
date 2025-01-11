@@ -19,11 +19,10 @@ const normFile = (e) => {
 };
 
 const ShipperForm = ({
-  reciverData,
-  shipperData,
   setShipperData,
   handleOpenShipperFromCancel,
   showoOpenAddDriverIdModal,
+  showOpenReciverFromModal,
 }) => {
   const router = useRouter();
   const [form] = Form.useForm();
@@ -52,18 +51,6 @@ const ShipperForm = ({
     form.setFieldsValue({
       Hazmat: [], // Clear trailerSize to an empty array
     });
-  };
- 
-  //* It's Use to Show Modal
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showViewModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-    handleOpenShipperFromCancel();
   };
 
   const [options, setOptions] = useState([
@@ -119,7 +106,7 @@ const ShipperForm = ({
   };
 
   const onFinish = async (values) => {
-    const toastId = toast.loading("Load Data Added...");
+    // const toastId = toast.loading("Load Data Added...");
     if (
       !Array.isArray(values.Hazmat) ||
       values.Hazmat.length <= 0 ||
@@ -135,51 +122,10 @@ const ShipperForm = ({
     }
 
     console.log(values);
-
-    try {
-      const res = await createLoad([{ ...reciverData, ...values }]).unwrap();
-      localStorage.setItem(
-        "loadId",
-        JSON.stringify(res.data.attributes[0]._id)
-      );
-      console.log(res);
-
-      console.log("Hazmat vai Returns : ", values);
-
-      form.resetFields();
-      // Reset Hazmat toggles (optional, if required)
-      setShowOptions(false);
-      setNoOptions(true);
-      toast.success("Load Added Successfully", {
-        id: toastId,
-        duration: 2000,
-      });
-      // Reset the `options` state to uncheck all checkboxes
-      setOptions((prevOptions) =>
-        prevOptions.map((option) => ({ ...option, checked: false }))
-      );
-      handleOpenShipperFromCancel();
-      showViewModal();
-
-      // if (res?.data?.success === false) {
-      //   throw new Error(res?.data?.message);
-      // } else {
-      //
-      // }
-    } catch (error) {
-      console.log("error", error);
-      toast.error(
-        error?.data?.message ||
-          error.message ||
-          "An error occurred during Add New Product",
-        {
-          id: toastId,
-          duration: 2000,
-        }
-      );
-    }
-
-    // Reset the form fields
+    setShipperData(values);
+    form.resetFields();
+    handleOpenShipperFromCancel();
+    showOpenReciverFromModal();
   };
 
   return (
@@ -591,43 +537,10 @@ const ShipperForm = ({
             // }}
             className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
           >
-            Find a driver
+            Next
           </button>
         </Form>
       </div>
-      <Modal
-        open={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        style={{ textAlign: "center" }}
-        className="lg:!w-[500px]"
-      >
-        <div className="px-10 pt-10">
-          <p className="text-2xl text-center font-semibold">
-            Do you have preferred Driver?
-          </p>
-          <div className="flex justify-between items-center gap-5 mt-5">
-            <button
-              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
-              onClick={() => {
-                localStorage.removeItem("loadId");
-                handleCancel();
-              }}
-            >
-              No
-            </button>{" "}
-            <button
-              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
-              onClick={() => {
-                showoOpenAddDriverIdModal();
-                handleCancel();
-              }}
-            >
-              Yes
-            </button>
-          </div>
-        </div>
-      </Modal>
     </>
   );
 };

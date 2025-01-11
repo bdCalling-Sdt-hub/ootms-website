@@ -1,20 +1,37 @@
 "use client";
 
-import { DatePicker, Form, Input, Typography } from "antd";
+import { useCreateLoadMutation } from "@/redux/api/loadApi";
+import { DatePicker, Form, Input, Modal, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 const FormFile = ({
-  setReciverData,
+  shipperData,
   handleOpenReciverFromCancel,
-  showoOenShipperFromModal,
+
+  showoOpenAddDriverIdModal,
 }) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const [user, setUser] = useState(null); // Initialize state for user data
+
+  const [createLoad] = useCreateLoadMutation();
+
+  //* It's Use to Show Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showViewModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    handleOpenReciverFromCancel();
+  };
 
   // Use useEffect to handle client-side logic
   useEffect(() => {
@@ -28,12 +45,39 @@ const FormFile = ({
   }, []);
 
   const navigate = useRouter();
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    const toastId = toast.loading("Load Data Added...");
     console.log("user:", values);
-    setReciverData(values);
+
     form.resetFields();
-    handleOpenReciverFromCancel();
-    showoOenShipperFromModal();
+
+    try {
+      const res = await createLoad([{ ...shipperData, ...values }]).unwrap();
+      localStorage.setItem(
+        "loadId",
+        JSON.stringify(res.data.attributes[0]._id)
+      );
+      console.log(res);
+
+      toast.success("Load Added Successfully", {
+        id: toastId,
+        duration: 2000,
+      });
+
+      handleOpenReciverFromCancel();
+      showViewModal();
+    } catch (error) {
+      console.log("error", error);
+      toast.error(
+        error?.data?.message ||
+          error.message ||
+          "An error occurred during Add New Product",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
 
   const onNext = () => {
@@ -212,10 +256,43 @@ const FormFile = ({
             type="submit"
             className="bg-next-btn w-full p-2 text-next-text font-bold  rounded-xl sm:h-12"
           >
-            Next
+            Find a Driver
           </button>
         </Form>
       </div>
+      <Modal
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        style={{ textAlign: "center" }}
+        className="lg:!w-[500px]"
+      >
+        <div className="px-10 pt-10">
+          <p className="text-2xl text-center font-semibold">
+            Do you have preferred Driver?
+          </p>
+          <div className="flex justify-between items-center gap-5 mt-5">
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => {
+                localStorage.removeItem("loadId");
+                handleCancel();
+              }}
+            >
+              No
+            </button>{" "}
+            <button
+              className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
+              onClick={() => {
+                showoOpenAddDriverIdModal();
+                handleCancel();
+              }}
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
