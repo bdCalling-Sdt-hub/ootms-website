@@ -11,7 +11,7 @@ const MyRequestId = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
 
-  console.log("data", data?.data?.attributes?.query);
+  console.log("data", data);
 
   const router = useRouter();
   return (

@@ -11,9 +11,10 @@ const loadApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.load],
     }),
+
     getAllPendingLoads: build.query({
-      query: () => ({
-        url: `/loads`,
+      query: ({ allLoadsPage }) => ({
+        url: `/loads?page=${allLoadsPage}&limit=2`,
         method: "GET",
       }),
       providesTags: [tagTypes.load],

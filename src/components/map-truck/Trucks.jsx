@@ -18,25 +18,25 @@ const Trucks = ({
     setOpen(true);
     setCurrentDriverModalData(data);
   };
-
+ 
   const columns = [
     {
       title: "Driver",
-      dataIndex: "driver",
-      key: "driver",
+      dataIndex: "driverName",
+      key: "driverName",
       render: (text, record) => <div>{text}</div>,
       responsive: ["xs", "sm"], // Display on extra small and small screens
     },
     {
-      title: "Truck",
-      dataIndex: "truck",
-      key: "truck",
+      title: "Truck Number",
+      dataIndex: "truckNumber",
+      key: "truckNumber",
       responsive: ["xs", "sm"], // Display on small and medium screens and above
     },
     {
       title: "Pallet Spaces",
-      dataIndex: "palletSpaces",
-      key: "palletSpaces",
+      dataIndex: "palletSpace",
+      key: "palletSpace",
       responsive: ["xs", "sm"], // Display on medium screens and above
     },
     {
@@ -55,7 +55,8 @@ const Trucks = ({
       title: "Availability",
       dataIndex: "availability",
       key: "availability",
-      responsive: ["xs", "sm"], // Display on large and extra large screens
+      responsive: ["xs", "sm"],
+      render: (text, record) => <div>Available</div>, // Display on large and extra large screens
     },
     {
       title: "Location",

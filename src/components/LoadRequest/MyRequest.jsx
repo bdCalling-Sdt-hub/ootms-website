@@ -13,16 +13,17 @@ const truck = {
 };
 
 const MyRequest = ({ data }) => {
-  console.log(data._id);
+  // console.log(data);
 
   const url = getImageUrl();
   const img = `${url.replace(/\/+$/, "")}/${data?.driver?.image.replace(
     /^\/+/,
     ""
   )}`;
+// console.log("loglog",data.id);
 
   return (
-    <Link href={`load-request/my-request/${data?.load?._id}`}>
+    <Link href={`load-request/my-request/${data?.id}`}>
       <div
         //   key={index}
         className="flex flex-col p-4 mb-5 border rounded-lg shadow-md bg-white"

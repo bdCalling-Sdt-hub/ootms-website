@@ -181,7 +181,7 @@ const requestData = [
 const LoadRequest = () => {
   const { data: allLoad, isFetching } = useGetAllLoadRequestQuery();
 
-  console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
+  // console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
 
   const router = useRouter();
   const searchParams = useSearchParams();
