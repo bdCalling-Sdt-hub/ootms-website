@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Container from "../ui/Container";
 import Image from "next/image";
 import { AllImages } from "../../../public/assets/AllImages";
-import { Button, ConfigProvider, Input, Modal } from "antd";
+import { Button, ConfigProvider, Input, Modal, Pagination } from "antd";
 import { FaPhone, FaStar } from "react-icons/fa6";
 import { BiSolidMessageSquareDetail } from "react-icons/bi";
 import {
@@ -179,7 +179,10 @@ const requestData = [
 ];
 
 const LoadRequest = () => {
-  const { data: allLoad, isFetching } = useGetAllLoadRequestQuery();
+     const [page, setPage] = useState(1);
+  const { data: allLoad, isFetching } = useGetAllLoadRequestQuery({
+    page,
+  });
 
   // console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
 
@@ -219,6 +222,9 @@ const LoadRequest = () => {
   const handleCancelRequest = () => {
     setIsRequestModalVisible(false);
   };
+
+  console.log(allLoad?.data?.attributes?.pagination?.totalResults);
+
   return (
     <div className="py-10 bg-[#F3F3F3]">
       <Container>
@@ -287,11 +293,35 @@ const LoadRequest = () => {
               ))}
             </div>
           ) : (
-            <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
-              {allLoad?.data?.attributes?.loadRequests.map((truck, index) => (
-                <MyRequest key={index} data={truck} />
-              ))}
-            </div>
+            <>
+              <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
+                {allLoad?.data?.attributes?.loadRequests.map((truck, index) => (
+                  <MyRequest key={index} data={truck} />
+                ))}
+              </div>
+
+              <div className="flex justify-center my-2">
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Pagination: {
+                        itemActiveBg: "#F88D58",
+                        colorPrimary: "#F3F3F3",
+                        colorPrimaryHover: "#F3F3F3",
+                      },
+                    },
+                  }}
+                >
+
+                  <Pagination
+                    onChange={(page) => setPage(page)}
+                    pageSize={9}
+                    current={page}
+                    total={allLoad?.data?.attributes?.pagination?.totalResults}
+                  />
+                </ConfigProvider>
+              </div>
+            </>
           )}
         </div>
       </Container>

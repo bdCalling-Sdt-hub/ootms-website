@@ -11,7 +11,7 @@ const MyRequestId = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
 
-  console.log("data", data);
+  console.log("data", data?.data?.attributes?.loadRequests[0]);
 
   const router = useRouter();
   return (
@@ -74,14 +74,23 @@ const MyRequestId = () => {
                   <div>
                     <p className="text-lg font-semibold">Trailer Size: </p>
                     <p>
-                      {data?.data?.attributes?.query?.trailerSize}-foot trailer.
+                      {
+                        data?.data?.attributes?.loadRequests[0].load ?.trailerSize
+                      }
+                      -foot trailer.
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div>
                     <p className="text-lg font-semibold">Pallet Spaces: </p>
-                    <p>{data?.data?.attributes?.query?.palletSpace} pallets.</p>
+                    <p>
+                      {
+                        data?.data?.attributes?.loadRequests[0].load
+                          ?.palletSpace
+                      }{" "}
+                      pallets.
+                    </p>
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Availability: </p>
@@ -133,11 +142,13 @@ const MyRequestId = () => {
               <div className="flex flex-col gap-4">
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
-                  <p>{data?.data?.attributes?.query?.loadType}</p>
+                  <p>
+                    {data?.data?.attributes?.loadRequests[0].load?.loadType}
+                  </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Weight: </p>
-                  <p>120 kg</p>
+                  <p>{data?.data?.attributes?.loadRequests[0].load?.weight}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Pickup: </p>
@@ -154,15 +165,17 @@ const MyRequestId = () => {
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
-                  {data?.data?.attributes?.query?.Hazmat
-                    ? data?.data?.attributes?.query?.Hazmat?.map((value, i) => (
-                        <span
-                          className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
-                          key={i}
-                        >
-                          {value}{" "}
-                        </span>
-                      ))
+                  {data?.data?.attributes?.loadRequests[0].load?.Hazmat
+                    ? data?.data?.attributes?.loadRequests[0].load?.Hazmat?.map(
+                        (value, i) => (
+                          <span
+                            className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
+                            key={i}
+                          >
+                            {value}{" "}
+                          </span>
+                        )
+                      )
                     : ""}
                 </div>
                 <div>

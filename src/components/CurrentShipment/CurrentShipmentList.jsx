@@ -3,11 +3,11 @@ import Image from "next/image";
 import React, { useMemo, useState } from "react";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
-import { PiArrowSquareUpLight } from "react-icons/pi";
-import { Input } from "antd";
+import { PiArrowSquareDownLight, PiArrowSquareUpLight } from "react-icons/pi";
+import { ConfigProvider, Input, Pagination } from "antd";
 import { FaTruckFront } from "react-icons/fa6";
 import Link from "next/link";
-import { useGetCurrentShipmentQuery } from "@/redux/api/loadRequestApi";
+import { useGetCurrentShipmentQuery } from "@/redux/api/currentShipmentApi";
 
 const requestData = [
   {
@@ -97,9 +97,14 @@ const requestData = [
 ];
 
 const CurrentShipmentList = () => {
-  const { data: currentShipment, isFetching } = useGetCurrentShipmentQuery();
-  console.log("currentShipment", currentShipment);
-  
+  const [page, setPage] = useState(1);
+  const { data: currentShipment, isFetching } = useGetCurrentShipmentQuery({
+    page,
+  });
+  console.log(
+    "currentShipment list",
+    currentShipment?.data?.attributes?.pagination?.totalPages
+  );
 
   const [searchText, setSearchText] = useState("");
   //* Use to set user
@@ -133,8 +138,11 @@ const CurrentShipmentList = () => {
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {filteredData.map((truck, index) => (
-            <Link href="/current-shipment/745d8vdd8" key={index}>
+          {currentShipment?.data?.attributes?.loadRequests?.map((truck) => (
+            <Link
+              href={`load-request/my-request/${truck?._id}`}
+              key={truck?._id}
+            >
               <div className="flex flex-col p-5 border rounded-lg shadow-md bg-white">
                 <div className="flex items-center  gap-4">
                   <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
@@ -146,23 +154,48 @@ const CurrentShipmentList = () => {
                   </div>
 
                   <div className="">
-                    <h1 className="text-xl font-semibold">{truck.name}</h1>
-                    <p className="text-lg text-gray-500">{truck.trailer}</p>
+                    <h1 className="text-xl font-semibold">Takibul Hasan</h1>
+                    <p className="text-lg text-gray-500">
+                      {truck.load?.trailerSize}
+                    </p>
 
                     <div className="flex items-center justify-center gap-4">
-                      {truck.locations.map((location, idx) => (
-                        <p key={idx} className="flex items-center gap-1">
-                          <PiArrowSquareUpLight className="text-[#2B4257] text-xl  font-extrabold" />{" "}
-                          <span>{location}</span>
-                        </p>
-                      ))}
+                      <p className="flex items-center gap-1">
+                        <PiArrowSquareUpLight className="text-[#2B4257] text-xl  font-extrabold" />{" "}
+                        <span>{truck.load?.shippingAddress} </span>
+                        <PiArrowSquareDownLight className="text-[#2B4257] text-xl  font-extrabold" />{" "}
+                        <span>{truck.load?.receivingAddress} </span>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </Link>
           ))}
-        </div>
+
+          
+        </div><div className="flex justify-center my-7">
+            <ConfigProvider
+              theme={{
+                components: {
+                  Pagination: {
+                    itemActiveBg: "#F88D58",
+                    colorPrimary: "#F3F3F3",
+                    colorPrimaryHover: "#F3F3F3",
+                  },
+                },
+              }}
+            >
+              <Pagination
+                onChange={(page) => setPage(page)}
+                pageSize={1}
+                current={page}
+                total={
+                  currentShipment?.data?.attributes?.pagination?.totalPages
+                }
+              />
+            </ConfigProvider>
+          </div>
       </Container>
     </div>
   );

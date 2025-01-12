@@ -4,22 +4,23 @@ import { baseApi } from "./baseApi";
 const loadRequestApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllLoadRequest: builder.query({
-      query: () => "/loads-request?myRequests=true",
+      query: ({ page }) =>
+        `/loads-request?myRequests=true&page=${page}&limit=9`,
       providesTags: [tagTypes.loadRequest],
     }),
 
     getSingleLoadRequest: builder.query({
-      query: (id) => `/loads/${id}`,
+      query: (id) => `/loads-request/${id}`,
       providesTags: [tagTypes.loadRequest],
     }),
-    getCurrentShipment: builder.query({
-      query: () => `/shipment/current`,
-      providesTags: [tagTypes.current],
-    }),
+    // getCurrentShipment: builder.query({
+    //   query: () => `/shipment/current`,
+    //   providesTags: [tagTypes.current],
+    // }),
 
     getAllTrucks: builder.query({
       query: ({ page }) =>
-        `/truck-details/available_truck?page=${page}&limit=4`,
+        `/truck-details/available_truck?page=${page}&limit=3`,
       providesTags: [tagTypes.allTruckDetails],
     }),
 
@@ -38,6 +39,5 @@ export const {
   useGetAllLoadRequestQuery,
   useGetSingleLoadRequestQuery,
   useCreateLoadRequestMutation,
-  useGetCurrentShipmentQuery,
   useGetAllTrucksQuery,
 } = loadRequestApi;

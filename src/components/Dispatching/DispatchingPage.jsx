@@ -24,7 +24,10 @@ import { AllImages } from "../../../public/assets/AllImages";
 import { FaPhone } from "react-icons/fa6";
 import Image from "next/image";
 import { toast } from "sonner";
-import { useCreateLoadRequestMutation, useGetAllTrucksQuery } from "@/redux/api/loadRequestApi";
+import {
+  useCreateLoadRequestMutation,
+  useGetAllTrucksQuery,
+} from "@/redux/api/loadRequestApi";
 
 const trucksData = [
   {
@@ -161,19 +164,19 @@ const dragColumns = [
 
 const DispatchingPage = () => {
   const [allLoadsPage, setAllLoadsPage] = useState(1);
-    const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const router = useRouter();
 
   const { data: allPendingLoads, isFetching } = useGetAllPendingLoadsQuery({
     allLoadsPage,
   });
   const { data: allTrucks, isFetching: loading } = useGetAllTrucksQuery({
-   page
+    page,
   });
 
-console.log("truck", allTrucks?.data?.attributes);
+  // console.log("truck", allTrucks?.data?.attributes);
 
-
-  console.log("Created load Data:", allPendingLoads?.data?.results);
+  // console.log("Created load Data:", allPendingLoads?.data?.results);
 
   const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
 
@@ -203,7 +206,7 @@ console.log("truck", allTrucks?.data?.attributes);
   const [shipperData, setShipperData] = useState(null);
   const [driverId, setDriverId] = useState(null);
 
-  console.log("shipperData", shipperData);
+  // console.log("shipperData", shipperData);
 
   const [open, setOpen] = useState(false);
 
@@ -256,8 +259,8 @@ console.log("truck", allTrucks?.data?.attributes);
     setCurrentDriverModalData(null);
   };
 
-  const onAssignLoad = async (id1, id2) => {
-    const toastId = toast.loading("Assigning Diver...");
+  const onAssignLoad = async (id2, id1) => {
+    const toastId = toast.loading("Assigning Load...");
     const load = JSON.parse(localStorage.getItem("loadId"));
     const data = [
       {
@@ -267,30 +270,32 @@ console.log("truck", allTrucks?.data?.attributes);
     ];
     console.log("id", id1, id2);
 
-    // const jsonData = JSON.stringify(data);
-    // console.log(jsonData);
-    // try {
-    //   const res = await createLoadRequest(data).unwrap();
-    //   console.log(res);
+    try {
+      if (id1 == null) {
+        throw new Error("Please select load...");
+      }
+      const res = await createLoadRequest(data).unwrap();
+      console.log("res", res);
 
-    //   toast.success(res.message, {
-    //     id: toastId,
-    //     duration: 2000,
-    //   });
-    //   navigate.push("/load-request?req=myRequest");
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error(
-    //     error?.data?.message ||
-    //       error?.error ||
-    //       "An error occurred during Login",
-    //     {
-    //       id: toastId,
-    //       duration: 2000,
-    //     }
-    //   );
-    // }
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      router.push("/load-request?req=myRequest");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.message ||
+          "An error occurred during load assign",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
+  // console.log("alllllll", allPendingLoads?.data?.pagination?.totalResults);
 
   return (
     <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
@@ -319,7 +324,7 @@ console.log("truck", allTrucks?.data?.attributes);
                 </>
               ))}
 
-              <div className="flex justify-center my-20">
+              <div className="flex justify-center  mt-2">
                 <ConfigProvider
                   theme={{
                     components: {
@@ -413,7 +418,10 @@ console.log("truck", allTrucks?.data?.attributes);
                       </Button>
                       <Button
                         onClick={() =>
-                          onAssignLoad(currentDriverModalData.key, dragData._id)
+                          onAssignLoad(
+                            currentDriverModalData?.driverId,
+                            dragData?._id
+                          )
                         }
                         className="!bg-[#2B4257] w-full py-6 rounded-xl text-2xl font-semibold !text-white border border-[#2B4257]"
                       >
@@ -628,7 +636,7 @@ console.log("truck", allTrucks?.data?.attributes);
                 }}
               >
                 <Pagination
-                  onChange={(page) => setAllLoadsPage(page)}
+                  onChange={(allLoadsPage) => setAllLoadsPage(allLoadsPage)}
                   pageSize={2}
                   current={allLoadsPage}
                   total={allPendingLoads?.data?.pagination?.totalResults}
