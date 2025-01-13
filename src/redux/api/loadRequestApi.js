@@ -4,9 +4,18 @@ import { baseApi } from "./baseApi";
 const loadRequestApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllLoadRequest: builder.query({
-      query: ({ page }) =>
-        `/loads-request?myRequests=true&page=${page}&limit=9`,
+      query: ({ page, filter }) =>
+        `/loads-request?myRequests=${filter}&page=${page}&limit=9`,
       providesTags: [tagTypes.loadRequest],
+    }),
+
+    handleAssignLoadRequest: builder.mutation({
+      query: (data) => ({
+        url: "/loads-request/action",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.loadRequest],
     }),
 
     getSingleLoadRequest: builder.query({
@@ -40,4 +49,5 @@ export const {
   useGetSingleLoadRequestQuery,
   useCreateLoadRequestMutation,
   useGetAllTrucksQuery,
+  useHandleAssignLoadRequestMutation
 } = loadRequestApi;

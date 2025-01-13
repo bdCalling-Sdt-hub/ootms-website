@@ -20,7 +20,7 @@ const MyRequest = ({ data }) => {
     /^\/+/,
     ""
   )}`;
-// console.log("loglog",data.id);
+  console.log("loglog", data?.availablePalletSpace);
 
   return (
     <Link href={`load-request/my-request/${data?.id}`}>
@@ -33,8 +33,8 @@ const MyRequest = ({ data }) => {
             <Image
               src={img}
               width={0}
-                          height={0}
-                          sizes="100vw"
+              height={0}
+              sizes="100vw"
               alt="user"
               className="w-16 h-16 rounded-full"
             />
@@ -46,12 +46,39 @@ const MyRequest = ({ data }) => {
               {data?.load?.trailerSize}-foot trailer—{data?.load?.palletSpace}
               pallets
             </p>
-            <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
-              <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
-                <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
+
+            {console.log(
+              "fgvdrsgvdrtsg",
+              data?.availablePalletSpace === 0,
+              data
+            )}
+
+            {data?.availablePalletSpace > 5 && (
+              <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
+                  <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
+                </div>
+                <p>The truck is fully available.</p>
               </div>
-              <p>The truck is fully available.</p>
-            </div>
+            )}
+            {data?.availablePalletSpace === 0 && (
+              <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                <div className="w-fit p-1 rounded-full bg-[#e2a2a2] flex justify-center items-center">
+                  <span className="w-3 h-3 rounded-full bg-[#ba7a7a]"></span>
+                </div>
+                <p>The truck is fully loaded.</p>
+              </div>
+            )}
+            {data?.availablePalletSpace > 0 &&
+              data?.availablePalletSpace <= 5 && (
+                <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                  <div className="w-fit p-1 rounded-full bg-[#e1e2a2] flex justify-center items-center">
+                    <span className="w-3 h-3 rounded-full bg-[#bab67a]"></span>
+                  </div>
+                  <p>The truck has low pallet space.</p>
+                </div>
+              )}
+
             {/* <div className="flex items-center justify-center gap-4">
                                 <p className="bg-[#90BA7A] h-8 w-8 rounded-full"></p>
                                 <p
@@ -66,12 +93,11 @@ const MyRequest = ({ data }) => {
                                   {truck.truckAvailability}
                                 </p>
                               </div> */}
-
             <p className="text-md text-gray-600 flex">
-              {data?.load?.receivingAddress}
+              Pickup: {data?.load?.shippingAddress}
             </p>
             <p className="text-md text-gray-600 flex">
-              {data?.load?.shippingAddress}
+              Delibary: {data?.load?.receivingAddress}
             </p>
           </div>
         </div>

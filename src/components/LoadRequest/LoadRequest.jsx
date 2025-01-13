@@ -14,7 +14,12 @@ import {
   useSearchParams,
 } from "next/navigation";
 import MyRequest from "./MyRequest";
-import { useGetAllLoadRequestQuery } from "@/redux/api/loadRequestApi";
+import {
+  useGetAllLoadRequestQuery,
+  useHandleAssignLoadRequestMutation,
+} from "@/redux/api/loadRequestApi";
+import { toast } from "sonner";
+import DirverAssignLoadRequest from "./DirverAssignLoadRequest";
 
 const loadData = [
   {
@@ -179,10 +184,15 @@ const requestData = [
 ];
 
 const LoadRequest = () => {
-     const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [tab, setTab] = useState("loadRequest");
+
   const { data: allLoad, isFetching } = useGetAllLoadRequestQuery({
     page,
+    filter: tab === "myRequest",
   });
+
+  // const [handleAssignLoadRequest] = useHandleAssignLoadRequestMutation();
 
   // console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
 
@@ -197,7 +207,9 @@ const LoadRequest = () => {
   //     // You can use 'req' to fetch data or perform other actions
   //   }
   // }, [req]);
-  const [tab, setTab] = useState("loadRequest");
+
+  console.log(tab === "myRequest");
+
   useEffect(() => {
     const typeParam = searchParams.get("req");
     if (typeParam === "myRequest") {
@@ -223,7 +235,9 @@ const LoadRequest = () => {
     setIsRequestModalVisible(false);
   };
 
-  console.log(allLoad?.data?.attributes?.pagination?.totalResults);
+  console.log(allLoad?.data?.attributes?.pagination?.totalItems);
+
+
 
   return (
     <div className="py-10 bg-[#F3F3F3]">
@@ -254,44 +268,34 @@ const LoadRequest = () => {
           </div>
           {/* Content  */}
           {tab === "loadRequest" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10">
-              {loadData.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex justify-center items-center gap-5 bg-white rounded-lg p-2"
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10">
+                {allLoad?.data?.attributes?.loadRequests.map((truck) => (
+                  <DirverAssignLoadRequest key={truck?.id} truck={truck} />
+                ))}
+              </div>
+              <div className="flex justify-center my-2">
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Pagination: {
+                        itemActiveBg: "#F88D58",
+                        colorPrimary: "#F3F3F3",
+                        colorPrimaryHover: "#F3F3F3",
+                      },
+                    },
+                  }}
                 >
-                  <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
-                    <Image
-                      src={AllImages.user}
-                      alt="user"
-                      className="w-16 h-16 rounded-full"
-                    />
-                  </div>
-                  <div>
-                    <h1 className="text-xl font-bold mb-1">{item.name}</h1>
-                    <p className="text-lg font-semibold mb-1">{item.trailer}</p>
-                    <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
-                      <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
-                        <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
-                      </div>
-                      <p>The truck is fully available.</p>
-                    </div>
-                    {/* Assign And Cancle  */}
-                    <div className=" flex justify-center items-center gap-5 mt-1">
-                      <Button className="!bg-[#DDDDDD] w-full py-2 rounded font-semibold !text-black border border-[#2B4257]">
-                        Reject Load
-                      </Button>
-                      <Button
-                        onClick={showModal}
-                        className="!bg-[#2B4257] w-full py-2 rounded font-semibold !text-white border border-[#2B4257]"
-                      >
-                        Assign Load
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  <Pagination
+                    align="center"
+                    onChange={(page) => setPage(page)}
+                    pageSize={9}
+                    current={page}
+                    total={allLoad?.data?.attributes?.pagination?.totalResults}
+                  />
+                </ConfigProvider>
+              </div>
+            </>
           ) : (
             <>
               <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
@@ -312,7 +316,6 @@ const LoadRequest = () => {
                     },
                   }}
                 >
-
                   <Pagination
                     onChange={(page) => setPage(page)}
                     pageSize={9}
@@ -333,111 +336,7 @@ const LoadRequest = () => {
             },
           },
         }}
-      >
-        <Modal
-          visible={isTruckModalVisible}
-          onCancel={handleCancel}
-          footer={null}
-          centered
-          width={800}
-        >
-          <div className="p-5">
-            <div className="sm:flex justify-between gap-10">
-              {/* Driver Information */}
-              <div className="w-full flex flex-col">
-                <p className="text-2xl font-semibold">Driver’s Information</p>
-                <hr className="w-56 mb-4" />
-                <div className="flex flex-col gap-5 mt-2">
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-lg font-semibold">Driver Name: </p>
-                      <div className="flex items-center gap-2">
-                        <p>
-                          <FaStar className="text-yellow-400" />
-                        </p>
-                        <p>4.5</p>
-                        <p>NRShakib</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold">Driver Phone: </p>
-                      <p>123-456-789</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-lg font-semibold">Driver Email: </p>
-                      <p>example@gmail.com</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold">Driver Address: </p>
-                      <p>Rupatoli, Barishal.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Truck Information */}
-              <div className="w-full ">
-                <p className="text-2xl font-semibold">Truck Information</p>
-                <hr className="w-56 mb-4" />
-                <div className="flex flex-col gap-5 mt-2">
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-lg font-semibold">Truck Number: </p>
-                      <p>DHK METRO HA 64-8549</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold">Trailer Size: </p>
-                      <p>48-foot trailer.</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <p className="text-lg font-semibold">Pallet Spaces: </p>
-                      <p>24 pallets.</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold">Availability: </p>
-                      <p>Fully Available.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-[90%] mx-auto flex justify-between items-center gap-5 mt-5">
-              <Input
-                prefix={<BiSolidMessageSquareDetail className="w-8 h-8 mr-2" />}
-                placeholder="Send a free message"
-                className="w-full border-[#DDDDDD] h-12 rounded-3xl"
-              />
-              <div className="p-3 rounded-full w-fit bg-[#FDFDFD] border border-[#DDDDDD]">
-                <FaPhone className="w-6 h-6" />
-              </div>
-            </div>
-            {/* Button to find a new driver */}
-            <div className=" sm:flex justify-center items-center gap-5 space-y-3 pt-5 p-3">
-              <Button
-                onClick={handleCancel}
-                className="!bg-[#DDDDDD] w-full py-5 rounded-xl text-xl font-semibold !text-black "
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  handleCancel();
-                  router.push("/current-shipment");
-                  router.refresh();
-                }}
-                className="!bg-[#2B4257] w-full py-5 rounded-xl text-xl font-semibold !text-white border border-[#2B4257]"
-              >
-                Assign Load
-              </Button>
-            </div>
-          </div>
-        </Modal>
-      </ConfigProvider>
+      ></ConfigProvider>
       <ConfigProvider
         theme={{
           components: {

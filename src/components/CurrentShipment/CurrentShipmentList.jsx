@@ -103,7 +103,7 @@ const CurrentShipmentList = () => {
   });
   console.log(
     "currentShipment list",
-    currentShipment?.data?.attributes?.pagination?.totalPages
+    currentShipment?.data?.attributes?.pagination
   );
 
   const [searchText, setSearchText] = useState("");
@@ -172,30 +172,29 @@ const CurrentShipmentList = () => {
               </div>
             </Link>
           ))}
-
-          
-        </div><div className="flex justify-center my-7">
-            <ConfigProvider
-              theme={{
-                components: {
-                  Pagination: {
-                    itemActiveBg: "#F88D58",
-                    colorPrimary: "#F3F3F3",
-                    colorPrimaryHover: "#F3F3F3",
-                  },
+        </div>
+        <div className="flex justify-center my-7">
+          <ConfigProvider
+            theme={{
+              components: {
+                Pagination: {
+                  itemActiveBg: "#F88D58",
+                  colorPrimary: "#F3F3F3",
+                  colorPrimaryHover: "#F3F3F3",
                 },
-              }}
-            >
-              <Pagination
-                onChange={(page) => setPage(page)}
-                pageSize={1}
-                current={page}
-                total={
-                  currentShipment?.data?.attributes?.pagination?.totalPages
-                }
-              />
-            </ConfigProvider>
-          </div>
+              },
+            }}
+          >
+            <Pagination
+              onChange={(page) => setPage(page)}
+              pageSize={9}
+              current={page}
+              total={
+                currentShipment?.data?.attributes?.pagination?.totalResults
+              }
+            />
+          </ConfigProvider>
+        </div>
       </Container>
     </div>
   );
