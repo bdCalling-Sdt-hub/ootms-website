@@ -178,7 +178,7 @@ const CurrentShipmentList = () => {
             theme={{
               components: {
                 Pagination: {
-                  itemActiveBg: "#F88D58",
+                  itemActiveBg: "#2b4257",
                   colorPrimary: "#F3F3F3",
                   colorPrimaryHover: "#F3F3F3",
                 },
@@ -186,6 +186,7 @@ const CurrentShipmentList = () => {
             }}
           >
             <Pagination
+              showSizeChanger={false}
               onChange={(page) => setPage(page)}
               pageSize={9}
               current={page}

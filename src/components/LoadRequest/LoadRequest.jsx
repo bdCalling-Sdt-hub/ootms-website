@@ -16,7 +16,7 @@ import {
 import MyRequest from "./MyRequest";
 import {
   useGetAllLoadRequestQuery,
-  useHandleAssignLoadRequestMutation,
+  useHandleAssignLoadRequestMutation
 } from "@/redux/api/loadRequestApi";
 import { toast } from "sonner";
 import DirverAssignLoadRequest from "./DirverAssignLoadRequest";
@@ -269,7 +269,7 @@ const LoadRequest = () => {
           {/* Content  */}
           {tab === "loadRequest" ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10 ">
                 {allLoad?.data?.attributes?.loadRequests.map((truck) => (
                   <DirverAssignLoadRequest key={truck?.id} truck={truck} />
                 ))}
@@ -279,7 +279,7 @@ const LoadRequest = () => {
                   theme={{
                     components: {
                       Pagination: {
-                        itemActiveBg: "#F88D58",
+                        itemActiveBg: "#2b4257",
                         colorPrimary: "#F3F3F3",
                         colorPrimaryHover: "#F3F3F3",
                       },
@@ -287,6 +287,7 @@ const LoadRequest = () => {
                   }}
                 >
                   <Pagination
+                    showSizeChanger={false}
                     align="center"
                     onChange={(page) => setPage(page)}
                     pageSize={9}
@@ -309,14 +310,15 @@ const LoadRequest = () => {
                   theme={{
                     components: {
                       Pagination: {
-                        itemActiveBg: "#F88D58",
+                        itemActiveBg: "#2b4257",
                         colorPrimary: "#F3F3F3",
                         colorPrimaryHover: "#F3F3F3",
                       },
                     },
                   }}
                 >
-                  <Pagination
+                    <Pagination
+                      showSizeChanger={false}
                     onChange={(page) => setPage(page)}
                     pageSize={9}
                     current={page}

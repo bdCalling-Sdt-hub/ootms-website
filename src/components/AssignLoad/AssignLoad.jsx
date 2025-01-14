@@ -1,15 +1,17 @@
 "use client";
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Checkbox, Form, Modal, Space } from "antd";
-import { PiArrowSquareDownLight, PiArrowSquareUpLight } from "react-icons/pi";
-import Container from "../ui/Container";
-import { IoChevronBackOutline } from "react-icons/io5";
+import { Checkbox, Form, Modal } from "antd";
 import { useRouter } from "next/navigation";
-import { FiPlusCircle } from "react-icons/fi";
-import AssignDiver from "../AssignDriver/AssignDriver";
 import { useState } from "react";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { PiArrowSquareDownLight, PiArrowSquareUpLight } from "react-icons/pi";
+import AssignLoadForMultipleDriver from "../AssignDriver/AssignLoadForMultipleDriver";
+import Container from "../ui/Container";
 
 const AssignLoad = () => {
+  let loadDataFromLocal = JSON.parse(localStorage.getItem("myXlLoad"));
+  // console.log("loadDataFromLocal", loadDataFromLocal);
+
+  const [loadId, SetLoadId] = useState();
   const navigate = useRouter();
   const [openAddDriverIdModal, setOpenAddDriverIdModal] = useState(false);
   //* It's Use to Show Modal
@@ -31,9 +33,11 @@ const AssignLoad = () => {
     setOpenAddDriverIdModal(false);
   };
   const onFinish = (values) => {
-    console.log("Selected loads:", values);
+    SetLoadId(values.loads);
     showViewModal();
   };
+  // console.log("Selected loads:", loadId);
+
   return (
     <div className=" py-20">
       <Container>
@@ -49,211 +53,34 @@ const AssignLoad = () => {
           <Form className="mt-10" onFinish={onFinish}>
             {/* Load checkboxes section */}
             <div className="">
-              <Form.Item
-                name="loads"
-                valuePropName="checked"
-                initialValue={["Load - 1", "Load - 3"]}
-              >
+              <Form.Item name="loads" valuePropName="checked">
                 <Checkbox.Group className="flex flex-col items-start gap-y-5">
                   {/* Load 1 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 1"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 1
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
 
-                  {/* Load 2 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 2"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 2
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
+                  {loadDataFromLocal?.map((data, index) => (
+                    <div className="flex items-center justify-between w-full">
+                      <Checkbox
+                        value={`${data?._id}`}
+                        className="text-3xl font-semibold"
+                      >
+                        Load - {index + 1}
+                      </Checkbox>
+                      <div className="text-2xl font-normal">
+                        <p>shipper Name: {data?.shipperName}</p>
+                        <p>Reciver Name: {data?.receiverName}</p>
+                      </div>
+                      <div className="ml-6 text-2xl">
+                        <p className="flex items-center">
+                          <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
+                          <span>Rupatoli, Barishal</span>
+                        </p>
+                        <p className="flex items-center">
+                          <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
+                          <span>Banasree, Dhaka</span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Load 3 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 3"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 3
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 4 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 4"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 4
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 5 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 5"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 5
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 6 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 6"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 6
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 7 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 7"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 7
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 8 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 8"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 8
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 9 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 9"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 9
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Load 10 */}
-                  <div className="flex items-center justify-between w-full">
-                    <Checkbox
-                      value="Load - 10"
-                      className="text-3xl font-semibold"
-                    >
-                      Load - 10
-                    </Checkbox>
-                    <div className="ml-6 text-2xl">
-                      <p className="flex items-center">
-                        <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Rupatoli, Barishal</span>
-                      </p>
-                      <p className="flex items-center">
-                        <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                        <span>Banasree, Dhaka</span>
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </Checkbox.Group>
               </Form.Item>
             </div>
@@ -284,7 +111,10 @@ const AssignLoad = () => {
           <div className="flex justify-between items-center gap-5 mt-5">
             <button
               className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
-              onClick={() => navigate.push("/map-truck")}
+              onClick={() => {
+                localStorage.removeItem("myXlLoad"),
+                  navigate.push("/dispatching");
+              }}
             >
               No
             </button>{" "}
@@ -308,7 +138,7 @@ const AssignLoad = () => {
         style={{ textAlign: "center" }}
         className="lg:min-w-[800px]"
       >
-        <AssignDiver />
+        <AssignLoadForMultipleDriver loadId={loadId} />
       </Modal>
     </div>
   );

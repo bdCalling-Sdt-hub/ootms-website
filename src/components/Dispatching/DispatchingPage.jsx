@@ -174,6 +174,8 @@ const DispatchingPage = () => {
     page,
   });
 
+  console.log(allTrucks?.data?.attributes?.data);
+
   // console.log("truck", allTrucks?.data?.attributes);
 
   // console.log("Created load Data:", allPendingLoads?.data?.results);
@@ -268,7 +270,7 @@ const DispatchingPage = () => {
         driver: id2,
       },
     ];
-    console.log("id", id1, id2);
+    console.log(data);
 
     try {
       if (id1 == null) {
@@ -310,7 +312,7 @@ const DispatchingPage = () => {
             <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white  text-center mb-10 w-full">
               Available Trucks
             </p>
-            <div className=" flex flex-col gap-5 overflow-x-auto">
+            <div className=" flex flex-col gap-5 overflow-x-auto overflow-y-clip">
               {allTrucks?.data?.attributes?.data?.map((data) => (
                 <>
                   <Trucks
@@ -329,7 +331,7 @@ const DispatchingPage = () => {
                   theme={{
                     components: {
                       Pagination: {
-                        itemActiveBg: "#F88D58",
+                        itemActiveBg: "#2b4257",
                         colorPrimary: "#F3F3F3",
                         colorPrimaryHover: "#F3F3F3",
                       },
@@ -356,14 +358,15 @@ const DispatchingPage = () => {
               >
                 <div className="mt-5 rounded-lg ">
                   {/* Header Text  */}
-                  <div className="flex items-center gap-2 mx-auto p-2 bg-white">
+                  {/* <div className="flex items-center gap-2 mx-auto p-2 bg-white">
                     <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
                       <span className="w-5 h-5 rounded-full bg-[#90BA7A]"></span>
                     </div>
                     <p className="text-lg font-semibold">
-                      The truck is {currentDriverModalData?.availability}nono
+                      The truck is {currentDriverModalData?.availability} Not
+                      complete
                     </p>
-                  </div>
+                  </div> */}
                   {/* Track Details  */}
                   <div className="bg-[#EEF2FC] p-3 rounded mt-2">
                     <div className="">
@@ -624,24 +627,27 @@ const DispatchingPage = () => {
                   ))}
                 </div>
               </motion.div>
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Pagination: {
-                      itemActiveBg: "#F88D58",
-                      colorPrimary: "#F3F3F3",
-                      colorPrimaryHover: "#F3F3F3",
+              <div className="flex justify-center  mt-2">
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Pagination: {
+                        itemActiveBg: "#2b4257",
+                        colorPrimary: "#F3F3F3",
+                        colorPrimaryHover: "#F3F3F3",
+                      },
                     },
-                  },
-                }}
-              >
-                <Pagination
-                  onChange={(allLoadsPage) => setAllLoadsPage(allLoadsPage)}
-                  pageSize={2}
-                  current={allLoadsPage}
-                  total={allPendingLoads?.data?.pagination?.totalResults}
-                />
-              </ConfigProvider>
+                  }}
+                >
+                  <Pagination
+                    showSizeChanger={false}
+                    onChange={(allLoadsPage) => setAllLoadsPage(allLoadsPage)}
+                    pageSize={2}
+                    current={allLoadsPage}
+                    total={allPendingLoads?.data?.pagination?.totalResults}
+                  />
+                </ConfigProvider>
+              </div>
             </div>
           )}
         </div>

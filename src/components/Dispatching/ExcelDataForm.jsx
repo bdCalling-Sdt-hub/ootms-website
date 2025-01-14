@@ -160,9 +160,15 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
     try {
       const res = await createLoad(excelData).unwrap();
       console.log(res);
+      if (res?.data?.attributes) {
+        const myXlLoad = res?.data?.attributes;
+        localStorage.removeItem("myXlLoad");
+        localStorage.setItem("myXlLoad", JSON.stringify(myXlLoad));
+
+        navigate.push("/assign-load");
+      }
 
       handleOpenExcelFromModalCancle();
-      // navigate.push("/assign-load");
 
       toast.success("Load Added Successfully", {
         id: toastId,

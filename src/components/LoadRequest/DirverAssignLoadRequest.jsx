@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AllImages } from "../../../public/assets/AllImages";
-import { Button, Image, Input, Modal } from "antd";
+import { Button, Input, Modal } from "antd";
 import { useHandleAssignLoadRequestMutation } from "@/redux/api/loadRequestApi";
 
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { FaPhone, FaStar } from "react-icons/fa6";
 import { BiSolidMessageSquareDetail } from "react-icons/bi";
 import { getImageUrl } from "@/helpers/config/envConfig";
+import Image from "next/image";
 
 const DirverAssignLoadRequest = ({ truck }) => {
   const router = useRouter();
@@ -63,11 +64,13 @@ const DirverAssignLoadRequest = ({ truck }) => {
     <div>
       <div
         key={truck?.id}
-        className="flex justify-center items-center gap-5 bg-white rounded-lg p-2"
+        className="flex justify-center items-center gap-5 bg-white rounded-lg p-2 "
       >
         {/* {console.log("my truck", truck)} */}
         <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
           <Image
+            width={50}
+            height={50}
             src={img}
             alt="user"
             className="w-16 h-16 rounded-full"
