@@ -97,7 +97,7 @@ const CurrentShipment = () => {
                     <div className="flex text-yellow-400 mr-2">
                       {"★".repeat(1)}
                     </div>
-                    <span>4.65 AL Shakib</span>
+                    <span>4.65 AL Shakttib</span>
                   </div>
                 </div>
                 <div>

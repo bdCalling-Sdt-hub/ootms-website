@@ -5,6 +5,7 @@ export const tagTypes = {
   truckDetails: "truckDetails",
   allTruckDetails: "AllTruckDetails",
   currentShipment: "CurrentShipment",
+  subscribe:"Subscribe",
 };
 
 export const tagTypesList = [

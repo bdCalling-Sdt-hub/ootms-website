@@ -17,12 +17,18 @@ import { motion } from "framer-motion";
 import { allIcons, AllImages } from "../../../../public/assets/AllImages";
 import { buttonVariants } from "@/lib/variants";
 import { useDispatch, useSelector } from "react-redux";
-import { useUserLoginMutation } from "@/redux/api/authApi";
+import {
+  useFacebookLoginQuery,
+  useGoogleLoginQuery,
+  useUserLoginMutation,
+} from "@/redux/api/authApi";
 import { toast } from "sonner";
 import { setAccessToken } from "@/redux/slices/authSlice";
 
 const SignIn = () => {
   const [userLogin] = useUserLoginMutation();
+  const { data: gooGle } = useGoogleLoginQuery();
+  const { data: faceBook } = useFacebookLoginQuery();
   const dispatch = useDispatch();
 
   const navigate = useRouter();

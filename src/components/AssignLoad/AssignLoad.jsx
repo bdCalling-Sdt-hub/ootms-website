@@ -116,7 +116,7 @@ const AssignLoad = () => {
                   navigate.push("/dispatching");
               }}
             >
-              No
+              No 
             </button>{" "}
             <button
               className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"

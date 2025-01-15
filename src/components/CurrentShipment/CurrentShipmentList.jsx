@@ -101,10 +101,7 @@ const CurrentShipmentList = () => {
   const { data: currentShipment, isFetching } = useGetCurrentShipmentQuery({
     page,
   });
-  console.log(
-    "currentShipment list",
-    currentShipment?.data?.attributes?.pagination
-  );
+  console.log("currentShipment list", currentShipment?.data?.attributes);
 
   const [searchText, setSearchText] = useState("");
   //* Use to set user
@@ -139,10 +136,7 @@ const CurrentShipmentList = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {currentShipment?.data?.attributes?.loadRequests?.map((truck) => (
-            <Link
-              href={`load-request/my-request/${truck?._id}`}
-              key={truck?._id}
-            >
+            <Link href={`current-shipment/${truck?._id}`} key={truck?._id}>
               <div className="flex flex-col p-5 border rounded-lg shadow-md bg-white">
                 <div className="flex items-center  gap-4">
                   <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
@@ -154,9 +148,19 @@ const CurrentShipmentList = () => {
                   </div>
 
                   <div className="">
-                    <h1 className="text-xl font-semibold">Takibul Hasan</h1>
+                    <h1 className="text-xl font-semibold">
+                      {truck?.driver?.fullName}
+                    </h1>
+                    <div className="flex gap-5">
+                      <p className="text-lg text-gray-500">
+                        Trailer Size:{truck.load?.trailerSize}
+                      </p>
+                      <p className="text-lg text-gray-500">
+                        Pallet Space:{truck.load?.palletSpace}
+                      </p>
+                    </div>
                     <p className="text-lg text-gray-500">
-                      {truck.load?.trailerSize}
+                      Weight:{truck.load?.weight}
                     </p>
 
                     <div className="flex items-center justify-center gap-4">

@@ -28,11 +28,13 @@ const EditProfile = () => {
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const imageUrl = getImageUrl(); // Base URL for images
-  const userImagePath = myProfile?.data?.attributes?.image?.replace(/^\/+/, ""); // Remove leading slashes
+  const userImagePath =
+    myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, ""); // Remove leading slashes
 
   const userImage = `${imageUrl.replace(/\/+$/, "")}/${userImagePath}`; // Remove trailing slashes from base URL
 
   const [uploadedImage, setUploadedImage] = useState(userImage);
+console.log(myProfile?.data?.attributes);
 
   useEffect(() => {
     setUploadedImage(userImage);
@@ -75,7 +77,7 @@ const EditProfile = () => {
 
     // console.log({ ...values, image: values.image });
     try {
-      if (myProfile?.data?.attributes?.isComplete) {
+      if (myProfile?.data?.attributes?.userDetails?.isComplete) {
         console.log("edit", formData);
         formData.forEach((value, key) => {
           console.log(key, value);
@@ -83,7 +85,7 @@ const EditProfile = () => {
 
         res = await editProfile(formData).unwrap();
       } else {
-        if (myProfile?.data?.attributes?.role === "driver") {
+        if (myProfile?.data?.attributes?.userDetails?.role === "driver") {
           // formData.append("truckNumber", values.truckNumber);
           // formData.append("cdlNumber", values.cdlNumber);
           // formData.append("trailerSize", values.trailerSize);
@@ -112,11 +114,14 @@ const EditProfile = () => {
         });
       }
       console.log("res: ", res);
+      
 
       toast.success(res?.message, {
         id: toastId,
         duration: 2000,
       });
+
+        router.push("/profile");
     } catch (error) {
       console.log(error);
 
@@ -177,7 +182,7 @@ const EditProfile = () => {
           <> Complete your Profile</>
         )} */}
         <Container>
-          {myProfile?.data?.attributes?.isComplete == true ? (
+          {myProfile?.data?.attributes?.userDetails?.isComplete == true ? (
             <div className="flex flex-col sm:flex-row justify-between items-center ">
               <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
                 Edit Profile Picture
@@ -195,7 +200,7 @@ const EditProfile = () => {
             className="bg-transparent w-full"
           >
             <div className="flex flex-col sm:flex-row items-center gap-10">
-              {myProfile?.data?.attributes?.isComplete == true && (
+              {myProfile?.data?.attributes?.userDetails?.isComplete == true && (
                 <>
                   <div className="rounded-full border-2 border-next-btn overflow-hidden">
                     <Image
@@ -203,7 +208,8 @@ const EditProfile = () => {
                       height={0}
                       src={uploadedImage}
                       alt={
-                        myProfile?.data?.attributes?.fullName || "Profile image"
+                        myProfile?.data?.attributes?.userDetails?.fullName ||
+                        "Profile image"
                       }
                       sizes="100vw"
                       className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
@@ -239,7 +245,8 @@ const EditProfile = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 items-center">
                 {/*   Full Name */}
 
-                {myProfile?.data?.attributes?.isComplete == true && (
+                {myProfile?.data?.attributes?.userDetails?.isComplete ==
+                  true && (
                   <div>
                     <Typography.Title
                       level={4}
@@ -248,7 +255,9 @@ const EditProfile = () => {
                       Full Name
                     </Typography.Title>
                     <Form.Item
-                      initialValue={myProfile?.data?.attributes?.fullName}
+                      initialValue={
+                        myProfile?.data?.attributes?.userDetails?.fullName
+                      }
                       name="fullName"
                       className="text-white"
                     >
@@ -271,7 +280,9 @@ const EditProfile = () => {
                   </Typography.Title>
                   <Form.Item
                     name="phoneNumber"
-                    initialValue={myProfile?.data?.attributes?.phoneNumber}
+                    initialValue={
+                      myProfile?.data?.attributes?.userDetails?.phoneNumber
+                    }
                     className="text-white"
                     rules={[{ required: true }]}
                   >
@@ -292,7 +303,9 @@ const EditProfile = () => {
                   </Typography.Title>
                   <Form.Item
                     name="address"
-                    initialValue={myProfile?.data?.attributes?.address}
+                    initialValue={
+                      myProfile?.data?.attributes?.userDetails?.address
+                    }
                     className="text-white"
                     rules={[{ required: true }]}
                   >
@@ -303,9 +316,11 @@ const EditProfile = () => {
                   </Form.Item>
                 </div>
 
-                {myProfile?.data?.attributes?.isComplete == false ? (
+                {myProfile?.data?.attributes?.userDetails?.isComplete ==
+                false ? (
                   <>
-                    {myProfile?.data?.attributes?.role === "user" && (
+                    {myProfile?.data?.attributes?.userDetails?.role ===
+                      "user" && (
                       <>
                         {/* {data.roll === "user" && ( */}
                         {/*  Tax ID  */}
@@ -319,7 +334,9 @@ const EditProfile = () => {
                           <Form.Item
                             rules={[{ required: true }]}
                             name="taxid"
-                            initialValue={myProfile?.data?.attributes?.taxid}
+                            initialValue={
+                              myProfile?.data?.attributes?.userDetails?.taxid
+                            }
                             className="text-white"
                           >
                             <Input
@@ -331,7 +348,8 @@ const EditProfile = () => {
                       </>
                     )}
 
-                    {myProfile?.data?.attributes?.role === "driver" && (
+                    {myProfile?.data?.attributes?.userDetails?.role ===
+                      "driver" && (
                       <>
                         {/* Truck Number */}
                         <div>
