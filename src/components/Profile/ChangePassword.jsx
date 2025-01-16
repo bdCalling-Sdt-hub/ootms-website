@@ -21,7 +21,7 @@ const ChangePassword = () => {
     if (values.oldPassword === values.newPassword) {
       return toast.error("New password can't be previous one");
     }
-    const toastId = toast.loading("Profile updating...");
+    const toastId = toast.loading("Password Changing...");
 
     const data = {
       oldPassword: values.oldPassword,
@@ -40,7 +40,7 @@ const ChangePassword = () => {
         duration: 2000,
       });
 
-      //   router.push("/profile");
+        router.push("/profile");
     } catch (error) {
       console.log(error);
 
@@ -82,7 +82,7 @@ const ChangePassword = () => {
                     },
                   ]}
                 >
-                  <Input
+                  <Input.Password
                     type="password"
                     placeholder="Type old password"
                     className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
@@ -108,7 +108,7 @@ const ChangePassword = () => {
                     },
                   ]}
                 >
-                  <Input
+                  <Input.Password
                     type="password"
                     placeholder="Type your New password"
                     className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color  "
@@ -116,7 +116,7 @@ const ChangePassword = () => {
                 </Form.Item>
               </div>
 
-              <div>
+              {/* <div>
                 <Typography.Title
                   level={4}
                   className="text-profile-text-color font-bold"
@@ -130,7 +130,7 @@ const ChangePassword = () => {
                 >
                   <Input className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color" />
                 </Form.Item>
-              </div>
+              </div> */}
             </div>
 
             <Button

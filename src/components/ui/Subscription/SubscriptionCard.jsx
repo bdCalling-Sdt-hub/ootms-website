@@ -27,9 +27,9 @@ const SubscriptionCard = ({
     >
       <div>
         <div className="flex flex-col ">
-          <h3 className="mx-auto text-sm text-center text-[#175C99] font-bold mb-2 bg-[#E9F5FF] w-28 rounded-lg">
+          {/* <h3 className="mx-auto text-sm text-center text-[#175C99] font-bold mb-2 bg-[#E9F5FF] w-28 rounded-lg">
             Most Popular
-          </h3>
+          </h3> */}
           <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-center text-black font-bold mb-2 ">
             {plan?.name}
           </p>
@@ -40,7 +40,11 @@ const SubscriptionCard = ({
         </p>
         <p className="text-3xl sm:text-4xl lg:text-5xl text-center font-bold mb-10 text-black">
           {plan?.duration}
-          <sub className="text-sm sm:text-lg lg:text-xl">days</sub>
+          <sub className="text-sm sm:text-lg lg:text-xl">Days</sub>
+        </p>
+        <p className="text-3xl sm:text-4xl lg:text-5xl text-center font-bold mb-10 text-black">
+          {plan?.noOfDispathes}
+          <sub className="text-sm sm:text-lg lg:text-xl">Dispathes</sub>
         </p>
         {/* <ul className="mb-10">
           {plan.features.map((feature, featureIndex) => (
