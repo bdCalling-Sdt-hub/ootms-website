@@ -1,5 +1,5 @@
-"use client"
-import { useCreateLoadRequestMutation } from "@/redux/api/loadRequestApi";
+"use client";
+import { useCreateLoadRequestMutation, useReAssainLoadMutation } from "@/redux/api/loadRequestApi";
 import { Button, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
 
@@ -8,29 +8,29 @@ import { toast } from "sonner";
 
 const ReAssign = (props) => {
   const router = useRouter();
-  const { setIsOpen } = props;
+  const { setIsOpen, loadId,id } = props;
+console.log(id,id);
 
-  const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
+  const [reAssainLoad, { isLoading }] = useReAssainLoadMutation();
   const navigate = useRouter();
   const onFinish = async (values) => {
     const toastId = toast.loading("Re-Assigning Diver...");
 
-    const data ={}
-
-
+    const data = {
+      load: loadId,
+      driver: values.driver,
+    };
     console.log("data", data);
 
     try {
-      // const res = await createLoadRequest(data).unwrap();
+      const res = await reAssainLoad(data,id).unwrap();
       console.log(res);
-
-      localStorage.removeItem("myXlLoad");
 
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
       });
-      // navigate.push("/load-request?req=myRequest");
+      navigate.push("/load-request?req=myRequest");
     } catch (error) {
       console.log(error);
       toast.error(
@@ -45,18 +45,17 @@ const ReAssign = (props) => {
     }
   };
 
-
-
-
   return (
     <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 rounded shadow-md w-1/2">
         <div className="px-10 pt-10 relative">
-
           <p className="text-2xl text-center font-semibold">
             Give your preferred Driver Id
           </p>
-          <p onClick={()=>setIsOpen()} className="font-bold text-xl cursor-pointer absolute top-0 right-0">
+          <p
+            onClick={() => setIsOpen()}
+            className="font-bold text-xl cursor-pointer absolute top-0 right-0"
+          >
             X
           </p>
           <Form
@@ -96,7 +95,6 @@ const ReAssign = (props) => {
               </button>
             </Form.Item>
           </Form>
-
         </div>
       </div>
     </div>

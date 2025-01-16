@@ -41,11 +41,12 @@ const loadRequestApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.loadRequest],
     }),
+
     reAssainLoad: builder.mutation({
-      query: (id) => ({
-        url: `/loads-request${id}`,
+      query: (data, id) => ({
+        url: `/loads-request/${id}`,
         method: "POST",
-        // body: data,
+        body: data,
       }),
       invalidatesTags: [tagTypes.loadRequest],
     }),
@@ -58,4 +59,5 @@ export const {
   useCreateLoadRequestMutation,
   useGetAllTrucksQuery,
   useHandleAssignLoadRequestMutation,
+  useReAssainLoadMutation,
 } = loadRequestApi;

@@ -287,7 +287,13 @@ const SingleCurrentShipment = () => {
           </div>
         </div>
       )}
-      {isOpen && <ReAssign setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <ReAssign
+          setIsOpen={setIsOpen}
+          loadId={data?.data?.attributes?.loadRequests[0].load?._id}
+          id={params?.id}
+        />
+      )}
     </div>
   );
 };
