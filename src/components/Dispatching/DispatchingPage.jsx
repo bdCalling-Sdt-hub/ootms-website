@@ -29,109 +29,6 @@ import {
   useGetAllTrucksQuery,
 } from "@/redux/api/loadRequestApi";
 
-const trucksData = [
-  {
-    key: "1",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 20,
-    weight: 47090,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "2",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 21,
-    weight: 47000,
-    trailerSize: "53 ft",
-    availability: "Not Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "3",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 22,
-    weight: 47000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "4",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 23,
-    weight: 47000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "5",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 24,
-    weight: 45000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "6",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 25,
-    weight: 89000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "7",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 26,
-    weight: 75000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "8",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 27,
-    weight: 47000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "9",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 28,
-    weight: 47000,
-    trailerSize: "53 ft",
-    availability: "Available",
-    location: "Atlanta, GA",
-  },
-  {
-    key: "10",
-    driver: "John Doe",
-    truck: "Volvo FH16",
-    palletSpaces: 29,
-    weight: 47000,
-    trailerSize: "53 ft",
-    availability: "Not Available",
-    location: "Atlanta, GA",
-  },
-];
-
 const dragColumns = [
   {
     title: "Shipper City",
@@ -174,7 +71,7 @@ const DispatchingPage = () => {
     page,
   });
 
-  console.log(allTrucks?.data?.attributes?.data);
+  console.log(allTrucks);
 
   // console.log("truck", allTrucks?.data?.attributes);
 
@@ -263,7 +160,7 @@ const DispatchingPage = () => {
 
   const onAssignLoad = async (id2, id1) => {
     const toastId = toast.loading("Assigning Load...");
-    const load = JSON.parse(localStorage.getItem("loadId"));
+    // const load = JSON.parse(localStorage.getItem("loadId"));
     const data = [
       {
         load: id1,
