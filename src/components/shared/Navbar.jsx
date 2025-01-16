@@ -39,7 +39,7 @@ const Navbar = () => {
     }
   }, [token]);
 
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     const handleResize = () => {
@@ -82,7 +82,7 @@ const Navbar = () => {
     setSelected(index);
     setMobileMenuVisible(false);
   };
-
+ 
   const beforeLoginMenu = [
     {
       name: "Home",

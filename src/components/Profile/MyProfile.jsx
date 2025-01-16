@@ -13,16 +13,17 @@ const MyProfile = () => {
   const { data: myProfile, isFetching } = useMyProfileQuery();
   const { data: myTruck, isFetching: loading } = useMytruckQuery();
 
-  console.log("myProfile:", myProfile?.data?.attributes);
-  console.log("myTruck:", myTruck?.data?.attributes);
+  // console.log("myProfile:", myProfile?.data?.attributes);
+  // console.log("myTruck:", myTruck?.data?.attributes);
   const url = getImageUrl();
   const userImage = `${url.replace(
     /\/+$/,
     ""
-  )}/${myProfile?.data?.attributes?.image?.replace(/^\/+/, "")}`;
+  )}/${myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, "")}`;
 
 
-  console.log("userName:", myProfile?.data?.attributes?.fullName);
+  console.log("userName:", myProfile?.data?.attributes?.userDetails?.fullName);
+  console.log("userName:", myProfile?.data?.attributes);
 
   const router = useRouter();
   const { Dragger } = Upload;
@@ -48,10 +49,13 @@ const MyProfile = () => {
   function onEdit() {
     router.push("/edit-profile");
   }
+  function onPassChange() {
+    router.push("/change-password");
+  }
 
   // const isCompleted = false;
   // console.log(myProfile?.data?.attributes?.isComplete );
-  console.log("userImage:", userImage);
+  // console.log("myProfile:", myProfile);
 
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
 
@@ -73,7 +77,7 @@ const MyProfile = () => {
             {/* {isCompleted ? <></> : <></>} */}
             <>
               <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                {myProfile?.data?.attributes?.isComplete ? (
+                {myProfile?.data?.attributes?.userDetails?.isComplete ? (
                   <>Edit Your Profile</>
                 ) : (
                   <> Please Complete Your Profile</>
@@ -81,18 +85,26 @@ const MyProfile = () => {
               </h1>
             </>
 
-            <div className="mb-10 sm:mb-0">
+            <div className="mb-10 sm:mb-0 flex flex-col gap-6">
               <Button
                 onClick={onEdit}
                 type="primary"
                 className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
               >
                 <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />{" "}
-                {myProfile?.data?.attributes?.isComplete ? (
+                {myProfile?.data?.attributes?.userDetails?.isComplete ? (
                   <>Edit Profile</>
                 ) : (
                   <> Complete your Profile</>
                 )}
+              </Button>
+              <Button
+                onClick={onPassChange}
+                type="primary"
+                className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
+              >
+                <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />
+                Change Your Password
               </Button>
             </div>
           </div>
@@ -128,7 +140,9 @@ const MyProfile = () => {
                   </Typography.Title>
                   <Form.Item
                     name="fullName"
-                    initialValue={myProfile?.data?.attributes?.fullName}
+                    initialValue={
+                      myProfile?.data?.attributes?.userDetails?.fullName
+                    }
                     className="text-white"
                   >
                     <Input
@@ -139,7 +153,6 @@ const MyProfile = () => {
                 </div>
 
                 {/* Email  */}
-  
 
                 <div>
                   <Typography.Title
@@ -150,7 +163,9 @@ const MyProfile = () => {
                   </Typography.Title>
                   <Form.Item
                     name="email"
-                    initialValue={myProfile?.data?.attributes?.email}
+                    initialValue={
+                      myProfile?.data?.attributes?.userDetails?.email
+                    }
                     className="text-white"
                   >
                     <Input
@@ -169,7 +184,7 @@ const MyProfile = () => {
                     Address
                   </Typography.Title>
                   <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.address ||
+                    {myProfile?.data?.attributes?.userDetails?.address ||
                       "Please Complete your profile"}
                   </div>
                 </div>
@@ -182,14 +197,15 @@ const MyProfile = () => {
                     Phone
                   </Typography.Title>
                   <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.phoneNumber ||
+                    {myProfile?.data?.attributes?.userDetails?.phoneNumber ||
                       "Please Complete your profile"}
                   </div>
                 </div>
 
-                {myProfile?.data?.attributes?.isComplete ? (
+                {myProfile?.data?.attributes?.userDetails?.isComplete ? (
                   <>
-                    {myProfile?.data?.attributes?.role === "user" && (
+                    {myProfile?.data?.attributes?.userDetails?.role ===
+                      "user" && (
                       <>
                         {/* {data.roll === "user" && ( */}
                         {/*  Tax ID  */}
@@ -202,7 +218,9 @@ const MyProfile = () => {
                           </Typography.Title>
                           <Form.Item
                             name="taxid"
-                            initialValue={myProfile?.data?.attributes?.taxid}
+                            initialValue={
+                              myProfile?.data?.attributes?.userDetails?.taxid
+                            }
                             className="text-white"
                           >
                             <Input
@@ -214,7 +232,8 @@ const MyProfile = () => {
                       </>
                     )}
 
-                    {myProfile?.data?.attributes?.role === "driver" && (
+                    {myProfile?.data?.attributes?.userDetails?.role ===
+                      "driver" && (
                       <>
                         {/* Truck Number */}
                         <div>
@@ -304,13 +323,8 @@ const MyProfile = () => {
                     )}
                   </>
                 ) : (
-                    <>
-                    </>
+                  <></>
                 )}
-
-
-
-
               </div>
 
               {/* <h2 className="mb-1 text-xl font-semibold">

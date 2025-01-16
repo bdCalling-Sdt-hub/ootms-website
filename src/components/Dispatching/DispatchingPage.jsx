@@ -23,6 +23,11 @@ import MyLoad from "../map-truck/MyLoad";
 import { AllImages } from "../../../public/assets/AllImages";
 import { FaPhone } from "react-icons/fa6";
 import Image from "next/image";
+import { toast } from "sonner";
+import {
+  useCreateLoadRequestMutation,
+  useGetAllTrucksQuery,
+} from "@/redux/api/loadRequestApi";
 
 const trucksData = [
   {
@@ -158,7 +163,24 @@ const dragColumns = [
 ];
 
 const DispatchingPage = () => {
-  const { data: allPendingLoads, isFetching } = useGetAllPendingLoadsQuery();
+  const [allLoadsPage, setAllLoadsPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const router = useRouter();
+
+  const { data: allPendingLoads, isFetching } = useGetAllPendingLoadsQuery({
+    allLoadsPage,
+  });
+  const { data: allTrucks, isFetching: loading } = useGetAllTrucksQuery({
+    page,
+  });
+
+  console.log(allTrucks?.data?.attributes?.data);
+
+  // console.log("truck", allTrucks?.data?.attributes);
+
+  // console.log("Created load Data:", allPendingLoads?.data?.results);
+
+  const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
 
   //* Drag And Drop--------------------------------------------------------------
   const inputRef = useRef(null);
@@ -186,7 +208,7 @@ const DispatchingPage = () => {
   const [shipperData, setShipperData] = useState(null);
   const [driverId, setDriverId] = useState(null);
 
-  console.log("shipperData", shipperData);
+  // console.log("shipperData", shipperData);
 
   const [open, setOpen] = useState(false);
 
@@ -239,6 +261,44 @@ const DispatchingPage = () => {
     setCurrentDriverModalData(null);
   };
 
+  const onAssignLoad = async (id2, id1) => {
+    const toastId = toast.loading("Assigning Load...");
+    const load = JSON.parse(localStorage.getItem("loadId"));
+    const data = [
+      {
+        load: id1,
+        driver: id2,
+      },
+    ];
+    console.log(data);
+
+    try {
+      if (id1 == null) {
+        throw new Error("Please select load...");
+      }
+      const res = await createLoadRequest(data).unwrap();
+      console.log("res", res);
+
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      router.push("/load-request?req=myRequest");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.message ||
+          "An error occurred during load assign",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+  };
+  // console.log("alllllll", allPendingLoads?.data?.pagination?.totalResults);
+
   return (
     <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
       {isFetching ? (
@@ -246,14 +306,14 @@ const DispatchingPage = () => {
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
         </div>
       ) : (
-        <div className=" grid grid-cols-1 lg:grid-cols-4  gap-8 ">
+        <div className=" grid grid-cols-1 lg:grid-cols-5  gap-8 ">
           {/* Trucks Data */}
           <div className=" gap-5 ">
             <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white  text-center mb-10 w-full">
               Available Trucks
             </p>
-            <div className=" flex flex-col gap-5 overflow-x-auto">
-              {trucksData?.map((data) => (
+            <div className=" flex flex-col gap-5 overflow-x-auto overflow-y-clip">
+              {allTrucks?.data?.attributes?.data?.map((data) => (
                 <>
                   <Trucks
                     key={data.key}
@@ -266,12 +326,12 @@ const DispatchingPage = () => {
                 </>
               ))}
 
-              <div className="flex justify-center my-20">
+              <div className="flex justify-center  mt-2">
                 <ConfigProvider
                   theme={{
                     components: {
                       Pagination: {
-                        itemActiveBg: "#F88D58",
+                        itemActiveBg: "#2b4257",
                         colorPrimary: "#F3F3F3",
                         colorPrimaryHover: "#F3F3F3",
                       },
@@ -280,8 +340,11 @@ const DispatchingPage = () => {
                 >
                   <Pagination
                     onChange={(page) => setPage(page)}
-                    pageSize={5}
-                    total={10}
+                    pageSize={4}
+                    current={page}
+                    total={
+                      allTrucks?.data?.attributes?.pagination?.totalResults
+                    }
                   />
                 </ConfigProvider>
               </div>
@@ -295,24 +358,25 @@ const DispatchingPage = () => {
               >
                 <div className="mt-5 rounded-lg ">
                   {/* Header Text  */}
-                  <div className="flex items-center gap-2 mx-auto p-2 bg-white">
+                  {/* <div className="flex items-center gap-2 mx-auto p-2 bg-white">
                     <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
                       <span className="w-5 h-5 rounded-full bg-[#90BA7A]"></span>
                     </div>
                     <p className="text-lg font-semibold">
-                      The truck is {currentDriverModalData?.availability}
+                      The truck is {currentDriverModalData?.availability} Not
+                      complete
                     </p>
-                  </div>
+                  </div> */}
                   {/* Track Details  */}
                   <div className="bg-[#EEF2FC] p-3 rounded mt-2">
                     <div className="">
                       <p className="text-2xl font-semibold mb-1">
-                        {currentDriverModalData?.truck} weight{" "}
+                        {currentDriverModalData?.truckNumber} weight{" "}
                         {currentDriverModalData?.weight}
                       </p>
                       <p className="text-lg font-semibold mb-1">
                         {currentDriverModalData?.trailerSize}-foot trailer—
-                        {currentDriverModalData?.palletSpaces} pallets
+                        {currentDriverModalData?.palletSpace} pallets
                       </p>
                     </div>
                   </div>
@@ -331,7 +395,7 @@ const DispatchingPage = () => {
                       </div>
                       <div>
                         <p className="text-xl font-semibold">
-                          {currentDriverModalData?.driver}
+                          {currentDriverModalData?.driverName}
                         </p>
                         {/* <p className="mt-1 text-lg flex items-center">
                   <span className="pr-2 mr-1 border-r border-[#474747] flex items-center">
@@ -355,7 +419,15 @@ const DispatchingPage = () => {
                       >
                         Cancel
                       </Button>
-                      <Button className="!bg-[#2B4257] w-full py-6 rounded-xl text-2xl font-semibold !text-white border border-[#2B4257]">
+                      <Button
+                        onClick={() =>
+                          onAssignLoad(
+                            currentDriverModalData?.driverId,
+                            dragData?._id
+                          )
+                        }
+                        className="!bg-[#2B4257] w-full py-6 rounded-xl text-2xl font-semibold !text-white border border-[#2B4257]"
+                      >
                         Assign Load
                       </Button>
                     </div>
@@ -433,6 +505,7 @@ const DispatchingPage = () => {
                               },
                             }}
                           >
+                            {console.log("dragData", dragData)}
                             <Table
                               columns={dragColumns}
                               dataSource={[dragData]}
@@ -475,7 +548,7 @@ const DispatchingPage = () => {
           <div
             className={` w-full h-fit order-first lg:order-none z-10 ${
               allPendingLoads?.data?.length > 0
-                ? "lg:col-span-2"
+                ? "lg:col-span-4"
                 : "lg:col-span-3"
             }`}
           >
@@ -533,29 +606,48 @@ const DispatchingPage = () => {
           </div>
 
           {/* MyLoad Data */}
-          {allPendingLoads?.data?.length > 0 ? (
-            <motion.div className=" gap-5 ">
-              <motion.div className="relative mb-5 mx-auto">
-                <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
-                  Shipment
-                </p>
+          {allPendingLoads?.data?.results?.length > 0 && (
+            <div>
+              <motion.div className=" gap-5 ">
+                <motion.div className="relative mb-5 mx-auto">
+                  <p className="bg-[#2B4257] px-5 py-2 rounded-lg text-white text-center mb-3">
+                    Shipment
+                  </p>
+                </motion.div>
+                <div className=" flex flex-col gap-5">
+                  {allPendingLoads?.data?.results?.map((item, index) => (
+                    <MyLoad
+                      data={item}
+                      key={item?._id}
+                      isFetching={isFetching}
+                      allPendingLoads={item}
+                      open={open}
+                      handleDragEnd={handleDragEnd}
+                    />
+                  ))}
+                </div>
               </motion.div>
-              <div className=" flex flex-col gap-5">
-                {allPendingLoads?.data?.map((item, index) => (
-                  <MyLoad
-                    data={item}
-                    key={item?._id}
-                    isFetching={isFetching}
-                    allPendingLoads={item}
-                    open={open}
-                    handleDragEnd={handleDragEnd}
+              <div className="flex justify-center  mt-2">
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Pagination: {
+                        itemActiveBg: "#2b4257",
+                        colorPrimary: "#F3F3F3",
+                        colorPrimaryHover: "#F3F3F3",
+                      },
+                    },
+                  }}
+                >
+                  <Pagination
+                    showSizeChanger={false}
+                    onChange={(allLoadsPage) => setAllLoadsPage(allLoadsPage)}
+                    pageSize={2}
+                    current={allLoadsPage}
+                    total={allPendingLoads?.data?.pagination?.totalResults}
                   />
-                ))}
+                </ConfigProvider>
               </div>
-            </motion.div>
-          ) : (
-            <div className="flex items-center justify-center h-screen">
-              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
             </div>
           )}
         </div>

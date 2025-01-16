@@ -3,15 +3,19 @@ import Container from "@/components/ui/Container";
 import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
 import { Button } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
-import { FaStar } from "react-icons/fa6";
+import { useState } from "react";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 import { IoChevronBackOutline } from "react-icons/io5";
+import LeafletDeliveryMap from "../LeafletMap/LeafletDeliveryMap";
+import ReAssign from "./ReAssign";
 
-const MyRequestId = () => {
+const SingleCurrentShipment = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
+  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  console.log("data", data?.data?.attributes?.loadRequests[0]);
+  console.log("data amar kahini kore", data?.data);
 
   const router = useRouter();
   return (
@@ -22,7 +26,10 @@ const MyRequestId = () => {
             className="text-3xl cursor-pointer text-[#2B4257] font-semibold"
             onClick={() => window.history.back()}
           />
-          <p className="text-4xl text-[#2B4257] font-semibold">My Request</p>
+          <p className="text-4xl text-[#2B4257] font-semibold">
+            {" "}
+            Current Shipment
+          </p>
           <div></div>
         </div>
         <div className="p-5">
@@ -178,7 +185,10 @@ const MyRequestId = () => {
               </div>
               <div>
                 <p className="font-semibold">Reciver Address</p>
-                {data?.data?.attributes?.loadRequests[0].load?.receivingAddress}
+                {
+                  data?.data?.attributes?.loadRequests[0]?.load
+                    ?.receivingAddress
+                }
               </div>
             </div>
           </div>
@@ -192,18 +202,18 @@ const MyRequestId = () => {
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
                   <p>
-                    {data?.data?.attributes?.loadRequests[0].load?.loadType}
+                    {data?.data?.attributes?.loadRequests[0]?.load?.loadType}
                   </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Weight: </p>
-                  <p>{data?.data?.attributes?.loadRequests[0].load?.weight}</p>
+                  <p>{data?.data?.attributes?.loadRequests[0]?.load?.weight}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Pickup: </p>
                   <p>
                     {
-                      data?.data?.attributes?.loadRequests[0].load
+                      data?.data?.attributes?.loadRequests[0]?.load
                         ?.shippingAddress
                     }
                   </p>
@@ -213,16 +223,16 @@ const MyRequestId = () => {
                 <div>
                   <p className="text-lg font-semibold">Trailer Size: </p>
                   <p>
-                    {data?.data?.attributes?.loadRequests[0].load?.trailerSize}
+                    {data?.data?.attributes?.loadRequests[0]?.load?.trailerSize}
                     -foot trailer—
-                    {data?.data?.attributes?.loadRequests[0].load?.palletSpace}
+                    {data?.data?.attributes?.loadRequests[0]?.load?.palletSpace}
                     pallets.
                   </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
-                  {data?.data?.attributes?.loadRequests[0].load?.Hazmat
-                    ? data?.data?.attributes?.loadRequests[0].load?.Hazmat?.map(
+                  {data?.data?.attributes?.loadRequests[0]?.load?.Hazmat
+                    ? data?.data?.attributes?.loadRequests[0]?.load?.Hazmat?.map(
                         (value, i) => (
                           <span
                             className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
@@ -238,7 +248,7 @@ const MyRequestId = () => {
                   <p className="text-lg font-semibold">Delivery: </p>
                   <p>
                     {
-                      data?.data?.attributes?.loadRequests[0].load
+                      data?.data?.attributes?.loadRequests[0]?.load
                         ?.receivingAddress
                     }
                   </p>
@@ -247,21 +257,48 @@ const MyRequestId = () => {
             </div>
           </div>
 
-          {/* Button to find a new driver */}
-          <div className="mt-8 text-center">
-            <Button
-              onClick={() => router.push("/map-truck")}
-              type="primary"
-              size="large"
-              className="bg-[#2B4257] px-4 rounded-lg"
+          <div className="flex gap-4 justify-center py-10 mt-10">
+            <button
+              onClick={() => setOpen(!open)}
+              className=" bg-[#BDC4CB] lg:px-44 md:px-10 px-8  text-gray-800 py-3 font-semibold  rounded flex items-center justify-center"
             >
-              Find A New Driver
-            </Button>
+              Track On Map
+            </button>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className=" font-semibold bg-[#2B4257] lg:px-44 md:px-10 px-8  text-white py-2  rounded"
+            >
+              Re-Assign
+            </button>
           </div>
         </div>
       </Container>
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="rounded-xl p-5  flex flex-col items-center justify-center bg-primary-color">
+            <div
+              className="w-fit ml-auto cursor-pointer mb-3"
+              onClick={() => setOpen(!open)}
+            >
+              <IoMdCloseCircleOutline className="text-3xl" />
+            </div>
+            {/* <h2 className="text-lg font-semibold mb-4">Assign Driver</h2>  */}
+            <div className=" h-[70vh] w-[70vw]">
+              {/* <label className="block text-gray-700 font-bold mb-2" htmlFor="driver">Driver</label>                                    */}
+              <LeafletDeliveryMap />
+            </div>
+          </div>
+        </div>
+      )}
+      {isOpen && (
+        <ReAssign
+          setIsOpen={setIsOpen}
+          loadId={data?.data?.attributes?.loadRequests[0]?.load?._id}
+          id={params?.id}
+        />
+      )}
     </div>
   );
 };
 
-export default MyRequestId;
+export default SingleCurrentShipment;

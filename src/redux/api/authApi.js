@@ -77,6 +77,7 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.user],
     }),
+
     resendForgetOTP: build.mutation({
       query: () => {
         const token = localStorage.getItem("ootms_forgetPasswordVerifyToken");
@@ -110,6 +111,37 @@ export const authApi = baseApi.injectEndpoints({
         };
       },
       invalidatesTags: [tagTypes.user],
+    }),
+    changePassword: build.mutation({
+      query: (changePassword) => {
+        // Add changeData as a parameter
+        return {
+          url: `/auth/change-password`,
+          method: "PATCH",
+          body: changePassword,
+        };
+      },
+      invalidatesTags: [tagTypes.user],
+    }),
+
+    googleLogin: build.query({
+      query: () => {
+        return {
+          url: `/auth/google`,
+          method: "GET",
+        };
+      },
+      invalidatesTags: [tagTypes.user], // Ensures that the profile data can be invalidated if needed
+    }),
+
+    facebookLogin: build.query({
+      query: () => {
+        return {
+          url: `/facebook`,
+          method: "GET",
+        };
+      },
+      invalidatesTags: [tagTypes.user], // Ensures that the profile data can be invalidated if needed
     }),
 
     myProfile: build.query({
@@ -167,4 +199,7 @@ export const {
   useMytruckQuery,
   //   useGetAllUserQuery,
   //   useGetSingleUserQuery,
+  useGoogleLoginQuery,
+  useFacebookLoginQuery,
+  useChangePasswordMutation,
 } = authApi;

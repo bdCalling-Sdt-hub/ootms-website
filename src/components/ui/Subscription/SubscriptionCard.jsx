@@ -31,14 +31,18 @@ const SubscriptionCard = ({
             Most Popular
           </h3>
           <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-center text-black font-bold mb-2 ">
-            Advance
+            {plan?.name}
           </p>
         </div>
         <p className="text-3xl sm:text-4xl lg:text-5xl text-center font-bold mb-10 text-black">
-          {plan.price}
-          <sub className="text-sm sm:text-lg lg:text-xl">per month</sub>
+          {plan.price}$
+          <sub className="text-sm sm:text-lg lg:text-xl">Price</sub>
         </p>
-        <ul className="mb-10">
+        <p className="text-3xl sm:text-4xl lg:text-5xl text-center font-bold mb-10 text-black">
+          {plan?.duration}
+          <sub className="text-sm sm:text-lg lg:text-xl">days</sub>
+        </p>
+        {/* <ul className="mb-10">
           {plan.features.map((feature, featureIndex) => (
             <li key={featureIndex} className="flex items-center gap-2">
               <div className="p-1 rounded-full bg-[#3598F126] -mt-4">
@@ -49,7 +53,7 @@ const SubscriptionCard = ({
               </p>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
       <div>
         <motion.button

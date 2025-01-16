@@ -1,9 +1,9 @@
-import MyProfile from "@/components/Profile/MyProfile";
+import React from "react";
 
 const page = () => {
   return (
     <div>
-      <MyProfile />
+      <h1>Hello brother</h1>
     </div>
   );
 };

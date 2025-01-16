@@ -277,7 +277,7 @@ const ShipperForm = ({
             </div>
           </div>
           {/* load type */}
-          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+          {/* <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
               <Typography className="text-contact-input font-semibold  mb-2">
                 Load Type
@@ -292,7 +292,31 @@ const ShipperForm = ({
                 />
               </Form.Item>
             </div>
+          </div> */}
+
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold mb-2">
+                Load Type
+              </Typography>
+              <Form.Item
+                name="loadType"
+                rules={[{ required: true, message: "Load Type is required" }]}
+              >
+                <Select
+                  placeholder="Select load type"
+                  className="w-full  py-2 h-14"
+                  allowClear
+                >
+                  <Select.Option value="dry">Dry</Select.Option>
+                  <Select.Option value="reefer">Reefer</Select.Option>
+                  <Select.Option value="flatbed">Flatbed</Select.Option>
+                  <Select.Option value="others">Others</Select.Option>
+                </Select>
+              </Form.Item>
+            </div>
           </div>
+
           {/* weight */}
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
@@ -331,7 +355,7 @@ const ShipperForm = ({
             </div>
           </div>
           {/* productType */}
-          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+          {/* <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
               <Typography className="text-contact-input font-semibold  mb-2">
                 Product Type
@@ -346,6 +370,34 @@ const ShipperForm = ({
                   placeholder="Product Types"
                   className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
                 />
+              </Form.Item>
+            </div>
+          </div> */}
+
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold mb-2">
+                Product Type
+              </Typography>
+              <Form.Item
+                name="productType"
+                rules={[{ required: true, message: "Load Type is required" }]}
+              >
+                <Select
+                  placeholder="Select Product Type"
+                  className="w-full  py-2 h-14"
+                  allowClear
+                >
+                  <Select.Option value="48-foot trailer (24 pallets)">
+                    {" "}
+                    48-foot trailer (24 pallets)
+                  </Select.Option>
+                  <Select.Option value="53-foot trailer (26 pallets)">
+                    53-foot trailer (26 pallets)
+                  </Select.Option>
+                  <Select.Option value="flatbed">Flatbed</Select.Option>
+                  <Select.Option value="specialty">Specialty</Select.Option>
+                </Select>
               </Form.Item>
             </div>
           </div>
@@ -493,3 +545,5 @@ const ShipperForm = ({
   );
 };
 export default ShipperForm;
+
+

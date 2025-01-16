@@ -2,42 +2,55 @@
 import { useInView } from "framer-motion";
 import SubscriptionCard from "./SubscriptionCard";
 import { useRef } from "react";
+import { useGetSubscriptionsQuery } from "@/redux/api/subscriptionApi";
 
-const plans = [
-  {
-    plan: "Free",
-    price: "$0",
-    features: [
-      "Limited Care Coordination",
-      "1:1 Audio conference with MVR for general support ",
-      "Appointment reminders",
-      "Basic insurance assistance",
-    ],
-    buttonStatus: "Buy Now", // 'active' or 'inactive'
-  },
-  {
-    plan: "Premium",
-    price: "$10",
-    features: [
-      "Personalized Care Coordination",
-      "1:1 Video or Audio conference with dedicated MVR",
-      "Virtual or In-Person Appointment Attendance",
-      "Insurance advocacy & Bill Management and Payment Assistance",
-    ],
-    buttonStatus: "Get Premium",
-  },
-];
+// const plans = [
+//   {
+//     _id: "6785f9c9ce3ec2c597564824",
+//     name: "Premium Plan",
+//     price: 100,
+//     duration: 60,
+//     expiaryTime: 0,
+//     noOfDispathes: 70,
+//   },
+//   {
+//     _id: "6785f9c9ce3ec2c597564825",
+//     name: "Premium Plan",
+//     price: 100,
+//     duration: 60,
+//     expiaryTime: 0,
+//     noOfDispathes: 70,
+//   },
+//   {
+//     _id: "6785f9c9ce3ec2c597564826",
+//     name: "Premium Plan",
+//     price: 100,
+//     duration: 60,
+//     expiaryTime: 0,
+//     noOfDispathes: 70,
+//   },
+//   {
+//     _id: "6785f9c9ce3ec2c597564827",
+//     name: "Premium Plan",
+//     price: 100,
+//     duration: 60,
+//     expiaryTime: 0,
+//     noOfDispathes: 70,
+//   },
+// ];
 
 const Subscription = () => {
+  const { data: plans, isFetching } = useGetSubscriptionsQuery();
   const ref = useRef(null);
   const isInView = useInView(ref);
+console.log(plans);
 
   return (
     <div
       ref={ref}
       className="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-20"
     >
-      {plans.map((plan, index) => {
+      {plans?.data?.attributes?.map((plan, index) => {
         const initialMotion =
           index === 0
             ? {
@@ -78,7 +91,7 @@ const Subscription = () => {
 
         return (
           <SubscriptionCard
-            key={index}
+            key={plan?._id}
             plan={plan}
             index={index}
             isInView={isInView}

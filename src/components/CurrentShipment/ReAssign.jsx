@@ -1,128 +1,107 @@
-import { Button } from "antd";
-import { useRouter } from "next/navigation";
+"use client";
+import {
+  useCreateLoadRequestMutation,
+  useReAssainLoadMutation,
+} from "@/redux/api/loadRequestApi";
+import { Button, Form, Input, Typography } from "antd";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { toast } from "sonner";
 
 const ReAssign = (props) => {
+  // const params = useParams();
+  // const { myId, setMyId } = useState(params?.id);
   const router = useRouter();
-  const { setIsOpen } = props;
+  const { setIsOpen, loadId, id } = props;
+  // console.log(id,id);
+
+  const [reAssainLoad, { isLoading }] = useReAssainLoadMutation();
+  const navigate = useRouter();
+  const onFinish = async (values) => {
+    const toastId = toast.loading("Re-Assigning Diver...");
+
+    const data = {
+      load: loadId,
+      driver: values.driver,
+    };
+    // console.log("data", data);
+
+    try {
+      const res = await reAssainLoad({ data: data, id: id }).unwrap();
+      console.log(res);
+
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+
+      router.push("/load-request?req=myRequest");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50">
+    <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 rounded shadow-md w-1/2">
-        <div
-          className="w-fit ml-auto cursor-pointer mb-3"
-          onClick={() => setIsOpen(!open)}
-        >
-          <IoMdCloseCircleOutline className="text-3xl" />
-        </div>
-        <div className="max-w-6xl mx-auto p-6  ">
-          <h1 className="text-2xl font-bold mb-6 ms-4">Current Shipment</h1>
-          <hr className="my-6 ms-4  opacity-60" />
-
-          <div className="  p-6 mb-6">
-            <div className="   grid md:grid-cols-2 grid-cols-1 gap-4 ">
-              <div>
-                <h2 className="text-xl font-semibold mb-4">
-                  Driver&#39;s Information
-                </h2>
-                <hr className="my-6 border-[#9D9D9D] opacity-60" />
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="font-semibold">Driver Name</p>
-
-                    <div className="flex items-center">
-                      <div className="flex text-yellow-400 mr-2">
-                        {"★".repeat(1)}
-                      </div>
-                      <span>4.65 NR Shakib</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Driver Phone</p>
-                    <p>123-456-789</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Driver Email</p>
-                    <p>example@gmail.com</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Driver Address</p>
-                    <p>Rupgonj, Banshol</p>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h2 className="text-xl font-semibold mb-4">
-                  Truck Information
-                </h2>
-                <hr className="my-6 border-[#9D9D9D] opacity-60" />
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="font-semibold">Truck Number</p>
-                    <p>DHK METRO HA 64-8549</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Trailer size</p>
-                    <p>48-foot trailer</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Pallet Spaces</p>
-                    <p>24 pallets</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Availability</p>
-                    <p>Fully Available</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h2 className="text-xl font-semibold mb-4 md:mt-10">
-              Load Information
-            </h2>
-            <hr className="my-6 border-[#9D9D9D] opacity-60" />
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="font-semibold">Load Type</p>
-                <p>Dry Load</p>
-              </div>
-              <div>
-                <p className="font-semibold">Trailer size</p>
-                <p>48-foot trailer—24 pallets</p>
-              </div>
-              <div>
-                <p className="font-semibold">Weight</p>
-                <p>120 kg</p>
-              </div>
-              <div>
-                <p className="font-semibold">HazMat</p>
-                <p>Flammable Gas 2, Corrosive, Danger</p>
-              </div>
-              <div>
-                <p className="font-semibold">Pickup</p>
-                <p>12-12-2024</p>
-                <p className="">Address: Rupgonj, Bonshol</p>
-              </div>
-              <div>
-                <p className="font-semibold">Delivery</p>
-                <p>13-12-2024</p>
-                <p className="">Address: Banasree, Dhaka</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex gap-4 justify-center">
-            <div className="mt-8 text-center">
-              <Button
-                onClick={() => router.push("/map-truck")}
-                type="primary"
-                size="large"
-                className="bg-[#2B4257] px-4 rounded-lg"
+        <div className="px-10 pt-10 relative">
+          <p className="text-2xl text-center font-semibold">
+            Give your preferred Driver Id
+          </p>
+          <p
+            onClick={() => setIsOpen()}
+            className="font-bold text-xl cursor-pointer absolute top-0 right-0"
+          >
+            X
+          </p>
+          <Form
+            layout="vertical"
+            className="bg-transparent w-full mt-10"
+            onFinish={onFinish}
+          >
+            <Typography.Title
+              className="mb-3"
+              level={4}
+              style={{ color: "#222222" }}
+            >
+              Driver ID
+            </Typography.Title>
+            <Form.Item
+              name="driver"
+              className="text-base-color"
+              rules={[
+                {
+                  required: true,
+                  message: "Driver ID is Required",
+                },
+              ]}
+            >
+              <Input
+                type="text"
+                placeholder="Enter your Driver ID"
+                className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+              />
+            </Form.Item>
+            <Form.Item>
+              <button
+                className="w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8"
+                htmltype="submit"
               >
-                Find A New Driver
-              </Button>
-            </div>
-          </div>
+                Continue
+              </button>
+            </Form.Item>
+          </Form>
         </div>
       </div>
     </div>
