@@ -30,9 +30,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Toaster richColors />
           <AntdRegistry>
-            <ConfigProvider theme={mainTheme}>
-              {children} <FeedBack />
-            </ConfigProvider>
+            <ConfigProvider theme={mainTheme}>{children}</ConfigProvider>
           </AntdRegistry>
         </Providers>
       </body>

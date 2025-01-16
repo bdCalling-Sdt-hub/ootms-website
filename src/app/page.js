@@ -13,6 +13,7 @@ import HowItWorkHome from "@/components/Home/HowItWorkHome";
 import SubscriptionSection from "@/components/Home/SubscriptionSection";
 import ContactUs from "@/components/ContactUs/ContactUs";
 import GetTheApp from "@/components/Home/GetTheApp";
+import FeedBack from "@/components/shared/FeedBack";
 
 const HomePage = () => {
   return (
@@ -27,6 +28,7 @@ const HomePage = () => {
       <FAQ />
       <ContactUs />
       <Footer />
+      <FeedBack />
     </div>
   );
 };
