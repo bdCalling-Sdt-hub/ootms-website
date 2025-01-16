@@ -194,7 +194,7 @@ const LoadRequest = () => {
 
   // const [handleAssignLoadRequest] = useHandleAssignLoadRequestMutation();
 
-  // console.log("allLoad", allLoad?.data?.attributes?.loadRequests);
+  console.log("allLoad", allLoad?.data?.attributes);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -208,7 +208,6 @@ const LoadRequest = () => {
   //   }
   // }, [req]);
 
-  console.log(tab === "myRequest");
 
   useEffect(() => {
     const typeParam = searchParams.get("req");
@@ -235,7 +234,6 @@ const LoadRequest = () => {
     setIsRequestModalVisible(false);
   };
 
-  console.log(allLoad?.data?.attributes?.pagination?.totalItems);
 
 
 
@@ -270,7 +268,7 @@ const LoadRequest = () => {
           {tab === "loadRequest" ? (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10 ">
-                {allLoad?.data?.attributes?.loadRequests.map((truck) => (
+                {allLoad?.data?.attributes?.loadRequests?.map((truck) => (
                   <DirverAssignLoadRequest key={truck?.id} truck={truck} />
                 ))}
               </div>
@@ -300,9 +298,11 @@ const LoadRequest = () => {
           ) : (
             <>
               <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
-                {allLoad?.data?.attributes?.loadRequests.map((truck, index) => (
-                  <MyRequest key={index} data={truck} />
-                ))}
+                {allLoad?.data?.attributes?.loadRequests?.map(
+                  (truck, index) => (
+                    <MyRequest key={index} data={truck} />
+                  )
+                )}
               </div>
 
               <div className="flex justify-center my-2">
@@ -317,8 +317,8 @@ const LoadRequest = () => {
                     },
                   }}
                 >
-                    <Pagination
-                      showSizeChanger={false}
+                  <Pagination
+                    showSizeChanger={false}
                     onChange={(page) => setPage(page)}
                     pageSize={9}
                     current={page}
@@ -459,7 +459,7 @@ const LoadRequest = () => {
             {/* Button to find a new driver */}
             <div className="mt-8 text-center">
               <Button
-                onClick={() => router.push("/map-truck")}
+                onClick={() => router.push("/dispatching")}
                 type="primary"
                 size="large"
                 className="bg-[#2B4257] px-4 rounded-lg"

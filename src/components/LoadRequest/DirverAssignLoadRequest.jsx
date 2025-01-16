@@ -13,11 +13,11 @@ import Image from "next/image";
 const DirverAssignLoadRequest = ({ truck }) => {
   const router = useRouter();
   const [handleAssignLoadRequest] = useHandleAssignLoadRequestMutation();
-    const url = getImageUrl();
-    const img = `${url.replace(/\/+$/, "")}/${truck?.driver?.image?.replace(
-      /^\/+/,
-      ""
-    )}`;
+  const url = getImageUrl();
+  const img = `${url.replace(/\/+$/, "")}/${truck?.driver?.image?.replace(
+    /^\/+/,
+    ""
+  )}`;
 
   const [isTruckModalVisible, setIsTruckModalVisible] = useState(false);
   const showModal = () => {
@@ -47,8 +47,9 @@ const DirverAssignLoadRequest = ({ truck }) => {
         id: toastId,
         duration: 2000,
       });
-
-      router.push("/current-shipment");
+      if (action === "accept") {
+        router.push("/current-shipment");
+      }
     } catch (error) {
       console.log(error);
       toast.error(

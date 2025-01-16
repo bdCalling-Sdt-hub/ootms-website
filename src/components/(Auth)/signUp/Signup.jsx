@@ -143,7 +143,7 @@ const SignUp = () => {
                   },
                 ]}
               >
-                <Input
+                <Input.Password
                   type="password"
                   placeholder="Enter your password"
                   className="py-2 px-3 text-xl bg-site-color !border border-[#2B4257] text-base-color hover:bg-transparent hover:border-[#2B4257] focus:bg-transparent focus:border-[#2B4257] focus:border-x rounded-md"

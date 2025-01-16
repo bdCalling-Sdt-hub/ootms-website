@@ -250,7 +250,7 @@ const MyRequestId = () => {
           {/* Button to find a new driver */}
           <div className="mt-8 text-center">
             <Button
-              onClick={() => router.push("/map-truck")}
+              onClick={() => router.push("/dispatching")}
               type="primary"
               size="large"
               className="bg-[#2B4257] px-4 rounded-lg"

@@ -20,7 +20,7 @@ const MyRequest = ({ data }) => {
     /^\/+/,
     ""
   )}`;
-  console.log("loglog", data?.availablePalletSpace);
+
 
   return (
     <Link href={`load-request/my-request/${data?.id}`}>
@@ -48,8 +48,8 @@ const MyRequest = ({ data }) => {
             </p>
 
             {console.log(
-              "fgvdrsgvdrtsg",
-              data?.availablePalletSpace === 0,
+              "data single",
+              
               data
             )}
 
@@ -97,7 +97,7 @@ const MyRequest = ({ data }) => {
               Pickup: {data?.load?.shippingAddress}
             </p>
             <p className="text-md text-gray-600 flex">
-              Delibary: {data?.load?.receivingAddress}
+              Delivery: {data?.load?.receivingAddress}
             </p>
           </div>
         </div>
