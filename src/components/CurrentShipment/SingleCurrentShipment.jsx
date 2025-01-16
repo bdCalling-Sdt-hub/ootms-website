@@ -15,7 +15,7 @@ const SingleCurrentShipment = () => {
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("data", data?.data?.attributes?.loadRequests[0]);
+  console.log("data amar kahini kore", data?.data);
 
   const router = useRouter();
   return (
@@ -185,7 +185,10 @@ const SingleCurrentShipment = () => {
               </div>
               <div>
                 <p className="font-semibold">Reciver Address</p>
-                {data?.data?.attributes?.loadRequests[0].load?.receivingAddress}
+                {
+                  data?.data?.attributes?.loadRequests[0]?.load
+                    ?.receivingAddress
+                }
               </div>
             </div>
           </div>
@@ -199,18 +202,18 @@ const SingleCurrentShipment = () => {
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
                   <p>
-                    {data?.data?.attributes?.loadRequests[0].load?.loadType}
+                    {data?.data?.attributes?.loadRequests[0]?.load?.loadType}
                   </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Weight: </p>
-                  <p>{data?.data?.attributes?.loadRequests[0].load?.weight}</p>
+                  <p>{data?.data?.attributes?.loadRequests[0]?.load?.weight}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Pickup: </p>
                   <p>
                     {
-                      data?.data?.attributes?.loadRequests[0].load
+                      data?.data?.attributes?.loadRequests[0]?.load
                         ?.shippingAddress
                     }
                   </p>
@@ -220,16 +223,16 @@ const SingleCurrentShipment = () => {
                 <div>
                   <p className="text-lg font-semibold">Trailer Size: </p>
                   <p>
-                    {data?.data?.attributes?.loadRequests[0].load?.trailerSize}
+                    {data?.data?.attributes?.loadRequests[0]?.load?.trailerSize}
                     -foot trailer—
-                    {data?.data?.attributes?.loadRequests[0].load?.palletSpace}
+                    {data?.data?.attributes?.loadRequests[0]?.load?.palletSpace}
                     pallets.
                   </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
-                  {data?.data?.attributes?.loadRequests[0].load?.Hazmat
-                    ? data?.data?.attributes?.loadRequests[0].load?.Hazmat?.map(
+                  {data?.data?.attributes?.loadRequests[0]?.load?.Hazmat
+                    ? data?.data?.attributes?.loadRequests[0]?.load?.Hazmat?.map(
                         (value, i) => (
                           <span
                             className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
@@ -245,7 +248,7 @@ const SingleCurrentShipment = () => {
                   <p className="text-lg font-semibold">Delivery: </p>
                   <p>
                     {
-                      data?.data?.attributes?.loadRequests[0].load
+                      data?.data?.attributes?.loadRequests[0]?.load
                         ?.receivingAddress
                     }
                   </p>
@@ -290,7 +293,7 @@ const SingleCurrentShipment = () => {
       {isOpen && (
         <ReAssign
           setIsOpen={setIsOpen}
-          loadId={data?.data?.attributes?.loadRequests[0].load?._id}
+          loadId={data?.data?.attributes?.loadRequests[0]?.load?._id}
           id={params?.id}
         />
       )}

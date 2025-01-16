@@ -1,15 +1,21 @@
 "use client";
-import { useCreateLoadRequestMutation, useReAssainLoadMutation } from "@/redux/api/loadRequestApi";
+import {
+  useCreateLoadRequestMutation,
+  useReAssainLoadMutation,
+} from "@/redux/api/loadRequestApi";
 import { Button, Form, Input, Typography } from "antd";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { toast } from "sonner";
 
 const ReAssign = (props) => {
+  // const params = useParams();
+  // const { myId, setMyId } = useState(params?.id);
   const router = useRouter();
-  const { setIsOpen, loadId,id } = props;
-console.log(id,id);
+  const { setIsOpen, loadId, id } = props;
+  // console.log(id,id);
 
   const [reAssainLoad, { isLoading }] = useReAssainLoadMutation();
   const navigate = useRouter();
@@ -20,17 +26,18 @@ console.log(id,id);
       load: loadId,
       driver: values.driver,
     };
-    console.log("data", data);
+    // console.log("data", data);
 
     try {
-      const res = await reAssainLoad(data,id).unwrap();
+      const res = await reAssainLoad({ data: data, id: id }).unwrap();
       console.log(res);
 
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
       });
-      navigate.push("/load-request?req=myRequest");
+
+      router.push("/load-request?req=myRequest");
     } catch (error) {
       console.log(error);
       toast.error(
