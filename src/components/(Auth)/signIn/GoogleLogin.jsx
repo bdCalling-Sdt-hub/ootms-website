@@ -2,7 +2,7 @@
 import { Button } from "antd";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { allIcons } from "../../../../public/assets/AllImages";
 import { useSocialLoginMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
@@ -17,7 +17,7 @@ const GoogleLogin = () => {
   const router = useRouter();
 
   // Handle the Google login after the session is set
-  const handleGoogleClick = async () => {
+  const handleGoogleClick = useCallback(async () => {
     if (!session?.user) {
       console.error("No session found!");
       return;
@@ -61,14 +61,14 @@ const GoogleLogin = () => {
         }
       );
     }
-  };
+  }, [session, socialLogin, dispatch, router]);
 
   // Trigger handleGoogleClick only after session is set
   useEffect(() => {
     if (session?.user) {
       handleGoogleClick();
     }
-  }, [session]); // Re-run when session or status changes
+  }, [handleGoogleClick, session]); // Re-run when session or status changes
 
   return (
     <div>
