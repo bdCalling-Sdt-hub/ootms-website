@@ -1,5 +1,5 @@
 export const getBaseUrl = () => {
-  return "http://10.0.70.87:8020/api/v1";
+  return "http://10.0.70.87:8030/api/v1";
   // "http://10.0.70.87:8020/api/v1";
   // "http://10.0.70.37:8020/api/v1";
   // "http://137.184.95.36:8020/api/v1";
@@ -12,5 +12,5 @@ export const getBaseUrl = () => {
 };
 
 export const getImageUrl = (key) => {
-  return process.env.IMAGE_URL || "http://10.0.70.87:8020/";
+  return process.env.IMAGE_URL || "http://10.0.70.87:8030/";
 };

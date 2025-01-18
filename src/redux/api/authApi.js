@@ -102,6 +102,7 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.user],
     }),
+
     resetPassword: build.mutation({
       query: (resetData) => {
         return {
@@ -112,6 +113,18 @@ export const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.user],
     }),
+
+    socialLogin: build.mutation({
+      query: (socialData) => {
+        return {
+          url: `/auth/social_login`,
+          method: "POST",
+          body: socialData,
+        };
+      },
+      invalidatesTags: [tagTypes.user],
+    }),
+
     changePassword: build.mutation({
       query: (changePassword) => {
         // Add changeData as a parameter
@@ -202,4 +215,5 @@ export const {
   useGoogleLoginQuery,
   useFacebookLoginQuery,
   useChangePasswordMutation,
+  useSocialLoginMutation
 } = authApi;

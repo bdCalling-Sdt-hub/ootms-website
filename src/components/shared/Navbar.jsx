@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { decodedToken } from "@/utils/jwt";
 import { clearAuth } from "@/redux/slices/authSlice";
 import { toast } from "sonner";
+import { signOut } from "next-auth/react";
 
 const Navbar = () => {
   const path = usePathname();
@@ -82,7 +83,7 @@ const Navbar = () => {
     setSelected(index);
     setMobileMenuVisible(false);
   };
- 
+
   const beforeLoginMenu = [
     {
       name: "Home",
@@ -210,9 +211,8 @@ const Navbar = () => {
       <Button
         onClick={() => {
           dispatch(clearAuth());
-          router.refresh();
           toast.success("Sign out successfully!");
-          setUserData(null);
+          signOut();
         }}
         className={`capitalize text-start font-medium flex justify-start items-center hover:bg-transparent border-none hover:text-site-color shadow-none text-lg w-full `}
       >

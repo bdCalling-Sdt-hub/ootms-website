@@ -11,6 +11,7 @@ import {
 } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import { SessionProvider, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
@@ -24,11 +25,14 @@ import {
 } from "@/redux/api/authApi";
 import { toast } from "sonner";
 import { setAccessToken } from "@/redux/slices/authSlice";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
+import GoogleLogin from "./GoogleLogin";
 
 const SignIn = () => {
   const [userLogin] = useUserLoginMutation();
-  const { data: gooGle } = useGoogleLoginQuery();
-  const { data: faceBook } = useFacebookLoginQuery();
+  // const { data: gooGle } = useGoogleLoginQuery();
+  // const { data: faceBook } = useFacebookLoginQuery();
   const dispatch = useDispatch();
 
   const navigate = useRouter();
@@ -197,7 +201,11 @@ const SignIn = () => {
                 <span className="px-4 text-gray-500">or</span>
                 <span className="border-t border-gray-300 flex-grow"></span>
               </div>
-              <Button
+
+              {/* <Button
+                onClick={() =>
+                  signIn("google", { callbackUrl: "http://localhost:3000" })
+                }
                 className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg"
                 icon={
                   <Image
@@ -209,7 +217,10 @@ const SignIn = () => {
                 }
               >
                 Sign in with Google
-              </Button>
+              </Button> */}
+              <SessionProvider>
+                <GoogleLogin />
+              </SessionProvider>
               <Button
                 className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg mt-2"
                 icon={
