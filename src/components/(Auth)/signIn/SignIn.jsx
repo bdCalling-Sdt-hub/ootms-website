@@ -28,6 +28,7 @@ import { setAccessToken } from "@/redux/slices/authSlice";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import GoogleLogin from "./GoogleLogin";
+import FacebookLogin from "./FacebookLogin";
 
 const SignIn = () => {
   const [userLogin] = useUserLoginMutation();
@@ -220,8 +221,9 @@ const SignIn = () => {
               </Button> */}
               <SessionProvider>
                 <GoogleLogin />
+                <FacebookLogin />
               </SessionProvider>
-              <Button
+              {/* <Button
                 className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg mt-2"
                 icon={
                   <Image
@@ -233,7 +235,7 @@ const SignIn = () => {
                 }
               >
                 Sign in with Facebook
-              </Button>
+              </Button> */}
             </div>
             {/* -------- Redirect to Sign Up ------------ */}
             <p className="text-center text-ellipsis mt-4">

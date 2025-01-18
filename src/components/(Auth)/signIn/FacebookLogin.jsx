@@ -10,14 +10,16 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "@/redux/slices/authSlice";
 
-const GoogleLogin = () => {
+const FacebookLogin = () => {
   const { data: session, status } = useSession(); // Include session status
   const dispatch = useDispatch();
   const [socialLogin] = useSocialLoginMutation();
   const router = useRouter();
 
+  console.log("session.user", session);
+
   // Handle the Google login after the session is set
-  const handleGoogleClick = useCallback(async () => {
+  const handleFacebookClick = useCallback(async () => {
     if (!session?.user) {
       console.error("No session found!");
       return;
@@ -25,8 +27,15 @@ const GoogleLogin = () => {
 
     const toastId = toast.loading("Logging in..."); // This creates the loading toast
 
+    let email;
+
+    if (session?.user?.email) {
+      email = session.user.email;
+    } else {
+      email = "facebook.com";
+    }
     const loginData = {
-      email: session.user.email,
+      email: email,
       fullName: session.user.name,
       role: "user",
       image: session.user.image,
@@ -66,28 +75,27 @@ const GoogleLogin = () => {
   // Trigger handleGoogleClick only after session is set
   useEffect(() => {
     if (session?.user) {
-      handleGoogleClick();
+      handleFacebookClick();
     }
-  }, [handleGoogleClick, session]); // Re-run when session or status changes
-
+  }, [handleFacebookClick, session]); // Re-run when session or status changes
   return (
     <>
       <Button
-        onClick={() => signIn("google")}
-        className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg"
+        onClick={() => signIn("facebook")}
+        className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg mt-2"
         icon={
           <Image
-            src={allIcons.google}
-            alt="Google Icon"
+            src={allIcons.facebook}
+            alt="Apple Icon"
             width={20}
             height={20}
           />
         }
       >
-        Sign in with Google
+        Sign in with Facebook
       </Button>
     </>
   );
 };
 
-export default GoogleLogin;
+export default FacebookLogin;
