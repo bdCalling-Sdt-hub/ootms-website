@@ -16,11 +16,17 @@ const MyProfile = () => {
   // console.log("myProfile:", myProfile?.data?.attributes);
   // console.log("myTruck:", myTruck?.data?.attributes);
   const url = getImageUrl();
-  const userImage = `${url.replace(
-    /\/+$/,
-    ""
-  )}/${myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, "")}`;
 
+  let userImage;
+
+  if (myProfile?.data?.attributes?.userDetails?.isSocialLogin) {
+    userImage = myProfile?.data?.attributes?.userDetails?.image;
+  } else {
+    userImage = `${url.replace(
+      /\/+$/,
+      ""
+    )}/${myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, "")}`;
+  }
 
   console.log("userName:", myProfile?.data?.attributes?.userDetails?.fullName);
   console.log("userName:", myProfile?.data?.attributes);
@@ -68,6 +74,10 @@ const MyProfile = () => {
       </div>
     );
   }
+  console.log(
+    "myProfile?.data?.attributes?.userDetails?.isSocialLogin",
+    myProfile?.data?.attributes?.userDetails?.isSocialLogin
+  );
 
   return (
     <div>
@@ -98,14 +108,17 @@ const MyProfile = () => {
                   <> Complete your Profile</>
                 )}
               </Button>
-              <Button
-                onClick={onPassChange}
-                type="primary"
-                className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
-              >
-                <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />
-                Change Your Password
-              </Button>
+              {myProfile?.data?.attributes?.userDetails?.isSocialLogin ===
+                false && (
+                <Button
+                  onClick={onPassChange}
+                  type="primary"
+                  className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
+                >
+                  <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />
+                  Change Your Password
+                </Button>
+              )}
             </div>
           </div>
 

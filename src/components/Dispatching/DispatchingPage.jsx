@@ -71,7 +71,7 @@ const DispatchingPage = () => {
     page,
   });
 
-  console.log(allTrucks);
+  // console.log(allTrucks);
 
   // console.log("truck", allTrucks?.data?.attributes);
 

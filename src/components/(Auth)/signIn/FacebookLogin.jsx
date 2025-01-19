@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "antd";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useCallback, useEffect } from "react";
 import { allIcons } from "../../../../public/assets/AllImages";
@@ -27,15 +27,14 @@ const FacebookLogin = () => {
 
     const toastId = toast.loading("Logging in..."); // This creates the loading toast
 
-    let email;
-
-    if (session?.user?.email) {
-      email = session.user.email;
-    } else {
-      email = "facebook.com";
+    if (!session?.user?.email) {
+      return (
+        toast.error("Your Facebook is not created with Email..."),
+        setTimeout(signOut(), 2000)
+      );
     }
     const loginData = {
-      email: email,
+      email: session.user.email,
       fullName: session.user.name,
       role: "user",
       image: session.user.image,

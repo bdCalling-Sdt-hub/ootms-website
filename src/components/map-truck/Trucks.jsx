@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoMdStar } from "react-icons/io";
 import { AllImages } from "../../../public/assets/AllImages";
-
+ 
 const Trucks = ({
   data,
   setOpen,
@@ -18,6 +18,7 @@ const Trucks = ({
     setOpen(true);
     setCurrentDriverModalData(data);
   };
+ console.log(data);
  
   const columns = [
     {
