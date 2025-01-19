@@ -444,9 +444,9 @@ const DispatchingPage = () => {
           {/* Map  */}
           <div
             className={` w-full h-fit order-first lg:order-none z-10 ${
-              allPendingLoads?.data?.length > 0
-                ? "lg:col-span-4"
-                : "lg:col-span-3"
+              allPendingLoads?.data?.results?.length > 0
+                ? "lg:col-span-3"
+                : "lg:col-span-4"
             }`}
           >
             <ConfigProvider
