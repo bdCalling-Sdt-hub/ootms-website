@@ -1,11 +1,12 @@
 "use client";
 
+import ShipperFormGoogleMap from "@/helpers/GoogleMap/ShipperFormGoogleMap";
 import { useCreateLoadMutation } from "@/redux/api/loadApi";
 import { ConfigProvider, Modal, Select } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { toast } from "sonner";
 
@@ -28,10 +29,30 @@ const ShipperForm = ({
   const [form] = Form.useForm();
   const [showOptions, setShowOptions] = useState(false);
   const [noOptions, setNoOptions] = useState(true);
-
   const [createLoad] = useCreateLoadMutation();
 
   const [selectedValue, setSelectedValue] = useState(null);
+
+  const [location, setLocation] = useState({ lat: "", lng: "" });
+  const handleLocationSelect = (coordinates) => {
+    setLocation(coordinates);
+  };
+
+  const [locationDetails, setLocationDetails] = useState({
+    city: "",
+    state: "",
+    zip: "",
+    fullAddress: "",
+  });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      shippingAddress: locationDetails.fullAddress || "",
+      shippingCity: locationDetails.city || "",
+      shippingState: locationDetails.state || "",
+      shippingZip: locationDetails.zip || "",
+    });
+  }, [locationDetails, form]);
 
   const handleShowOptionsChange = () => {
     setShowOptions(true);
@@ -121,8 +142,15 @@ const ShipperForm = ({
       values.Hazmat = values.Hazmat;
     }
 
-    console.log(values);
-    setShipperData(values);
+    const data = {
+      ...values,
+      location: {
+        type: "Point",
+        coordinates: [location.lng, location.lat],
+      },
+    };
+
+    setShipperData(data);
     form.resetFields();
     handleOpenShipperFromCancel();
     showOpenReciverFromModal();
@@ -135,7 +163,14 @@ const ShipperForm = ({
           Shipper&apos;s Information
         </h1>
 
-        <Form form={form} className="" onFinish={onFinish}>
+        <Form
+          form={form}
+          className=""
+          onFinish={onFinish}
+          initialValues={{
+            shippingAddress: locationDetails?.fullAddress || "",
+          }}
+        >
           {/* Shipper Name and Contact Number */}
           <div
             layout="vertical"
@@ -197,6 +232,13 @@ const ShipperForm = ({
               <Typography className="text-contact-input font-semibold  mb-2">
                 Shipper Address
               </Typography>
+              <div style={{ margin: "20px 0" }}>
+                <ShipperFormGoogleMap
+                  onLocationSelect={handleLocationSelect}
+                  locationDetails={locationDetails}
+                  setLocationDetails={setLocationDetails}
+                />
+              </div>
               <Form.Item
                 name="shippingAddress"
                 rules={[
@@ -545,5 +587,3 @@ const ShipperForm = ({
   );
 };
 export default ShipperForm;
-
-
