@@ -24,17 +24,19 @@ import {
   useUserLoginMutation,
 } from "@/redux/api/authApi";
 import { toast } from "sonner";
-import { setAccessToken } from "@/redux/slices/authSlice";
+import { setAccessToken, setUserInfo } from "@/redux/slices/authSlice";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import GoogleLogin from "./GoogleLogin";
 import FacebookLogin from "./FacebookLogin";
+import Cookies from "universal-cookie";
 
 const SignIn = () => {
   const [userLogin] = useUserLoginMutation();
   // const { data: gooGle } = useGoogleLoginQuery();
   // const { data: faceBook } = useFacebookLoginQuery();
   const dispatch = useDispatch();
+  const cookies = new Cookies();
 
   const navigate = useRouter();
   const token = useSelector((state) => state.auth.accessToken);
@@ -59,6 +61,10 @@ const SignIn = () => {
       const res = await userLogin(loginData).unwrap();
       //* Dispatch the accessToken and userInfo to Redux store
       dispatch(setAccessToken(res?.data?.accessToken));
+      dispatch(setUserInfo(res?.data?.attributes));
+      cookies.set("ootms_accessToken", res?.data?.accessToken, {
+        path: "/",
+      });
       console.log("res: ", res);
 
       toast.success(res.message, {

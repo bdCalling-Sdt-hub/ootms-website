@@ -8,13 +8,15 @@ import { useSocialLoginMutation } from "@/redux/api/authApi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setAccessToken } from "@/redux/slices/authSlice";
+import { setAccessToken, setUserInfo } from "@/redux/slices/authSlice";
+import Cookies from "universal-cookie";
 
 const GoogleLogin = () => {
   const { data: session, status } = useSession(); // Include session status
   const dispatch = useDispatch();
   const [socialLogin] = useSocialLoginMutation();
   const router = useRouter();
+  const cookies = new Cookies();
 
   // Handle the Google login after the session is set
   const handleGoogleClick = useCallback(async () => {
@@ -38,6 +40,10 @@ const GoogleLogin = () => {
 
       // Update Redux store
       dispatch(setAccessToken(accessToken));
+      cookies.set("ootms_accessToken", res?.data?.accessToken, {
+        path: "/",
+      });
+      dispatch(setUserInfo(res?.data?.attributes));
 
       // Show success toast and dismiss the loading toast
       toast.success(res.message || "Logged in successfully", {
