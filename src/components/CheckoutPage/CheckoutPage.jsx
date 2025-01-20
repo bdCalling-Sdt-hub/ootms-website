@@ -113,7 +113,7 @@ const CheckoutPage = ({ amount, id }) => {
 
       <button
         disabled={!stripe || loading}
-        className="text-white w-full p-5 bg-[#F88D58] mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
+        className="text-white w-full p-5 bg-[#2B4257] mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
       >
         {!loading ? `Pay $${amount}` : "Processing..."}
       </button>
