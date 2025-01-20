@@ -11,7 +11,7 @@ const MyRequestId = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
 
-  console.log("data", data?.data?.attributes?.loadRequests[0]);
+  console.log("data", data?.data?.attributes[0]);
 
   const router = useRouter();
   return (
@@ -40,39 +40,22 @@ const MyRequestId = () => {
                         <FaStar className="text-yellow-400" />
                       </p>
                       <p>4.5</p> */}
-                      <p>
-                        {
-                          data?.data?.attributes?.loadRequests[0]?.driver
-                            ?.fullName
-                        }
-                      </p>
+                      <p>{data?.data?.attributes[0]?.driver?.fullName}</p>
                     </div>
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Driver Phone: </p>
-                    <p>
-                      {
-                        data?.data?.attributes?.loadRequests[0]?.driver
-                          ?.phoneNumber
-                      }
-                    </p>
+                    <p>{data?.data?.attributes[0]?.driver?.phoneNumber}</p>
                   </div>
                 </div>
                 <div className="md:flex justify-between">
                   <div>
                     <p className="text-lg font-semibold">Driver Email: </p>
-                    <p>
-                      {data?.data?.attributes?.loadRequests[0]?.driver?.email}
-                    </p>
+                    <p>{data?.data?.attributes[0]?.driver?.email}</p>
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Driver Address: </p>
-                    <p>
-                      {
-                        data?.data?.attributes?.loadRequests[0]?.load
-                          ?.receivingAddress
-                      }
-                    </p>
+                    <p>{data?.data?.attributes[0]?.load?.receivingAddress}</p>
                   </div>
                 </div>
               </div>
@@ -86,20 +69,12 @@ const MyRequestId = () => {
                 <div className="flex justify-between">
                   <div>
                     <p className="text-lg font-semibold">Truck Number: </p>
-                    <p>
-                      {
-                        data?.data?.attributes?.loadRequests[0]?.truck
-                          ?.truckNumber
-                      }
-                    </p>
+                    <p>{data?.data?.attributes[0]?.truck?.truckNumber}</p>
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Trailer Size: </p>
                     <p>
-                      {
-                        data?.data?.attributes?.loadRequests[0]?.truck
-                          ?.trailerSize
-                      }
+                      {data?.data?.attributes[0]?.truck?.trailerSize}
                       -foot trailer.
                     </p>
                   </div>
@@ -108,10 +83,7 @@ const MyRequestId = () => {
                   <div>
                     <p className="text-lg font-semibold">Pallet Spaces: </p>
                     <p>
-                      {
-                        data?.data?.attributes?.loadRequests[0]?.truck
-                          ?.palletSpace
-                      }
+                      {data?.data?.attributes[0]?.truck?.palletSpace}
                       pallets.
                     </p>
                   </div>
@@ -119,18 +91,14 @@ const MyRequestId = () => {
                     <p className="text-lg font-semibold">Availability: </p>
                     {/* <p>Fully Available.</p> */}
 
-                    {data?.data?.attributes?.loadRequests[0]
-                      ?.availablePalletSpace > 5 && (
+                    {data?.data?.attributes[0]?.availablePalletSpace > 5 && (
                       <p>The truck is fully available.</p>
                     )}
-                    {data?.data?.attributes?.loadRequests[0]
-                      ?.availablePalletSpace === 0 && (
+                    {data?.data?.attributes[0]?.availablePalletSpace === 0 && (
                       <p>The truck is fully loaded.</p>
                     )}
-                    {data?.data?.attributes?.loadRequests[0]
-                      ?.availablePalletSpace > 0 &&
-                      data?.data?.attributes?.loadRequests[0]
-                        ?.availablePalletSpace <= 5 && (
+                    {data?.data?.attributes[0]?.availablePalletSpace > 0 &&
+                      data?.data?.attributes[0]?.availablePalletSpace <= 5 && (
                         <p>The truck has low pallet space.</p>
                       )}
                   </div>
@@ -149,36 +117,22 @@ const MyRequestId = () => {
                 <p className="font-semibold">Reciver Name</p>
 
                 <div className="flex items-center">
-                  <span>
-                    {
-                      data?.data?.attributes?.loadRequests[0]?.load
-                        ?.receiverName
-                    }
-                  </span>
+                  <span>{data?.data?.attributes[0]?.load?.receiverName}</span>
                 </div>
               </div>
               <div>
                 <p className="font-semibold">Reciver Phone</p>
-                <p>
-                  {" "}
-                  {
-                    data?.data?.attributes?.loadRequests[0]?.load
-                      ?.receiverPhoneNumber
-                  }
-                </p>
+                <p> {data?.data?.attributes[0]?.load?.receiverPhoneNumber}</p>
               </div>
               <div>
                 <p className="font-semibold">Reciver Email</p>
-                <p>
-                  {" "}
-                  {
-                    data?.data?.attributes?.loadRequests[0]?.load?.receiverEmail
-                  }{" "}
-                </p>
+                <p> {data?.data?.attributes[0]?.load?.receiverEmail} </p>
               </div>
               <div>
                 <p className="font-semibold">Reciver Address</p>
-                {data?.data?.attributes?.loadRequests[0].load?.receivingAddress}
+                {data?.data?.attributes[0]?.load?.receivingAddress},{" "}
+                {data?.data?.attributes[0]?.load?.receiverState},{" "}
+                {data?.data?.attributes[0]?.load?.receiverCity}
               </div>
             </div>
           </div>
@@ -191,21 +145,18 @@ const MyRequestId = () => {
               <div className="flex flex-col gap-4">
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
-                  <p>
-                    {data?.data?.attributes?.loadRequests[0].load?.loadType}
-                  </p>
+                  <p>{data?.data?.attributes[0]?.load?.loadType}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Weight: </p>
-                  <p>{data?.data?.attributes?.loadRequests[0].load?.weight}</p>
+                  <p>{data?.data?.attributes[0]?.load?.weight}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Pickup: </p>
                   <p>
-                    {
-                      data?.data?.attributes?.loadRequests[0].load
-                        ?.shippingAddress
-                    }
+                    {data?.data?.attributes[0]?.load?.shippingAddress},{" "}
+                    {data?.data?.attributes[0]?.load?.shippingCity},{" "}
+                    {data?.data?.attributes[0]?.load?.shippingState}
                   </p>
                 </div>
               </div>
@@ -213,16 +164,16 @@ const MyRequestId = () => {
                 <div>
                   <p className="text-lg font-semibold">Trailer Size: </p>
                   <p>
-                    {data?.data?.attributes?.loadRequests[0].load?.trailerSize}
+                    {data?.data?.attributes[0]?.load?.trailerSize}
                     -foot trailer—
-                    {data?.data?.attributes?.loadRequests[0].load?.palletSpace}
+                    {data?.data?.attributes[0]?.load?.palletSpace}
                     pallets.
                   </p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
-                  {data?.data?.attributes?.loadRequests[0].load?.Hazmat
-                    ? data?.data?.attributes?.loadRequests[0].load?.Hazmat?.map(
+                  {data?.data?.attributes[0]?.load?.Hazmat
+                    ? data?.data?.attributes[0]?.load?.Hazmat?.map(
                         (value, i) => (
                           <span
                             className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
@@ -237,10 +188,9 @@ const MyRequestId = () => {
                 <div>
                   <p className="text-lg font-semibold">Delivery: </p>
                   <p>
-                    {
-                      data?.data?.attributes?.loadRequests[0].load
-                        ?.receivingAddress
-                    }
+                    {data?.data?.attributes[0]?.load?.receivingAddress},{" "}
+                    {data?.data?.attributes[0]?.load?.receiverCity},{" "}
+                    {data?.data?.attributes[0]?.load?.receiverState}
                   </p>
                 </div>
               </div>
