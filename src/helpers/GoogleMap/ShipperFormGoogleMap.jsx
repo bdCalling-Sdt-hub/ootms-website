@@ -99,7 +99,7 @@ export default function ShipperFormGoogleMap({
         const zip = getAddressComponent(addressComponents, "postal_code") || "";
         const formattedAddress = cleanFormattedAddress(
           data.results[0].formatted_address
-        ); // Cleaned formatted address
+        );
 
         setLocationDetails({ city, state, zip, fullAddress: formattedAddress });
       } else {
