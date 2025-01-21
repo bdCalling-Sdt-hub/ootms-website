@@ -14,7 +14,8 @@ const MyProfile = () => {
   const { data: myTruck, isFetching: loading } = useMytruckQuery();
 
   // console.log("myProfile:", myProfile?.data?.attributes);
-  // console.log("myTruck:", myTruck?.data?.attributes);
+  console.log("myTruck:", myTruck?.data?.attributes?.truck);
+  console.log("mytailer:", myTruck?.data?.attributes?.trailer);
   const url = getImageUrl();
 
   let userImage;
@@ -259,7 +260,7 @@ const MyProfile = () => {
                           <Form.Item
                             name="truckNumber"
                             initialValue={
-                              myTruck?.data?.attributes[0]?.truckNumber
+                              myTruck?.data?.attributes?.truck[0]?.truckNumber
                             }
                             className="text-white"
                           >
@@ -280,7 +281,7 @@ const MyProfile = () => {
                           <Form.Item
                             name="cdlNumber"
                             initialValue={
-                              myTruck?.data?.attributes[0]?.cdlNumber
+                              myTruck?.data?.attributes?.truck[0]?.cdlNumber
                             }
                             className="text-white"
                           >
@@ -301,7 +302,7 @@ const MyProfile = () => {
                           <Form.Item
                             name="trailerSize"
                             initialValue={
-                              myTruck?.data?.attributes[0]?.trailerSize
+                              myTruck?.data?.attributes?.trailer[0]?.trailerSize
                             }
                             className="text-white"
                           >
@@ -322,7 +323,7 @@ const MyProfile = () => {
                           <Form.Item
                             name="palletSpace"
                             initialValue={
-                              myTruck?.data?.attributes[0]?.palletSpace
+                              myTruck?.data?.attributes?.trailer[0]?.palletSpace
                             }
                             className="text-white"
                           >

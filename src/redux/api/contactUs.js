@@ -5,7 +5,7 @@ const contactUSApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createContract: build.mutation({
       query: (data) => ({
-        url: `/support/`,
+        url: `/support/contact`,
         method: "POST",
         body: data,
       }),

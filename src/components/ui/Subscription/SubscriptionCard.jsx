@@ -31,7 +31,7 @@ const SubscriptionCard = ({
     setIsModalOpen(false);
   };
   const amount = 49.99;
-console.log("plan",plan?._id);
+  // console.log("plan",plan?._id);
 
   return (
     <motion.div
@@ -50,16 +50,15 @@ console.log("plan",plan?._id);
     >
       <div>
         <div className="flex flex-col ">
-          {/* <h3 className="mx-auto text-sm text-center text-[#175C99] font-bold mb-2 bg-[#E9F5FF] w-28 rounded-lg">
-            Most Popular
-          </h3> */}
           <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-center text-black font-bold mb-2 ">
             {plan?.name}
           </p>
         </div>
         <p className="text-3xl sm:text-4xl lg:text-5xl text-center font-bold mb-10 text-black">
           {plan?.price}$
-          <sub className="text-sm sm:text-lg lg:text-xl">{plan?.duration}</sub>
+          <sub className="text-sm sm:text-lg lg:text-xl">
+            {plan?.duration} days
+          </sub>
         </p>
         <ul className="mb-10">
           {plan?.features.map((feature, featureIndex) => (
@@ -100,7 +99,11 @@ console.log("plan",plan?._id);
               currency: "usd",
             }}
           >
-            <CheckoutPage amount={plan?.price} id={plan?._id} />
+            <CheckoutPage
+              amount={plan?.price}
+              id={plan?._id}
+              setIsModalOpen={setIsModalOpen}
+            />
           </Elements>
         </main>
       </Modal>

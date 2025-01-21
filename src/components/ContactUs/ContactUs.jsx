@@ -10,15 +10,16 @@ import { toast } from "sonner";
 
 const ContactUs = () => {
   const [createContract] = useCreateContractMutation();
+  const [form] = Form.useForm();
   const TextArea = Input.TextArea;
   const onFinish = async (values) => {
     console.log("Connect With MVR Data:", values);
- const toastId = toast.loading("Feedback Sending...");
+    const toastId = toast.loading("contact  details sending...");
     try {
       let data = {
         email: values?.email,
-        title: values?.fullName,
-        content: values?.message,
+        fullName: values?.fullName,
+        message: values?.message,
       };
       console.log("data", data);
 
@@ -30,6 +31,7 @@ const ContactUs = () => {
         id: toastId,
         duration: 2000,
       });
+      form.resetFields();
     } catch (error) {
       console.log(error);
       toast.error(

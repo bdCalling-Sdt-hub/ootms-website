@@ -6,12 +6,11 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-
 import { toast } from "sonner";
 import { useCreatePaymentMutation } from "@/redux/api/paymentApi";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 
-const CheckoutPage = ({ amount, id }) => {
+const CheckoutPage = ({ amount, id, setIsModalOpen }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,7 +40,6 @@ const CheckoutPage = ({ amount, id }) => {
       return;
     }
 
-    // Submit the PaymentElement if applicable
     const { error: submitError } = await elements.submit();
 
     if (submitError) {
@@ -50,34 +48,54 @@ const CheckoutPage = ({ amount, id }) => {
       return;
     }
 
-    // Confirm the payment without automatic redirection
     const { paymentIntent, error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
         return_url: `http://www.localhost:3000`,
       },
-      handleActions: false, // Prevent automatic redirection
+      handleActions: false,
     });
+
     const toastId = toast.loading("Payment processing...");
     if (error) {
-      // Handle any errors that occurred during payment confirmation
       setErrorMessage(error.message);
       setLoading(false);
       toast.error(error.message, { id: toastId, duration: 2000 });
     } else if (paymentIntent) {
-      // Payment succeeded! Extract the transaction ID
+      // Payment succeeded! Extract the payment method ID
+      const paymentMethodId = paymentIntent.payment_method;
 
-      const transactionId = paymentIntent.id;
+      // if (stripe) {
+      //   try {
+      //     // Retrieve the payment method details
+      //     const paymentMethod = await stripe.createPaymentMethod(
+      //       paymentMethodId
+      //     );
+      //     console.log("Payment Method Details:", paymentMethod);
+      //   } catch (error) {
+      //     console.error("Error retrieving payment method:", error);
+      //     toast.error("Failed to retrieve payment method details.", {
+      //       id: toastId,
+      //       duration: 2000,
+      //     });
+      //   }
+      // } else {
+      //   console.error("Stripe is not available.");
+      //   toast.error("Stripe API client is not initialized.", {
+      //     id: toastId,
+      //     duration: 2000,
+      //   });
+      // }
+
       const data = {
-        paymentId: transactionId,
+        paymentId: paymentIntent.id,
         paymentType: "Card",
       };
-      console.log("given data", data, "given Id", id);
 
+      setIsModalOpen(false);
       try {
         const res = await createPayment({ data: data, id: id }).unwrap();
-        console.log("Payment Korci ami", res);
         toast.success("Payment successful!", { id: toastId, duration: 2000 });
       } catch (error) {
         toast.error(error?.data?.message || "Failed to create payment", {
