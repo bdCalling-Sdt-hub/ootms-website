@@ -84,9 +84,9 @@ const SubscriptionCard = ({
       >
         <main className="max-w-6xl mx-auto p-10 text-black text-center border m-10 rounded-md ">
           <div className="mb-10">
-            <h1 className="text-4xl font-extrabold mb-2">Sonny</h1>
+            {/* <h1 className="text-4xl font-extrabold mb-2">Sonny</h1> */}
             <h2 className="text-2xl">
-              has requested
+              You request for payment
               <span className="font-bold"> ${plan?.price}</span>
             </h2>
           </div>
