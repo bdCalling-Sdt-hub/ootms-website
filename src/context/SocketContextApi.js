@@ -1,47 +1,57 @@
-import { getSocketUrl } from "@/helpers/config/socket-config";
-import { selectToken } from "@/redux/slices/authSlice";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { toast } from "sonner";
+import { getSocketUrl } from "@/helpers/config/socket-config";
+import { selectToken } from "@/redux/slices/authSlice";
 
 export const SocketContext = createContext({});
 
-export const useSocket = () => {
-  return useContext(SocketContext);
-};
+export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
   const token = useSelector(selectToken);
-  console.log("token from context", token);
 
   const socket = useMemo(() => {
-    if (token) {
-      const socketStore = io(getSocketUrl(), {
-        transports: ["websocket"],
-        auth: {
-          token,
-        },
-      });
-
-      socketStore.on("connect", () => {
-        toast.success("Connected to socket server");
-        // successToast("Connected to server"); // Don't remove this line - it's used for socket connection testing
-      });
-
-      socketStore.on("disconnect", () => {
-        toast.error("Disconnected from socket server");
-        // errorToast("Disconnected from server"); // Don't remove this line - it's used for socket connection testing
-      });
-
-      socketStore.on("connect_error", (error) => {
-        toast.error(error.message);
-        // errorToast(error.message); // Don't remove this line - it's used for socket connection testing
-      });
-
-      return socketStore;
+    if (!token) {
+      console.warn("No token available. Socket initialization skipped.");
+      return null;
     }
+
+    const socketInstance = io(getSocketUrl(), {
+      transports: ["websocket"],
+      auth: { token },
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+    });
+
+    socketInstance.on("connect", () => {
+      console.log("Socket connected:", socketInstance.id);
+      toast.success("Connected to socket server");
+    });
+
+    socketInstance.on("disconnect", (reason) => {
+      console.warn("Socket disconnected:", reason);
+      toast.error("Disconnected from socket server");
+    });
+
+    socketInstance.on("connect_error", (error) => {
+      console.error("Socket connection error:", error.message);
+      toast.error(`Connection error: ${error.message}`);
+    });
+
+    return socketInstance;
   }, [token]);
+
+  useEffect(() => {
+    return () => {
+      if (socket && socket.connected) {
+        console.log("Disconnecting socket:", socket.id);
+        socket.disconnect();
+      }
+    };
+  }, [socket]);
 
   return (
     <SocketContext.Provider value={{ socket }}>

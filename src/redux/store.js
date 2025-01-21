@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import chatReducer from "./slices/chatSlice";
 import authReducer from "./slices/authSlice"; // Import your auth slice
 import { baseApi } from "./api/baseApi";
 import { persistStore, persistReducer } from "redux-persist";
@@ -44,6 +45,7 @@ const rootReducer = {
   [baseApi.reducerPath]: baseApi.reducer,
 
   auth: authReducer, // Regular auth reducer (will be persisted separately)
+  chat: chatReducer,
 };
 
 // Create persisted reducer for the auth slice

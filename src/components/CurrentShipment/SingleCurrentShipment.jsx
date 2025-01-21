@@ -1,70 +1,25 @@
 "use client";
 import Container from "@/components/ui/Container";
 import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
-import { Button } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { IoChevronBackOutline } from "react-icons/io5";
 import LeafletDeliveryMap from "../LeafletMap/LeafletDeliveryMap";
 import ReAssign from "./ReAssign";
-import { AiOutlineMessage } from "react-icons/ai";
-import CurrentShipmentChat from "./CurrentShipmentChat";
-import { AllImages } from "../../../public/assets/AllImages";
-
-const ReciverChat = {
-  reciverName: "Stave Jobs",
-  reciverImg: AllImages.user,
-  chat: [
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-  ],
-};
-const Driverchat = {
-  reciverName: "Elon Mask",
-  reciverImg: AllImages.profile,
-  chat: [
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-
-    { sender: "sender", message: "Shut Up!" },
-    { receiver: "me", message: "Where are you from?" },
-
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-
-    { sender: "sender", message: "Shut Up!" },
-    { receiver: "me", message: "Where are you from?" },
-
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-
-    { sender: "sender", message: "Shut Up!" },
-    { receiver: "me", message: "Where are you from?" },
-
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-  ],
-};
+import CurrentShipmentChatMenu from "./CurrentShipmentChatMenu";
 
 const SingleCurrentShipment = () => {
   const params = useParams();
+
   const { data } = useGetSingleLoadRequestQuery(params?.id);
+
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const [ischatOptionVisible, setIsChatOptionVisible] = useState(false);
-  const [isChatIconVisible, setIsChatIconVisible] = useState(true);
-  const [chatBoxVisible, setChatBoxVisible] = useState(false);
-  const [chatUser, setChatUser] = useState("shipper");
-
-  const chat = chatUser === "shipper" ? ReciverChat : Driverchat;
-
   const router = useRouter();
   return (
-    <div className="py-20 bg-[#F3F3F3]">
+    <div className="pt-20 pb-10 bg-[#F3F3F3]">
       <Container>
         <div className="flex justify-between items-center mb-10">
           <IoChevronBackOutline
@@ -265,51 +220,7 @@ const SingleCurrentShipment = () => {
           </div>
         </div>
       </Container>
-      <div className="sticky  bottom-0 ml-auto flex flex-col mr-[1%] w-fit z-20">
-        {chatBoxVisible && (
-          <CurrentShipmentChat
-            data={chat}
-            setChatBoxVisible={setChatBoxVisible}
-            setIsChatIconVisible={setIsChatIconVisible}
-          />
-        )}
-        {isChatIconVisible && (
-          <div className="relative">
-            {ischatOptionVisible && (
-              <div className="absolute right-0 bottom-14 w-fit bg-transparent mb-5 -mt-[124px]">
-                <div
-                  onClick={() => {
-                    setChatUser("shipper");
-                    setIsChatIconVisible(false);
-                    setChatBoxVisible(true);
-                  }}
-                  className="bg-[#2B4257] text-primary-color mb-2 p-3 rounded-3xl cursor-pointer w-40 text-center"
-                >
-                  Chat with Shipper
-                </div>
-                <div
-                  onClick={() => {
-                    setChatUser("driver");
-                    setIsChatIconVisible(false);
-                    setChatBoxVisible(true);
-                  }}
-                  className="bg-[#2B4257] text-primary-color p-3 rounded-3xl cursor-pointer w-40 text-center"
-                >
-                  Chat with Driver
-                </div>
-              </div>
-            )}
-            <div
-              onClick={() => {
-                setIsChatOptionVisible((prev) => !prev);
-              }}
-              className="w-fit h-fit p-3 rounded-full bg-[#2B4257] cursor-pointer"
-            >
-              <AiOutlineMessage className="w-5 lg:w-10 h-5 lg:h-10 text-primary-color" />
-            </div>
-          </div>
-        )}
-      </div>
+      <CurrentShipmentChatMenu data={data?.data?.attributes[0]} />
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="rounded-xl p-5  flex flex-col items-center justify-center bg-primary-color">
