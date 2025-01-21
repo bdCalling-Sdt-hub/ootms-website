@@ -89,10 +89,10 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
           "Hazmat, Dangerous, Flammable Gas 2, Poson 6, Corrosive, Oxygen2, Flamable 3, Radioactive, Non-Flammable",
         deliveryInstruction: "Leave at dock 10",
         description: "Description of the load",
-        rlatitude: "23.810331",
-        rlongitude: "90.412521",
-        slatitude: "90.42617635244629",
-        slongitude: "23.763996582707133",
+        receiver_latitude: "23.810331",
+        receiver_longitude: "90.412521",
+        shipper_latitude: "90.42617635244629",
+        shipper_longitude: "23.763996582707133",
       },
     ];
 
@@ -130,23 +130,23 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
                   ? row[key].split(",").map((item) => item.trim())
                   : [];
               }
-              else if (key === "rlatitude" && row[key] && row["rlongitude"]) {
+              else if (key === "receiver_latitude" && row[key] && row["receiver_longitude"]) {
                 // Add location field using Latitude and Longitude
                 updatedRow["receiverLocation"] = {
                   type: "Point",
                   coordinates: [
-                    parseFloat(row["rlongitude"]), // Longitude first
-                    parseFloat(row["rlatitude"]), // Latitude second
+                    parseFloat(row["receiver_longitude"]), // Longitude first
+                    parseFloat(row["receiver_latitude"]), // Latitude second
                   ],
                 };
               }
-              else if (key === "slatitude" && row[key] && row["slongitude"]) {
+              else if (key === "shipper_latitude" && row[key] && row["shipper_longitude"]) {
                 // Add location field using Latitude and Longitude
                 updatedRow["shipperLocation"] = {
                   type: "Point",
                   coordinates: [
-                    parseFloat(row["slatitude"]), // Latitude second
-                    parseFloat(row["slongitude"]), // Longitude first
+                    parseFloat(row["shipper_latitude"]), // Latitude second
+                    parseFloat(row["shipper_longitude"]), // Longitude first
                   ],
                 };
               }
