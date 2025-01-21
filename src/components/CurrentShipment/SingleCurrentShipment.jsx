@@ -235,7 +235,7 @@ const SingleCurrentShipment = () => {
             <div className=" h-[70vh] w-[70vw]">
               {/* <label className="block text-gray-700 font-bold mb-2" htmlFor="driver">Driver</label>                                    */}
               {/* <LeafletDeliveryMap /> */}
-              <GoogleDeliveryMap />
+              <GoogleDeliveryMap data={data?.data?.attributes[0]} />
             </div>
           </div>
         </div>

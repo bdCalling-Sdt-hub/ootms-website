@@ -89,8 +89,10 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
           "Hazmat, Dangerous, Flammable Gas 2, Poson 6, Corrosive, Oxygen2, Flamable 3, Radioactive, Non-Flammable",
         deliveryInstruction: "Leave at dock 10",
         description: "Description of the load",
-        latitude: "23.810331",
-        longitude: "90.412521",
+        receiver_latitude: "23.810331",
+        receiver_longitude: "90.412521",
+        shipper_latitude: "90.42617635244629",
+        shipper_longitude: "23.763996582707133",
       },
     ];
 
@@ -127,19 +129,35 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
                 updatedRow["Hazmat"] = row[key]
                   ? row[key].split(",").map((item) => item.trim())
                   : [];
-              } else if (key === "latitude" && row[key] && row["longitude"]) {
+              }
+              else if (key === "receiver_latitude" && row[key] && row["receiver_longitude"]) {
                 // Add location field using Latitude and Longitude
-                updatedRow["location"] = {
+                updatedRow["receiverLocation"] = {
                   type: "Point",
                   coordinates: [
-                    parseFloat(row["longitude"]), // Longitude first
-                    parseFloat(row["latitude"]), // Latitude second
+                    parseFloat(row["receiver_longitude"]), // Longitude first
+                    parseFloat(row["receiver_latitude"]), // Latitude second
                   ],
                 };
-              } else {
+              }
+              else if (key === "shipper_latitude" && row[key] && row["shipper_longitude"]) {
+                // Add location field using Latitude and Longitude
+                updatedRow["shipperLocation"] = {
+                  type: "Point",
+                  coordinates: [
+                    parseFloat(row["shipper_latitude"]), // Latitude second
+                    parseFloat(row["shipper_longitude"]), // Longitude first
+                  ],
+                };
+              }
+              
+              
+              else {
                 updatedRow[key] = row[key]; // Keep other columns as-is
               }
             });
+
+            console.log(updatedRow);
             return updatedRow;
           });
 
