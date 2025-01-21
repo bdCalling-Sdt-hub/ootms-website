@@ -15,9 +15,10 @@ const mapContainerStyle = {
 
 const libraries = ["places"];
 
-export default function ShipperFormGoogleMap({
+export default function ReceiverFormGoogleMap({
   onLocationSelect,
   setLocationDetails,
+  locationDetails,
 }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
@@ -91,22 +92,35 @@ export default function ShipperFormGoogleMap({
       const data = await response.json();
       if (data.results && data.results.length > 0) {
         const addressComponents = data.results[0].address_components;
+
         const city = getAddressComponent(addressComponents, "locality");
         const state = getAddressComponent(
           addressComponents,
           "administrative_area_level_1"
         );
+
+        // Extract ZIP and postal code (if both exist)
         const zip = getAddressComponent(addressComponents, "postal_code") || "";
+        const postalCode =
+          getAddressComponent(addressComponents, "postal_code_suffix") || "";
+
         const formattedAddress = cleanFormattedAddress(
           data.results[0].formatted_address
         ); // Cleaned formatted address
 
-        setLocationDetails({ city, state, zip, fullAddress: formattedAddress });
+        setLocationDetails({
+          city,
+          state,
+          zip,
+          postalCode,
+          fullAddress: formattedAddress,
+        });
       } else {
         setLocationDetails({
           city: "",
           state: "",
           zip: "",
+          postalCode: "",
           fullAddress: "",
         });
       }
@@ -116,6 +130,7 @@ export default function ShipperFormGoogleMap({
         city: "",
         state: "",
         zip: "",
+        postalCode: "",
         fullAddress: "",
       });
     }
@@ -182,8 +197,9 @@ export default function ShipperFormGoogleMap({
         </label>
         <br />
         <label>
-          <strong>Full Address:</strong> {locationDetails.fullAddress}
+          <strong>Postal Code:</strong> {locationDetails.postalCode}
         </label>
+        <br />
       </div> */}
     </div>
   );

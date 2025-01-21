@@ -8,6 +8,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import LeafletDeliveryMap from "../LeafletMap/LeafletDeliveryMap";
 import ReAssign from "./ReAssign";
 import CurrentShipmentChatMenu from "./CurrentShipmentChatMenu";
+import GoogleDeliveryMap from "../LeafletMap/GoogleDeliveryMap";
 
 const SingleCurrentShipment = () => {
   const params = useParams();
@@ -233,7 +234,8 @@ const SingleCurrentShipment = () => {
             {/* <h2 className="text-lg font-semibold mb-4">Assign Driver</h2>  */}
             <div className=" h-[70vh] w-[70vw]">
               {/* <label className="block text-gray-700 font-bold mb-2" htmlFor="driver">Driver</label>                                    */}
-              <LeafletDeliveryMap />
+              {/* <LeafletDeliveryMap /> */}
+              <GoogleDeliveryMap />
             </div>
           </div>
         </div>

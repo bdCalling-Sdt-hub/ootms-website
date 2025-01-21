@@ -144,7 +144,7 @@ const ShipperForm = ({
 
     const data = {
       ...values,
-      location: {
+      shipperLocation: {
         type: "Point",
         coordinates: [location.lng, location.lat],
       },

@@ -12,5 +12,5 @@ export const getBaseUrl = () => {
 };
 
 export const getImageUrl = (key) => {
-  return process.env.IMAGE_URL || "http://10.0.70.87:8020/";
+  return process.env.NEXT_PUBLIC_IMAGE_URL;
 };
