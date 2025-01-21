@@ -170,7 +170,7 @@ export const authApi = baseApi.injectEndpoints({
     mytruck: build.query({
       query: () => {
         return {
-          url: `/truck-details`,
+          url: `/equipment/`,
           method: "GET",
         };
       },

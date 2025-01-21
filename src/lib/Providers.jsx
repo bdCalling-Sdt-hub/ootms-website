@@ -1,4 +1,5 @@
 "use client";
+import { SocketProvider } from "@/context/SocketContextApi";
 import { persistor, store } from "@/redux/store";
 import { Provider } from "react-redux";
 
@@ -16,7 +17,8 @@ const Providers = ({ children }) => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         {/* <GoogleOAuthProvider clientId="1026790988080-5t355vtcj5n5imm0i0dp4k8c7da67486.apps.googleusercontent.com"> */}
-        {children}
+        <SocketProvider>{children}</SocketProvider>
+        {/* {children} */}
         {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
         {/* </GoogleOAuthProvider> */}
       </PersistGate>

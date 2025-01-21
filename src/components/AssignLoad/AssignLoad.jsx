@@ -58,7 +58,7 @@ const AssignLoad = () => {
                   {/* Load 1 */}
 
                   {loadDataFromLocal?.map((data, index) => (
-                    <div className="flex items-center justify-between w-full">
+                    <div key={data?._id} className="flex items-center justify-between w-full">
                       <Checkbox
                         value={`${data?._id}`}
                         className="text-3xl font-semibold"

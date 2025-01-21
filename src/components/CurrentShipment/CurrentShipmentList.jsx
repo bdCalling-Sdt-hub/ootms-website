@@ -166,9 +166,13 @@ const CurrentShipmentList = () => {
                     <div className="flex items-center justify-center gap-4">
                       <p className="flex items-center gap-1">
                         <PiArrowSquareUpLight className="text-[#2B4257] text-xl  font-extrabold" />{" "}
-                        <span>{truck.load?.shippingAddress} </span>
+                        <span>
+                          {truck.load?.shippingAddress}
+                        </span>
                         <PiArrowSquareDownLight className="text-[#2B4257] text-xl  font-extrabold" />{" "}
-                        <span>{truck.load?.receivingAddress} </span>
+                        <span>
+                          {truck.load?.receivingAddress}
+                        </span>
                       </p>
                     </div>
                   </div>

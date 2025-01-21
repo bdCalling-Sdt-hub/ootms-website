@@ -17,7 +17,7 @@ import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setAccessToken } from "@/redux/slices/authSlice";
+import { setAccessToken, setUserInfo } from "@/redux/slices/authSlice";
 
 const SignUpVerify = () => {
   const [verifiedEmail] = useVerifiedEmailMutation();
@@ -25,7 +25,7 @@ const SignUpVerify = () => {
   const [resendOTP] = useResendOTPMutation();
   const navigate = useRouter();
   const [otp, setOtp] = useState("");
-
+  const cookies = new Cookies();
   const token = localStorage.getItem("ootms_createUserToken");
 
   useEffect(() => {
@@ -58,6 +58,10 @@ const SignUpVerify = () => {
           duration: 2000,
         });
         dispatch(setAccessToken(res?.data?.accessToken));
+        dispatch(setUserInfo(res?.data?.attributes));
+        cookies.set("ootms_accessToken", res?.data?.accessToken, {
+          path: "/",
+        });
         navigate.refresh();
         navigate.push("/");
 

@@ -156,9 +156,9 @@ const Navbar = () => {
   const profileItems = profile.map((item, index) => ({
     key: String(index),
     label: (
-      <Link href={item.link} key={index}>
+      <Link href={item.link} key={index} className="mt-4">
         <Button
-          className={`capitalize text-start font-medium flex justify-start items-center border-none hover:text-site-color hover:bg-transparent shadow-none text-lg w-full ${
+          className={` capitalize text-start font-medium flex justify-start items-center border-none hover:text-site-color hover:bg-transparent shadow-none text-lg w-full ${
             item.link === path ? "text-[#2B4257]" : "text-[#000106]"
           }`}
           onClick={() => select(index)}
@@ -264,6 +264,7 @@ const Navbar = () => {
                   }}
                 >
                   <Dropdown
+                    className=""
                     menu={{ items: profileItems }}
                     placement="bottomCenter"
                   >

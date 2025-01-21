@@ -12,7 +12,7 @@ const loadRequestApi = baseApi.injectEndpoints({
     handleAssignLoadRequest: builder.mutation({
       query: (data) => ({
         url: "/loads-request/action",
-        method: "POST",
+        method: "PATCH",
         body: data,
       }),
       invalidatesTags: [tagTypes.loadRequest],

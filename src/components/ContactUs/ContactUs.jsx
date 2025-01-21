@@ -5,11 +5,43 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { allIcons } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
+import { useCreateContractMutation } from "@/redux/api/contactUs";
+import { toast } from "sonner";
 
 const ContactUs = () => {
+  const [createContract] = useCreateContractMutation();
+  const [form] = Form.useForm();
   const TextArea = Input.TextArea;
-  const onFinish = (values) => {
-    // console.log("Connect With MVR Data:", values);
+  const onFinish = async (values) => {
+    console.log("Connect With MVR Data:", values);
+    const toastId = toast.loading("contact  details sending...");
+    try {
+      let data = {
+        email: values?.email,
+        fullName: values?.fullName,
+        message: values?.message,
+      };
+      console.log("data", data);
+
+      const res = await createContract(data).unwrap();
+
+      console.log("res: ", res);
+
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      form.resetFields();
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message || "An error occurred during contact us",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
   return (
     <div className="sm:py-20">

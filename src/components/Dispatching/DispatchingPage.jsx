@@ -28,6 +28,8 @@ import {
   useCreateLoadRequestMutation,
   useGetAllTrucksQuery,
 } from "@/redux/api/loadRequestApi";
+import GoogleMapAllTrack from "../LeafletMap/GoogleMapAllTrack";
+import GoogleMapCompo from "@/helpers/GoogleMap/GoogleMapComponent";
 
 const dragColumns = [
   {
@@ -498,7 +500,8 @@ const DispatchingPage = () => {
 
             <div className="-mt-5">
               {" "}
-              <LeafletAllTrack setOpen={setOpen} />
+              {/* <LeafletAllTrack setOpen={setOpen} /> */}
+              <GoogleMapAllTrack setOpen={setOpen} />
             </div>
           </div>
 
@@ -549,6 +552,8 @@ const DispatchingPage = () => {
           )}
         </div>
       )}
+
+      <GoogleMapCompo />
 
       {/* ------------------------------------------------------------Modal Start---------------------------------------------------  */}
 

@@ -22,10 +22,10 @@ const ReAssign = (props) => {
   const onFinish = async (values) => {
     const toastId = toast.loading("Re-Assigning Diver...");
 
-    const data = {
+    const data = [{
       load: loadId,
       driver: values.driver,
-    };
+    }];
     // console.log("data", data);
 
     try {

@@ -1,5 +1,6 @@
 "use client";
 
+import ReceiverFormGoogleMap from "@/helpers/GoogleMap/ReceiverFormGoogleMap";
 import { useCreateLoadMutation } from "@/redux/api/loadApi";
 import { DatePicker, Form, Input, Modal, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -20,6 +21,31 @@ const FormFile = ({
   const [user, setUser] = useState(null); // Initialize state for user data
 
   const [createLoad] = useCreateLoadMutation();
+  const [location, setLocation] = useState({ lat: "", lng: "" });
+
+  const [locationDetails, setLocationDetails] = useState({
+    city: "",
+    state: "",
+    zip: "",
+    postalCode: "",
+    fullAddress: "",
+  });
+
+  console.log("locationDetails", locationDetails);
+
+  const handleLocationSelect = (coordinates) => {
+    setLocation(coordinates);
+  };
+
+  useEffect(() => {
+    form.setFieldsValue({
+      receivingAddress: locationDetails.fullAddress || "",
+      receiverCity: locationDetails.city || "",
+      receiverState: locationDetails.state || "",
+      receiverZip: locationDetails.zip || "",
+      receiverpostalCode: locationDetails.postalCode || "",
+    });
+  }, [locationDetails, form]);
 
   //* It's Use to Show Modal
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,12 +73,18 @@ const FormFile = ({
   const navigate = useRouter();
   const onFinish = async (values) => {
     const toastId = toast.loading("Load Data Added...");
-    console.log("user:", values);
+    const revicer = {
+      ...values,
+      receiverLocation: {
+        type: "Point",
+        coordinates: [location?.lng, location?.lat],
+      },
+    };
 
     form.resetFields();
 
     try {
-      const res = await createLoad([{ ...shipperData, ...values }]).unwrap();
+      const res = await createLoad([{ ...shipperData, ...revicer }]).unwrap();
       localStorage.setItem(
         "loadId",
         JSON.stringify(res.data.attributes[0]._id)
@@ -78,11 +110,6 @@ const FormFile = ({
         }
       );
     }
-  };
-
-  const onNext = () => {
-    // Check if user is available and navigate accordingly
-    //
   };
 
   return (
@@ -148,6 +175,18 @@ const FormFile = ({
                 />
               </Form.Item>
             </div>
+          </div>
+
+          <div style={{ margin: "20px 0" }}>
+            <ReceiverFormGoogleMap
+              onLocationSelect={handleLocationSelect}
+              locationDetails={locationDetails}
+              setLocationDetails={setLocationDetails}
+            />
+          </div>
+
+          {/* Receiver Address */}
+          <div className="flex flex-col">
             <div className="w-full">
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Receiver Address
@@ -166,8 +205,8 @@ const FormFile = ({
             </div>
           </div>
 
-          {/* City, State, Zip */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5 lg:gap-5">
+          {/* City, State, Zip, Postal */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-5 lg:gap-5">
             <div>
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 City
@@ -210,21 +249,24 @@ const FormFile = ({
                 />
               </Form.Item>
             </div>
-          </div>
-
-          {/* PO# and Bill of Loading */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
             <div>
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
-                PO#
+                Postal Code
               </Typography>
-              <Form.Item name="receiverpostalCode">
+              <Form.Item
+                name="receiverpostalCode"
+                rules={[{ required: true, message: "Postal code is required" }]}
+              >
                 <Input
-                  placeholder="Enter PO#"
+                  placeholder="Enter postal code"
                   className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
+          </div>
+
+          {/* PO# and Bill of Loading */}
+          <div className="grid grid-cols-1  md:gap-2 lg:gap-2">
             <div>
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 Bill of Loading
