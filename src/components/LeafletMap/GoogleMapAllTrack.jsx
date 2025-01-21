@@ -87,7 +87,7 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
     return (
       <GoogleMap
         center={userLocation}
-        zoom={14}
+        zoom={13}
         mapContainerStyle={{ height: "600px", width: "100%" }}
       >
         {/* User Location Marker */}
