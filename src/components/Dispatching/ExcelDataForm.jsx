@@ -89,6 +89,8 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
           "Hazmat, Dangerous, Flammable Gas 2, Poson 6, Corrosive, Oxygen2, Flamable 3, Radioactive, Non-Flammable",
         deliveryInstruction: "Leave at dock 10",
         description: "Description of the load",
+        latitude: "23.810331",
+        longitude: "90.412521",
       },
     ];
 
@@ -125,6 +127,15 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
                 updatedRow["Hazmat"] = row[key]
                   ? row[key].split(",").map((item) => item.trim())
                   : [];
+              } else if (key === "latitude" && row[key] && row["longitude"]) {
+                // Add location field using Latitude and Longitude
+                updatedRow["location"] = {
+                  type: "Point",
+                  coordinates: [
+                    parseFloat(row["longitude"]), // Longitude first
+                    parseFloat(row["latitude"]), // Latitude second
+                  ],
+                };
               } else {
                 updatedRow[key] = row[key]; // Keep other columns as-is
               }

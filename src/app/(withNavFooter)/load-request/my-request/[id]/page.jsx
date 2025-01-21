@@ -11,9 +11,9 @@ import { IoChevronBackOutline } from "react-icons/io5";
 const MyRequestId = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  console.log("data22222", data?.data?.attributes[0].load?._id)
+  console.log("data22222", data?.data?.attributes[0]?.load?._id);
 
   const router = useRouter();
   return (
@@ -216,7 +216,7 @@ const MyRequestId = () => {
       {isOpen && (
         <ReAssign
           setIsOpen={setIsOpen}
-          loadId={data?.data?.attributes[0].load?._id}
+          loadId={data?.data?.attributes[0]?.load?._id}
           id={params?.id}
         />
       )}
