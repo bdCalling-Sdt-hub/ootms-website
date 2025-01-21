@@ -80,10 +80,10 @@ const ShipperForm = ({
     { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
     { label: "Poison 6", value: "Poson 6", checked: false },
     { label: "Corrosive", value: "Corrosive", checked: false },
-    { label: "Oxygen 2", value: "Oxygen 2", checked: false }, // Corrected from Oxygen2 to Oxygen 2
-    { label: "Flammable 3", value: "Flammable 3", checked: false }, // Corrected from Flamable 3 to Flammable 3
-    { label: "Radioactive 7", value: "Radioactive 7", checked: false }, // Assuming you meant Radioactive 7 from Radioactive
-    { label: "Non-Flammable Gas", value: "Non-Flammable Gas", checked: false }, // Listed as Non-Flammable in the modal
+    { label: "Oxygen 2", value: "Oxygen2", checked: false }, // Corrected from Oxygen2 to Oxygen 2
+    { label: "Flammable 3", value: "Flamable 3", checked: false }, // Corrected from Flamable 3 to Flammable 3
+    { label: "Radioactive", value: "Radioactive", checked: false }, // Assuming you meant Radioactive 7 from Radioactive
+    { label: "Non-Flammable", value: "Non-Flammable", checked: false }, // Listed as Non-Flammable in the modal
   ]);
 
   const handleCheckboxChange = (value) => {
