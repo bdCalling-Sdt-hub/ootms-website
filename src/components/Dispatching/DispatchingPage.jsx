@@ -501,7 +501,10 @@ const DispatchingPage = () => {
             <div className="-mt-5">
               {" "}
               {/* <LeafletAllTrack setOpen={setOpen} /> */}
-              <GoogleMapAllTrack setOpen={setOpen} />
+              <GoogleMapAllTrack
+                setCurrentDriverModalData={setCurrentDriverModalData}
+                setOpen={setOpen}
+              />
             </div>
           </div>
 
@@ -553,7 +556,7 @@ const DispatchingPage = () => {
         </div>
       )}
 
-      <GoogleMapCompo />
+      {/* <GoogleMapCompo /> */}
 
       {/* ------------------------------------------------------------Modal Start---------------------------------------------------  */}
 

@@ -19,7 +19,18 @@ const loadApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.load],
     }),
+    getNearestDriverForUser: build.mutation({
+      query: (data) => ({
+        url: `/loads/nearest_driver_for_user`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useCreateLoadMutation, useGetAllPendingLoadsQuery } = loadApi;
+export const {
+  useCreateLoadMutation,
+  useGetAllPendingLoadsQuery,
+  useGetNearestDriverForUserMutation,
+} = loadApi;
