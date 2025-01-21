@@ -91,18 +91,12 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
         mapContainerStyle={{ height: "600px", width: "100%" }}
       >
         {/* User Location Marker */}
-        <Marker
-          position={userLocation}
-          icon={{
-            url: "/assets/images/location.png",
-            scaledSize: new window.google.maps.Size(35, 45),
-          }}
-        />
+        <Marker position={userLocation} />
 
         {/* Driver Markers */}
-        {markerLocations.map((marker) => (
+        {markerLocations.map((marker, i) => (
           <Marker
-            key={marker.id}
+            key={i}
             position={{ lat: marker.lat, lng: marker.lng }}
             icon={{
               url: "/assets/images/truck.png",
@@ -110,8 +104,11 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
             }}
             onClick={() => {
               setOpen(true); // Open the modal
-              console.log("Driver Info", marker.info);
-              setCurrentDriverModalData(marker.info); // Set the complete driver data
+              console.log("Driver Info", marker);
+              setCurrentDriverModalData({
+                ...marker.info?.truck,
+                driverName: marker.fullName,
+              }); // Set the complete driver data
             }}
           />
         ))}

@@ -73,18 +73,15 @@ const DispatchingPage = () => {
     page,
   });
 
-  // console.log(allTrucks);
-
-  // console.log("truck", allTrucks?.data?.attributes);
-
-  // console.log("Created load Data:", allPendingLoads?.data?.results);
-
   const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
 
   //* Drag And Drop--------------------------------------------------------------
   const inputRef = useRef(null);
   const [dragData, setDragData] = useState(null);
   const [currentDriverModalData, setCurrentDriverModalData] = useState(null);
+
+  console.log("currentDriverModalData", currentDriverModalData);
+  console.log("allTrucks", allTrucks);
 
   const handleDragEnd = (event, info) => {
     const inputBox = inputRef.current.getBoundingClientRect();
