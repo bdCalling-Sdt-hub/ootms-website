@@ -1,17 +1,19 @@
 "use client";
+import ReAssign from "@/components/CurrentShipment/ReAssign";
 import Container from "@/components/ui/Container";
 import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
 import { Button } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
 
 const MyRequestId = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
+    const [isOpen, setIsOpen] = useState(false);
 
-  console.log("data", data?.data?.attributes[0]);
+  console.log("data22222", data?.data?.attributes[0].load?._id)
 
   const router = useRouter();
   return (
@@ -200,7 +202,8 @@ const MyRequestId = () => {
           {/* Button to find a new driver */}
           <div className="mt-8 text-center">
             <Button
-              onClick={() => router.push("/dispatching")}
+              // onClick={() => router.push("/dispatching")}
+              onClick={() => setIsOpen(!isOpen)}
               type="primary"
               size="large"
               className="bg-[#2B4257] px-4 rounded-lg"
@@ -210,6 +213,13 @@ const MyRequestId = () => {
           </div>
         </div>
       </Container>
+      {isOpen && (
+        <ReAssign
+          setIsOpen={setIsOpen}
+          loadId={data?.data?.attributes[0].load?._id}
+          id={params?.id}
+        />
+      )}
     </div>
   );
 };
