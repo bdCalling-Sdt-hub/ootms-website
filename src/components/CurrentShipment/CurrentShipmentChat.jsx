@@ -85,6 +85,8 @@ const CurrentShipmentChat = ({
       dispatch(setOnlineUsers(online));
     });
     if (selectedChat && socket) {
+      
+      console.log("======= new message received =====", `${selectedChat?.chatId}`)
       socket?.on(
         `new-message-received::${selectedChat?.chatId}`,
         handleMessage

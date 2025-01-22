@@ -28,7 +28,7 @@ export const SocketProvider = ({ children }) => {
 
     socketInstance.on("connect", () => {
       console.log("Socket connected:", socketInstance.id);
-      toast.success("Connected to socket server");
+      // toast.success("Connected to socket server");
     });
 
     socketInstance.on("disconnect", (reason) => {

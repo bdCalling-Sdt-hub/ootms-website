@@ -61,6 +61,8 @@ const DirverAssignLoadRequest = ({ truck }) => {
       );
     }
   };
+  console.log("truck", truck);
+  
   return (
     <div>
       <div
@@ -195,14 +197,14 @@ const DirverAssignLoadRequest = ({ truck }) => {
                   </div>
                   <div>
                     <p className="text-lg font-semibold">Availability: </p>
-                    <p>Fully Available.</p>
+                    <p>{truck?.availablePalletSpace} Pallet Space</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="w-[90%] mx-auto flex justify-between items-center gap-5 mt-5">
+          {/* <div className="w-[90%] mx-auto flex justify-between items-center gap-5 mt-5">
             <Input
               prefix={<BiSolidMessageSquareDetail className="w-8 h-8 mr-2" />}
               placeholder="Send a free message"
@@ -211,7 +213,7 @@ const DirverAssignLoadRequest = ({ truck }) => {
             <div className="p-3 rounded-full w-fit bg-[#FDFDFD] border border-[#DDDDDD]">
               <FaPhone className="w-6 h-6" />
             </div>
-          </div>
+          </div> */}
           {/* Button to find a new driver */}
           <div className=" sm:flex justify-center items-center gap-5 space-y-3 pt-5 p-3">
             <Button
