@@ -18,6 +18,8 @@ const DirverAssignLoadRequest = ({ truck }) => {
     /^\/+/,
     ""
   )}`;
+  console.log("img", img);
+  
 
   const [isTruckModalVisible, setIsTruckModalVisible] = useState(false);
   const showModal = () => {
