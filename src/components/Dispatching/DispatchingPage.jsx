@@ -81,7 +81,7 @@ const DispatchingPage = () => {
   const [currentDriverModalData, setCurrentDriverModalData] = useState(null);
 
   console.log("currentDriverModalData", currentDriverModalData);
-  console.log("allTrucks", allTrucks);
+  // console.log("allTrucks", allTrucks);
 
   const handleDragEnd = (event, info) => {
     const inputBox = inputRef.current.getBoundingClientRect();
@@ -193,7 +193,7 @@ const DispatchingPage = () => {
       );
     }
   };
-  // console.log("alllllll", allPendingLoads?.data?.pagination?.totalResults);
+  console.log("alllllll", allTrucks);
 
   return (
     <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
@@ -302,9 +302,9 @@ const DispatchingPage = () => {
                 </p> */}
                       </div>
                     </div>
-                    <div className="p-3 rounded-full w-fit bg-[#FDFDFD] border border-[#DDDDDD]">
+                    {/* <div className="p-3 rounded-full w-fit bg-[#FDFDFD] border border-[#DDDDDD]">
                       <FaPhone className="w-6 h-6" />
-                    </div>
+                    </div> */}
                   </div>
                   <div ref={inputRef} className="bg-[#EEF2FC] rounded-lg">
                     {/* Assign And Cancle  */}
@@ -318,7 +318,8 @@ const DispatchingPage = () => {
                       <Button
                         onClick={() =>
                           onAssignLoad(
-                            currentDriverModalData?.driverId,
+                            currentDriverModalData?.driverId ||
+                              currentDriverModalData?.driver,
                             dragData?._id
                           )
                         }

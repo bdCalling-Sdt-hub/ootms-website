@@ -50,6 +50,12 @@ const SubscriptionCard = ({
     >
       <div>
         <div className="flex flex-col ">
+          {plan?.popular && (
+            <h3 className="mx-auto text-sm text-center text-[#175C99] font-bold mb-2 bg-[#E9F5FF] w-28 rounded-lg">
+              Most Popular
+            </h3>
+          )}
+
           <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-center text-black font-bold mb-2 ">
             {plan?.name}
           </p>

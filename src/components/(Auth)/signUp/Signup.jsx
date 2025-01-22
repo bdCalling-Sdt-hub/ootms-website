@@ -20,6 +20,9 @@ import { buttonVariants } from "@/lib/variants";
 import { toast } from "sonner";
 import { useSignUpMutation } from "@/redux/api/authApi";
 import { useSelector } from "react-redux";
+import { SessionProvider } from "next-auth/react";
+import GoogleLogin from "../signIn/GoogleLogin";
+import FacebookLogin from "../signIn/FacebookLogin";
 
 const SignUp = () => {
   const [signUp] = useSignUpMutation();
@@ -216,7 +219,8 @@ const SignUp = () => {
                 <span className="px-4 text-gray-500">or</span>
                 <span className="border-t border-gray-300 flex-grow"></span>
               </div>
-              <Button
+
+              {/* <Button
                 className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg"
                 icon={
                   <Image
@@ -241,7 +245,12 @@ const SignUp = () => {
                 }
               >
                 Sign in with Facebook
-              </Button>
+              </Button> */}
+
+              <SessionProvider>
+                <GoogleLogin />
+                <FacebookLogin />
+              </SessionProvider>
             </div>
           </div>
         </div>

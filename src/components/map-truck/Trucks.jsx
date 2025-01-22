@@ -18,7 +18,7 @@ const Trucks = ({
     setOpen(true);
     setCurrentDriverModalData(data);
   };
- console.log(data);
+ console.log("11111",data);
  
   const columns = [
     {

@@ -43,7 +43,7 @@ const FormFile = ({
       receiverCity: locationDetails.city || "",
       receiverState: locationDetails.state || "",
       receiverZip: locationDetails.zip || "",
-      receiverpostalCode: locationDetails.postalCode || "",
+      receiverpostalCode: locationDetails.zip || "",
     });
   }, [locationDetails, form]);
 

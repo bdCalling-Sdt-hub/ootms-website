@@ -18,6 +18,40 @@ const normFile = (e) => {
   }
   return e?.fileList;
 };
+const ProductTypes = [
+  "Pine Pulpwood",
+  "Pine Mulch",
+  "Pine Super Pulpwood",
+  "Pine Chip-N-Saw",
+  "Pine Sawtimber",
+  "Pine Poles",
+  "Hardwood Pulpwood",
+  "Hardwood Mulch",
+  "Hardwood Palletwood",
+  "Hardwood Crossties",
+  "Hardwood Sawtimber",
+  "Hardwood Plylogs",
+  "Hardwood Poles",
+  "Cypress Mulch",
+];
+const trailerTypes = [
+  "48 ft Dry Van",
+  "53 ft Dry Van",
+  "Refrigerated (Reefer)",
+  "Curtain-side",
+  "Open Trailers",
+  "Flatbed",
+  "Step Deck",
+  "Lowboy",
+  "RGN (Removable Gooseneck)",
+  "Specialized",
+  "Tanker",
+  "Hopper",
+  "Livestock",
+  "Roll-Off",
+  "Logging - Tree Length",
+  "Logging - Double-bunk",
+];
 
 const ShipperForm = ({
   setShipperData,
@@ -127,6 +161,8 @@ const ShipperForm = ({
   };
 
   const onFinish = async (values) => {
+    console.log("values", values);
+
     // const toastId = toast.loading("Load Data Added...");
     if (
       !Array.isArray(values.Hazmat) ||
@@ -339,21 +375,28 @@ const ShipperForm = ({
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
               <Typography className="text-contact-input font-semibold mb-2">
-                Load Type
+                Trailer Types
               </Typography>
               <Form.Item
                 name="loadType"
-                rules={[{ required: true, message: "Load Type is required" }]}
+                rules={[
+                  { required: true, message: "Trailer Types is required" },
+                ]}
               >
                 <Select
                   placeholder="Select load type"
                   className="w-full  py-2 h-14"
                   allowClear
                 >
-                  <Select.Option value="dry">Dry</Select.Option>
+                  {/* <Select.Option value="dry">Dry</Select.Option>
                   <Select.Option value="reefer">Reefer</Select.Option>
                   <Select.Option value="flatbed">Flatbed</Select.Option>
-                  <Select.Option value="others">Others</Select.Option>
+                  <Select.Option value="others">Others</Select.Option> */}
+                  {trailerTypes.map((type) => (
+                    <Select.Option key={type} value={type}>
+                      {type}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </div>
@@ -423,22 +466,28 @@ const ShipperForm = ({
               </Typography>
               <Form.Item
                 name="productType"
-                rules={[{ required: true, message: "Load Type is required" }]}
+                rules={[
+                  { required: true, message: "Product Type is required" },
+                ]}
               >
                 <Select
                   placeholder="Select Product Type"
                   className="w-full  py-2 h-14"
                   allowClear
                 >
-                  <Select.Option value="48-foot trailer (24 pallets)">
-                    {" "}
+                  {/* <Select.Option value="48-foot trailer (24 pallets)">
                     48-foot trailer (24 pallets)
                   </Select.Option>
                   <Select.Option value="53-foot trailer (26 pallets)">
                     53-foot trailer (26 pallets)
                   </Select.Option>
                   <Select.Option value="flatbed">Flatbed</Select.Option>
-                  <Select.Option value="specialty">Specialty</Select.Option>
+                  <Select.Option value="specialty">Specialty</Select.Option> */}
+                  {ProductTypes.map((product) => (
+                    <Select.Option key={product} value={product}>
+                      {product}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </div>
