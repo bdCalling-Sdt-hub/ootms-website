@@ -73,7 +73,7 @@ const SignUp = () => {
   return (
     <div className="text-base-color">
       <Container>
-        <div className="flex items-center justify-between min-h-screen mx-40">
+        <div className="flex items-center justify-between min-h-screen ">
           <div className="hidden lg:block">
             <Image
               src={AllImages.logo}

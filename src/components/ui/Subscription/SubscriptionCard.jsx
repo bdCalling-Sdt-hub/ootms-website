@@ -67,7 +67,7 @@ const SubscriptionCard = ({
           </sub>
         </p>
         <ul className="mb-10">
-          {plan?.features.map((feature, featureIndex) => (
+          {plan?.features?.map((feature, featureIndex) => (
             <li key={featureIndex} className="flex items-center gap-2">
               <div className="p-1 rounded-full bg-[#3598F126] -mt-4">
                 <MdOutlineDone className="size-5 text-[#037EEE]" />
