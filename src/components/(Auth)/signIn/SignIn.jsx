@@ -43,7 +43,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (token) {
-      navigate.push("/");
+      navigate.push("/profile");
     }
   }, [navigate, token]);
   const onFinish = async (values) => {
@@ -72,8 +72,8 @@ const SignIn = () => {
         duration: 2000,
       });
       // Navigate after login
+      navigate.push("/profile");
       navigate.refresh();
-      navigate.push("/");
     } catch (error) {
       console.error("Login Error:", error); // Log the error for debugging
       toast.error(
