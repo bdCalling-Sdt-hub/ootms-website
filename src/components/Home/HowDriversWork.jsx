@@ -5,6 +5,7 @@ import { useState } from "react";
 import { FaUserInjured } from "react-icons/fa";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
+import { FaUser } from "react-icons/fa6";
 
 export default function HowDriversWork() {
   const [activeSection, setActiveSection] = useState("loads");
@@ -22,7 +23,7 @@ export default function HowDriversWork() {
         <div className="flex flex-col lg:flex-row-reverse justify-between ">
           <div className="w-1/2 flex flex-col lg:items-end">
             <div className="flex gap-2 sm:w-48 mt-6 xl:w-60 bg-[#2B4257] text-white py-2 sm:py-3 rounded-lg h-8 sm:h-14 px-5 sm:text-2xl xl:text-3xl mb-5 sm:mb-10 lg:mb-20">
-              <FaUserInjured />
+              <FaUser />
               <p>For Driver</p>
             </div>
 
