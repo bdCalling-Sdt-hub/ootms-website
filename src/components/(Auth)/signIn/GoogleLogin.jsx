@@ -52,7 +52,7 @@ const GoogleLogin = () => {
       });
 
       // Redirect user
-      router.push("/profile"); // Redirect to home after successful login
+      router.push("/"); // Redirect to home after successful login
     } catch (error) {
       console.error("Login Error:", error);
 

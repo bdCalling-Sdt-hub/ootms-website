@@ -63,7 +63,7 @@ const SignUpVerify = () => {
           path: "/",
         });
         navigate.refresh();
-        navigate.push("/profile");
+        navigate.push("/");
 
         setTimeout(() => {
           localStorage.removeItem("ootms_createUserToken");
