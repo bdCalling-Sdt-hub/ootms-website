@@ -42,15 +42,14 @@ const GoogleDeliveryMap = ({ data }) => {
 
     // Listen for vehicle location updates from the server
     socket.on("server_location", (data) => {
-      console.log("From Server", data);
+      console.log("From Server Socket", data);
       setVehicleLocation({
-        lat: data?.lat,
-        lng: data?.lng,
+        lat: Number(data?.lat),
+        lng: Number(data?.lang),
       });
     });
 
     return () => {
-      clearInterval(intervalId); // Clear the interval on unmount
       socket.off("server_location"); // Remove socket listener on unmount
     };
   }, [socket, userLocation]);
