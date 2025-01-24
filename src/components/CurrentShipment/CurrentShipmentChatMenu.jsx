@@ -48,14 +48,10 @@ const CurrentShipmentChatMenu = ({ data }) => {
   const [isChatIconVisible, setIsChatIconVisible] = useState(true);
   const [chatBoxVisible, setChatBoxVisible] = useState(false);
   const dispatch = useDispatch();
-  const [chatUser, setChatUser] = useState("shipper");
-
-  const chat = chatUser === "shipper" ? ReciverChat : Driverchat;
   return (
     <div className="sticky bottom-10 ml-auto flex flex-col mr-[1%] w-fit z-20">
       {chatBoxVisible && (
         <CurrentShipmentChat
-          data={chat}
           setChatBoxVisible={setChatBoxVisible}
           setIsChatIconVisible={setIsChatIconVisible}
         />
@@ -66,7 +62,6 @@ const CurrentShipmentChatMenu = ({ data }) => {
             <div className="absolute right-0 bottom-14 w-fit bg-transparent mb-5 -mt-[124px]">
               <div
                 onClick={() => {
-                  setChatUser("shipper");
                   dispatch(
                     setSelectedChatUser({
                       chatId: data?.load?.shipperToReceiverChatId,
@@ -85,7 +80,6 @@ const CurrentShipmentChatMenu = ({ data }) => {
               </div>
               <div
                 onClick={() => {
-                  setChatUser("driver");
                   dispatch(
                     setSelectedChatUser({
                       chatId: data?.load?.shipperToDriverChatId,

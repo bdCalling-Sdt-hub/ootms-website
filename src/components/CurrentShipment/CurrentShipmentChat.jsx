@@ -2,6 +2,7 @@ import { SocketContext } from "@/context/SocketContextApi";
 import { getImageUrl } from "@/helpers/config/envConfig";
 import { formatDateTime } from "@/helpers/date-formats";
 import { useGetAllMessageByChatIdQuery } from "@/redux/api/chatApi";
+import { selectUser } from "@/redux/slices/authSlice";
 import {
   clearSelectedChatUser,
   selectChatMessages,
@@ -33,14 +34,13 @@ const CurrentShipmentChat = ({
   const [form] = Form.useForm();
   const { socket } = useContext(SocketContext);
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const selectedChat = useSelector(selectSelectedChatUser);
   const chatMessages = useSelector(selectChatMessages);
   const onlineUsers = useSelector(selectOnlineUsers);
   const messagesContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
   const imageServerUrl = getImageUrl();
-
-  console.log("onlineUsers", onlineUsers);
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -59,6 +59,10 @@ const CurrentShipmentChat = ({
       skip: !selectedChat?.chatId,
     }
   );
+
+  console.log("allMessages", allMessages);
+  console.log("selectedChat?.userId", selectedChat?.userId);
+  console.log("user", user);
 
   useEffect(() => {
     if (selectedChat?.chatId) {
@@ -85,8 +89,10 @@ const CurrentShipmentChat = ({
       dispatch(setOnlineUsers(online));
     });
     if (selectedChat && socket) {
-      
-      console.log("======= new message received =====", `${selectedChat?.chatId}`)
+      console.log(
+        "======= new message received =====",
+        `${selectedChat?.chatId}`
+      );
       socket?.on(
         `new-message-received::${selectedChat?.chatId}`,
         handleMessage
@@ -97,7 +103,7 @@ const CurrentShipmentChat = ({
       socket?.off(`new-message-received::${selectedChat?.chatId}`);
       socket?.emit("leave", roomId);
     };
-  }, [selectedChat, dispatch, handleMessage]);
+  }, [selectedChat, dispatch, handleMessage, socket]);
 
   //* For Sending Message
   const handleMessageSend = async (values) => {
@@ -155,27 +161,36 @@ const CurrentShipmentChat = ({
             ref={messagesContainerRef}
             className=" px-4 py-2 h-[400px] overflow-y-auto pb-4 place-content-end"
           >
-            {chatMessages?.map((msg, index) => (
-              <div key={index} className="mb-2 ">
-                <p
-                  className={`w-fit ${
-                    msg?.sender === selectedChat?.userId
-                      ? "ml-auto bg-[#E3E3E3] text-[#282828] p-2 rounded-xl"
-                      : " bg-[#2B4257] text-white p-2 rounded-xl"
-                  }`}
-                >
-                  {msg?.text}
-                </p>
-
-                <p
-                  className={`text-[#999999] text-xs ${
-                    msg?.sender === selectedChat?.userId ? "text-right" : ""
-                  }`}
-                >
-                  {formatDateTime(msg?.createdAt)}
-                </p>
+            {isAllMessageFetching ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900">
+                  {" "}
+                </div>
               </div>
-            ))}
+            ) : (
+              chatMessages?.map((msg, index) => (
+                <div key={index} className="mb-2 ">
+                  <p
+                    className={`w-fit ${
+                      msg?.sender === selectedChat?.userId
+                        ? "ml-auto bg-[#2B4257]  text-white p-2 rounded-xl"
+                        : "  text-[#282828] bg-[#E3E3E3] p-2 rounded-xl"
+                    }`}
+                  >
+                    {msg?.text}
+                  </p>
+
+                  <p
+                    className={`text-[#999999] text-xs ${
+                      msg?.sender === selectedChat?.userId ? "text-right" : ""
+                    }`}
+                  >
+                    {formatDateTime(msg?.createdAt)}
+                  </p>
+                </div>
+              ))
+            )}
+            {/* {} */}
             <div ref={messagesEndRef}></div>
           </div>
         </div>
