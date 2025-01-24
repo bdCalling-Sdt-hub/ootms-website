@@ -72,8 +72,8 @@ const SignIn = () => {
         duration: 2000,
       });
       // Navigate after login
-      navigate.refresh();
       navigate.push("/");
+      navigate.refresh();
     } catch (error) {
       console.error("Login Error:", error); // Log the error for debugging
       toast.error(
