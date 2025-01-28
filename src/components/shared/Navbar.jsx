@@ -156,7 +156,7 @@ const Navbar = () => {
   const profileItems = profile.map((item, index) => ({
     key: String(index),
     label: (
-      <Link href={item.link} key={index} className="mt-4">
+      <Link href={item.link} key={index} className="">
         <Button
           className={` capitalize text-start font-medium flex justify-start items-center border-none hover:text-site-color hover:bg-transparent shadow-none text-lg w-full ${
             item.link === path ? "text-[#2B4257]" : "text-[#000106]"
@@ -259,7 +259,9 @@ const Navbar = () => {
                 <ConfigProvider
                   theme={{
                     components: {
-                      Dropdown: {},
+                      Dropdown: {
+                        zIndexPopupBase: 9999999,
+                      },
                     },
                   }}
                 >
@@ -302,7 +304,9 @@ const Navbar = () => {
               <ConfigProvider
                 theme={{
                   components: {
-                    Dropdown: {},
+                    Dropdown: {
+                      zIndexPopupBase: 9999999,
+                    },
                   },
                 }}
               >
@@ -326,6 +330,8 @@ const Navbar = () => {
                 theme={{
                   components: {
                     Dropdown: {
+                      zIndexPopupBase: 9999999,
+
                       colorBgElevated: "#F3F3F3",
                     },
                   },

@@ -27,7 +27,6 @@ const FormFile = ({
     city: "",
     state: "",
     zip: "",
-    postalCode: "",
     fullAddress: "",
   });
 
@@ -43,7 +42,6 @@ const FormFile = ({
       receiverCity: locationDetails.city || "",
       receiverState: locationDetails.state || "",
       receiverZip: locationDetails.zip || "",
-      receiverpostalCode: locationDetails.zip || "",
     });
   }, [locationDetails, form]);
 
@@ -82,6 +80,8 @@ const FormFile = ({
     };
 
     form.resetFields();
+
+    console.log("Data:", { ...shipperData, ...revicer });
 
     try {
       const res = await createLoad([{ ...shipperData, ...revicer }]).unwrap();
@@ -206,8 +206,8 @@ const FormFile = ({
           </div>
 
           {/* City, State, Zip, Postal */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-5 lg:gap-5">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-x-5 lg:gap-x-5">
+            <div className="lg:col-span-2">
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
                 City
               </Typography>
@@ -249,34 +249,33 @@ const FormFile = ({
                 />
               </Form.Item>
             </div>
-            <div>
-              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
-                Postal Code
-              </Typography>
-              <Form.Item
-                name="receiverpostalCode"
-                rules={[{ required: true, message: "Postal code is required" }]}
-              >
-                <Input
-                  placeholder="Enter postal code"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
-                />
-              </Form.Item>
-            </div>
           </div>
 
           {/* PO# and Bill of Loading */}
-          <div className="grid grid-cols-1  md:gap-2 lg:gap-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-2 lg:gap-2 mb-5">
             <div>
               <Typography className="text-contact-input font-semibold text-start sm:mb-2">
-                Bill of Loading
+                Bill of Lading
               </Typography>
-              <Form.Item name="billOfLading">
-                <Input
-                  placeholder="Enter bill of loading"
-                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
-                />
-              </Form.Item>
+
+              <Input
+                defaultValue={shipperData?.billOfLading}
+                readOnly
+                placeholder="Enter bill of lading"
+                className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+              />
+            </div>
+            <div>
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                PO Number
+              </Typography>
+
+              <Input
+                defaultValue={shipperData?.poNumber}
+                readOnly
+                placeholder="Enter PO number"
+                className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+              />
             </div>
           </div>
 

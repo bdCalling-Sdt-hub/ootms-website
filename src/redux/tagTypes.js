@@ -16,5 +16,6 @@ export const tagTypesList = [
   tagTypes.truckDetails,
   tagTypes.currentShipment,
   tagTypes.allTruckDetails,
-  tagTypes.payment
+  tagTypes.payment,
+  tagTypes.subscribe,
 ];

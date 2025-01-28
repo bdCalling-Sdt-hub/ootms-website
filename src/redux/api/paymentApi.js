@@ -1,19 +1,26 @@
 import { tagTypes } from "@/redux/tagTypes";
 import { baseApi } from "./baseApi";
 
-
 // const paymentUrl = "/payment";
 
 const paymentApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createPayment: build.mutation({
-      query: ({ data, id }) => ({
-        url: `/my-subscriptions/${id}`,
+      query: (data) => ({
+        url: `/payment-requests/webhook`,
         method: "POST",
         body: data,
       }),
       invalidatesTags: [tagTypes.payment],
     }),
+    // createPayment: build.mutation({
+    //   query: ({ data, id }) => ({
+    //     url: `/my-subscriptions/${id}`,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    //   invalidatesTags: [tagTypes.payment],
+    // }),
 
     // getAllProduct: build.query({
     //   query: ({ page }) => ({

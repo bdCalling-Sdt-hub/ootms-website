@@ -101,8 +101,6 @@ export default function ReceiverFormGoogleMap({
 
         // Extract ZIP and postal code (if both exist)
         const zip = getAddressComponent(addressComponents, "postal_code") || "";
-        const postalCode =
-          getAddressComponent(addressComponents, "postal_code_suffix") || "";
 
         const formattedAddress = cleanFormattedAddress(
           data.results[0].formatted_address
@@ -112,7 +110,6 @@ export default function ReceiverFormGoogleMap({
           city,
           state,
           zip,
-          postalCode,
           fullAddress: formattedAddress,
         });
       } else {
@@ -120,7 +117,6 @@ export default function ReceiverFormGoogleMap({
           city: "",
           state: "",
           zip: "",
-          postalCode: "",
           fullAddress: "",
         });
       }
@@ -130,7 +126,6 @@ export default function ReceiverFormGoogleMap({
         city: "",
         state: "",
         zip: "",
-        postalCode: "",
         fullAddress: "",
       });
     }

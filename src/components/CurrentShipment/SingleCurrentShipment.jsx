@@ -9,6 +9,7 @@ import LeafletDeliveryMap from "../LeafletMap/LeafletDeliveryMap";
 import ReAssign from "./ReAssign";
 import CurrentShipmentChatMenu from "./CurrentShipmentChatMenu";
 import GoogleDeliveryMap from "../LeafletMap/GoogleDeliveryMap";
+import dayjs from "dayjs";
 
 const SingleCurrentShipment = () => {
   const params = useParams();
@@ -150,25 +151,11 @@ const SingleCurrentShipment = () => {
             <p className="text-2xl font-semibold">Load Information</p>
             <hr className="w-56 mb-4" />
             <div className="flex space-x-8">
-              <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
                   <p>{data?.data?.attributes[0]?.load?.loadType}</p>
                 </div>
-                <div>
-                  <p className="text-lg font-semibold">Weight: </p>
-                  <p>{data?.data?.attributes[0]?.load?.weight}</p>
-                </div>
-                <div>
-                  <p className="text-lg font-semibold">Pickup: </p>
-                  <p>
-                    {data?.data?.attributes[0]?.load?.shippingAddress},{" "}
-                    {data?.data?.attributes[0]?.load?.shippingCity},{" "}
-                    {data?.data?.attributes[0]?.load?.shippingState}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-4">
                 <div>
                   <p className="text-lg font-semibold">Trailer Size: </p>
                   <p>
@@ -177,6 +164,10 @@ const SingleCurrentShipment = () => {
                     {data?.data?.attributes[0]?.load?.palletSpace}
                     pallets.
                   </p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">Weight: </p>
+                  <p>{data?.data?.attributes[0]?.load?.weight}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">HazMat: </p>
@@ -194,12 +185,53 @@ const SingleCurrentShipment = () => {
                     : ""}
                 </div>
                 <div>
-                  <p className="text-lg font-semibold">Delivery: </p>
-                  <p>
-                    {data?.data?.attributes[0]?.load?.receivingAddress},{" "}
-                    {data?.data?.attributes[0]?.load?.receiverCity},{" "}
-                    {data?.data?.attributes[0]?.load?.receiverState}
+                  <p className="text-lg font-semibold mb-2">
+                    Pickup Date & Time:{" "}
                   </p>
+                  <p> {data?.data?.attributes[0]?.load?.pickupDate}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold mb-2">
+                    Delivery Date & Time:{" "}
+                  </p>
+                  <p> {data?.data?.attributes[0]?.load?.deliveryDate}</p>
+                </div>
+
+                <div>
+                  <p className="text-lg font-semibold mb-2">Pickup: </p>
+
+                  <div>
+                    <p>
+                      <span className="font-medium"> Address: </span>
+                      {data?.data?.attributes[0]?.load?.shippingAddress}
+                    </p>
+                    <p>
+                      <span className="font-medium">City: </span>
+                      {data?.data?.attributes[0]?.load?.shippingCity}
+                    </p>
+                    <p>
+                      <span className="font-medium">State: </span>{" "}
+                      {data?.data?.attributes[0]?.load?.shippingState}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-lg font-bold mb-2">Delivery: </p>
+                  <div>
+                    <p>
+                      <span className="font-medium"> Address: </span>
+                      {data?.data?.attributes[0]?.load?.receivingAddress}
+                    </p>
+                    <p>
+                      <span className="font-medium">City: </span>
+                      {data?.data?.attributes[0]?.load?.receiverCity}
+                    </p>
+                    <p>
+                      <span className="font-medium">State: </span>{" "}
+                      {data?.data?.attributes[0]?.load?.receiverState}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

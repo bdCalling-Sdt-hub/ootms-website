@@ -4,7 +4,7 @@ import { baseApi } from "./baseApi";
 const SubscriptionApi = baseApi.injectEndpoints({
   endpoints: (builds) => ({
     getSubscriptions: builds.query({
-      query: () => `/subscriptions`,
+      query: () => `/subscriptions/user`,
       providesTags: [tagTypes.subscribe],
     }),
   }),
