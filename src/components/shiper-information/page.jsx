@@ -2,7 +2,7 @@
 
 import ShipperFormGoogleMap from "@/helpers/GoogleMap/ShipperFormGoogleMap";
 import { useCreateLoadMutation } from "@/redux/api/loadApi";
-import { ConfigProvider, Modal, Select } from "antd";
+import { ConfigProvider, Modal, Select, TimePicker } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
@@ -10,14 +10,6 @@ import { useEffect, useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { toast } from "sonner";
 
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-const normFile = (e) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e?.fileList;
-};
 const ProductTypes = [
   "Pine Pulpwood",
   "Pine Mulch",
@@ -35,8 +27,7 @@ const ProductTypes = [
   "Cypress Mulch",
 ];
 const trailerTypes = [
-  "48 ft Dry Van",
-  "53 ft Dry Van",
+  "Dry Van",
   "Refrigerated (Reefer)",
   "Curtain-side",
   "Open Trailers",
@@ -178,13 +169,25 @@ const ShipperForm = ({
       values.Hazmat = values.Hazmat;
     }
 
+    const formattedValues = {
+      pickupDate: `${values.pickupDate.format(
+        "MM-DD-YYYY"
+      )}, ${values.pickupTime.format("hh:mm a")}`,
+      deliveryDate: `${values.deliveryDate.format(
+        "MM-DD-YYYY"
+      )}, ${values.deliveryTime.format("hh:mm a")}`,
+    };
+
     const data = {
       ...values,
       shipperLocation: {
         type: "Point",
         coordinates: [location.lng, location.lat],
       },
+      ...formattedValues,
     };
+
+    console.log("formattedValues", data);
 
     setShipperData(data);
     form.resetFields();
@@ -402,6 +405,27 @@ const ShipperForm = ({
             </div>
           </div>
 
+          {/* Trailer Size */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+            <div>
+              <Typography className="text-contact-input font-semibold  mb-2">
+                Trailer Size
+              </Typography>
+              <Form.Item
+                name="trailerSize"
+                rules={[
+                  { required: true, message: "Trailer Size is required" },
+                ]}
+              >
+                <Input
+                  type="number"
+                  placeholder="Enter Trailer Size"
+                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
+          </div>
+
           {/* weight */}
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
@@ -493,56 +517,96 @@ const ShipperForm = ({
             </div>
           </div>
 
-          {/* pick up and  delivery*/}
-          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
+          {/* PO# and Bill of Loading */}
+          <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-2 lg:gap-2">
             <div>
-              <Typography className="text-contact-input font-semibold  mb-2">
-                Pickup
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                Bill of Loading
               </Typography>
-              <Form.Item
-                name="pickupDate"
-                rules={[{ required: true, message: "Pickup is required" }]}
-              >
-                <DatePicker
-                  format="MM-DD-YYYY" // Define the format
-                  className="bg-shipper-input-bg  rounded-lg w-full"
-                  placeholder="MM-DD-YYYY"
+              <Form.Item name="billOfLading">
+                <Input
+                  placeholder="Enter bill of lading"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
             <div>
-              <Typography className="text-contact-input font-semibold  mb-2">
-                Delivery
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                PO# Number
               </Typography>
-              <Form.Item
-                name="deliveryDate"
-                rules={[{ required: true, message: "Delivery is required" }]}
-              >
-                <DatePicker
-                  format="MM-DD-YYYY" // Define the format
-                  className="bg-shipper-input-bg  rounded-lg w-full"
-                  placeholder="MM-DD-YYYY"
+              <Form.Item name="poNumber">
+                <Input
+                  placeholder="Enter PO# number"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
           </div>
 
-          {/* Trailer Size */}
-          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-2 lg:gap-2">
             <div>
-              <Typography className="text-contact-input font-semibold  mb-2">
-                Trailer Size
+              <Typography className="text-contact-input font-semibold mb-2">
+                Pickup Date
               </Typography>
               <Form.Item
-                name="trailerSize"
+                name="pickupDate"
+                rules={[{ required: true, message: "Pickup date is required" }]}
+              >
+                <DatePicker
+                  format="MM-DD-YYYY"
+                  className="bg-shipper-input-bg rounded-lg w-full"
+                  placeholder="MM-DD-YYYY"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <Typography className="text-contact-input font-semibold mb-2">
+                Pickup Time
+              </Typography>
+              <Form.Item
+                name="pickupTime"
+                rules={[{ required: true, message: "Pickup time is required" }]}
+              >
+                <TimePicker
+                  format="HH:mm" // Define the time format
+                  className="bg-shipper-input-bg rounded-lg w-full"
+                  use12Hours // Optional: for AM/PM format
+                  placeholder="Select time"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <Typography className="text-contact-input font-semibold mb-2">
+                Delivery Date
+              </Typography>
+              <Form.Item
+                name="deliveryDate"
                 rules={[
-                  { required: true, message: "Trailer Size is required" },
+                  { required: true, message: "Delivery date is required" },
                 ]}
               >
-                <Input
-                  type="number"
-                  placeholder="Enter Trailer Size"
-                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
+                <DatePicker
+                  format="MM-DD-YYYY"
+                  className="bg-shipper-input-bg rounded-lg w-full"
+                  placeholder="MM-DD-YYYY"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <Typography className="text-contact-input font-semibold mb-2">
+                Delivery Time
+              </Typography>
+              <Form.Item
+                name="deliveryTime"
+                rules={[
+                  { required: true, message: "Delivery time is required" },
+                ]}
+              >
+                <TimePicker
+                  format="HH:mm" // Define the time format
+                  className="bg-shipper-input-bg rounded-lg w-full"
+                  use12Hours // Optional: for AM/PM format
+                  placeholder="Select time"
                 />
               </Form.Item>
             </div>

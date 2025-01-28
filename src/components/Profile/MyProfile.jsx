@@ -20,7 +20,10 @@ const MyProfile = () => {
 
   let userImage;
 
-  if (myProfile?.data?.attributes?.userDetails?.isSocialLogin) {
+  if (
+    myProfile?.data?.attributes?.userDetails?.isSocialLogin &&
+    !myProfile?.data?.attributes?.userDetails?.image.startsWith("/upload")
+  ) {
     userImage = myProfile?.data?.attributes?.userDetails?.image;
   } else {
     userImage = `${url.replace(
