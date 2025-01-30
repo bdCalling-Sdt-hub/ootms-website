@@ -23,8 +23,6 @@ const EditProfile = () => {
   const router = useRouter();
   const [form] = Form.useForm();
 
-  // console.log("myProfile2", myProfile?.data?.attributes?.image);
-
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const imageUrl = getImageUrl(); // Base URL for images
@@ -34,13 +32,10 @@ const EditProfile = () => {
   const userImage = `${imageUrl.replace(/\/+$/, "")}/${userImagePath}`; // Remove trailing slashes from base URL
 
   const [uploadedImage, setUploadedImage] = useState(userImage);
-console.log(myProfile?.data?.attributes);
 
   useEffect(() => {
     setUploadedImage(userImage);
   }, [myProfile, userImage]);
-
-  // console.log("uploaded Image", userImage);
 
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
@@ -75,14 +70,8 @@ console.log(myProfile?.data?.attributes);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("address", data.address);
 
-    // console.log({ ...values, image: values.image });
     try {
       if (myProfile?.data?.attributes?.userDetails?.isComplete) {
-        console.log("edit", formData);
-        formData.forEach((value, key) => {
-          console.log(key, value);
-        });
-
         res = await editProfile(formData).unwrap();
       } else {
         if (myProfile?.data?.attributes?.userDetails?.role === "driver") {
@@ -108,23 +97,15 @@ console.log(myProfile?.data?.attributes);
         // Log FormData content
 
         res = await completeProfile(newData).unwrap();
-        console.log("complete edit", formData);
-        formData.forEach((value, key) => {
-          console.log(key, value);
-        });
       }
-      console.log("res: ", res);
-      
 
       toast.success(res?.message, {
         id: toastId,
         duration: 2000,
       });
 
-        router.push("/profile");
+      router.push("/profile");
     } catch (error) {
-      console.log(error);
-
       toast.error(
         error?.data?.message || "An error occurred during Update Profile",
         {
@@ -153,7 +134,7 @@ console.log(myProfile?.data?.attributes);
   //     ...prevData,
   //     [name]: value,
   //   }));
-  //   console.log(`${name}: ${value}`);
+
   // };
 
   if (isFetching || isLoading || loading) {
@@ -170,8 +151,6 @@ console.log(myProfile?.data?.attributes);
   //   uploadedImage !== AllImages.profile
   //     ? uploadedImage
   //     : myProfile?.data?.attributes?.image || AllImages.profile;
-
-  // console.log("imageToShow", imageToShow);
 
   return (
     <div>
@@ -222,8 +201,6 @@ console.log(myProfile?.data?.attributes);
                       ) : (
                         <Upload
                           customRequest={(options) => {
-                            console.log("File to upload:", options.file);
-
                             setTimeout(() => {
                               options.onSuccess("ok");
                             }, 1000);

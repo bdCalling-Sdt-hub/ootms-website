@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoMdStar } from "react-icons/io";
 import { AllImages } from "../../../public/assets/AllImages";
- 
 const Trucks = ({
   data,
   setOpen,
@@ -18,14 +17,14 @@ const Trucks = ({
     setOpen(true);
     setCurrentDriverModalData(data);
   };
- console.log("11111",data);
- 
+  console.log("11111", data);
+
   const columns = [
     {
       title: "Driver",
-      dataIndex: "driverName",
-      key: "driverName",
-      render: (text, record) => <div>{text}</div>,
+      dataIndex: "driverInfo",
+      key: "driverInfo",
+      render: (text, record) => <div>{record?.driverInfo?.driverName}</div>,
       responsive: ["xs", "sm"], // Display on extra small and small screens
     },
     {

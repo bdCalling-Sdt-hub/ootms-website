@@ -235,7 +235,7 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
     return (
       <GoogleMap
         center={userLocation}
-        zoom={12}
+        zoom={14}
         mapContainerStyle={{ height: "600px", width: "100%" }}
       >
         {/* User Location Marker */}
@@ -247,8 +247,15 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
             key={i}
             position={{ lat: marker.lat, lng: marker.lng }}
             icon={{
-              url: getMarkerImage(marker?.info?.truck), // Updated to dynamically choose the icon based on truck data
+              url:
+                marker?.info?.truck?.availablePalletSpace === 0
+                  ? markerImages.fullCapacity
+                  : marker?.info?.truck?.availablePalletSpace ===
+                    marker?.info?.truck?.palletSpace
+                  ? markerImages.noCapacity
+                  : markerImages.partialCapacity, // Updated to dynamically choose the icon based on truck data
               scaledSize: new window.google.maps.Size(60, 60),
+              rotation: 150,
             }}
             onClick={() => {
               setOpen(true); // Open the modal
@@ -266,7 +273,9 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
     isLoaded,
     userLocation,
     markerLocations,
-    getMarkerImage,
+    markerImages.fullCapacity,
+    markerImages.noCapacity,
+    markerImages.partialCapacity,
     setOpen,
     setCurrentDriverModalData,
   ]);

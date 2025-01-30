@@ -53,6 +53,14 @@ const loadRequestApi = baseApi.injectEndpoints({
       ),
       invalidatesTags: [tagTypes.loadRequest],
     }),
+    cancleLoadRequest: builder.mutation({
+      query: (data) => ({
+        url: `/loads-request/action`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.loadRequest],
+    }),
   }),
 });
 
@@ -63,4 +71,5 @@ export const {
   useGetAllTrucksQuery,
   useHandleAssignLoadRequestMutation,
   useReAssainLoadMutation,
+  useCancleLoadRequestMutation,
 } = loadRequestApi;

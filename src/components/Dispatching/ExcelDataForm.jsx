@@ -68,7 +68,6 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         receiverCity: "Anytown",
         receiverState: "Anystate",
         receiverZip: "12345",
-        receiverpostalCode: "12345",
         shipperName: "Jane Smith",
         shipperPhoneNumber: "987-654-3210",
         shipperEmail: "janesmith@example.com",
@@ -83,7 +82,8 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         productType: "Electronics",
         pickupDate: "01-15-2025",
         deliveryDate: "01-20-2025",
-        billOfLading: "123456789",
+        billOfLading: "sd123456789",
+        poNumber: "987654321",
         trailerSize: "15",
         "Hazmat (remove any item if you don't need to mention)":
           "Hazmat, Dangerous, Flammable Gas 2, Poson 6, Corrosive, Oxygen2, Flamable 3, Radioactive, Non-Flammable",
@@ -129,8 +129,11 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
                 updatedRow["Hazmat"] = row[key]
                   ? row[key].split(",").map((item) => item.trim())
                   : [];
-              }
-              else if (key === "receiver_latitude" && row[key] && row["receiver_longitude"]) {
+              } else if (
+                key === "receiver_latitude" &&
+                row[key] &&
+                row["receiver_longitude"]
+              ) {
                 // Add location field using Latitude and Longitude
                 updatedRow["receiverLocation"] = {
                   type: "Point",
@@ -139,8 +142,11 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
                     parseFloat(row["receiver_latitude"]), // Latitude second
                   ],
                 };
-              }
-              else if (key === "shipper_latitude" && row[key] && row["shipper_longitude"]) {
+              } else if (
+                key === "shipper_latitude" &&
+                row[key] &&
+                row["shipper_longitude"]
+              ) {
                 // Add location field using Latitude and Longitude
                 updatedRow["shipperLocation"] = {
                   type: "Point",
@@ -149,10 +155,7 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
                     parseFloat(row["shipper_longitude"]), // Longitude first
                   ],
                 };
-              }
-              
-              
-              else {
+              } else {
                 updatedRow[key] = row[key]; // Keep other columns as-is
               }
             });

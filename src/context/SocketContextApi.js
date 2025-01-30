@@ -14,7 +14,6 @@ export const SocketProvider = ({ children }) => {
 
   const socket = useMemo(() => {
     if (!token) {
-      console.warn("No token available. Socket initialization skipped.");
       return null;
     }
 

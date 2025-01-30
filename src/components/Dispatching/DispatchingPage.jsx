@@ -149,6 +149,7 @@ const DispatchingPage = () => {
   };
 
   const onAssignLoad = async (id2, id1) => {
+    console.log("load dibo vai", id1, id2);
     const toastId = toast.loading("Assigning Load...");
     // const load = JSON.parse(localStorage.getItem("loadId"));
     const data = [
@@ -280,7 +281,8 @@ const DispatchingPage = () => {
                     </div>
                     <div>
                       <p className="text-xl font-semibold">
-                        {currentDriverModalData?.driverName}
+                        {currentDriverModalData?.driverName ||
+                          currentDriverModalData?.driverInfo?.driverName}
                       </p>
                       {/* <p className="mt-1 text-lg flex items-center">
                   <span className="pr-2 mr-1 border-r border-[#474747] flex items-center">
@@ -308,7 +310,8 @@ const DispatchingPage = () => {
                       onClick={() =>
                         onAssignLoad(
                           currentDriverModalData?.driverId ||
-                            currentDriverModalData?.driver,
+                            currentDriverModalData?.driver ||
+                            currentDriverModalData?.driverInfo?.driverId,
                           dragData?._id
                         )
                       }
