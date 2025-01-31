@@ -7,8 +7,6 @@ import React from "react";
 import { toast } from "sonner";
 
 const AssignLoadForMultipleDriver = ({ loadId }) => {
-  console.log(loadId);
-
   const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
   const navigate = useRouter();
   const onFinish = async (values) => {
@@ -19,13 +17,8 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
       driver: values.driver,
     }));
 
-    // const jsonData = JSON.stringify(data);
-    // console.log(jsonData);
-    console.log("data", data);
-
     try {
       const res = await createLoadRequest(data).unwrap();
-      console.log(res);
 
       localStorage.removeItem("myXlLoad");
 
@@ -35,7 +28,6 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
       });
       navigate.push("/load-request?req=myRequest");
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message ||
           error?.error ||

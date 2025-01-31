@@ -13,14 +13,11 @@ const truck = {
 };
 
 const MyRequest = ({ data }) => {
-  // console.log(data);
-
   const url = getImageUrl();
   const img = `${url.replace(/\/+$/, "")}/${data?.driver?.image?.replace(
     /^\/+/,
     ""
   )}`;
-
 
   return (
     <Link href={`load-request/my-request/${data?.id}`}>
@@ -46,12 +43,6 @@ const MyRequest = ({ data }) => {
               {data?.load?.trailerSize}-foot trailer—{data?.load?.palletSpace}
               pallets
             </p>
-
-            {console.log(
-              "data single",
-              
-              data
-            )}
 
             {data?.availablePalletSpace > 5 && (
               <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">

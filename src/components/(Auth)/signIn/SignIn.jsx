@@ -48,7 +48,6 @@ const SignIn = () => {
   }, [navigate, token]);
   const onFinish = async (values) => {
     const toastId = toast.loading(" Logging in...");
-    console.log("user:", values);
 
     // navigate.push("/");
 
@@ -65,8 +64,6 @@ const SignIn = () => {
       cookies.set("ootms_accessToken", res?.data?.accessToken, {
         path: "/",
       });
-      console.log("res: ", res);
-
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
@@ -75,7 +72,6 @@ const SignIn = () => {
       navigate.push("/");
       navigate.refresh();
     } catch (error) {
-      console.error("Login Error:", error); // Log the error for debugging
       toast.error(
         error?.data?.message ||
           error?.error ||

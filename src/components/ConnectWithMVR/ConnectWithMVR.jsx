@@ -13,9 +13,7 @@ import {
 import Dragger from "antd/es/upload/Dragger";
 
 const ConnectWithMVR = () => {
-  const onFinish = (values) => {
-    // console.log("Connect With MVR Data:", values);
-  };
+  const onFinish = (values) => {};
   return (
     <div className="py-20">
       <Container>

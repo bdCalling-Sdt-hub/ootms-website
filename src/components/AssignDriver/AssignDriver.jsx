@@ -20,10 +20,9 @@ const AssignDiver = () => {
     ];
 
     const jsonData = JSON.stringify(data);
-    console.log(jsonData);
+
     try {
       const res = await createLoadRequest(data).unwrap();
-      console.log(res);
 
       toast.success(res.message, {
         id: toastId,
@@ -31,7 +30,6 @@ const AssignDiver = () => {
       });
       navigate.push("/load-request?req=myRequest");
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message ||
           error?.error ||

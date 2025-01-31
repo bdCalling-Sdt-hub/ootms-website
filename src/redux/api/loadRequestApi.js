@@ -43,14 +43,19 @@ const loadRequestApi = baseApi.injectEndpoints({
     }),
 
     reAssainLoad: builder.mutation({
-      query: ({ data, id }) => (
-        console.log("vai ami redux er bior theke bolci:", data, id),
-        {
-          url: `/loads-request/${id}`,
-          method: "POST",
-          body: data,
-        }
-      ),
+      query: ({ data, id }) => ({
+        url: `/loads-request/${id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [tagTypes.loadRequest],
+    }),
+    cancleLoadRequest: builder.mutation({
+      query: (data) => ({
+        url: `/loads-request/action`,
+        method: "PATCH",
+        body: data,
+      }),
       invalidatesTags: [tagTypes.loadRequest],
     }),
   }),
@@ -63,4 +68,5 @@ export const {
   useGetAllTrucksQuery,
   useHandleAssignLoadRequestMutation,
   useReAssainLoadMutation,
+  useCancleLoadRequestMutation,
 } = loadRequestApi;

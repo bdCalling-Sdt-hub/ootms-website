@@ -10,27 +10,25 @@ import { useState } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { toast } from "sonner";
 
-const ReAssign = (props) => {
+const ReAssign = ({ id, loadId, setIsOpen }) => {
   // const params = useParams();
   // const { myId, setMyId } = useState(params?.id);
   const router = useRouter();
-  const { setIsOpen, loadId, id } = props;
-  // console.log(id,id);
 
   const [reAssainLoad, { isLoading }] = useReAssainLoadMutation();
   const navigate = useRouter();
   const onFinish = async (values) => {
     const toastId = toast.loading("Re-Assigning Diver...");
 
-    const data = [{
-      load: loadId,
-      driver: values.driver,
-    }];
-    // console.log("data", data);
+    const data = [
+      {
+        load: loadId,
+        driver: values.driver,
+      },
+    ];
 
     try {
       const res = await reAssainLoad({ data: data, id: id }).unwrap();
-      console.log(res);
 
       toast.success(res.message, {
         id: toastId,
@@ -39,7 +37,6 @@ const ReAssign = (props) => {
 
       router.push("/load-request?req=myRequest");
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message ||
           error?.error ||

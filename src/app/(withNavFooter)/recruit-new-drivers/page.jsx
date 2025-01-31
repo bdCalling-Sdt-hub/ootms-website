@@ -3,9 +3,7 @@
 import { Form, Input, Typography } from "antd";
 
 const Recruit = () => {
-  const onFormLayoutChange = () => {
-    console.log("ok");
-  };
+  const onFormLayoutChange = () => {};
   return (
     <div className="mb-24 container w-[90%] lg:w-[70%] mx-auto lg:px-20">
       <h1 className="text-recruter-heading text-center text-3xl font-semibold my-16">

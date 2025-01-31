@@ -166,6 +166,14 @@ const SingleCurrentShipment = () => {
                   </p>
                 </div>
                 <div>
+                  <p className="text-lg font-semibold">Bill Of Lading: </p>
+                  <p>{data?.data?.attributes[0]?.load?.billOfLading}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">#PO Number: </p>
+                  <p>{data?.data?.attributes[0]?.load?.poNumber}</p>
+                </div>
+                <div>
                   <p className="text-lg font-semibold">Weight: </p>
                   <p>{data?.data?.attributes[0]?.load?.weight}</p>
                 </div>
@@ -175,7 +183,7 @@ const SingleCurrentShipment = () => {
                     ? data?.data?.attributes[0]?.load?.Hazmat?.map(
                         (value, i) => (
                           <span
-                            className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
+                            className=" bg-[#2B4257]/20 me-2 mb-2 inline-block rounded px-2 py-1"
                             key={i}
                           >
                             {value}{" "}

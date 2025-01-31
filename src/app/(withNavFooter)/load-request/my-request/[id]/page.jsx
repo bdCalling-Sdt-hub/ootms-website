@@ -1,21 +1,59 @@
 "use client";
 import ReAssign from "@/components/CurrentShipment/ReAssign";
 import Container from "@/components/ui/Container";
-import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
-import { Button } from "antd";
+import {
+  useCancleLoadRequestMutation,
+  useGetSingleLoadRequestQuery,
+} from "@/redux/api/loadRequestApi";
+import { Button, Modal } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { toast } from "sonner";
 
 const MyRequestId = () => {
   const params = useParams();
   const { data } = useGetSingleLoadRequestQuery(params?.id);
+  const [cancleLoadRequest] = useCancleLoadRequestMutation();
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log("data22222", data?.data?.attributes[0]?.load?._id);
-
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false); // Modal state
   const router = useRouter();
+
+  const loadId = data?.data?.attributes[0]?._id;
+
+  const handleCancelRequest = async () => {
+    const data = {
+      loadReqId: loadId,
+      action: "reject",
+    };
+    const toastId = toast.loading("Cancelling Load Request...");
+    try {
+      const res = await cancleLoadRequest(data).unwrap();
+
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      setIsCancelModalOpen(false); // Close modal after confirmation
+      router.push("/load-request?req=myRequest");
+    } catch (error) {
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+
+    // Redirect or trigger API call to cancel the request (replace with actual API call if needed)
+    // router.push("/dispatching"); // Example redirection after cancellation
+  };
+
+  console.log("data", data);
   return (
     <div className="py-20 bg-[#F3F3F3]">
       <Container>
@@ -159,6 +197,14 @@ const MyRequestId = () => {
                   </p>
                 </div>
                 <div>
+                  <p className="text-lg font-semibold">Bill Of Lading: </p>
+                  <p>{data?.data?.attributes[0]?.load?.billOfLading}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">#PO Number: </p>
+                  <p>{data?.data?.attributes[0]?.load?.poNumber}</p>
+                </div>
+                <div>
                   <p className="text-lg font-semibold">Weight: </p>
                   <p>{data?.data?.attributes[0]?.load?.weight}</p>
                 </div>
@@ -233,19 +279,56 @@ const MyRequestId = () => {
           </div>
 
           {/* Button to find a new driver */}
-          <div className="mt-8 text-center">
-            <Button
-              // onClick={() => router.push("/dispatching")}
-              onClick={() => setIsOpen(!isOpen)}
-              type="primary"
-              size="large"
-              className="bg-[#2B4257] px-4 rounded-lg"
-            >
-              Find A New Driver
-            </Button>
+          <div className="flex flex-col md:flex-row justify-center items-center gap-2">
+            <div className="mt-8 text-center">
+              <Button
+                type="primary"
+                size="large"
+                className="bg-transparent text-[#2B4257] border border-[#2B4257] px-4 rounded-lg"
+                onClick={() => setIsCancelModalOpen(true)} // Open confirmation modal
+              >
+                Cancel The Request
+              </Button>
+            </div>
+            <div className="mt-8 text-center">
+              <Button
+                // onClick={() => router.push("/dispatching")}
+                onClick={() => setIsOpen(!isOpen)}
+                type="primary"
+                size="large"
+                className="bg-[#2B4257] px-4 rounded-lg"
+              >
+                Find A New Driver
+              </Button>
+            </div>
           </div>
         </div>
       </Container>
+      <Modal
+        title="Confirm Cancellation"
+        open={isCancelModalOpen}
+        onOk={handleCancelRequest}
+        onCancel={() => setIsCancelModalOpen(false)}
+        okText="Yes, Cancel"
+        cancelText="No, Keep Request"
+        okButtonProps={{
+          style: {
+            backgroundColor: "#FF4D4F",
+            borderColor: "#FF4D4F",
+            color: "white",
+          }, // Red color for cancel
+        }}
+        cancelButtonProps={{
+          style: {
+            backgroundColor: "#2B4257",
+            borderColor: "#2B4257",
+            color: "white",
+          }, // Dark blue for keep request
+        }}
+      >
+        <p>Are you sure you want to cancel this load request?</p>
+      </Modal>
+
       {isOpen && (
         <ReAssign
           setIsOpen={setIsOpen}

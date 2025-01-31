@@ -39,7 +39,6 @@ const OtpVerification = () => {
       });
     } else {
       // Proceed with form submission logic
-      // console.log("OTP submitted:", otp);
       // navigate.push("/update-password");
 
       const data = {
@@ -49,7 +48,6 @@ const OtpVerification = () => {
 
       try {
         const res = await ForgetVerifiedEmail(data).unwrap();
-        console.log(res);
         toast.success("Email verified successfully", {
           id: toastId,
           duration: 2000,

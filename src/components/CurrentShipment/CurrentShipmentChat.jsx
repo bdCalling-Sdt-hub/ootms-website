@@ -60,10 +60,6 @@ const CurrentShipmentChat = ({
     }
   );
 
-  console.log("allMessages", allMessages);
-  console.log("selectedChat?.userId", selectedChat?.userId);
-  console.log("user", user);
-
   useEffect(() => {
     if (selectedChat?.chatId) {
       refetch();
@@ -75,7 +71,6 @@ const CurrentShipmentChat = ({
 
   const handleMessage = useCallback(
     (message) => {
-      console.log("message dise re ", message);
       dispatch(setChatMessages([...chatMessages, message]));
     },
     [chatMessages, dispatch]
@@ -89,10 +84,6 @@ const CurrentShipmentChat = ({
       dispatch(setOnlineUsers(online));
     });
     if (selectedChat && socket) {
-      console.log(
-        "======= new message received =====",
-        `${selectedChat?.chatId}`
-      );
       socket?.on(
         `new-message-received::${selectedChat?.chatId}`,
         handleMessage
@@ -115,7 +106,6 @@ const CurrentShipmentChat = ({
       text: values?.message,
     };
 
-    console.log("Send korci jaia dekh", data);
     try {
       socket.emit("send-new-message", data);
       form.resetFields();

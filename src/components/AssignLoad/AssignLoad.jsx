@@ -9,7 +9,6 @@ import Container from "../ui/Container";
 
 const AssignLoad = () => {
   let loadDataFromLocal = JSON.parse(localStorage.getItem("myXlLoad"));
-  // console.log("loadDataFromLocal", loadDataFromLocal);
 
   const [loadId, SetLoadId] = useState();
   const navigate = useRouter();
@@ -36,7 +35,6 @@ const AssignLoad = () => {
     SetLoadId(values.loads);
     showViewModal();
   };
-  // console.log("Selected loads:", loadId);
 
   return (
     <div className=" py-20">
@@ -58,7 +56,10 @@ const AssignLoad = () => {
                   {/* Load 1 */}
 
                   {loadDataFromLocal?.map((data, index) => (
-                    <div key={data?._id} className="flex items-center justify-between w-full">
+                    <div
+                      key={data?._id}
+                      className="flex items-center justify-between w-full"
+                    >
                       <Checkbox
                         value={`${data?._id}`}
                         className="text-3xl font-semibold"
@@ -116,7 +117,7 @@ const AssignLoad = () => {
                   navigate.push("/dispatching");
               }}
             >
-              No 
+              No
             </button>{" "}
             <button
               className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"

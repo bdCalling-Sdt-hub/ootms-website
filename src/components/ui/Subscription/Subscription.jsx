@@ -43,7 +43,6 @@ const Subscription = () => {
   const { data: plans, isFetching } = useGetSubscriptionsQuery();
   const ref = useRef(null);
   const isInView = useInView(ref);
-// console.log(plans);
 
   return (
     <div

@@ -232,3 +232,57 @@
             </Modal>
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      if (data?.data?.length) {
+        const locations = data.data
+          .map((driver) => {
+            const safeLocation = safeLatLng(
+              driver?.location?.coordinates[1], // Latitude
+              driver?.location?.coordinates[0] // Longitude
+            );
+            return (
+              safeLocation && {
+                id: driver._id, // Unique identifier for each marker
+                ...safeLocation,
+                fullName: driver.fullName,
+                distance: driver.distance,
+                address: driver.address,
+                phoneNumber: driver.phoneNumber,
+                image: driver.image,
+                email: driver.email,
+                ratings: driver.ratings,
+                info: driver, // Pass the entire driver object
+              }
+            );
+          })
+          .filter(Boolean); // Remove invalid markers
+        setMarkerLocations(locations);
+      }

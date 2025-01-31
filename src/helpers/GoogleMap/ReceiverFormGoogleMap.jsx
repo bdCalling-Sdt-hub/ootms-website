@@ -45,7 +45,6 @@ export default function ReceiverFormGoogleMap({
           fetchLocationDetails(latitude, longitude); // Fetch details of current location
         },
         (error) => {
-          console.error("Error getting location:", error);
           alert(
             "Could not fetch your location. Default location will be used."
           );
@@ -121,7 +120,6 @@ export default function ReceiverFormGoogleMap({
         });
       }
     } catch (error) {
-      console.error("Error fetching location details:", error);
       setLocationDetails({
         city: "",
         state: "",

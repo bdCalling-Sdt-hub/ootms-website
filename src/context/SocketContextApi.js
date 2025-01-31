@@ -14,7 +14,6 @@ export const SocketProvider = ({ children }) => {
 
   const socket = useMemo(() => {
     if (!token) {
-      console.warn("No token available. Socket initialization skipped.");
       return null;
     }
 
@@ -27,17 +26,14 @@ export const SocketProvider = ({ children }) => {
     });
 
     socketInstance.on("connect", () => {
-      console.log("Socket connected:", socketInstance.id);
       // toast.success("Connected to socket server");
     });
 
     socketInstance.on("disconnect", (reason) => {
-      console.warn("Socket disconnected:", reason);
       toast.error("Disconnected from socket server");
     });
 
     socketInstance.on("connect_error", (error) => {
-      console.error("Socket connection error:", error.message);
       toast.error(`Connection error: ${error.message}`);
     });
 
@@ -47,7 +43,6 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     return () => {
       if (socket && socket.connected) {
-        console.log("Disconnecting socket:", socket.id);
         socket.disconnect();
       }
     };

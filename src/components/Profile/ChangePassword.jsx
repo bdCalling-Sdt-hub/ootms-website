@@ -29,21 +29,16 @@ const ChangePassword = () => {
       userEmail: myProfile?.data?.attributes?.userDetails?.email,
     };
 
-    console.log(data);
     try {
       const res = await changePassword(data).unwrap();
-
-      console.log("res: ", res);
 
       toast.success(res?.message, {
         id: toastId,
         duration: 2000,
       });
 
-        router.push("/profile");
+      router.push("/profile");
     } catch (error) {
-      console.log(error);
-
       toast.error(
         error?.data?.message || "An error occurred during Change Password",
         {

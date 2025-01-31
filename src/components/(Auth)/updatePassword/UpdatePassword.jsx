@@ -27,14 +27,13 @@ const UpdatePassword = () => {
 
   const onFinish = async (values) => {
     const toastId = toast.loading("Updateing Password...");
-    console.log("passwords:", values);
+
     // navigate.push("/sign-in");
     const value = { email: email.email, password: values.password };
-    console.log(value);
 
     try {
       const res = await resetPassword(value).unwrap();
-      console.log(res);
+
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
@@ -50,7 +49,6 @@ const UpdatePassword = () => {
 
       router.push("/sign-in");
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message ||
           error?.message ||

@@ -13,7 +13,6 @@ const ContactUs = () => {
   const [form] = Form.useForm();
   const TextArea = Input.TextArea;
   const onFinish = async (values) => {
-    console.log("Connect With MVR Data:", values);
     const toastId = toast.loading("contact  details sending...");
     try {
       let data = {
@@ -21,11 +20,8 @@ const ContactUs = () => {
         fullName: values?.fullName,
         message: values?.message,
       };
-      console.log("data", data);
 
       const res = await createContract(data).unwrap();
-
-      console.log("res: ", res);
 
       toast.success(res?.message, {
         id: toastId,
@@ -33,7 +29,6 @@ const ContactUs = () => {
       });
       form.resetFields();
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message || "An error occurred during contact us",
         {

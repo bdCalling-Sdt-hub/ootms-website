@@ -47,11 +47,8 @@ const SignUpVerify = () => {
         otp: otp,
       };
 
-      console.log(data);
-
       try {
         const res = await verifiedEmail(data).unwrap();
-        console.log(res);
 
         toast.success("Login successful", {
           id: toastId,
@@ -69,7 +66,6 @@ const SignUpVerify = () => {
           localStorage.removeItem("ootms_createUserToken");
         }, 2000);
       } catch (error) {
-        console.log(error);
         toast.error(error?.data?.message || "An error occurred during login", {
           id: toastId,
           duration: 3000,

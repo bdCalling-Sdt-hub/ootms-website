@@ -21,7 +21,6 @@ const GoogleLogin = () => {
   // Handle the Google login after the session is set
   const handleGoogleClick = useCallback(async () => {
     if (!session?.user) {
-      console.error("No session found!");
       return;
     }
 
@@ -54,8 +53,6 @@ const GoogleLogin = () => {
       // Redirect user
       router.push("/"); // Redirect to home after successful login
     } catch (error) {
-      console.error("Login Error:", error);
-
       // Show error toast and dismiss the loading toast
       toast.error(
         error?.data?.message ||

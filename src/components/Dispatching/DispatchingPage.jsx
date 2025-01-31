@@ -71,11 +71,8 @@ const DispatchingPage = () => {
   const [dragData, setDragData] = useState(null);
   const [currentDriverModalData, setCurrentDriverModalData] = useState(null);
 
-  console.log("currentDriverModalData", currentDriverModalData);
-  // console.log("allTrucks", allTrucks);
-
   const handleDragEnd = (event, info) => {
-    const inputBox = inputRef.current.getBoundingClientRect();
+    const inputBox = inputRef.current?.getBoundingClientRect();
     // Check if the item was dropped within the bounds of Box 2
     if (
       info.point.x >= inputBox.left &&
@@ -94,8 +91,6 @@ const DispatchingPage = () => {
   const [reciverData, setReciverData] = useState(null);
   const [shipperData, setShipperData] = useState(null);
   const [driverId, setDriverId] = useState(null);
-
-  // console.log("shipperData", shipperData);
 
   const [open, setOpen] = useState(false);
 
@@ -157,14 +152,12 @@ const DispatchingPage = () => {
         driver: id2,
       },
     ];
-    console.log(data);
 
     try {
       if (id1 == null) {
         throw new Error("Please select load...");
       }
       const res = await createLoadRequest(data).unwrap();
-      console.log("res", res);
 
       toast.success(res.message, {
         id: toastId,
@@ -172,7 +165,6 @@ const DispatchingPage = () => {
       });
       router.push("/load-request?req=myRequest");
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message ||
           error?.message ||
@@ -185,7 +177,6 @@ const DispatchingPage = () => {
     }
   };
 
-  console.log("currentDriverModalData", currentDriverModalData);
   return (
     <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
       {/* {isFetching ? (
@@ -280,7 +271,8 @@ const DispatchingPage = () => {
                     </div>
                     <div>
                       <p className="text-xl font-semibold">
-                        {currentDriverModalData?.driverName}
+                        {currentDriverModalData?.driverName ||
+                          currentDriverModalData?.driverInfo?.driverName}
                       </p>
                       {/* <p className="mt-1 text-lg flex items-center">
                   <span className="pr-2 mr-1 border-r border-[#474747] flex items-center">
@@ -308,7 +300,8 @@ const DispatchingPage = () => {
                       onClick={() =>
                         onAssignLoad(
                           currentDriverModalData?.driverId ||
-                            currentDriverModalData?.driver,
+                            currentDriverModalData?.driver ||
+                            currentDriverModalData?.driverInfo?.driverId,
                           dragData?._id
                         )
                       }
@@ -391,7 +384,6 @@ const DispatchingPage = () => {
                             },
                           }}
                         >
-                          {console.log("dragData", dragData)}
                           <Table
                             columns={dragColumns}
                             dataSource={[dragData]}

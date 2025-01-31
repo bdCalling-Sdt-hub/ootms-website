@@ -29,8 +29,6 @@ function DragDropApp() {
     }
   };
 
-  console.log(dragData);
-
   return (
     <div
       style={{
