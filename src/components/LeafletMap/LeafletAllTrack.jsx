@@ -86,7 +86,6 @@ const LeafletAllTrack = ({ setOpen }) => {
           setMarkerLocations([marker1kmWest, marker2kmNorth, marker3kmSouth]);
         },
         (error) => {
-          console.error("Error fetching location:", error);
           alert("Unable to fetch location.");
         }
       );

@@ -99,7 +99,6 @@ const LeafletDeliveryMap = () => {
           setVehicleLocation(vehicleLoc);
         },
         (error) => {
-          console.error("Error fetching location:", error);
           alert("Unable to fetch location. Please enable location access.");
         }
       );

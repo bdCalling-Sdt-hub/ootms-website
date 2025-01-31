@@ -66,28 +66,6 @@ const CheckoutPage = ({ amount, id, setIsModalOpen }) => {
       // Payment succeeded! Extract the payment method ID
       const paymentMethodId = paymentIntent.payment_method;
 
-      // if (stripe) {
-      //   try {
-      //     // Retrieve the payment method details
-      //     const paymentMethod = await stripe.createPaymentMethod(
-      //       paymentMethodId
-      //     );
-      //     console.log("Payment Method Details:", paymentMethod);
-      //   } catch (error) {
-      //     console.error("Error retrieving payment method:", error);
-      //     toast.error("Failed to retrieve payment method details.", {
-      //       id: toastId,
-      //       duration: 2000,
-      //     });
-      //   }
-      // } else {
-      //   console.error("Stripe is not available.");
-      //   toast.error("Stripe API client is not initialized.", {
-      //     id: toastId,
-      //     duration: 2000,
-      //   });
-      // }
-
       const data = {
         paymentId: paymentIntent.id,
         paymentType: "Card",

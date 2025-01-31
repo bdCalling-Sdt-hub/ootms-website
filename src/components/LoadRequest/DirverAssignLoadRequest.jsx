@@ -18,8 +18,6 @@ const DirverAssignLoadRequest = ({ truck }) => {
     /^\/+/,
     ""
   )}`;
-  console.log("img", img);
-  
 
   const [isTruckModalVisible, setIsTruckModalVisible] = useState(false);
   const showModal = () => {
@@ -28,7 +26,6 @@ const DirverAssignLoadRequest = ({ truck }) => {
   const handleCancel = () => {
     setIsTruckModalVisible(false);
   };
-  // console.log("truck", truck);
 
   const onFinish = async (id, action) => {
     // navigate.push("/sign-in");
@@ -39,11 +36,8 @@ const DirverAssignLoadRequest = ({ truck }) => {
         loadReqId: id,
         action: action,
       };
-      console.log("data", data);
 
       const res = await handleAssignLoadRequest(data).unwrap();
-
-      console.log("res: ", res);
 
       toast.success(res?.message, {
         id: toastId,
@@ -53,7 +47,6 @@ const DirverAssignLoadRequest = ({ truck }) => {
         router.push("/current-shipment");
       }
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message || "An error occurred during Assign Load",
         {
@@ -63,15 +56,13 @@ const DirverAssignLoadRequest = ({ truck }) => {
       );
     }
   };
-  console.log("truck", truck);
-  
+
   return (
     <div>
       <div
         key={truck?.id}
         className="flex justify-center items-center gap-5 bg-white rounded-lg p-2 "
       >
-        {/* {console.log("my truck", truck)} */}
         <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
           <Image
             width={50}

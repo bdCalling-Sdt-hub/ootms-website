@@ -127,7 +127,7 @@
 
 // export default GoogleMapAllTrack;
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useGetNearestDriverForUserMutation } from "@/redux/api/loadApi";
 
@@ -136,70 +136,13 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
   const [userLocation, setUserLocation] = useState(null); // User's current location
   const [markerLocations, setMarkerLocations] = useState([]); // Driver markers
 
+  console.log("userLocation", userLocation);
+
   const markerImages = {
     fullCapacity: "/assets/images/redTruck.png", // when availablePalletSpace === palletSpace
     noCapacity: "/assets/images/greenTruck.png", // when availablePalletSpace === 0
     partialCapacity: "/assets/images/truck.png", // when availablePalletSpace is less than palletSpace and greater than 0
   };
-
-  function getMarkerImage(truck) {
-    console.log("truck", truck);
-    const { availablePalletSpace, palletSpace } = truck;
-
-    if (availablePalletSpace === 0) {
-      return markerImages.fullCapacity;
-    } else if (availablePalletSpace === palletSpace) {
-      return markerImages.noCapacity;
-    } else if (availablePalletSpace < palletSpace) {
-      return markerImages.partialCapacity;
-    }
-  }
-
-  console.log("markerLocations", markerLocations);
-
-  const safeLatLng = (lat, lng) =>
-    !isNaN(lat) && !isNaN(lng) ? { lat, lng } : null;
-
-  // Fetch nearby drivers from API
-  const getNearByDrivers = useCallback(async () => {
-    if (!userLocation) return;
-
-    try {
-      const { data } = await postUserLocation({
-        userLocation: [userLocation.lng, userLocation.lat],
-      });
-
-      console.log("From Server All Driver", data);
-
-      if (data?.data?.length) {
-        const locations = data.data
-          .map((driver) => {
-            const safeLocation = safeLatLng(
-              driver?.location?.coordinates[1], // Latitude
-              driver?.location?.coordinates[0] // Longitude
-            );
-            return (
-              safeLocation && {
-                id: driver._id, // Unique identifier for each marker
-                ...safeLocation,
-                fullName: driver.fullName,
-                distance: driver.distance,
-                address: driver.address,
-                phoneNumber: driver.phoneNumber,
-                image: driver.image,
-                email: driver.email,
-                ratings: driver.ratings,
-                info: driver, // Pass the entire driver object
-              }
-            );
-          })
-          .filter(Boolean); // Remove invalid markers
-        setMarkerLocations(locations);
-      }
-    } catch (error) {
-      console.error("Error fetching nearby drivers:", error);
-    }
-  }, [postUserLocation, userLocation]);
 
   // Fetch user location when the component mounts
   useEffect(() => {
@@ -210,7 +153,6 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
           setUserLocation({ lat: latitude, lng: longitude });
         },
         (error) => {
-          console.error("Error fetching location:", error);
           alert("Unable to fetch location.");
         }
       );
@@ -219,10 +161,41 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
     }
   }, []);
 
-  // Trigger nearby driver fetching when user location is set
+  // Fetch nearby drivers from API when userLocation changes
   useEffect(() => {
-    getNearByDrivers();
-  }, [getNearByDrivers]);
+    const fetchNearByDrivers = async () => {
+      if (!userLocation) return;
+
+      try {
+        const { data } = await postUserLocation({
+          userLocation: [userLocation.lng, userLocation.lat],
+        });
+
+        if (data?.data?.length) {
+          const locations = data.data
+            .map((driver) => ({
+              lat: driver.location.coordinates[1], // Latitude
+              lng: driver.location.coordinates[0], // Longitude
+              id: driver._id, // Unique identifier for each marker
+              fullName: driver.fullName,
+              distance: driver.distance,
+              address: driver.address,
+              phoneNumber: driver.phoneNumber,
+              image: driver.image,
+              email: driver.email,
+              ratings: driver.ratings,
+              info: driver, // Pass the entire driver object
+            }))
+            .filter(Boolean); // Remove invalid markers
+          setMarkerLocations(locations);
+        }
+      } catch (error) {
+        console.error("Failed to fetch nearby drivers", error);
+      }
+    };
+
+    fetchNearByDrivers();
+  }, [postUserLocation, userLocation]);
 
   // Load Google Maps API
   const { isLoaded } = useLoadScript({
@@ -248,22 +221,20 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
             position={{ lat: marker.lat, lng: marker.lng }}
             icon={{
               url:
-                marker?.info?.truck?.availablePalletSpace === 0
+                marker.info.truck.availablePalletSpace === 0
                   ? markerImages.fullCapacity
-                  : marker?.info?.truck?.availablePalletSpace ===
-                    marker?.info?.truck?.palletSpace
+                  : marker.info.truck.availablePalletSpace ===
+                    marker.info.truck.palletSpace
                   ? markerImages.noCapacity
-                  : markerImages.partialCapacity, // Updated to dynamically choose the icon based on truck data
+                  : markerImages.partialCapacity,
               scaledSize: new window.google.maps.Size(60, 60),
-              rotation: 150,
             }}
             onClick={() => {
-              setOpen(true); // Open the modal
-              console.log("Driver Info", marker);
+              setOpen(true);
               setCurrentDriverModalData({
-                ...marker.info?.truck,
+                ...marker.info.truck,
                 driverName: marker.fullName,
-              }); // Set the complete driver data
+              });
             }}
           />
         ))}

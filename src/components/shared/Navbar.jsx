@@ -40,8 +40,6 @@ const Navbar = () => {
     }
   }, [token]);
 
-  // console.log(userData);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);

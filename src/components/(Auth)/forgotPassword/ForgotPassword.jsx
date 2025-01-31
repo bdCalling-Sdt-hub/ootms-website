@@ -25,12 +25,10 @@ const ForgotPassword = () => {
 
   const onFinish = async (values) => {
     const toastId = toast.loading("Requesting...");
-    // console.log("Success:", values);
-    // navigate.push("/otp-verification");
 
     try {
       const res = await forgetPassword(values).unwrap();
-      console.log(res);
+
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
@@ -38,7 +36,6 @@ const ForgotPassword = () => {
       localStorage.setItem("ootms_forgetPasswordEmail", JSON.stringify(values));
       navigate.push("/sign-in/otp-verification");
     } catch (error) {
-      console.log(error);
       toast.error(error?.data?.message || "An error occurred during Login", {
         id: toastId,
         duration: 2000,

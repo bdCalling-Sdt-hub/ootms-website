@@ -30,8 +30,6 @@ const FormFile = ({
     fullAddress: "",
   });
 
-  console.log("locationDetails", locationDetails);
-
   const handleLocationSelect = (coordinates) => {
     setLocation(coordinates);
   };
@@ -81,15 +79,12 @@ const FormFile = ({
 
     form.resetFields();
 
-    console.log("Data:", { ...shipperData, ...revicer });
-
     try {
       const res = await createLoad([{ ...shipperData, ...revicer }]).unwrap();
       localStorage.setItem(
         "loadId",
         JSON.stringify(res.data.attributes[0]._id)
       );
-      console.log(res);
 
       toast.success("Load Added Successfully", {
         id: toastId,
@@ -99,7 +94,6 @@ const FormFile = ({
       handleOpenReciverFromCancel();
       showViewModal();
     } catch (error) {
-      console.log("error", error);
       toast.error(
         error?.data?.message ||
           error.message ||

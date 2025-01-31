@@ -13,11 +13,9 @@ const Trucks = ({
   setDragData,
 }) => {
   const showModal = (data) => {
-    console.log("Received data:", data);
     setOpen(true);
     setCurrentDriverModalData(data);
   };
-  console.log("11111", data);
 
   const columns = [
     {
@@ -66,7 +64,6 @@ const Trucks = ({
     },
   ];
 
-  // console.log("currentData", currentData);
   return (
     <div className="">
       <ConfigProvider

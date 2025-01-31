@@ -27,11 +27,8 @@ const FeedBack = () => {
         comment: values.feedback,
         rating: values.rating,
       };
-      console.log("data", data);
 
       const res = await createFeedback(data).unwrap();
-
-      console.log("res: ", res);
 
       toast.success(res?.message, {
         id: toastId,
@@ -40,7 +37,6 @@ const FeedBack = () => {
 
       setOpenFeedback(false);
     } catch (error) {
-      console.log(error);
       toast.error(error?.data?.message || "An error occurred during Feedback", {
         id: toastId,
         duration: 2000,

@@ -50,8 +50,6 @@ const SignUp = () => {
 
       const res = await signUp(data).unwrap();
 
-      console.log("res: ", res);
-
       localStorage.setItem("ootms_createUserToken", res?.data?.signUpToken);
 
       toast.success(res?.message, {
@@ -62,7 +60,6 @@ const SignUp = () => {
 
       router.push("/sign-up/verify");
     } catch (error) {
-      console.log(error);
       toast.error(error?.data?.message || "An error occurred during Signup", {
         id: toastId,
         duration: 2000,

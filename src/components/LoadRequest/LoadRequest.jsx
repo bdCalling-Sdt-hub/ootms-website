@@ -16,7 +16,7 @@ import {
 import MyRequest from "./MyRequest";
 import {
   useGetAllLoadRequestQuery,
-  useHandleAssignLoadRequestMutation
+  useHandleAssignLoadRequestMutation,
 } from "@/redux/api/loadRequestApi";
 import { toast } from "sonner";
 import DirverAssignLoadRequest from "./DirverAssignLoadRequest";
@@ -194,8 +194,6 @@ const LoadRequest = () => {
 
   // const [handleAssignLoadRequest] = useHandleAssignLoadRequestMutation();
 
-  console.log("allLoad", allLoad?.data?.attributes);
-
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -203,11 +201,10 @@ const LoadRequest = () => {
 
   // useEffect(() => {
   //   if (req) {
-  //     console.log("Query parameter 'req':", req);
+
   //     // You can use 'req' to fetch data or perform other actions
   //   }
   // }, [req]);
-
 
   useEffect(() => {
     const typeParam = searchParams.get("req");
@@ -233,9 +230,6 @@ const LoadRequest = () => {
   const handleCancelRequest = () => {
     setIsRequestModalVisible(false);
   };
-
-
-
 
   return (
     <div className="py-10 bg-[#F3F3F3]">

@@ -13,9 +13,6 @@ const MyProfile = () => {
   const { data: myProfile, isFetching } = useMyProfileQuery();
   const { data: myTruck, isFetching: loading } = useMytruckQuery();
 
-  // console.log("myProfile:", myProfile?.data?.attributes);
-  console.log("myTruck:", myTruck?.data?.attributes?.truck);
-  console.log("mytailer:", myTruck?.data?.attributes?.trailer);
   const url = getImageUrl();
 
   let userImage;
@@ -32,16 +29,13 @@ const MyProfile = () => {
     )}/${myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, "")}`;
   }
 
-  console.log("userName:", myProfile?.data?.attributes?.userDetails?.fullName);
-  console.log("userName:", myProfile?.data?.attributes);
-
   const router = useRouter();
   const { Dragger } = Upload;
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
 
   const onFinish = (values) => {
-    console.log("userUpdate:", values);
+    // console.log("userUpdate:", values);
   };
 
   const handleImageUpload = (info) => {
@@ -64,8 +58,6 @@ const MyProfile = () => {
   }
 
   // const isCompleted = false;
-  // console.log(myProfile?.data?.attributes?.isComplete );
-  // console.log("myProfile:", myProfile);
 
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
 
@@ -78,10 +70,6 @@ const MyProfile = () => {
       </div>
     );
   }
-  console.log(
-    "myProfile?.data?.attributes?.userDetails?.isSocialLogin",
-    myProfile?.data?.attributes?.userDetails?.isSocialLogin
-  );
 
   return (
     <div>
@@ -163,6 +151,7 @@ const MyProfile = () => {
                     className="text-white"
                   >
                     <Input
+                      readOnly
                       placeholder="Enter your fullName"
                       className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
                     />
@@ -186,6 +175,7 @@ const MyProfile = () => {
                     className="text-white"
                   >
                     <Input
+                      readOnly
                       placeholder="Enter your email"
                       className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
                     />
@@ -241,6 +231,7 @@ const MyProfile = () => {
                             className="text-white"
                           >
                             <Input
+                              readOnly
                               placeholder="Enter your Tax ID"
                               className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
                             />
@@ -268,6 +259,7 @@ const MyProfile = () => {
                             className="text-white"
                           >
                             <Input
+                              readOnly
                               placeholder="Enter your Truck Number"
                               className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
                             />
@@ -289,6 +281,7 @@ const MyProfile = () => {
                             className="text-white"
                           >
                             <Input
+                              readOnly
                               placeholder="Enter your CDL Number"
                               className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
                             />
@@ -310,6 +303,7 @@ const MyProfile = () => {
                             className="text-white"
                           >
                             <Input
+                              readOnly
                               placeholder="Enter your Trailer Size"
                               className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
                             />
@@ -331,6 +325,7 @@ const MyProfile = () => {
                             className="text-white"
                           >
                             <Input
+                              readOnly
                               placeholder="Enter your Pallet Space"
                               className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
                             />

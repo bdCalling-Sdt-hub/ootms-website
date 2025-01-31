@@ -21,9 +21,7 @@ const GoogleMapCompo = () => {
             lng: position.coords.longitude,
           });
         },
-        () => {
-          console.error("Error getting user's location");
-        }
+        () => {}
       );
     }
   }, []);

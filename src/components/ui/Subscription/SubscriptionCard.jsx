@@ -29,7 +29,7 @@ const SubscriptionCard = ({
       amount: plan?.price,
       subcriptionName: plan?.name,
     };
-    console.log("data", data);
+
     const toastId = toast.loading("Payment processing...");
     try {
       const res = await createPayment(data).unwrap();
@@ -41,7 +41,6 @@ const SubscriptionCard = ({
         window.location.href = res.data.attributes;
       }
     } catch (error) {
-      console.log(error);
       toast.error(error?.data?.message || "An error occurred during payment", {
         id: toastId,
         duration: 2000,

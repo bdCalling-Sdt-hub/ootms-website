@@ -152,8 +152,6 @@ const ShipperForm = ({
   };
 
   const onFinish = async (values) => {
-    console.log("values", values);
-
     // const toastId = toast.loading("Load Data Added...");
     if (
       !Array.isArray(values.Hazmat) ||
@@ -186,8 +184,6 @@ const ShipperForm = ({
       },
       ...formattedValues,
     };
-
-    console.log("formattedValues", data);
 
     setShipperData(data);
     form.resetFields();

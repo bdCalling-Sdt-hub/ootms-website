@@ -9,6 +9,7 @@ import {
   useLoadScript,
 } from "@react-google-maps/api";
 import { SocketContext } from "@/context/SocketContextApi";
+import { toast } from "sonner";
 
 const GoogleDeliveryMap = ({ data }) => {
   const { socket } = useContext(SocketContext);
@@ -42,7 +43,6 @@ const GoogleDeliveryMap = ({ data }) => {
 
     // Listen for vehicle location updates from the server
     socket.on("server_location", (data) => {
-      console.log("From Server Socket", data);
       setVehicleLocation({
         lat: Number(data?.lat),
         lng: Number(data?.lang),
@@ -66,10 +66,6 @@ const GoogleDeliveryMap = ({ data }) => {
       isNaN(vehicleLocation.lat) ||
       isNaN(vehicleLocation.lng)
     ) {
-      console.error("Invalid lat/lng values:", {
-        userLocation,
-        vehicleLocation,
-      });
       return;
     }
 
@@ -91,13 +87,11 @@ const GoogleDeliveryMap = ({ data }) => {
               }));
               setRoutePath(path);
             } else {
-              console.error("Directions API error:", status);
+              toast.error("Directions API error:", status);
             }
           }
         );
-      } catch (error) {
-        console.error("Error fetching route:", error);
-      }
+      } catch (error) {}
     };
 
     fetchRoute();

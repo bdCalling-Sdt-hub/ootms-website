@@ -55,7 +55,6 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
   const navigate = useRouter();
   const [form] = Form.useForm();
   const [excelData, setExcelData] = useState([]);
-  console.log(excelData);
 
   const downloadExcel = () => {
     // Example static data representing form responses
@@ -82,7 +81,7 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         productType: "Electronics",
         pickupDate: "01-15-2025",
         deliveryDate: "01-20-2025",
-        billOfLading: "sd123456789",
+        billOfLading: "mis123456789",
         poNumber: "987654321",
         trailerSize: "15",
         "Hazmat (remove any item if you don't need to mention)":
@@ -160,14 +159,12 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
               }
             });
 
-            console.log(updatedRow);
             return updatedRow;
           });
 
           // Validate data
           const validationErrors = validateExcelData(transformedData);
           if (validationErrors.length > 0) {
-            console.error("Validation Errors:", validationErrors);
             toast.error(
               `Missing fields in rows:\n${validationErrors
                 .map(
@@ -180,9 +177,7 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
           }
 
           setExcelData(transformedData);
-        } catch (error) {
-          console.error("Error reading Excel file:", error);
-        }
+        } catch (error) {}
       }
     }
   };
@@ -191,7 +186,7 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
     const toastId = toast.loading("Load Data Added...");
     try {
       const res = await createLoad(excelData).unwrap();
-      console.log(res);
+
       if (res?.data?.attributes) {
         const myXlLoad = res?.data?.attributes;
         localStorage.removeItem("myXlLoad");
@@ -207,7 +202,6 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         duration: 2000,
       });
     } catch (error) {
-      console.log("error", error);
       toast.error(
         error?.data?.message ||
           error.message ||

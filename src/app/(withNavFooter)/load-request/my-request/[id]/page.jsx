@@ -31,8 +31,6 @@ const MyRequestId = () => {
     try {
       const res = await cancleLoadRequest(data).unwrap();
 
-      console.log("cancle Korci", res);
-
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
@@ -40,7 +38,6 @@ const MyRequestId = () => {
       setIsCancelModalOpen(false); // Close modal after confirmation
       router.push("/load-request?req=myRequest");
     } catch (error) {
-      console.log(error);
       toast.error(
         error?.data?.message ||
           error?.error ||
@@ -51,7 +48,6 @@ const MyRequestId = () => {
         }
       );
     }
-    console.log("Load Request Canceled:", loadId);
 
     // Redirect or trigger API call to cancel the request (replace with actual API call if needed)
     // router.push("/dispatching"); // Example redirection after cancellation
@@ -199,6 +195,14 @@ const MyRequestId = () => {
                     {data?.data?.attributes[0]?.load?.palletSpace}
                     pallets.
                   </p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">Bill Of Lading: </p>
+                  <p>{data?.data?.attributes[0]?.load?.billOfLading}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">#PO Number: </p>
+                  <p>{data?.data?.attributes[0]?.load?.poNumber}</p>
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Weight: </p>
