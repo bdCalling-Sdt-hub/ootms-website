@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { signOut } from "next-auth/react";
 import { useMyProfileQuery } from "@/redux/api/authApi";
 import { getImageUrl } from "@/helpers/config/envConfig";
+import Cookies from "universal-cookie";
 
 const Navbar = () => {
   const path = usePathname();
@@ -25,6 +26,7 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const cookies = new Cookies();
 
   const { data: myProfile, isFetching } = useMyProfileQuery();
 
@@ -48,6 +50,10 @@ const Navbar = () => {
 
   // Use useEffect to handle client-side logic
   const token = useSelector((state) => state.auth.accessToken);
+
+  if (token) {
+    cookies.set("ootms_accessToken", token, { path: "/" });
+  }
 
   useEffect(() => {
     if (token) {
@@ -237,6 +243,7 @@ const Navbar = () => {
       <Button
         onClick={() => {
           dispatch(clearAuth());
+          cookies.remove("ootms_accessToken", { path: "/" });
           toast.success("Sign out successfully!");
           signOut();
         }}
@@ -263,8 +270,8 @@ const Navbar = () => {
             <div className="hidden lg:flex lg:justify-center space-x-4">
               {menu.map((item, index) => (
                 <Link href={item.link} key={index}>
-                  <Button
-                    className={`flex flex-col items-center justify-center px-2 py-0 gap-0 cursor-pointer capitalize border-none font-medium xl:text-lg duration-200 hover:scale-110 shadow-none ${
+                  <button
+                    className={`flex !ring-0 !outline-0 !focus:ring-0 flex-col items-center justify-center px-2 py-0 gap-0 cursor-pointer capitalize border-none font-semibold xl:text-lg  duration-200 hover:scale-110 shadow-none ${
                       item.link === path
                         ? " text-cyan-600 rounded"
                         : "text-base-color "
@@ -276,7 +283,7 @@ const Navbar = () => {
                     onClick={() => select(index)}
                   >
                     <p className="mb-0">{item.name}</p>
-                  </Button>
+                  </button>
                 </Link>
               ))}
             </div>

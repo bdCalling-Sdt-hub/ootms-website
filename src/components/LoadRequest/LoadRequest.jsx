@@ -222,14 +222,19 @@ const LoadRequest = () => {
     setIsTruckModalVisible(false);
   };
   const [isRequestModalVisible, setIsRequestModalVisible] = useState(false);
+  const [currentData, setCurrentData] = useState(null);
 
-  const showModalRequest = () => {
+  const showModalRequest = (data) => {
+    setCurrentData(data);
     setIsRequestModalVisible(true);
   };
 
   const handleCancelRequest = () => {
+    setCurrentData(null);
     setIsRequestModalVisible(false);
   };
+
+  console.log("currentData", currentData?.load);
 
   return (
     <div className="py-10 bg-[#F3F3F3]">
@@ -261,10 +266,22 @@ const LoadRequest = () => {
           {/* Content  */}
           {tab === "loadRequest" ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10 ">
-                {allLoad?.data?.attributes?.loadRequests?.map((truck) => (
-                  <DirverAssignLoadRequest key={truck?.id} truck={truck} />
-                ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10 min-h-[50vh]">
+                {allLoad?.data?.attributes?.loadRequests?.length > 0 ? (
+                  allLoad?.data?.attributes?.loadRequests?.map((truck) => (
+                    <DirverAssignLoadRequest
+                      key={truck?.id}
+                      showModalRequest={showModalRequest}
+                      truck={truck}
+                    />
+                  ))
+                ) : (
+                  <div className="flex justify-center items-center md:col-span-2 lg:col-span-3 ">
+                    <h1 className="text-2xl font-semibold">
+                      No Load Request Found
+                    </h1>
+                  </div>
+                )}
               </div>
               <div className="flex justify-center my-2">
                 <ConfigProvider
@@ -278,24 +295,34 @@ const LoadRequest = () => {
                     },
                   }}
                 >
-                  <Pagination
-                    showSizeChanger={false}
-                    align="center"
-                    onChange={(page) => setPage(page)}
-                    pageSize={9}
-                    current={page}
-                    total={allLoad?.data?.attributes?.pagination?.totalResults}
-                  />
+                  {allLoad?.data?.attributes?.loadRequests?.length > 0 && (
+                    <Pagination
+                      showSizeChanger={false}
+                      align="center"
+                      onChange={(page) => setPage(page)}
+                      pageSize={9}
+                      current={page}
+                      total={
+                        allLoad?.data?.attributes?.pagination?.totalResults
+                      }
+                    />
+                  )}
                 </ConfigProvider>
               </div>
             </>
           ) : (
             <>
-              <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 ">
-                {allLoad?.data?.attributes?.loadRequests?.map(
-                  (truck, index) => (
-                    <MyRequest key={index} data={truck} />
+              <div className="p-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3 min-h-[50vh]">
+                {allLoad?.data?.attributes?.loadRequests?.length > 0 ? (
+                  allLoad?.data?.attributes?.loadRequests?.map(
+                    (truck, index) => <MyRequest key={index} data={truck} />
                   )
+                ) : (
+                  <div className="flex justify-center items-center md:col-span-2 lg:col-span-3">
+                    <h1 className="text-2xl font-semibold">
+                      No Load Request Found
+                    </h1>
+                  </div>
                 )}
               </div>
 
@@ -311,13 +338,17 @@ const LoadRequest = () => {
                     },
                   }}
                 >
-                  <Pagination
-                    showSizeChanger={false}
-                    onChange={(page) => setPage(page)}
-                    pageSize={9}
-                    current={page}
-                    total={allLoad?.data?.attributes?.pagination?.totalResults}
-                  />
+                  {allLoad?.data?.attributes?.loadRequests?.length > 0 && (
+                    <Pagination
+                      showSizeChanger={false}
+                      onChange={(page) => setPage(page)}
+                      pageSize={9}
+                      current={page}
+                      total={
+                        allLoad?.data?.attributes?.pagination?.totalResults
+                      }
+                    />
+                  )}
                 </ConfigProvider>
               </div>
             </>
@@ -332,22 +363,12 @@ const LoadRequest = () => {
             },
           },
         }}
-      ></ConfigProvider>
-      <ConfigProvider
-        theme={{
-          components: {
-            Modal: {
-              borderRadiusLG: 20,
-            },
-          },
-        }}
       >
         <Modal
           visible={isRequestModalVisible}
           onCancel={handleCancelRequest}
           footer={null}
-          centered
-          width={800}
+          width={1000}
         >
           <div className="p-5">
             <div className="md:flex justify-between gap-10">
@@ -356,58 +377,69 @@ const LoadRequest = () => {
                 <p className="text-2xl font-semibold">Driver’s Information</p>
                 <hr className="w-56 mb-4" />
                 <div className="flex flex-col gap-x-5 gap-2 mt-2">
-                  <div className="md:flex justify-between">
+                  <div className="lg:flex justify-between">
                     <div>
                       <p className="text-lg font-semibold">Driver Name: </p>
                       <div className="flex items-center gap-2">
-                        <p>
+                        {/* <p>
                           <FaStar className="text-yellow-400" />
                         </p>
-                        <p>4.5</p>
-                        <p>NRShakib</p>
+                        <p>4.5</p> */}
+                        <p>{currentData?.driver?.fullName}</p>
                       </div>
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Driver Phone: </p>
-                      <p>123-456-789</p>
+                      <p>{currentData?.driver?.phoneNumber}</p>
                     </div>
                   </div>
-                  <div className="md:flex justify-between">
+                  <div className="lg:flex justify-between">
                     <div>
                       <p className="text-lg font-semibold">Driver Email: </p>
-                      <p>example@gmail.com</p>
+                      <p>{currentData?.driver?.email}</p>
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Driver Address: </p>
-                      <p>Rupatoli, Barishal.</p>
+                      <p>{currentData?.driver?.address}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Truck Information */}
-              <div className="w-full flex flex-col">
+              <div className="w-full flex flex-col mt-5 md:mt-0">
                 <p className="text-2xl font-semibold">Truck Information</p>
                 <hr className="w-56 mb-4" />
                 <div className="flex flex-col gap-5 mt-2">
-                  <div className="flex justify-between">
+                  <div className="lg:flex justify-between">
                     <div>
                       <p className="text-lg font-semibold">Truck Number: </p>
-                      <p>DHK METRO HA 64-8549</p>
+                      <p>{currentData?.truck?.truckNumber}</p>
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Trailer Size: </p>
-                      <p>48-foot trailer.</p>
+                      <p>{currentData?.truck?.trailerSize}-foot trailer.</p>
                     </div>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="lg:flex justify-between">
                     <div>
                       <p className="text-lg font-semibold">Pallet Spaces: </p>
-                      <p>24 pallets.</p>
+                      <p>{currentData?.truck?.palletSpace} pallets.</p>
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Availability: </p>
-                      <p>Fully Available.</p>
+                      <p>
+                        {currentData?.truck?.availablePalletSpace > 5 && (
+                          <p>The truck is fully available.</p>
+                        )}
+                        {currentData?.truck?.availablePalletSpace === 0 && (
+                          <p>The truck is fully loaded.</p>
+                        )}
+                        {currentData?.truck?.availablePalletSpace > 0 &&
+                          currentData?.truck?.availablePalletSpace <= 5 && (
+                            <p>The truck has low pallet space.</p>
+                          )}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -418,48 +450,96 @@ const LoadRequest = () => {
               {/* Load Information */}
               <p className="text-2xl font-semibold">Load Information</p>
               <hr className="w-56 mb-4" />
-              <div className="flex space-x-8">
-                <div className="flex flex-col gap-4">
+              <div className="grid lg:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-lg font-semibold">Load Type: </p>
+                  <p>{currentData?.load?.loadType}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">Trailer Size: </p>
+                  <p>
+                    {currentData?.load?.trailerSize}
+                    -foot trailer—
+                    {currentData?.load?.palletSpace}
+                    pallets.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">Bill Of Lading: </p>
+                  <p>{currentData?.load?.billOfLading}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">#PO Number: </p>
+                  <p>{currentData?.load?.poNumber}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">Weight: </p>
+                  <p>{currentData?.load?.weight}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold">HazMat: </p>
+                  {currentData?.load?.Hazmat
+                    ? currentData?.load?.Hazmat?.map((value, i) => (
+                        <span
+                          className=" bg-[#2B4257]/20 me-2 mb-2 inline-block rounded px-2 py-1"
+                          key={i}
+                        >
+                          {value}{" "}
+                        </span>
+                      ))
+                    : ""}
+                </div>
+
+                <div>
+                  <p className="text-lg font-semibold mb-2">
+                    Pickup Date & Time:{" "}
+                  </p>
+                  <p> {currentData?.load?.pickupDate}</p>
+                </div>
+                <div>
+                  <p className="text-lg font-semibold mb-2">
+                    Delivery Date & Time:{" "}
+                  </p>
+                  <p> {currentData?.load?.deliveryDate}</p>
+                </div>
+
+                <div>
+                  <p className="text-lg font-semibold mb-2">Pickup: </p>
+
                   <div>
-                    <p className="text-lg font-semibold">Load Type: </p>
-                    <p>Dry Load</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-semibold">Weight: </p>
-                    <p>120 kg</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-semibold">Pickup: </p>
-                    <p>12-12-2024, Rupatoli, Barishal.</p>
+                    <p>
+                      <span className="font-medium"> Address: </span>
+                      {currentData?.load?.shippingAddress}
+                    </p>
+                    <p>
+                      <span className="font-medium">City: </span>
+                      {currentData?.load?.shippingCity}
+                    </p>
+                    <p>
+                      <span className="font-medium">State: </span>{" "}
+                      {currentData?.load?.shippingState}
+                    </p>
                   </div>
                 </div>
-                <div className="flex flex-col gap-4">
+
+                <div>
+                  <p className="text-lg font-bold mb-2">Delivery: </p>
                   <div>
-                    <p className="text-lg font-semibold">Trailer Size: </p>
-                    <p>48-foot trailer—24 pallets.</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-semibold">HazMat: </p>
-                    <p>Flammable Gas 2, Corrosive, Danger.</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-semibold">Delivery: </p>
-                    <p>13-12-2024, Banasree, Dhaka.</p>
+                    <p>
+                      <span className="font-medium"> Address: </span>
+                      {currentData?.load?.receivingAddress}
+                    </p>
+                    <p>
+                      <span className="font-medium">City: </span>
+                      {currentData?.load?.receiverCity}
+                    </p>
+                    <p>
+                      <span className="font-medium">State: </span>{" "}
+                      {currentData?.load?.receiverState}
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Button to find a new driver */}
-            <div className="mt-8 text-center">
-              <Button
-                onClick={() => router.push("/dispatching")}
-                type="primary"
-                size="large"
-                className="bg-[#2B4257] px-4 rounded-lg"
-              >
-                Find A New Driver
-              </Button>
             </div>
           </div>
         </Modal>

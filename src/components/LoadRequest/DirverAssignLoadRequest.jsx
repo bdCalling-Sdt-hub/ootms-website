@@ -10,7 +10,7 @@ import { BiSolidMessageSquareDetail } from "react-icons/bi";
 import { getImageUrl } from "@/helpers/config/envConfig";
 import Image from "next/image";
 
-const DirverAssignLoadRequest = ({ truck }) => {
+const DirverAssignLoadRequest = ({ truck, showModalRequest }) => {
   const router = useRouter();
   const [handleAssignLoadRequest] = useHandleAssignLoadRequestMutation();
   const url = getImageUrl();
@@ -28,101 +28,124 @@ const DirverAssignLoadRequest = ({ truck }) => {
   };
 
   const onFinish = async (id, action) => {
-    // navigate.push("/sign-in");
-    const toastId = toast.loading("Load Request...");
+    if (action === "reject") {
+      Modal.confirm({
+        title: "Are you sure you want to reject this load?",
+        content: "Rejecting the load cannot be undone.",
+        okText: "Yes, Reject it",
+        okType: "danger",
+        cancelText: "No, Cancel",
+        okButtonProps: {
+          style: {
+            backgroundColor: "#ff4d4f", // Red color for the reject button
+            borderColor: "#ff4d4f",
+            color: "white",
+          },
+        },
+        onOk: () => handleReject(id),
+        onCancel() {
+          console.log("Cancel operation");
+        },
+      });
+    }
+  };
 
+  const handleReject = async (id) => {
+    const toastId = toast.loading("Rejecting Load...");
     try {
       let data = {
         loadReqId: id,
-        action: action,
+        action: "reject",
       };
 
       const res = await handleAssignLoadRequest(data).unwrap();
 
-      toast.success(res?.message, {
+      toast.success(res.message, {
         id: toastId,
         duration: 2000,
       });
-      if (action === "accept") {
-        router.push("/current-shipment");
-      }
+      // Add any additional actions after rejection
     } catch (error) {
-      toast.error(
-        error?.data?.message || "An error occurred during Assign Load",
-        {
-          id: toastId,
-          duration: 2000,
-        }
-      );
+      toast.error(error.message, {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 
   return (
     <div>
-      <div
-        key={truck?.id}
-        className="flex justify-center items-center gap-5 bg-white rounded-lg p-2 "
-      >
-        <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
-          <Image
-            width={50}
-            height={50}
-            src={img}
-            alt="user"
-            className="w-16 h-16 rounded-full"
-          />
-        </div>
-        <div>
-          <h1 className="text-xl font-bold mb-1">{truck?.driver?.fullName}</h1>
-          <p className="text-lg text-gray-500">
-            {truck?.load?.trailerSize}-foot trailer—
-            {truck?.load?.palletSpace}
-            pallets
-          </p>
+      <div className="bg-white rounded-lg p-2 ">
+        <div
+          onClick={() => showModalRequest(truck)}
+          key={truck?.id}
+          className="flex justify-center items-center gap-5 cursor-pointer "
+        >
+          <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
+            <Image
+              width={50}
+              height={50}
+              src={img}
+              alt="user"
+              className="w-16 h-16 rounded-full"
+            />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold mb-1">
+              {truck?.driver?.fullName}
+            </h1>
+            <p className="text-lg text-gray-500">
+              {truck?.load?.trailerSize}-foot trailer—
+              {truck?.load?.palletSpace}
+              pallets
+            </p>
 
-          {truck?.availablePalletSpace > 5 && (
-            <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
-              <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
-                <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
-              </div>
-              <p>The truck is fully available.</p>
-            </div>
-          )}
-          {truck?.availablePalletSpace === 0 && (
-            <div className="text-lg font-semibold mb-1 flex items-center justify-center gap-x-2 ">
-              <div className="w-fit p-1 rounded-full bg-[#e2a2a2] flex justify-center items-center ">
-                <span className="w-3 h-3 rounded-full bg-[#ba7a7a]"></span>
-              </div>
-              <p className=" flex justify-center">The truck is fully loaded.</p>
-            </div>
-          )}
-          {truck?.availablePalletSpace > 0 &&
-            truck?.availablePalletSpace <= 5 && (
+            {truck?.availablePalletSpace > 5 && (
               <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
-                <div className="w-fit p-1 rounded-full bg-[#e1e2a2] flex justify-center items-center">
-                  <span className="w-3 h-3 rounded-full bg-[#bab67a]"></span>
+                <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
+                  <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
                 </div>
-                <p>The truck has low pallet space.</p>
+                <p>The truck is fully available.</p>
               </div>
             )}
+            {truck?.availablePalletSpace === 0 && (
+              <div className="text-lg font-semibold mb-1 flex items-center justify-center gap-x-2 ">
+                <div className="w-fit p-1 rounded-full bg-[#e2a2a2] flex justify-center items-center ">
+                  <span className="w-3 h-3 rounded-full bg-[#ba7a7a]"></span>
+                </div>
+                <p className=" flex justify-center">
+                  The truck is fully loaded.
+                </p>
+              </div>
+            )}
+            {truck?.availablePalletSpace > 0 &&
+              truck?.availablePalletSpace <= 5 && (
+                <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                  <div className="w-fit p-1 rounded-full bg-[#e1e2a2] flex justify-center items-center">
+                    <span className="w-3 h-3 rounded-full bg-[#bab67a]"></span>
+                  </div>
+                  <p>The truck has low pallet space.</p>
+                </div>
+              )}
 
-          {/* Assign And Cancle  */}
-          <div className=" flex justify-center items-center gap-5 mt-1">
-            <Button
-              onClick={() => {
-                onFinish(truck?.id, "reject");
-              }}
-              className="!bg-[#DDDDDD] w-full py-2 rounded font-semibold !text-black border border-[#2B4257]"
-            >
-              Reject Load
-            </Button>
-            <Button
-              onClick={showModal}
-              className="!bg-[#2B4257] w-full py-2 rounded font-semibold !text-white border border-[#2B4257]"
-            >
-              Assign Load
-            </Button>
+            {/* Assign And Cancle  */}
           </div>
+        </div>
+        <div className=" flex justify-center items-center gap-5 mt-1 w-[90%] mx-auto">
+          <Button
+            onClick={() => {
+              onFinish(truck?.id, "reject");
+            }}
+            className="!bg-[#DDDDDD] w-full py-2 rounded font-semibold !text-black border border-[#2B4257]"
+          >
+            Reject Load
+          </Button>
+          <Button
+            onClick={showModal}
+            className="!bg-[#2B4257] w-full py-2 rounded font-semibold !text-white border border-[#2B4257]"
+          >
+            Assign Load
+          </Button>
         </div>
       </div>
       <Modal

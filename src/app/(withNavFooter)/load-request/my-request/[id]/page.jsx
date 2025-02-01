@@ -102,11 +102,11 @@ const MyRequestId = () => {
             </div>
 
             {/* Truck Information */}
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col mt-10">
               <p className="text-2xl font-semibold">Truck Information</p>
               <hr className="w-56 mb-4" />
               <div className="flex flex-col gap-5 mt-2">
-                <div className="flex justify-between">
+                <div className="lg:flex justify-between">
                   <div>
                     <p className="text-lg font-semibold">Truck Number: </p>
                     <p>{data?.data?.attributes[0]?.truck?.truckNumber}</p>
@@ -119,7 +119,7 @@ const MyRequestId = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="lg:flex justify-between">
                   <div>
                     <p className="text-lg font-semibold">Pallet Spaces: </p>
                     <p>
@@ -147,12 +147,12 @@ const MyRequestId = () => {
             </div>
           </div>
 
-          <div className="md:mt-10">
+          <div className="mt-10">
             <h2 className="text-xl font-semibold mb-4">
               Reciver&#39;s Information
             </h2>
             <hr className="my-6 border-[#9D9D9D] opacity-60" />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid lg:grid-cols-2 gap-4">
               <div>
                 <p className="font-semibold">Reciver Name</p>
 
@@ -177,12 +177,12 @@ const MyRequestId = () => {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-10">
             {/* Load Information */}
             <p className="text-2xl font-semibold">Load Information</p>
             <hr className="w-56 mb-4" />
             <div className="flex space-x-8">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid lg:grid-cols-2 gap-4">
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
                   <p>{data?.data?.attributes[0]?.load?.loadType}</p>
