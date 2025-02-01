@@ -214,7 +214,7 @@ const MyRequestId = () => {
                     ? data?.data?.attributes[0]?.load?.Hazmat?.map(
                         (value, i) => (
                           <span
-                            className=" bg-[#2B4257]/20 me-2 rounded px-2 py-1"
+                            className=" bg-[#2B4257]/20 me-2 mb-2 inline-block rounded px-2 py-1"
                             key={i}
                           >
                             {value}{" "}

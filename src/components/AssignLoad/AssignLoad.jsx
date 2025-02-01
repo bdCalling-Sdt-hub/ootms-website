@@ -10,6 +10,8 @@ import Container from "../ui/Container";
 const AssignLoad = () => {
   let loadDataFromLocal = JSON.parse(localStorage.getItem("myXlLoad"));
 
+  console.log("loadDataFromLocal", loadDataFromLocal[0]);
+
   const [loadId, SetLoadId] = useState();
   const navigate = useRouter();
   const [openAddDriverIdModal, setOpenAddDriverIdModal] = useState(false);
@@ -73,11 +75,11 @@ const AssignLoad = () => {
                       <div className="ml-6 text-2xl">
                         <p className="flex items-center">
                           <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
-                          <span>Rupatoli, Barishal</span>
+                          <span>{data?.shippingAddress}</span>
                         </p>
                         <p className="flex items-center">
                           <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
-                          <span>Banasree, Dhaka</span>
+                          <span>{data?.receivingAddress}</span>
                         </p>
                       </div>
                     </div>
@@ -137,7 +139,7 @@ const AssignLoad = () => {
         footer={null}
         centered
         style={{ textAlign: "center" }}
-        className="lg:min-w-[800px]"
+        className="lg:min-w-[800px] mt-20"
       >
         <AssignLoadForMultipleDriver loadId={loadId} />
       </Modal>

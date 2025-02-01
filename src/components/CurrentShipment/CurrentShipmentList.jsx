@@ -4,39 +4,62 @@ import React, { useMemo, useState } from "react";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
 import { PiArrowSquareDownLight, PiArrowSquareUpLight } from "react-icons/pi";
-import { ConfigProvider, Input, Pagination } from "antd";
+import { ConfigProvider, Form, Input, Pagination } from "antd";
 import { FaTruckFront } from "react-icons/fa6";
 import Link from "next/link";
 import { useGetCurrentShipmentQuery } from "@/redux/api/currentShipmentApi";
 
 const CurrentShipmentList = () => {
   const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  console.log(searchTerm);
+
+  const handleSearch = (values) => {
+    setSearchTerm(values.search);
+    // Your logic to handle the search
+  };
+
+  // const debounceSearch = debounce((value) => {
+  //   setSearchTerm(value);
+  // }, 500);
+
+  // function debounce(func, wait) {
+  //   let timeout;
+  //   return function (...args) {
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(() => func.apply(this, args), wait);
+  //   };
+  // }
   const { data: currentShipment, isFetching } = useGetCurrentShipmentQuery({
     page,
+    searchTerm,
   });
 
-  const [searchText, setSearchText] = useState("");
-  //* Use to set user
-
-  const onSearch = (value) => {
-    setSearchText(value);
-  };
   return (
     <div className="min-h-[100vh] py-20">
       <Container>
         <div className="flex justify-between items-center gap-5 mb-10">
-          <Input
-            value={searchText}
-            onChange={(e) => onSearch(e.target.value)}
-            prefix={<FaTruckFront className="w-8 h-8 mr-2" />}
-            suffix={
-              <div className="w-fit px-4 py-2 bg-[#2B4257] text-lg text-primary-color rounded-full cursor-pointer">
-                Track
-              </div>
-            }
-            placeholder="Enter bill of lading number"
-            className="w-full border-[#DDDDDD] h-14 rounded-3xl"
-          />
+          <Form onFinish={handleSearch} className="w-full">
+            <Form.Item name="search" className="w-full">
+              <Input
+                type="text"
+                value={searchTerm}
+                prefix={
+                  <FaTruckFront className="w-8 h-8 mr-2 text-[#2B4257]" />
+                }
+                suffix={
+                  <button
+                    type="submit"
+                    className="w-fit px-4 py-2 bg-[#2B4257] text-lg text-primary-color rounded-full cursor-pointer"
+                  >
+                    Search Load
+                  </button>
+                }
+                placeholder="Enter bill of lading number"
+                className="w-full border-[#DDDDDD] h-14 rounded-3xl"
+              />
+            </Form.Item>
+          </Form>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {currentShipment?.data?.attributes?.loadRequests?.map((truck) => (

@@ -12,6 +12,8 @@ import { decodedToken } from "@/utils/jwt";
 import { clearAuth } from "@/redux/slices/authSlice";
 import { toast } from "sonner";
 import { signOut } from "next-auth/react";
+import { useMyProfileQuery } from "@/redux/api/authApi";
+import { getImageUrl } from "@/helpers/config/envConfig";
 
 const Navbar = () => {
   const path = usePathname();
@@ -23,6 +25,24 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const { data: myProfile, isFetching } = useMyProfileQuery();
+
+  const url = getImageUrl();
+
+  let userImage;
+
+  if (
+    myProfile?.data?.attributes?.userDetails?.isSocialLogin &&
+    !myProfile?.data?.attributes?.userDetails?.image.startsWith("/upload")
+  ) {
+    userImage = myProfile?.data?.attributes?.userDetails?.image;
+  } else {
+    userImage = `${url.replace(
+      /\/+$/,
+      ""
+    )}/${myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, "")}`;
+  }
 
   const [userData, setUserData] = useState(null);
 
@@ -98,21 +118,29 @@ const Navbar = () => {
   ];
   const AfterLoginMenu = [
     {
-      name: "Dispatching",
-      link: "/dispatching",
+      name: "Home",
+      link: "/",
     },
     {
-      name: "Current Shipment",
-      link: "/current-shipment",
+      name: "About App",
+      link: "/about-app",
+    },
+    {
+      name: "Dispatching",
+      link: "/dispatching",
     },
     {
       name: "Load Request",
       link: "/load-request",
     },
     {
-      name: "Recruit New Drivers",
-      link: "/recruit-new-drivers",
+      name: "Current Shipment",
+      link: "/current-shipment",
     },
+    // {
+    //   name: "Recruit New Drivers",
+    //   link: "/recruit-new-drivers",
+    // },
   ];
 
   const menu = userData ? AfterLoginMenu : beforeLoginMenu;
@@ -269,12 +297,12 @@ const Navbar = () => {
                     placement="bottomCenter"
                   >
                     <Image
-                      src={AllImages.profile}
+                      src={userImage ? userImage : AllImages.profile}
                       alt="profile_img"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px]"
+                      className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px] rounded-full cursor-pointer border border-[#2B4257]"
                     />
                   </Dropdown>
                 </ConfigProvider>
@@ -313,7 +341,7 @@ const Navbar = () => {
                   placement="bottomCenter"
                 >
                   <Image
-                    src={AllImages.profile}
+                    src={userImage ? userImage : AllImages.profile}
                     alt="profile_img"
                     width={0}
                     height={0}
