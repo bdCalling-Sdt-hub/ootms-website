@@ -60,6 +60,8 @@ const CurrentShipmentChat = ({
     }
   );
 
+  console.log("selectedChat", selectedChat);
+
   useEffect(() => {
     if (selectedChat?.chatId) {
       refetch();
@@ -78,6 +80,7 @@ const CurrentShipmentChat = ({
 
   useEffect(() => {
     const roomId = selectedChat?.chatId?.toString();
+    console.log("roomId", roomId);
     socket?.emit("join", roomId);
 
     socket?.on("online-users-updated", (online) => {

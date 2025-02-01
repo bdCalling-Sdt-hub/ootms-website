@@ -72,10 +72,12 @@ const SingleCurrentShipment = () => {
 
             {/* Truck Information */}
             <div className="w-full flex flex-col">
-              <p className="text-2xl font-semibold">Truck Information</p>
+              <p className="text-2xl font-semibold mt-10 md:mt-0">
+                Truck Information
+              </p>
               <hr className="w-56 mb-4" />
               <div className="flex flex-col gap-5 mt-2">
-                <div className="flex justify-between">
+                <div className="flex flex-col md:flex-row justify-between">
                   <div>
                     <p className="text-lg font-semibold">Truck Number: </p>
                     <p>{data?.data?.attributes[0]?.truck?.truckNumber}</p>
@@ -88,7 +90,7 @@ const SingleCurrentShipment = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col md:flex-row justify-between">
                   <div>
                     <p className="text-lg font-semibold">Pallet Spaces: </p>
                     <p>
@@ -117,11 +119,11 @@ const SingleCurrentShipment = () => {
           </div>
 
           <div className="md:mt-10">
-            <h2 className="text-xl font-semibold mb-4">
+            <h2 className="text-xl font-semibold mt-10 md:mt-0 mb-4">
               Reciver&#39;s Information
             </h2>
             <hr className="my-6 border-[#9D9D9D] opacity-60" />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="font-semibold">Reciver Name</p>
 
@@ -146,12 +148,12 @@ const SingleCurrentShipment = () => {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-10">
             {/* Load Information */}
             <p className="text-2xl font-semibold">Load Information</p>
             <hr className="w-56 mb-4" />
             <div className="flex space-x-8">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-lg font-semibold">Load Type: </p>
                   <p>{data?.data?.attributes[0]?.load?.loadType}</p>
@@ -245,7 +247,7 @@ const SingleCurrentShipment = () => {
             </div>
           </div>
 
-          <div className="flex gap-4 justify-center py-10 mt-10">
+          <div className="flex flex-col md:flex-row gap-4 justify-center py-10 mt-10">
             <button
               onClick={() => setOpen(!open)}
               className=" bg-[#BDC4CB] lg:px-44 md:px-10 px-8  text-gray-800 py-3 font-semibold  rounded flex items-center justify-center"

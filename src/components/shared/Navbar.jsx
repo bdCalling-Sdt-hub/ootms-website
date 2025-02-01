@@ -12,6 +12,9 @@ import { decodedToken } from "@/utils/jwt";
 import { clearAuth } from "@/redux/slices/authSlice";
 import { toast } from "sonner";
 import { signOut } from "next-auth/react";
+import { useMyProfileQuery } from "@/redux/api/authApi";
+import { getImageUrl } from "@/helpers/config/envConfig";
+import Cookies from "universal-cookie";
 
 const Navbar = () => {
   const path = usePathname();
@@ -23,11 +26,34 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const cookies = new Cookies();
+
+  const { data: myProfile, isFetching } = useMyProfileQuery();
+
+  const url = getImageUrl();
+
+  let userImage;
+
+  if (
+    myProfile?.data?.attributes?.userDetails?.isSocialLogin &&
+    !myProfile?.data?.attributes?.userDetails?.image.startsWith("/upload")
+  ) {
+    userImage = myProfile?.data?.attributes?.userDetails?.image;
+  } else {
+    userImage = `${url.replace(
+      /\/+$/,
+      ""
+    )}/${myProfile?.data?.attributes?.userDetails?.image?.replace(/^\/+/, "")}`;
+  }
 
   const [userData, setUserData] = useState(null);
 
   // Use useEffect to handle client-side logic
   const token = useSelector((state) => state.auth.accessToken);
+
+  if (token) {
+    cookies.set("ootms_accessToken", token, { path: "/" });
+  }
 
   useEffect(() => {
     if (token) {
@@ -98,21 +124,29 @@ const Navbar = () => {
   ];
   const AfterLoginMenu = [
     {
-      name: "Dispatching",
-      link: "/dispatching",
+      name: "Home",
+      link: "/",
     },
     {
-      name: "Current Shipment",
-      link: "/current-shipment",
+      name: "About App",
+      link: "/about-app",
+    },
+    {
+      name: "Dispatching",
+      link: "/dispatching",
     },
     {
       name: "Load Request",
       link: "/load-request",
     },
     {
-      name: "Recruit New Drivers",
-      link: "/recruit-new-drivers",
+      name: "Current Shipment",
+      link: "/current-shipment",
     },
+    // {
+    //   name: "Recruit New Drivers",
+    //   link: "/recruit-new-drivers",
+    // },
   ];
 
   const menu = userData ? AfterLoginMenu : beforeLoginMenu;
@@ -209,6 +243,7 @@ const Navbar = () => {
       <Button
         onClick={() => {
           dispatch(clearAuth());
+          cookies.remove("ootms_accessToken", { path: "/" });
           toast.success("Sign out successfully!");
           signOut();
         }}
@@ -235,8 +270,8 @@ const Navbar = () => {
             <div className="hidden lg:flex lg:justify-center space-x-4">
               {menu.map((item, index) => (
                 <Link href={item.link} key={index}>
-                  <Button
-                    className={`flex flex-col items-center justify-center px-2 py-0 gap-0 cursor-pointer capitalize border-none font-medium xl:text-lg duration-200 hover:scale-110 shadow-none ${
+                  <button
+                    className={`flex !ring-0 !outline-0 !focus:ring-0 flex-col items-center justify-center px-2 py-0 gap-0 cursor-pointer capitalize border-none font-semibold xl:text-lg  duration-200 hover:scale-110 shadow-none ${
                       item.link === path
                         ? " text-cyan-600 rounded"
                         : "text-base-color "
@@ -248,7 +283,7 @@ const Navbar = () => {
                     onClick={() => select(index)}
                   >
                     <p className="mb-0">{item.name}</p>
-                  </Button>
+                  </button>
                 </Link>
               ))}
             </div>
@@ -269,12 +304,12 @@ const Navbar = () => {
                     placement="bottomCenter"
                   >
                     <Image
-                      src={AllImages.profile}
+                      src={userImage ? userImage : AllImages.profile}
                       alt="profile_img"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px]"
+                      className="xl:h-[35px] h-[30px] w-[30px] xl:w-[35px] rounded-full cursor-pointer border border-[#2B4257]"
                     />
                   </Dropdown>
                 </ConfigProvider>
@@ -313,7 +348,7 @@ const Navbar = () => {
                   placement="bottomCenter"
                 >
                   <Image
-                    src={AllImages.profile}
+                    src={userImage ? userImage : AllImages.profile}
                     alt="profile_img"
                     width={0}
                     height={0}

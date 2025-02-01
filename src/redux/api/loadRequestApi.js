@@ -48,7 +48,7 @@ const loadRequestApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [tagTypes.loadRequest],
+      invalidatesTags: [tagTypes.loadRequest, tagTypes.currentShipment],
     }),
     cancleLoadRequest: builder.mutation({
       query: (data) => ({

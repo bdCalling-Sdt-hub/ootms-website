@@ -1,9 +1,20 @@
 "use client";
+import { useGetAllPendingLoadsQuery } from "@/redux/api/loadApi";
 import {
   useCreateLoadRequestMutation,
   useReAssainLoadMutation,
 } from "@/redux/api/loadRequestApi";
-import { Button, Form, Input, Typography } from "antd";
+import { useGetPreferredDriverQuery } from "@/redux/api/preferredDiver";
+import {
+  Button,
+  ConfigProvider,
+  Form,
+  Input,
+  Pagination,
+  Radio,
+  Table,
+  Typography,
+} from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,13 +22,84 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { toast } from "sonner";
 
 const ReAssign = ({ id, loadId, setIsOpen }) => {
-  // const params = useParams();
-  // const { myId, setMyId } = useState(params?.id);
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit, setLimit] = useState(3);
+
+  const columns = [
+    {
+      title: "Driver",
+      dataIndex: "fullName",
+      key: "fullName",
+      responsive: ["xs", "sm"], // Display on extra small and small screens
+    },
+    {
+      title: "Truck Number",
+      dataIndex: "truckNumber",
+      key: "truckNumber",
+      responsive: ["xs", "sm"], // Display on small and medium screens and above
+    },
+    {
+      title: "Pallet Spaces",
+      dataIndex: "palletSpace",
+      key: "palletSpace",
+      responsive: ["xs", "sm"], // Display on medium screens and above
+    },
+    {
+      title: "Weight",
+      dataIndex: "weight",
+      key: "weight",
+      responsive: ["xs", "sm"], // Display on medium and large screens
+    },
+    {
+      title: "Trailer Size",
+      dataIndex: "trailerSize",
+      key: "trailerSize",
+      responsive: ["xs", "sm"], // Display only on large screens
+    },
+    {
+      title: "Availability",
+      dataIndex: "availability",
+      key: "availability",
+      responsive: ["xs", "sm"],
+      render: (text, record) => <div>Available</div>, // Display on large and extra large screens
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
+      responsive: ["xs", "sm"], // Display on small screens and above
+    },
+  ];
+
+  const handleSearch = (e) => {
+    debounceSearch(e.target.value);
+  };
+
+  const debounceSearch = debounce((value) => {
+    setSearchTerm(value);
+    setPage(1);
+    setLimit(3);
+  }, 500);
+
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+  const { data: preferredDriver } = useGetPreferredDriverQuery({
+    page,
+    searchTerm,
+    limit,
+  });
+
   const router = useRouter();
 
-  const [reAssainLoad, { isLoading }] = useReAssainLoadMutation();
-  const navigate = useRouter();
+  const [reAssainLoad] = useReAssainLoadMutation();
   const onFinish = async (values) => {
+    console.log(values);
     const toastId = toast.loading("Re-Assigning Diver...");
 
     const data = [
@@ -26,6 +108,8 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
         driver: values.driver,
       },
     ];
+
+    console.log(data);
 
     try {
       const res = await reAssainLoad({ data: data, id: id }).unwrap();
@@ -50,11 +134,11 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
   };
 
   return (
-    <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-4 rounded shadow-md w-1/2">
-        <div className="px-10 pt-10 relative">
+    <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center mt-20 bg-black bg-opacity-50">
+      <div className="bg-white p-4 rounded shadow-md w-fit overflow-y-auto">
+        <div className="px-2 py-2 sm:px-5  lg:px-10 sm:py-5  lg:pt-10 relative">
           <p className="text-2xl text-center font-semibold">
-            Give your preferred Driver Id
+            Give your driver phone number
           </p>
           <p
             onClick={() => setIsOpen()}
@@ -72,24 +156,85 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
               level={4}
               style={{ color: "#222222" }}
             >
-              Driver ID
+              Driver Phone Number
             </Typography.Title>
-            <Form.Item
-              name="driver"
-              className="text-base-color"
-              rules={[
-                {
-                  required: true,
-                  message: "Driver ID is Required",
-                },
-              ]}
+
+            <Input
+              type="text"
+              onChange={handleSearch}
+              placeholder="Enter your Driver Phone Number"
+              className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+            />
+
+            <Typography.Title
+              className="mt-10"
+              level={4}
+              style={{ color: "#222222" }}
             >
-              <Input
-                type="text"
-                placeholder="Enter your Driver ID"
-                className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
-              />
-            </Form.Item>
+              Select a Driver
+            </Typography.Title>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Table: {
+                    padding: 10,
+                    margin: 10,
+                    cellFontSize: 12,
+                    headerBg: "rgb(189,196,222)",
+                  },
+                },
+              }}
+            >
+              <Form.Item name="driver">
+                <Radio.Group className="grid grid-cols-1 gap-3 overflow-x-hidden ">
+                  {preferredDriver?.data?.attributes?.results?.map((driver) => (
+                    <Radio
+                      className=" overflow-x-auto"
+                      value={driver._id}
+                      key={driver._id}
+                    >
+                      <div className="cursor-pointer  flex flex-col gap-5  overflow-x-auto overflow-y-clip">
+                        <Table
+                          columns={columns}
+                          dataSource={[driver]}
+                          pagination={false}
+                          bordered
+                          style={{ maxWidth: "100%", overflowX: "auto" }}
+                          scroll={{ x: "100%" }} // Ensure the table can scroll to show all content
+                        />
+                      </div>
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              </Form.Item>
+            </ConfigProvider>
+            <div className="flex justify-center  mt-2">
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Pagination: {
+                      itemActiveBg: "#2b4257",
+                      colorPrimary: "#F3F3F3",
+                      colorPrimaryHover: "#F3F3F3",
+                    },
+                  },
+                }}
+              >
+                {preferredDriver?.data?.attributes?.pagination?.totalResults >
+                  3 && (
+                  <Pagination
+                    onChange={(page) => setPage(page)}
+                    pageSize={3}
+                    current={page}
+                    total={
+                      preferredDriver?.data?.attributes?.pagination
+                        ?.totalResults
+                    }
+                  />
+                )}
+              </ConfigProvider>
+            </div>
+
             <Form.Item>
               <button
                 className="w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8"
