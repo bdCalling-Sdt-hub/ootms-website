@@ -34,9 +34,7 @@ const MyProfile = () => {
   const [isOnlyView, setIsOnlyView] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(AllImages.profile);
 
-  const onFinish = (values) => {
-    // console.log("userUpdate:", values);
-  };
+  const onFinish = (values) => {};
 
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
