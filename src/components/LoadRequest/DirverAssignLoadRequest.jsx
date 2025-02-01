@@ -43,9 +43,7 @@ const DirverAssignLoadRequest = ({ truck, showModalRequest }) => {
           },
         },
         onOk: () => handleReject(id),
-        onCancel() {
-          console.log("Cancel operation");
-        },
+        onCancel() {},
       });
     }
   };

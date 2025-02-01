@@ -99,7 +99,6 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
 
   const [reAssainLoad] = useReAssainLoadMutation();
   const onFinish = async (values) => {
-    console.log(values);
     const toastId = toast.loading("Re-Assigning Diver...");
 
     const data = [
@@ -108,8 +107,6 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
         driver: values.driver,
       },
     ];
-
-    console.log(data);
 
     try {
       const res = await reAssainLoad({ data: data, id: id }).unwrap();

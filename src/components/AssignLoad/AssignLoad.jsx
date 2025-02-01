@@ -10,8 +10,6 @@ import Container from "../ui/Container";
 const AssignLoad = () => {
   let loadDataFromLocal = JSON.parse(localStorage.getItem("myXlLoad"));
 
-  console.log("loadDataFromLocal", loadDataFromLocal[0]);
-
   const [loadId, SetLoadId] = useState();
   const navigate = useRouter();
   const [openAddDriverIdModal, setOpenAddDriverIdModal] = useState(false);
