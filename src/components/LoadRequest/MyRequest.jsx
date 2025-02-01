@@ -13,7 +13,6 @@ const truck = {
 };
 
 const MyRequest = ({ data }) => {
-  console.log(data);
   const url = getImageUrl();
   const img = `${url.replace(/\/+$/, "")}/${data?.driver?.image?.replace(
     /^\/+/,

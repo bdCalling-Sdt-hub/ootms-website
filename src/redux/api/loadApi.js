@@ -14,7 +14,8 @@ const loadApi = baseApi.injectEndpoints({
 
     getAllPendingLoads: build.query({
       query: ({ allLoadsPage, searchTerm }) => ({
-        url: `/loads?page=${allLoadsPage}&limit=2&searchTerm=${searchTerm}`,
+        // url: `/loads?page=${allLoadsPage}&limit=2&searchTerm=${searchTerm}`,
+        url: `/loads/pending_shipment?page=${allLoadsPage}&limit=2&searchTerm=${searchTerm}`,
         method: "GET",
       }),
       providesTags: [tagTypes.load],

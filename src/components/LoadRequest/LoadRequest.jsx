@@ -234,8 +234,6 @@ const LoadRequest = () => {
     setIsRequestModalVisible(false);
   };
 
-  console.log("currentData", currentData?.load);
-
   return (
     <div className="py-10 bg-[#F3F3F3]">
       <Container>

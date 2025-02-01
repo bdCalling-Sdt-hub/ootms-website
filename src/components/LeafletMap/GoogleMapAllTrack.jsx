@@ -136,8 +136,6 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
   const [userLocation, setUserLocation] = useState(null); // User's current location
   const [markerLocations, setMarkerLocations] = useState([]); // Driver markers
 
-  console.log("userLocation", userLocation);
-
   const markerImages = {
     fullCapacity: "/assets/images/redTruck.png", // when availablePalletSpace === palletSpace
     noCapacity: "/assets/images/greenTruck.png", // when availablePalletSpace === 0
@@ -189,9 +187,7 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
             .filter(Boolean); // Remove invalid markers
           setMarkerLocations(locations);
         }
-      } catch (error) {
-        console.error("Failed to fetch nearby drivers", error);
-      }
+      } catch (error) {}
     };
 
     fetchNearByDrivers();

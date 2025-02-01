@@ -81,7 +81,7 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         productType: "Electronics",
         pickupDate: "01-15-2025",
         deliveryDate: "01-20-2025",
-        billOfLading: "gggfdgsdfgdfis123456789",
+        billOfLading: "grrggfdgsdfgdfis",
         poNumber: "987654321",
         trailerSize: "15",
         "Hazmat (remove any item if you don't need to mention)":

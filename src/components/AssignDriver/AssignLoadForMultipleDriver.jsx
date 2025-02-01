@@ -92,7 +92,6 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
   const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
   const navigate = useRouter();
   const onFinish = async (values) => {
-    console.log(values);
     const toastId = toast.loading("Assigning Diver...");
 
     const data = loadId?.map((loadData) => ({

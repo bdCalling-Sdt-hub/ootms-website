@@ -18,7 +18,6 @@ export async function middleware(request) {
 
     const role = decodedData?.role;
 
-    console.log("role:", role);
     // General private routes (accessible to all logged-in users)
     const privateRoutes = [
       "/dispatching",

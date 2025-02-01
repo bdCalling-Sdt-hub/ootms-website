@@ -39,7 +39,7 @@ const loadRequestApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [tagTypes.loadRequest],
+      invalidatesTags: [tagTypes.loadRequest, tagTypes.load],
     }),
 
     reAssainLoad: builder.mutation({
@@ -56,7 +56,7 @@ const loadRequestApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: [tagTypes.loadRequest],
+      invalidatesTags: [tagTypes.loadRequest, tagTypes.load],
     }),
   }),
 });

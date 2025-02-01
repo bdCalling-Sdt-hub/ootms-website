@@ -53,7 +53,6 @@ const MyRequestId = () => {
     // router.push("/dispatching"); // Example redirection after cancellation
   };
 
-  console.log("data", data);
   return (
     <div className="py-20 bg-[#F3F3F3]">
       <Container>

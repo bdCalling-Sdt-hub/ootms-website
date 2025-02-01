@@ -49,7 +49,6 @@ const CurrentShipmentChatMenu = ({ data }) => {
   const [chatBoxVisible, setChatBoxVisible] = useState(false);
   const dispatch = useDispatch();
 
-  console.log({ chat: data?.load?.shipperToReceiverChatId });
   return (
     <div className="sticky bottom-10 ml-auto flex flex-col mr-[1%] w-fit z-20">
       {chatBoxVisible && (
