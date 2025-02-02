@@ -51,16 +51,18 @@ const Trucks = ({
     },
     {
       title: "Availability",
-      dataIndex: "availability",
-      key: "availability",
-      responsive: ["xs", "sm"],
-      render: (text, record) => <div>Available</div>, // Display on large and extra large screens
-    },
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
-      responsive: ["xs", "sm"], // Display on small screens and above
+      dataIndex: ["truck", "availablePalletSpace"],
+      key: "availablePalletSpace",
+      responsive: ["lg", "xl"],
+      render: (text, record) => (
+        <div>
+          {record?.availablePalletSpace === record?.palletSpace
+            ? "Fully Available"
+            : record?.availablePalletSpace === 0
+            ? "Fully Loaded"
+            : `${record?.availablePalletSpace} Pallet Spaces Available`}
+        </div>
+      ),
     },
   ];
 

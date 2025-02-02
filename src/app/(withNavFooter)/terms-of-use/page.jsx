@@ -8,12 +8,12 @@ export default function TermsOfUse() {
     <div className="min-h-screen my-10 md:my-16">
       <Container>
         <div>
-          <h1 className="text-secondary-color text-4xl md:text-4xl lg:text-5xl font-semibold mt-14">
+          <h1 className="text-[#2B4257] text-4xl md:text-4xl lg:text-5xl font-semibold mt-14">
             Terms of Use
           </h1>
           <Divider className="bg-[#1A1A1A] my-10" />
           {/* Introduction: */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Introduction:
             </p>
@@ -29,7 +29,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Use of Services  & HEligibility: */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             {/* Use of Services : */}
             <div>
               {" "}
@@ -58,7 +58,7 @@ export default function TermsOfUse() {
             </div>
           </div>
           {/* Fees and Payment   */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Fees and Payment
             </p>
@@ -87,7 +87,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Client Responsibilities   */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Client Responsibilities
             </p>
@@ -106,7 +106,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Limitation of Services   */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Limitation of Services
             </p>
@@ -118,7 +118,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Intellectual Property   */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Intellectual Property
             </p>
@@ -131,7 +131,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Termination   */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Termination
             </p>
@@ -143,7 +143,7 @@ export default function TermsOfUse() {
           </div>
 
           {/* Limitation of Liability      */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Limitation of Liability
             </p>
@@ -155,7 +155,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Changes to Terms */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Changes to Terms
             </p>
@@ -168,7 +168,7 @@ export default function TermsOfUse() {
             </p>
           </div>
           {/* Contact Us:     */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Contact Us:
             </p>

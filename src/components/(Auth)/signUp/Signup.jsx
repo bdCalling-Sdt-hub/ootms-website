@@ -246,7 +246,7 @@ const SignUp = () => {
 
               <SessionProvider>
                 <GoogleLogin />
-                <FacebookLogin />
+                {/* <FacebookLogin /> */}
               </SessionProvider>
             </div>
           </div>

@@ -504,6 +504,7 @@ const DispatchingPage = () => {
       >
         <FormFile
           shipperData={shipperData}
+          setShipperData={setShipperData}
           setReciverData={setReciverData}
           handleOpenReciverFromCancel={handleOpenReciverFromCancel}
           showoOpenAddDriverIdModal={showoOpenAddDriverIdModal}

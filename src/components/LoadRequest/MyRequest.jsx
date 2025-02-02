@@ -23,9 +23,9 @@ const MyRequest = ({ data }) => {
     <Link href={`load-request/my-request/${data?.id}`}>
       <div
         //   key={index}
-        className="flex flex-col p-4 mb-5 border rounded-lg shadow-md bg-white"
+        className="p-4 mb-5 border rounded-lg shadow-md bg-white"
       >
-        <div className="flex items-center mb-4 gap-4">
+        <div className="grid grid-cols-4 items-center">
           <div className="flex items-center justify-center bg-[#2B4257] w-fit p-[6px] rounded-full">
             <Image
               src={img}
@@ -37,7 +37,7 @@ const MyRequest = ({ data }) => {
             />
           </div>
 
-          <div className="">
+          <div className="col-span-3">
             <h1 className="text-xl font-semibold">{data?.driver?.fullName}</h1>
             <p className="text-lg text-gray-500">
               {data?.load?.trailerSize}-foot trailer—{data?.load?.palletSpace}

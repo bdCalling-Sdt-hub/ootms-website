@@ -4,11 +4,13 @@ import { getBaseUrl } from "@/helpers/config/envConfig";
 import { tagTypesList } from "../tagTypes";
 import Cookies from "universal-cookie";
 
+const cookies = new Cookies();
+
 const baseQuery = fetchBaseQuery({
   baseUrl: getBaseUrl(),
   // credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.accessToken;
+    const token = cookies.get("ootms_accessToken");
     const signUpToken = getFromLocalStorage("ootms_createUserToken");
 
     const changePassToken = getFromLocalStorage("ootms_otp_match_token");

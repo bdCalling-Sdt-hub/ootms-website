@@ -13,7 +13,7 @@ const { TextArea } = Input;
 const FormFile = ({
   shipperData,
   handleOpenReciverFromCancel,
-
+  setShipperData,
   showoOpenAddDriverIdModal,
 }) => {
   const router = useRouter();
@@ -78,6 +78,7 @@ const FormFile = ({
     };
 
     form.resetFields();
+    setShipperData(null);
 
     try {
       const res = await createLoad([{ ...shipperData, ...revicer }]).unwrap();

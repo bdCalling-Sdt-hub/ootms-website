@@ -263,7 +263,10 @@ const SingleCurrentShipment = () => {
           </div>
         </div>
       </Container>
-      <CurrentShipmentChatMenu data={data?.data?.attributes[0]} />
+      <CurrentShipmentChatMenu
+        data={data?.data?.attributes[0]}
+        isShiper={true}
+      />
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="rounded-xl p-5  flex flex-col items-center justify-center bg-primary-color">

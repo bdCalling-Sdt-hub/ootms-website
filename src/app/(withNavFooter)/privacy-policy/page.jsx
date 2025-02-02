@@ -8,11 +8,11 @@ export default function PrivacyPolicys() {
     <div className="min-h-screen my-10 md:my-16">
       <Container>
         <div>
-          <h1 className="text-secondary-color text-4xl md:text-4xl lg:text-5xl font-semibold mt-14">
+          <h1 className="text-[#2B4257] text-4xl md:text-4xl lg:text-5xl font-semibold mt-14">
             Privacy Policy
           </h1>
           <Divider className="bg-[#1A1A1A] my-10" />
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Introduction:
             </p>
@@ -30,7 +30,7 @@ export default function PrivacyPolicys() {
             </p>
           </div>
           {/* Information We Collect & Healthcare Information & Technical Informatio */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             {/* Information We Collect : */}
             <div>
               {" "}
@@ -88,7 +88,7 @@ export default function PrivacyPolicys() {
             </div>
           </div>
           {/* How We Use Your Information  */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               How We Use Your Information
             </p>
@@ -117,7 +117,7 @@ export default function PrivacyPolicys() {
             </p>
           </div>
           {/* Sharing Your Information  */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Sharing Your Information
             </p>
@@ -143,7 +143,7 @@ export default function PrivacyPolicys() {
             </p>
           </div>
           {/* HIPAA Compliance  */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               HIPAA Compliance
             </p>
@@ -156,7 +156,7 @@ export default function PrivacyPolicys() {
             </p>
           </div>
           {/* Data Security   */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Data Security
             </p>
@@ -168,7 +168,7 @@ export default function PrivacyPolicys() {
             </p>
           </div>
           {/* Your Rights    */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Your Rights
             </p>
@@ -185,7 +185,7 @@ export default function PrivacyPolicys() {
             </ul>
           </div>
           {/* Changes to This Policy     */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Changes to This Policy
             </p>
@@ -195,7 +195,7 @@ export default function PrivacyPolicys() {
             </p>
           </div>
           {/* Contact Us:     */}
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Contact Us:
             </p>

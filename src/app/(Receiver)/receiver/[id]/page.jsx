@@ -1,10 +1,10 @@
-import ReceiverMap from "@/components/(Reciver)/ReciverMap";
+import ReciverLoad from "@/components/(Reciver)/ReciverLoad";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <ReceiverMap />
+      <ReciverLoad />
     </div>
   );
 };

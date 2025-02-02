@@ -60,9 +60,11 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
     // Example static data representing form responses
     const data = [
       {
-        receiverName: "John Doe",
+        // receiverName: "John Doe",
+        receiverName: "Rajin",
         receiverPhoneNumber: "123-456-7890",
-        receiverEmail: "johndoe@example.com",
+        // receiverEmail: "johndoe@example.com",
+        receiverEmail: "din.islam.rajin572@gmail.com",
         receivingAddress: "1234 Main St",
         receiverCity: "Anytown",
         receiverState: "Anystate",
@@ -81,7 +83,8 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         productType: "Electronics",
         pickupDate: "01-15-2025",
         deliveryDate: "01-20-2025",
-        billOfLading: "grrggfdgsdfgdfis",
+        billOfLading: "grukyhkrgnsgbnsgnndfb sf",
+        // billOfLading: "0123456789",
         poNumber: "987654321",
         trailerSize: "15",
         "Hazmat (remove any item if you don't need to mention)":
