@@ -7,11 +7,11 @@ const page = () => {
     <div className="min-h-screen my-10 md:my-16">
       <Container>
         <div>
-          <h1 className="text-secondary-color text-4xl md:text-4xl lg:text-5xl font-semibold mt-14">
+          <h1 className="text-[#2B4257] text-4xl md:text-4xl lg:text-5xl font-semibold mt-14">
             About Us
           </h1>
           <Divider className="bg-[#1A1A1A] my-10" />
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Who We Are:
             </p>
@@ -33,7 +33,7 @@ const page = () => {
               patient’s healthcare experience.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               What We Do
             </p>
@@ -59,7 +59,7 @@ const page = () => {
               patient’s healthcare experience.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Our Approach: Bio Design{" "}
               <span className="font-skia">Interplay™</span>
@@ -75,7 +75,7 @@ const page = () => {
               current health status.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Open Ended <span className="font-skia"> Mapping™</span>: Providing
               Insights and Challenges
@@ -88,7 +88,7 @@ const page = () => {
               personalized health strategies.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Journey Mapping: Navigating Healthcare with Confidence
             </p>
@@ -101,7 +101,7 @@ const page = () => {
               path through the complexities of healthcare.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Our MedicoVigilance Representatives (MVRs)
             </p>
@@ -124,7 +124,7 @@ const page = () => {
               advocacy.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Our Values:
             </p>
@@ -146,7 +146,7 @@ const page = () => {
               actionable.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Why Choose Us:
             </p>
@@ -164,7 +164,7 @@ const page = () => {
               seamless, understandable, and empowering.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Our Vision
             </p>
@@ -183,7 +183,7 @@ const page = () => {
               in their care.
             </p>
           </div>
-          <div className="md:text-lg lg:text-xl border border-secondary-color p-6 rounded-xl mb-5">
+          <div className="md:text-lg lg:text-xl border border-[#2B4257] p-6 rounded-xl mb-5">
             <p className="text-base-color text-xl sm:text-2xl lg:text-3xl mb-5 text-justify leading-relaxed">
               Contact Us:
             </p>

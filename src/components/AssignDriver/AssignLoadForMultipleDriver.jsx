@@ -23,46 +23,48 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
   const columns = [
     {
       title: "Driver",
-      dataIndex: "fullName",
+      dataIndex: ["fullName"],
       key: "fullName",
       responsive: ["xs", "sm"], // Display on extra small and small screens
     },
     {
       title: "Truck Number",
-      dataIndex: "truckNumber",
+      dataIndex: ["truck", "truckNumber"],
       key: "truckNumber",
-      responsive: ["xs", "sm"], // Display on small and medium screens and above
+      responsive: ["sm", "md"], // Display on small and medium screens and above
     },
     {
       title: "Pallet Spaces",
-      dataIndex: "palletSpace",
+      dataIndex: ["truck", "palletSpace"],
       key: "palletSpace",
-      responsive: ["xs", "sm"], // Display on medium screens and above
+      responsive: ["md"], // Display on medium screens and above
     },
     {
       title: "Weight",
-      dataIndex: "weight",
+      dataIndex: ["truck", "weight"],
       key: "weight",
-      responsive: ["xs", "sm"], // Display on medium and large screens
+      responsive: ["md", "lg"], // Display on medium and large screens
     },
     {
       title: "Trailer Size",
-      dataIndex: "trailerSize",
+      dataIndex: ["truck", "trailerSize"],
       key: "trailerSize",
-      responsive: ["xs", "sm"], // Display only on large screens
+      responsive: ["lg"], // Display only on large screens
     },
     {
       title: "Availability",
-      dataIndex: "availability",
-      key: "availability",
-      responsive: ["xs", "sm"],
-      render: (text, record) => <div>Available</div>, // Display on large and extra large screens
-    },
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
-      responsive: ["xs", "sm"], // Display on small screens and above
+      dataIndex: ["truck", "availablePalletSpace"],
+      key: "availablePalletSpace",
+      responsive: ["lg", "xl"],
+      render: (text, record) => (
+        <div>
+          {record?.truck?.availablePalletSpace === record?.truck?.palletSpace
+            ? "Fully Available"
+            : record?.truck?.availablePalletSpace === 0
+            ? "Fully Loaded"
+            : `${record?.truck?.availablePalletSpace} Pallet Spaces Available`}
+        </div>
+      ),
     },
   ];
 

@@ -5,6 +5,9 @@ import {
   useReAssainLoadMutation,
 } from "@/redux/api/loadRequestApi";
 import { useGetPreferredDriverQuery } from "@/redux/api/preferredDiver";
+import LocationCell from "@/utils/LocationCell";
+import ReAssignForNearbyDriver from "@/utils/reAssign/ReAssignForNearbyDriver";
+import ReAssignForPreferredDriver from "@/utils/reAssign/ReAssignForPreferredDriver";
 import {
   Button,
   ConfigProvider,
@@ -16,84 +19,63 @@ import {
   Typography,
 } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { title } from "process";
+import { useEffect, useState } from "react";
 
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { toast } from "sonner";
 
-const ReAssign = ({ id, loadId, setIsOpen }) => {
-  const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [limit, setLimit] = useState(3);
-
+const ReAssign = ({ location, isNearBy, id, loadId, setIsOpen }) => {
   const columns = [
+    // {
+    //   key: "_id",
+    // },
     {
       title: "Driver",
       dataIndex: "fullName",
       key: "fullName",
-      responsive: ["xs", "sm"], // Display on extra small and small screens
+      responsive: ["xs", "sm"],
     },
     {
       title: "Truck Number",
-      dataIndex: "truckNumber",
+      dataIndex: ["truck", "truckNumber"],
       key: "truckNumber",
-      responsive: ["xs", "sm"], // Display on small and medium screens and above
+      responsive: ["sm", "md"],
     },
     {
       title: "Pallet Spaces",
-      dataIndex: "palletSpace",
+      dataIndex: ["truck", "palletSpace"],
       key: "palletSpace",
-      responsive: ["xs", "sm"], // Display on medium screens and above
+      responsive: ["md"],
     },
     {
       title: "Weight",
-      dataIndex: "weight",
+      dataIndex: ["truck", "weight"],
       key: "weight",
-      responsive: ["xs", "sm"], // Display on medium and large screens
+      responsive: ["md", "lg"],
     },
     {
       title: "Trailer Size",
-      dataIndex: "trailerSize",
+      dataIndex: ["truck", "trailerSize"],
       key: "trailerSize",
-      responsive: ["xs", "sm"], // Display only on large screens
+      responsive: ["lg"],
     },
     {
       title: "Availability",
-      dataIndex: "availability",
-      key: "availability",
-      responsive: ["xs", "sm"],
-      render: (text, record) => <div>Available</div>, // Display on large and extra large screens
-    },
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
-      responsive: ["xs", "sm"], // Display on small screens and above
+      dataIndex: ["truck", "availablePalletSpace"],
+      key: "availablePalletSpace",
+      responsive: ["lg", "xl"],
+      render: (text, record) => (
+        <div>
+          {record?.truck?.availablePalletSpace === record?.truck?.palletSpace
+            ? "Fully Available"
+            : record?.truck?.availablePalletSpace === 0
+            ? "Fully Loaded"
+            : `${record?.truck?.availablePalletSpace} Pallet Spaces Available`}
+        </div>
+      ),
     },
   ];
-
-  const handleSearch = (e) => {
-    debounceSearch(e.target.value);
-  };
-
-  const debounceSearch = debounce((value) => {
-    setSearchTerm(value);
-    setPage(1);
-    setLimit(3);
-  }, 500);
-
-  function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-  }
-  const { data: preferredDriver } = useGetPreferredDriverQuery({
-    page,
-    searchTerm,
-    limit,
-  });
 
   const router = useRouter();
 
@@ -132,11 +114,38 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
 
   return (
     <div className=" fixed inset-0 z-50 flex flex-col items-center justify-center mt-20 bg-black bg-opacity-50">
-      <div className="bg-white p-4 rounded shadow-md w-fit overflow-y-auto">
+      <div className="bg-white p-4 rounded shadow-md min-w-[50%] overflow-y-auto">
         <div className="px-2 py-2 sm:px-5  lg:px-10 sm:py-5  lg:pt-10 relative">
           <p className="text-2xl text-center font-semibold">
-            Give your driver phone number
+            {isNearBy ? "All Nearby Drivers" : "Search for Preferred Driver"}
           </p>
+          <p
+            onClick={() => setIsOpen()}
+            className="font-bold text-xl cursor-pointer absolute top-0 right-0"
+          >
+            X
+          </p>
+          {isNearBy ? (
+            <ReAssignForNearbyDriver
+              location={location}
+              isNearBy={isNearBy}
+              columns={columns}
+              onFinish={onFinish}
+            />
+          ) : (
+            <ReAssignForPreferredDriver
+              isNearBy={isNearBy}
+              columns={columns}
+              onFinish={onFinish}
+            />
+          )}{" "}
+        </div>
+        {/* <div className="px-2 py-2 sm:px-5  lg:px-10 sm:py-5  lg:pt-10 relative">
+          {!isNearBy && (
+            <p className="text-2xl text-center font-semibold">
+              Give your driver phone number
+            </p>
+          )}
           <p
             onClick={() => setIsOpen()}
             className="font-bold text-xl cursor-pointer absolute top-0 right-0"
@@ -148,20 +157,26 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
             className="bg-transparent w-full mt-10"
             onFinish={onFinish}
           >
-            <Typography.Title
-              className="mb-3"
-              level={4}
-              style={{ color: "#222222" }}
-            >
-              Driver Phone Number
-            </Typography.Title>
+            {isNearBy ? (
+              ""
+            ) : (
+              <div>
+                <Typography.Title
+                  className="mb-3"
+                  level={4}
+                  style={{ color: "#222222" }}
+                >
+                  Driver Phone Number
+                </Typography.Title>
 
-            <Input
-              type="text"
-              onChange={handleSearch}
-              placeholder="Enter your Driver Phone Number"
-              className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
-            />
+                <Input
+                  type="text"
+                  onChange={handleSearch}
+                  placeholder="Enter your Driver Phone Number"
+                  className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
+                />
+              </div>
+            )}
 
             <Typography.Title
               className="mt-10"
@@ -241,7 +256,7 @@ const ReAssign = ({ id, loadId, setIsOpen }) => {
               </button>
             </Form.Item>
           </Form>
-        </div>
+        </div> */}
       </div>
     </div>
   );

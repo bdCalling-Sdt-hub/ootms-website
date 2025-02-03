@@ -256,7 +256,7 @@ const Navbar = () => {
   });
 
   return (
-    <div className="sticky top-0 left-0 w-full  bg-[#ffffff] !z-[999999]">
+    <div className="sticky top-0 left-0 w-full  bg-[#ffffff] !z-[999999] shadow">
       <Container>
         <div className="flex items-center justify-between py-5 ">
           <div className="flex justify-between w-full items-center">

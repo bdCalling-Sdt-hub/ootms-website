@@ -223,7 +223,7 @@ const SignIn = () => {
               </Button> */}
               <SessionProvider>
                 <GoogleLogin />
-                <FacebookLogin />
+                {/* <FacebookLogin /> */}
               </SessionProvider>
               {/* <Button
                 className="flex items-center justify-center gap-2 py-5 px-4 text-lg !border !border-contact-input text-base-color hover:bg-[#2B4257] hover:text-primary-color rounded-lg mt-2"

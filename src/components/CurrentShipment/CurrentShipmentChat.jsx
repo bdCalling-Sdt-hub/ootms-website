@@ -25,6 +25,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { IoSend } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
+import { AllImages } from "../../../public/assets/AllImages";
 
 const CurrentShipmentChat = ({
   data,
@@ -107,6 +108,8 @@ const CurrentShipmentChat = ({
       text: values?.message,
     };
 
+    console.log("chat data", data);
+
     try {
       socket.emit("send-new-message", data);
       form.resetFields();
@@ -115,6 +118,7 @@ const CurrentShipmentChat = ({
         duration: 2000,
       });
     } catch (error) {
+      console.log("error", error);
       toast.error(error?.data?.message || "Failed to send message", {
         id: toastId,
         duration: 2000,
@@ -128,7 +132,11 @@ const CurrentShipmentChat = ({
           <header className="bg-[#2B4257] text-[#FFFFFF] flex items-center justify-between gap-2 px-2 py-4 rounded-t-2xl">
             <div className="flex items-center gap-2">
               <Image
-                src={imageServerUrl + selectedChat?.img}
+                src={
+                  selectedChat?.img
+                    ? imageServerUrl + selectedChat?.img
+                    : AllImages.profile
+                }
                 alt={selectedChat?.name}
                 width={100}
                 height={100}

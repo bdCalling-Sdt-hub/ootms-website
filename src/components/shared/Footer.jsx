@@ -13,23 +13,21 @@ export default function Footer() {
           <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Services</p>
             <div className="flex flex-col gap-2">
-              <Link href="">Shipping</Link>
-              <Link href="">FAQs</Link>
+              <Link href="/dispatching">Shipping</Link>
             </div>
           </div>
           <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Company</p>
             <div className="flex flex-col gap-2">
-              <Link href="">Contact Us</Link>
-              <Link href="">Live Location</Link>
+              <Link href="/contact-us">Contact Us</Link>
             </div>
           </div>{" "}
           <div className="flex flex-col gap-5">
             <p className="text-xl font-bold">Legal</p>
             <div className="flex flex-col gap-2">
-              <Link href="">About Us</Link>
-              <Link href="">Terms & Condition</Link>
-              <Link href="">Privacy Policy</Link>
+              <Link href="/about-us">About Us</Link>
+              <Link href="/terms-of-use">Terms & Condition</Link>
+              <Link href="/privacy-policy">Privacy Policy</Link>
             </div>
           </div>
           <div className="flex flex-col gap-5">
@@ -97,25 +95,25 @@ export default function Footer() {
           <div className="sm:mt-8 flex flex-col sm:flex-row gap-1 sm:gap-0 space-x-4">
             <Button
               type="primary"
-              className="flex items-center bg-black h-14 gap-4 px-5"
+              className="flex justify-center items-center bg-black h-full gap-4 px-5"
             >
               <Image
                 alt="play_store"
                 src={allIcons.playstore}
                 className="size-8"
               />
-              <div className="flex flex-col text-start mt-5">
-                <p className="text-xs">Get it on</p>
+              <div className="">
+                <p className="text-xs mb-5">Get it on</p>
                 <p className="sm:text-xl -mt-4">Google Play</p>
               </div>
             </Button>
             <Button
               type="primary"
-              className="flex items-center bg-black h-14 gap-4 px-5"
+              className="flex justify-center items-center bg-black h-full gap-4 px-5"
             >
               <Image alt="apple" src={allIcons.appleStore} className="size-8" />
-              <div className="flex flex-col text-start mt-5">
-                <p className="text-xs">Download on the</p>
+              <div className="">
+                <p className="text-xs mb-5">Download on the</p>
                 <p className="sm:text-xl -mt-4">Apple Store</p>
               </div>
             </Button>

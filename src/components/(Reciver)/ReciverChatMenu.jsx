@@ -1,49 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import CurrentShipmentChat from "./CurrentShipmentChat";
-import { AllImages } from "../../../public/assets/AllImages";
+
 import { AiOutlineMessage } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSelectedChatUser } from "@/redux/slices/chatSlice";
+import CurrentShipmentChat from "../CurrentShipment/CurrentShipmentChat";
 
-const ReciverChat = {
-  reciverName: "Stave Jobs",
-  reciverImg: AllImages.user,
-  chat: [
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-  ],
-};
-const Driverchat = {
-  reciverName: "Elon Mask",
-  reciverImg: AllImages.profile,
-  chat: [
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-
-    { sender: "sender", message: "Shut Up!" },
-    { receiver: "me", message: "Where are you from?" },
-
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-
-    { sender: "sender", message: "Shut Up!" },
-    { receiver: "me", message: "Where are you from?" },
-
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-    { sender: "sender", message: "hey man, are you fucking bitch?" },
-    { receiver: "me", message: "Fuck off" },
-
-    { sender: "sender", message: "Shut Up!" },
-    { receiver: "me", message: "Where are you from?" },
-
-    { sender: "sender", message: "I'm in Shamsipour College!" },
-  ],
-};
-
-const CurrentShipmentChatMenu = ({ data, isShiper }) => {
+const ReciverChatMenu = ({ data }) => {
   const [ischatOptionVisible, setIsChatOptionVisible] = useState(false);
   const [isChatIconVisible, setIsChatIconVisible] = useState(true);
   const [chatBoxVisible, setChatBoxVisible] = useState(false);
@@ -66,14 +29,10 @@ const CurrentShipmentChatMenu = ({ data, isShiper }) => {
                   dispatch(
                     setSelectedChatUser({
                       chatId: data?.load?.shipperToReceiverChatId,
-                      name: isShiper
-                        ? data?.load?.receiverName
-                        : data?.load?.shipperName,
-                      id: isShiper ? data?.load?.receiverId : data?.load?.user,
-                      img: isShiper ? null : data?.user?.image,
-                      userId: isShiper
-                        ? data?.load?.user
-                        : data?.load?.receiverId,
+                      name: data?.load?.receiverName,
+                      id: data?.load?.receiverId,
+                      img: null,
+                      userId: data?.load?.user,
                     })
                   );
                   setIsChatIconVisible(false);
@@ -81,21 +40,17 @@ const CurrentShipmentChatMenu = ({ data, isShiper }) => {
                 }}
                 className="bg-[#2B4257] text-primary-color mb-2 p-3 rounded-3xl cursor-pointer w-40 text-center"
               >
-                Chat with {isShiper ? "Receiver" : "Shipper"}
+                Chat with Shipper
               </div>
               <div
                 onClick={() => {
                   dispatch(
                     setSelectedChatUser({
-                      chatId: isShiper
-                        ? data?.load?.shipperToDriverChatId
-                        : data?.load?.driverToReceiverChatId,
+                      chatId: data?.load?.shipperToDriverChatId,
                       name: data?.driver?.fullName,
                       id: data?.load?.driver,
                       img: data?.driver?.image,
-                      userId: isShiper
-                        ? data?.load?.user
-                        : data?.load?.receiverId,
+                      userId: data?.load?.user,
                     })
                   );
                   setIsChatIconVisible(false);
@@ -121,4 +76,4 @@ const CurrentShipmentChatMenu = ({ data, isShiper }) => {
   );
 };
 
-export default CurrentShipmentChatMenu;
+export default ReciverChatMenu;

@@ -4,13 +4,18 @@ import { io } from "socket.io-client";
 import { toast } from "sonner";
 import { getSocketUrl } from "@/helpers/config/socket-config";
 import { selectToken } from "@/redux/slices/authSlice";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 export const SocketContext = createContext({});
 
 export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
-  const token = useSelector(selectToken);
+  const token = cookies.get("ootms_accessToken");
+
+  console.log("Token", token);
 
   const socket = useMemo(() => {
     if (!token) {

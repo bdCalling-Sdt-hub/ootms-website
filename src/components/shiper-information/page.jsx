@@ -1,14 +1,13 @@
 "use client";
 
 import ShipperFormGoogleMap from "@/helpers/GoogleMap/ShipperFormGoogleMap";
-import { useCreateLoadMutation } from "@/redux/api/loadApi";
-import { ConfigProvider, Modal, Select, TimePicker } from "antd";
+import { disabledDate } from "@/utils/TimeCondition";
+import { Select, TimePicker } from "antd";
 
 import { DatePicker, Form, Input, Typography } from "antd";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { IoChevronBackOutline } from "react-icons/io5";
-import { toast } from "sonner";
 
 const ProductTypes = [
   "Pine Pulpwood",
@@ -54,9 +53,81 @@ const ShipperForm = ({
   const [form] = Form.useForm();
   const [showOptions, setShowOptions] = useState(false);
   const [noOptions, setNoOptions] = useState(true);
-  const [createLoad] = useCreateLoadMutation();
+  const [pickupDate, setPickupDate] = useState(null);
+  const [pickupTime, setPickupTime] = useState(null);
+  const [deliveryDate, setDeliveryDate] = useState(null);
 
-  const [selectedValue, setSelectedValue] = useState(null);
+  const disabledTime = () => {
+    if (pickupDate && dayjs(pickupDate).isSame(dayjs(), "day")) {
+      const currentHour = dayjs().hour();
+      const currentMinute = dayjs().minute();
+
+      return {
+        disabledHours: () => {
+          const hours = [];
+          for (let i = 0; i < currentHour; i++) {
+            hours.push(i);
+          }
+          return hours;
+        },
+        disabledMinutes: (selectedHour) => {
+          const minutes = [];
+          if (selectedHour === currentHour) {
+            for (let i = 0; i <= currentMinute; i++) {
+              minutes.push(i);
+            }
+          }
+          return minutes;
+        },
+        disabledSeconds: () => {
+          // Typically seconds aren't needed for time pickers in scheduling, this can be omitted or implemented similarly.
+          return [];
+        },
+      };
+    } else {
+      // No restrictions if it's not today
+      return {};
+    }
+  };
+
+  const disabledDeliveryDate = (current) => {
+    // Disable all dates before the pickup date
+    if (!pickupDate) {
+      return false; // If no pickup date is selected, allow all future dates
+    }
+    return current && current < dayjs(pickupDate).startOf("day");
+  };
+
+  const disabledDeliveryTime = () => {
+    if (
+      pickupDate &&
+      deliveryDate &&
+      dayjs(pickupDate).isSame(dayjs(deliveryDate), "day")
+    ) {
+      const selectedHour = pickupTime
+        ? dayjs(pickupTime, "HH:mm").hour()
+        : null;
+      const selectedMinute = pickupTime
+        ? dayjs(pickupTime, "HH:mm").minute()
+        : null;
+
+      return {
+        disabledHours: () =>
+          Array.from({ length: 24 }, (_, i) => i).slice(0, selectedHour),
+        disabledMinutes: (hour) => {
+          if (hour === selectedHour) {
+            return Array.from({ length: 60 }, (_, i) => i).slice(
+              0,
+              selectedMinute + 1
+            );
+          }
+          return [];
+        },
+        disabledSeconds: () => [],
+      };
+    }
+    return {};
+  };
 
   const [location, setLocation] = useState({ lat: "", lng: "" });
   const handleLocationSelect = (coordinates) => {
@@ -137,18 +208,6 @@ const ShipperForm = ({
 
       return updatedOptions;
     });
-  };
-
-  const labelRender = (value) => {
-    const { label } = value;
-
-    if (label) {
-      return label;
-    }
-
-    return (
-      <span className=" w-full  text-shipper-text mb-12">Trailer size</span>
-    );
   };
 
   const onFinish = async (values) => {
@@ -252,9 +311,16 @@ const ShipperForm = ({
               </Typography>
               <Form.Item
                 name="shipperEmail"
-                rules={[{ required: true, message: "Email is required" }]}
+                rules={[
+                  { required: true, message: "Email is required" },
+                  {
+                    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email format",
+                  },
+                ]}
               >
                 <Input
+                  type="email"
                   placeholder="Enter email address"
                   className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
                 />
@@ -552,6 +618,8 @@ const ShipperForm = ({
                   format="MM-DD-YYYY"
                   className="bg-shipper-input-bg rounded-lg w-full"
                   placeholder="MM-DD-YYYY"
+                  onChange={(value) => setPickupDate(value)}
+                  disabledDate={disabledDate}
                 />
               </Form.Item>
             </div>
@@ -564,10 +632,13 @@ const ShipperForm = ({
                 rules={[{ required: true, message: "Pickup time is required" }]}
               >
                 <TimePicker
-                  format="HH:mm" // Define the time format
+                  disabled={!pickupDate}
+                  format="h:mm a" // Define the time format
                   className="bg-shipper-input-bg rounded-lg w-full"
                   use12Hours // Optional: for AM/PM format
                   placeholder="Select time"
+                  onChange={(value) => setPickupTime(value)}
+                  disabledTime={disabledTime}
                 />
               </Form.Item>
             </div>
@@ -582,9 +653,12 @@ const ShipperForm = ({
                 ]}
               >
                 <DatePicker
+                  disabled={!pickupDate || !pickupTime}
                   format="MM-DD-YYYY"
                   className="bg-shipper-input-bg rounded-lg w-full"
                   placeholder="MM-DD-YYYY"
+                  onChange={(value) => setDeliveryDate(value)}
+                  disabledDate={disabledDeliveryDate}
                 />
               </Form.Item>
             </div>
@@ -599,10 +673,12 @@ const ShipperForm = ({
                 ]}
               >
                 <TimePicker
-                  format="HH:mm" // Define the time format
+                  disabled={!pickupDate || !pickupTime || !deliveryDate}
+                  format="h:mm a" // Define the time format
                   className="bg-shipper-input-bg rounded-lg w-full"
                   use12Hours // Optional: for AM/PM format
                   placeholder="Select time"
+                  disabledTime={disabledDeliveryTime}
                 />
               </Form.Item>
             </div>
@@ -672,7 +748,7 @@ const ShipperForm = ({
             <Typography className="text-contact-input font-semibold  mb-2">
               Delivery Instructions
             </Typography>
-            <Form.Item name="deliveryInstruction">
+            <Form.Item rules={[{ required: true }]} name="deliveryInstruction">
               <Input.TextArea
                 placeholder="Enter description"
                 className=" bg-shipper-input-bg placeholder-gray-400 border border-gray-300 rounded-lg py-3 px-4 h-36  w-full resize-none font-semibold"
