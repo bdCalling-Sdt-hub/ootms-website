@@ -162,9 +162,16 @@ const FormFile = ({
               </Typography>
               <Form.Item
                 name="receiverEmail"
-                rules={[{ required: true, message: "Email is required" }]}
+                rules={[
+                  { required: true, message: "Email is required" },
+                  {
+                    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email format",
+                  },
+                ]}
               >
                 <Input
+                  type="email"
                   placeholder="Enter email address"
                   className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />

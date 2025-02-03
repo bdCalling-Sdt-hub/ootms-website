@@ -311,9 +311,16 @@ const ShipperForm = ({
               </Typography>
               <Form.Item
                 name="shipperEmail"
-                rules={[{ required: true, message: "Email is required" }]}
+                rules={[
+                  { required: true, message: "Email is required" },
+                  {
+                    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email format",
+                  },
+                ]}
               >
                 <Input
+                  type="email"
                   placeholder="Enter email address"
                   className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
                 />
@@ -741,7 +748,7 @@ const ShipperForm = ({
             <Typography className="text-contact-input font-semibold  mb-2">
               Delivery Instructions
             </Typography>
-            <Form.Item name="deliveryInstruction">
+            <Form.Item rules={[{ required: true }]} name="deliveryInstruction">
               <Input.TextArea
                 placeholder="Enter description"
                 className=" bg-shipper-input-bg placeholder-gray-400 border border-gray-300 rounded-lg py-3 px-4 h-36  w-full resize-none font-semibold"

@@ -108,6 +108,8 @@ const CurrentShipmentChat = ({
       text: values?.message,
     };
 
+    console.log("chat data", data);
+
     try {
       socket.emit("send-new-message", data);
       form.resetFields();
@@ -116,6 +118,7 @@ const CurrentShipmentChat = ({
         duration: 2000,
       });
     } catch (error) {
+      console.log("error", error);
       toast.error(error?.data?.message || "Failed to send message", {
         id: toastId,
         duration: 2000,
@@ -130,7 +133,7 @@ const CurrentShipmentChat = ({
             <div className="flex items-center gap-2">
               <Image
                 src={
-                  selectedChat?.image
+                  selectedChat?.img
                     ? imageServerUrl + selectedChat?.img
                     : AllImages.profile
                 }

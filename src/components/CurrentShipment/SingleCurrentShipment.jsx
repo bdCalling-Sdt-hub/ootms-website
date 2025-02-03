@@ -12,6 +12,7 @@ import GoogleDeliveryMap from "../LeafletMap/GoogleDeliveryMap";
 import dayjs from "dayjs";
 
 const SingleCurrentShipment = () => {
+  const router = useRouter();
   const params = useParams();
 
   const { data } = useGetSingleLoadRequestQuery(params?.id);
@@ -19,7 +20,6 @@ const SingleCurrentShipment = () => {
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const router = useRouter();
   return (
     <div className="pt-20 pb-10 bg-[#F3F3F3]">
       <Container>
@@ -287,6 +287,8 @@ const SingleCurrentShipment = () => {
       )}
       {isOpen && (
         <ReAssign
+          location={data?.data?.attributes[0]?.driver?.location?.coordinates}
+          isNearBy={true}
           setIsOpen={setIsOpen}
           loadId={data?.data?.attributes[0]?.load?._id}
           id={params?.id}

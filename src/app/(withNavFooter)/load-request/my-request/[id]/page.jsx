@@ -330,6 +330,7 @@ const MyRequestId = () => {
 
       {isOpen && (
         <ReAssign
+          isNearBy={false}
           setIsOpen={setIsOpen}
           loadId={data?.data?.attributes[0]?.load?._id}
           id={params?.id}

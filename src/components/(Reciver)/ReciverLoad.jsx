@@ -156,7 +156,7 @@ const ReciverLoad = () => {
 
             <div className="md:mt-10">
               <h2 className="text-xl font-semibold mt-10 md:mt-0 mb-4">
-                Reciver&#39;s Information
+                Shipper Information
               </h2>
               <hr className="my-6 border-[#9D9D9D] opacity-60" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -164,22 +164,22 @@ const ReciverLoad = () => {
                   <p className="font-semibold">Reciver Name</p>
 
                   <div className="flex items-center">
-                    <span>{data?.data?.attributes[0]?.load?.receiverName}</span>
+                    <span>{data?.data?.attributes[0]?.load?.shipperName}</span>
                   </div>
                 </div>
                 <div>
                   <p className="font-semibold">Reciver Phone</p>
-                  <p> {data?.data?.attributes[0]?.load?.receiverPhoneNumber}</p>
+                  <p> {data?.data?.attributes[0]?.load?.shipperEmail}</p>
                 </div>
                 <div>
                   <p className="font-semibold">Reciver Email</p>
-                  <p> {data?.data?.attributes[0]?.load?.receiverEmail} </p>
+                  <p> {data?.data?.attributes[0]?.load?.shipperEmail} </p>
                 </div>
                 <div>
                   <p className="font-semibold">Reciver Address</p>
-                  {data?.data?.attributes[0]?.load?.receivingAddress},{" "}
-                  {data?.data?.attributes[0]?.load?.receiverCity},{" "}
-                  {data?.data?.attributes[0]?.load?.receiverState}
+                  {data?.data?.attributes[0]?.load?.shippingAddress},{" "}
+                  {data?.data?.attributes[0]?.load?.shippingCity},{" "}
+                  {data?.data?.attributes[0]?.load?.shippingState}
                 </div>
               </div>
             </div>

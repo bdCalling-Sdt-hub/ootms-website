@@ -111,7 +111,7 @@ const GoogleDeliveryMap = ({ data }) => {
         {/* User Marker */}
         <Marker
           position={userLocation}
-          onClick={() => setSelectedMarker("user")}
+          // onClick={() => setSelectedMarker("user")}
         />
 
         {/* Vehicle Marker */}
@@ -120,8 +120,9 @@ const GoogleDeliveryMap = ({ data }) => {
           icon={{
             url: "/assets/images/truck.png",
             scaledSize: new window.google.maps.Size(50, 50),
+            anchor: new window.google.maps.Point(25, 25),
           }}
-          onClick={() => setSelectedMarker("vehicle")}
+          // onClick={() => setSelectedMarker("vehicle")}
         />
 
         {/* Info Window for Markers */}
