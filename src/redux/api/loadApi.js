@@ -11,6 +11,14 @@ const loadApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.load],
     }),
+    updateLoad: build.mutation({
+      query: ({ id, loadData }) => ({
+        url: `/loads/update_load/${id}`,
+        method: "PATCH",
+        body: loadData,
+      }),
+      invalidatesTags: [tagTypes.load],
+    }),
 
     getAllPendingLoads: build.query({
       query: ({ allLoadsPage, searchTerm }) => ({
@@ -32,6 +40,7 @@ const loadApi = baseApi.injectEndpoints({
 
 export const {
   useCreateLoadMutation,
+  useUpdateLoadMutation,
   useGetAllPendingLoadsQuery,
   useGetNearestDriverForUserMutation,
 } = loadApi;

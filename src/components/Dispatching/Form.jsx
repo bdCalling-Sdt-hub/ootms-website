@@ -16,9 +16,7 @@ const FormFile = ({
   setShipperData,
   showoOpenAddDriverIdModal,
 }) => {
-  const router = useRouter();
   const [form] = Form.useForm();
-  const [user, setUser] = useState(null); // Initialize state for user data
 
   const [createLoad] = useCreateLoadMutation();
   const [location, setLocation] = useState({ lat: "", lng: "" });
@@ -55,18 +53,6 @@ const FormFile = ({
     handleOpenReciverFromCancel();
   };
 
-  // Use useEffect to handle client-side logic
-  useEffect(() => {
-    // Check if we are in the client-side (browser) environment
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("ootms-user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser)); // Set user if found in localStorage
-      }
-    }
-  }, []);
-
-  const navigate = useRouter();
   const onFinish = async (values) => {
     const toastId = toast.loading("Load Data Added...");
     const revicer = {

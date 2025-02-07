@@ -16,6 +16,7 @@ const mapContainerStyle = {
 const libraries = ["places"];
 
 export default function ShipperFormGoogleMap({
+  currentLocation = null,
   onLocationSelect,
   setLocationDetails,
 }) {
@@ -35,7 +36,12 @@ export default function ShipperFormGoogleMap({
 
   // Get user's current location
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (currentLocation) {
+      const { lat, lng } = currentLocation;
+      setCurrentCenter({ lat: lat, lng: lng });
+      setMarkerPosition({ lat: lat, lng: lng });
+      fetchLocationDetails(lat, lng);
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;

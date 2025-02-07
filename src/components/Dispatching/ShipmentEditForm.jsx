@@ -1,6 +1,8 @@
 "use client";
 
+import ReceiverFormGoogleMap from "@/helpers/GoogleMap/ReceiverFormGoogleMap";
 import ShipperFormGoogleMap from "@/helpers/GoogleMap/ShipperFormGoogleMap";
+import { useUpdateLoadMutation } from "@/redux/api/loadApi";
 import { disabledDate } from "@/utils/TimeCondition";
 import { Select, TimePicker } from "antd";
 
@@ -8,6 +10,7 @@ import { DatePicker, Form, Input, Typography } from "antd";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const ProductTypes = [
   "Pine Pulpwood",
@@ -43,16 +46,75 @@ const trailerTypes = [
   "Logging - Double-bunk",
 ];
 
-const ShipperForm = ({
-  setShipperData,
-  handleOpenShipperFromCancel,
-  showoOpenAddDriverIdModal,
-  showOpenReciverFromModal,
+const ShipmentEditForm = ({
+  setCurrentData,
+  currentData,
+  handleOpenShipperEditFromCancel,
 }) => {
-  const router = useRouter();
+  const [updateLoad] = useUpdateLoadMutation();
   const [form] = Form.useForm();
+
+  const [pickupDateStr, pickupTimeStr] = currentData?.pickupDate.split(", ");
+  const [deliveryDateStr, deliveryTimeStr] =
+    currentData?.deliveryDate.split(", ");
+
+  // Parse date and time separately using dayjs
+  const pickupDateParsed = dayjs(pickupDateStr, "MM-DD-YYYY");
+  const pickupTimeParsed = dayjs(pickupTimeStr, "hh:mm a");
+  const deliveryDateParsed = dayjs(deliveryDateStr, "MM-DD-YYYY");
+  const deliveryTimeParsed = dayjs(deliveryTimeStr, "hh:mm a");
+
+  useEffect(() => {
+    form.setFieldsValue({
+      shipperName: currentData?.shipperName,
+      shipperPhoneNumber: currentData?.shipperPhoneNumber,
+      shipperEmail: currentData?.shipperEmail,
+      receiverName: currentData?.receiverName,
+      receiverEmail: currentData?.receiverEmail,
+      receiverPhoneNumber: currentData?.receiverPhoneNumber,
+      palletSpace: currentData?.palletSpace,
+      productType: currentData?.productType,
+      trailerSize: currentData?.trailerSize,
+      loadType: currentData?.loadType,
+      weight: currentData?.weight,
+      pickupDate: pickupDateParsed,
+      pickupTime: pickupTimeParsed,
+      deliveryDate: deliveryDateParsed,
+      deliveryTime: deliveryTimeParsed,
+      billOfLading: currentData?.billOfLading,
+      poNumber: currentData?.poNumber,
+      deliveryInstruction: currentData?.deliveryInstruction,
+      description: currentData?.description,
+    });
+  }, [currentData]);
+
   const [showOptions, setShowOptions] = useState(false);
-  const [noOptions, setNoOptions] = useState(true);
+
+  console.log("showOptions", showOptions);
+
+  const [noOptions, setNoOptions] = useState(false);
+
+  useEffect(() => {
+    if (currentData?.Hazmat?.length >= 1) {
+      setShowOptions(true);
+      setNoOptions(false);
+    } else {
+      setShowOptions(false);
+      setNoOptions(true);
+    }
+  }, [currentData?.Hazmat]);
+  const [options, setOptions] = useState([
+    { label: "Hazmat", value: "Hazmat", checked: false },
+    { label: "Dangerous", value: "Dangerous", checked: false },
+    { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
+    { label: "Poison 6", value: "Poison 6", checked: false },
+    { label: "Corrosive", value: "Corrosive", checked: false },
+    { label: "Oxygen 2", value: "Oxygen 2", checked: false },
+    { label: "Flammable 3", value: "Flammable 3", checked: false },
+    { label: "Radioactive", value: "Radioactive", checked: false },
+    { label: "Non-Flammable", value: "Non-Flammable", checked: false },
+  ]);
+
   const [pickupDate, setPickupDate] = useState(null);
   const [pickupTime, setPickupTime] = useState(null);
   const [deliveryDate, setDeliveryDate] = useState(null);
@@ -129,26 +191,67 @@ const ShipperForm = ({
     return {};
   };
 
-  const [location, setLocation] = useState({ lat: "", lng: "" });
+  const [location, setLocation] = useState({
+    lat: currentData?.shipperLocation?.coordinates[1],
+    lng: currentData?.shipperLocation?.coordinates[0],
+  });
   const handleLocationSelect = (coordinates) => {
     setLocation(coordinates);
   };
 
   const [locationDetails, setLocationDetails] = useState({
-    city: "",
-    state: "",
-    zip: "",
-    fullAddress: "",
+    city: currentData?.shippingCity,
+    state: currentData?.shippingState,
+    zip: currentData?.shippingZip,
+    fullAddress: currentData?.shippingAddress,
   });
 
   useEffect(() => {
     form.setFieldsValue({
-      shippingAddress: locationDetails.fullAddress || "",
-      shippingCity: locationDetails.city || "",
-      shippingState: locationDetails.state || "",
-      shippingZip: locationDetails.zip || "",
+      shippingAddress:
+        locationDetails.fullAddress || currentData?.shippingAddress,
+      shippingCity: locationDetails.city || currentData?.shippingCity,
+      shippingState: locationDetails.state || currentData?.shippingState,
+      shippingZip: locationDetails.zip || currentData?.shippingZip,
     });
-  }, [locationDetails, form]);
+  }, [locationDetails, form, currentData]);
+
+  const [receiverLocation, setReceiverLocation] = useState({
+    lat: currentData?.receiverLocation?.coordinates[1],
+    lng: currentData?.receiverLocation?.coordinates[0],
+  });
+  const handleReceiverLocationSelect = (coordinates) => {
+    setReceiverLocation(coordinates);
+  };
+  const [receiverlocationDetails, setReceiverLocationDetails] = useState({
+    city: currentData?.receiverCity,
+    state: currentData?.receiverState,
+    zip: currentData?.receiverZip,
+    fullAddress: currentData?.receivingAddress,
+  });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      receivingAddress:
+        receiverlocationDetails.fullAddress || currentData?.receivingAddress,
+      receiverCity: receiverlocationDetails.city || currentData?.receiverCity,
+      receiverState:
+        receiverlocationDetails.state || currentData?.receiverState,
+      receiverZip: receiverlocationDetails.zip || currentData?.receiverZip,
+    });
+  }, [receiverlocationDetails, form, currentData]);
+
+  // Initialize options based on Hazmat values when currentData is available
+  useEffect(() => {
+    if (currentData?.Hazmat) {
+      setOptions((prevOptions) =>
+        prevOptions.map((option) => ({
+          ...option,
+          checked: currentData.Hazmat.includes(option.value),
+        }))
+      );
+    }
+  }, [currentData?.Hazmat]);
 
   const handleShowOptionsChange = () => {
     setShowOptions(true);
@@ -159,59 +262,39 @@ const ShipperForm = ({
     setNoOptions(true);
     setShowOptions(false);
 
-    // Uncheck all trailer size options
+    // Uncheck all options
     setOptions((prevOptions) =>
       prevOptions.map((option) => ({ ...option, checked: false }))
     );
 
-    // Explicitly set `trailerSize` to an empty array
+    // Clear Hazmat field
     form.setFieldsValue({
-      Hazmat: [], // Clear trailerSize to an empty array
+      Hazmat: [],
     });
   };
-
-  const [options, setOptions] = useState([
-    { label: "Hazmat", value: "Hazmat", checked: false },
-    { label: "Dangerous", value: "Dangerous", checked: false },
-    { label: "Flammable Gas 2", value: "Flammable Gas 2", checked: false },
-    { label: "Poison 6", value: "Poson 6", checked: false },
-    { label: "Corrosive", value: "Corrosive", checked: false },
-    { label: "Oxygen 2", value: "Oxygen2", checked: false }, // Corrected from Oxygen2 to Oxygen 2
-    { label: "Flammable 3", value: "Flamable 3", checked: false }, // Corrected from Flamable 3 to Flammable 3
-    { label: "Radioactive", value: "Radioactive", checked: false }, // Assuming you meant Radioactive 7 from Radioactive
-    { label: "Non-Flammable", value: "Non-Flammable", checked: false }, // Listed as Non-Flammable in the modal
-  ]);
 
   const handleCheckboxChange = (value) => {
     setOptions((prevOptions) => {
       const updatedOptions = prevOptions.map((option) =>
         option.value === value
-          ? { ...option, checked: !option.checked } // Toggle the selected option
+          ? { ...option, checked: !option.checked }
           : option
       );
 
-      // Get all selected values as an array
       const selectedValues = updatedOptions
         .filter((option) => option.checked)
         .map((option) => option.value);
 
-      // Update the form field with the selected values
-      if (selectedValues.length > 0) {
-        form.setFieldsValue({
-          Hazmat: selectedValues,
-        });
-      } else {
-        form.setFieldsValue({
-          Hazmat: [],
-        });
-      }
+      form.setFieldsValue({
+        Hazmat: selectedValues.length > 0 ? selectedValues : [],
+      });
 
       return updatedOptions;
     });
   };
 
   const onFinish = async (values) => {
-    // const toastId = toast.loading("Load Data Added...");
+    const toastId = toast.loading("Load Data Updated...");
     if (
       !Array.isArray(values.Hazmat) ||
       values.Hazmat.length <= 0 ||
@@ -241,20 +324,35 @@ const ShipperForm = ({
         type: "Point",
         coordinates: [location.lng, location.lat],
       },
+      receiverLocation: {
+        type: "Point",
+        coordinates: [receiverLocation?.lng, receiverLocation?.lat],
+      },
       ...formattedValues,
     };
 
-    setShipperData(data);
-    form.resetFields();
-    handleOpenShipperFromCancel();
-    showOpenReciverFromModal();
+    try {
+      const res = await updateLoad({
+        id: currentData._id,
+        loadData: data,
+      }).unwrap();
+      toast.success(res.message, { id: toastId, duration: 2000 });
+      setCurrentData(null);
+      form.resetFields();
+      handleOpenShipperEditFromCancel();
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred during Login", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
 
   return (
     <>
       <div className="mt-10">
         <h1 className="text-3xl font-bold text-gray-color text-center my-12">
-          Shipper&apos;s Information
+          Shipment Information
         </h1>
 
         <Form
@@ -288,7 +386,7 @@ const ShipperForm = ({
             </div>
             <div>
               <Typography className="text-contact-input font-semibold  mb-2">
-                Contact Number<span className="text-red-500 ">*</span>
+                Shipper Contact Number<span className="text-red-500 ">*</span>
               </Typography>
               <Form.Item
                 name="shipperPhoneNumber"
@@ -307,7 +405,7 @@ const ShipperForm = ({
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div>
               <Typography className="text-contact-input font-semibold  mb-2">
-                Email Address
+                Shipper Email Address
               </Typography>
               <Form.Item
                 name="shipperEmail"
@@ -335,6 +433,7 @@ const ShipperForm = ({
               </Typography>
               <div style={{ margin: "20px 0" }}>
                 <ShipperFormGoogleMap
+                  currentLocation={location}
                   onLocationSelect={handleLocationSelect}
                   locationDetails={locationDetails}
                   setLocationDetails={setLocationDetails}
@@ -357,7 +456,7 @@ const ShipperForm = ({
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-2 lg:gap-2">
             <div>
               <Typography className="text-contact-input font-semibold  mb-2">
-                City
+                Shipper City
               </Typography>
               <Form.Item
                 name="shippingCity"
@@ -371,7 +470,7 @@ const ShipperForm = ({
             </div>
             <div>
               <Typography className="text-contact-input font-semibold  mb-2">
-                State
+                Shipper State
               </Typography>
               <Form.Item
                 name="shippingState"
@@ -385,7 +484,7 @@ const ShipperForm = ({
             </div>
             <div>
               <Typography className="text-contact-input font-semibold  mb-2">
-                Zip
+                Shipper Zip
               </Typography>
               <Form.Item
                 name="shippingZip"
@@ -394,6 +493,144 @@ const ShipperForm = ({
                 <Input
                   placeholder="Enter zip"
                   className="w-full bg-shipper-input-bg placeholder-semibold py-2"
+                />
+              </Form.Item>
+            </div>
+          </div>
+
+          {/* Receiver First Name and Contact Number */}
+          <div
+            layout="vertical"
+            className="grid grid-cols-1 lg:grid-cols-2 md:gap-5"
+          >
+            <div>
+              <p className="text-contact-input font-semibold text-start sm:mb-2">
+                Receiver&apos;s Name
+              </p>
+              <Form.Item
+                name="receiverName"
+                rules={[
+                  { required: true, message: "Receiver's name is required" },
+                ]}
+              >
+                <Input
+                  placeholder="Enter first name"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <p className="text-contact-input font-semibold text-start sm:mb-2">
+                Receiver Contact Number
+              </p>
+              <Form.Item
+                name="receiverPhoneNumber"
+                rules={[
+                  { required: true, message: "Contact number is required" },
+                ]}
+              >
+                <Input
+                  placeholder="Enter contact number"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+                />
+              </Form.Item>
+            </div>
+          </div>
+          {/* Receiver Email Address */}
+          <div className="flex flex-col">
+            <div>
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                Receiver Email Address
+              </Typography>
+              <Form.Item
+                name="receiverEmail"
+                rules={[
+                  { required: true, message: "Email is required" },
+                  {
+                    pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email format",
+                  },
+                ]}
+              >
+                <Input
+                  type="email"
+                  placeholder="Enter email address"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+                />
+              </Form.Item>
+            </div>
+          </div>
+
+          <div style={{ margin: "20px 0" }}>
+            <ReceiverFormGoogleMap
+              currentLocation={receiverLocation}
+              onLocationSelect={handleReceiverLocationSelect}
+              locationDetails={locationDetails}
+              setLocationDetails={setReceiverLocationDetails}
+            />
+          </div>
+
+          {/* Receiver Address */}
+          <div className="flex flex-col">
+            <div className="w-full">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                Receiver Address
+              </Typography>
+              <Form.Item
+                name="receivingAddress"
+                rules={[
+                  { required: true, message: "Receiver address is required" },
+                ]}
+              >
+                <Input
+                  placeholder="Enter receiver address"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+                />
+              </Form.Item>
+            </div>
+          </div>
+
+          {/* City, State, Zip, Postal */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-x-5 lg:gap-x-5">
+            <div className="lg:col-span-2">
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                City
+              </Typography>
+              <Form.Item
+                name="receiverCity"
+                rules={[{ required: true, message: "City is required" }]}
+              >
+                <Input
+                  placeholder="Enter city"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                State
+              </Typography>
+              <Form.Item
+                name="receiverState"
+                rules={[{ required: true, message: "State is required" }]}
+              >
+                <Input
+                  placeholder="Enter state"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
+                />
+              </Form.Item>
+            </div>
+            <div>
+              <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+                Zip
+              </Typography>
+              <Form.Item
+                name="receiverZip"
+                rules={[{ required: true, message: "Zip code is required" }]}
+              >
+                <Input
+                  placeholder="Enter zip"
+                  className="bg-shipper-input-bg placeholder-semibold sm:py-2 rounded-lg sm:h-10"
                 />
               </Form.Item>
             </div>
@@ -420,22 +657,6 @@ const ShipperForm = ({
             </div>
           </div>
           {/* load type */}
-          {/* <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
-            <div className="w-full">
-              <Typography className="text-contact-input font-semibold  mb-2">
-                Load Type
-              </Typography>
-              <Form.Item
-                name="loadType"
-                rules={[{ required: true, message: "Load Type is required" }]}
-              >
-                <Input
-                  placeholder="load type address"
-                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
-                />
-              </Form.Item>
-            </div>
-          </div> */}
 
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
@@ -453,10 +674,6 @@ const ShipperForm = ({
                   className="w-full  py-2 h-14"
                   allowClear
                 >
-                  {/* <Select.Option value="dry">Dry</Select.Option>
-                  <Select.Option value="reefer">Reefer</Select.Option>
-                  <Select.Option value="flatbed">Flatbed</Select.Option>
-                  <Select.Option value="others">Others</Select.Option> */}
                   {trailerTypes.map((type) => (
                     <Select.Option key={type} value={type}>
                       {type}
@@ -508,44 +725,8 @@ const ShipperForm = ({
               </Form.Item>
             </div>
           </div>
-          {/* loadDetails */}
-          <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
-            <div className="w-full">
-              <Typography className="text-contact-input font-semibold  mb-2">
-                Load Details
-              </Typography>
-              <Form.Item
-                name="loadDetails"
-                rules={[
-                  { required: true, message: " Load Details is required" },
-                ]}
-              >
-                <Input
-                  placeholder="Load Details"
-                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
-                />
-              </Form.Item>
-            </div>
-          </div>
+
           {/* productType */}
-          {/* <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
-            <div className="w-full">
-              <Typography className="text-contact-input font-semibold  mb-2">
-                Product Type
-              </Typography>
-              <Form.Item
-                name="productType"
-                rules={[
-                  { required: true, message: "Product Type is required" },
-                ]}
-              >
-                <Input
-                  placeholder="Product Types"
-                  className=" w-full bg-shipper-input-bg placeholder-semibold py-2"
-                />
-              </Form.Item>
-            </div>
-          </div> */}
 
           <div className="grid grid-cols-1 lg:grid-cols-1 md:gap-2">
             <div className="w-full">
@@ -686,7 +867,7 @@ const ShipperForm = ({
             </div>
           </div>
 
-          {/* select item */}
+          {/* Hazmat select item */}
           <Form.Item name="Hazmat">
             <div>
               {/* Hazmat Options */}
@@ -708,7 +889,7 @@ const ShipperForm = ({
                     <input
                       className="mt-1"
                       type="checkbox"
-                      value={[]}
+                      value={currentData?.Hazmat}
                       checked={noOptions}
                       onChange={handleNoOptionsChange}
                     />
@@ -757,20 +938,30 @@ const ShipperForm = ({
               />
             </Form.Item>
           </div>
-          {/* Next Button */}
+
+          {/* description */}
+          <div>
+            <Typography className="text-contact-input font-semibold text-start sm:mb-2">
+              Description
+            </Typography>
+            <Form.Item name="description">
+              <textarea
+                placeholder="Enter description "
+                className="h-40 w-full p-4 border-2 border-gray-300 rounded-xl focus:outline-none resize-none bg-shipper-input-bg placeholder-semibold py-2"
+              />
+            </Form.Item>
+          </div>
+
+          {/* Update Button */}
           <button
             type="submit"
-            // onClick={() => {
-            //   showViewModal();
-            //   handleOpenShipperFromCancel();
-            // }}
             className="bg-next-btn w-full p-2 text-next-text font-bold text-xl mb-4 rounded-xl"
           >
-            Next
+            Update
           </button>
         </Form>
       </div>
     </>
   );
 };
-export default ShipperForm;
+export default ShipmentEditForm;

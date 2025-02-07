@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import MyLoad from "../map-truck/MyLoad";
 import { useGetAllPendingLoadsQuery } from "@/redux/api/loadApi";
 
-const MyAllLoads = ({ open, handleDragEnd }) => {
+const MyAllLoads = ({ open, handleDragEnd, handleOpenShipperEditFrom }) => {
   const [allLoadsPage, setAllLoadsPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -54,6 +54,7 @@ const MyAllLoads = ({ open, handleDragEnd }) => {
                 allPendingLoads={item}
                 open={open}
                 handleDragEnd={handleDragEnd}
+                handleOpenShipperEditFrom={handleOpenShipperEditFrom}
               />
             ))
           ) : (

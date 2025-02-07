@@ -25,6 +25,7 @@ import {
 } from "@/redux/api/loadRequestApi";
 import GoogleMapAllTrack from "../LeafletMap/GoogleMapAllTrack";
 import MyAllLoads from "./MyAllLoads";
+import ShipmentEditForm from "./ShipmentEditForm";
 
 const dragColumns = [
   {
@@ -66,7 +67,7 @@ const DispatchingPage = () => {
 
   const [createLoadRequest, { isLoading }] = useCreateLoadRequestMutation();
 
-  //* Drag And Drop--------------------------------------------------------------
+  //* Drag And Drop --------------------------------------------------------------
   const inputRef = useRef(null);
   const [dragData, setDragData] = useState(null);
   const [currentDriverModalData, setCurrentDriverModalData] = useState(null);
@@ -86,34 +87,51 @@ const DispatchingPage = () => {
     }
   };
 
-  //* Drag And Drop--------------------------------------------------------------
+  //* Drag And Drop end --------------------------------------------------------------
 
   const [reciverData, setReciverData] = useState(null);
   const [shipperData, setShipperData] = useState(null);
-  const [driverId, setDriverId] = useState(null);
+  const [currentData, setCurrentData] = useState(null);
+
+  console.log("currentData", currentData?.Hazmat);
 
   const [open, setOpen] = useState(false);
 
   const [openReciverFrom, setOpenReciverFrom] = useState(false);
   const [openShipperFrom, setOpenShipperFrom] = useState(false);
   const [openAddDriverIdModal, setOpenAddDriverIdModal] = useState(false);
+  const [openShipmentEditModal, setOpenShipmentEditModal] = useState(false);
 
   const [openExcelFromModal, setOpenExcelFromModal] = useState(false);
 
   //reciver
-  const showOenShipperFromModal = () => {
-    setOpenShipperFrom(true);
+  const showOpenReciverFromModal = () => {
+    setOpenReciverFrom(true);
   };
+
   const handleOpenReciverFromCancel = () => {
     setOpenReciverFrom(false);
   };
 
   // Shipper
-  const showOpenReciverFromModal = () => {
-    setOpenReciverFrom(true);
+
+  const showOenShipperFromModal = () => {
+    setOpenShipperFrom(true);
   };
+
   const handleOpenShipperFromCancel = () => {
     setOpenShipperFrom(false);
+  };
+
+  //* Shipment Edit Modal
+  const handleOpenShipperEditFrom = (data) => {
+    setCurrentData(data);
+    setOpenShipmentEditModal(true);
+  };
+
+  const handleOpenShipperEditFromCancel = () => {
+    setCurrentData(null);
+    setOpenShipmentEditModal(false);
   };
 
   // Add Driver
@@ -178,7 +196,7 @@ const DispatchingPage = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 lg:py-20 px-5 lg:px-10 ">
+    <div className="min-h-screen py-10  px-5 lg:px-10 ">
       {/* {isFetching ? (
         <div className="flex w-full items-center justify-center h-screen">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
@@ -485,7 +503,11 @@ const DispatchingPage = () => {
 
         {/* MyLoad Data */}
 
-        <MyAllLoads open={open} handleDragEnd={handleDragEnd} />
+        <MyAllLoads
+          open={open}
+          handleDragEnd={handleDragEnd}
+          handleOpenShipperEditFrom={handleOpenShipperEditFrom}
+        />
       </div>
       {/* )} */}
 
@@ -526,6 +548,22 @@ const DispatchingPage = () => {
           setShipperData={setShipperData}
           handleOpenShipperFromCancel={handleOpenShipperFromCancel}
           showOpenReciverFromModal={showOpenReciverFromModal}
+        />
+      </Modal>
+
+      {/* Shiper Edit Modal  */}
+      <Modal
+        open={openShipmentEditModal}
+        onCancel={handleOpenShipperEditFromCancel}
+        footer={null}
+        centered
+        style={{ textAlign: "center" }}
+        className="lg:min-w-[800px] mt-24"
+      >
+        <ShipmentEditForm
+          setCurrentData={setCurrentData}
+          currentData={currentData}
+          handleOpenShipperEditFromCancel={handleOpenShipperEditFromCancel}
         />
       </Modal>
 
