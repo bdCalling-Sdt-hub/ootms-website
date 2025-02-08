@@ -11,6 +11,7 @@ import CheckoutPage from "@/components/CheckoutPage/CheckoutPage";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { useCreatePaymentMutation } from "@/redux/api/paymentApi";
 import { toast } from "sonner";
+import Cookies from "universal-cookie";
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
@@ -23,6 +24,9 @@ const SubscriptionCard = ({
   visibleMotion,
 }) => {
   const [createPayment] = useCreatePaymentMutation();
+  const cookies = new Cookies();
+  const usertoken = cookies.get("ootms_accessToken");
+
   const handlePayment = async (plan) => {
     const data = {
       subcriptionId: plan?._id,
@@ -60,7 +64,7 @@ const SubscriptionCard = ({
         },
       }}
       key={index}
-      className="w-full  flex flex-col justify-between bg-[#EAECF4] text-white py-10 px-5 rounded-3xl shadow-lg"
+      className="max-w-[500px] w-full  flex flex-col justify-between bg-[#EAECF4] text-white py-10 px-5 rounded-3xl shadow-lg"
     >
       <div>
         <div className="flex flex-col ">
@@ -70,30 +74,23 @@ const SubscriptionCard = ({
             </h3>
           )}
 
-          <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-center text-black font-bold mb-2 ">
-            {plan?.name}
+          <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-center text-black font-bold mb-5 ">
+            {plan?.name} Plan
           </p>
         </div>
         <p className="text-3xl sm:text-4xl lg:text-5xl text-center font-bold mb-10 text-black">
-          {plan?.price}$
+          {plan?.price}$ /
+          <span className="text-xl sm:text-2xl lg:text-3xl">
+            {" "}
+            {plan?.duration} days
+          </span>
         </p>
-        <p className="text-sm sm:text-lg lg:text-xl text-black text-center">
-          {plan?.duration} days
+
+        <p className="text-xl sm:text-2xl lg:text-3xl font-semibold text-black text-center mb-0">
+          {plan?.noOfDispatches} Dispatch
         </p>
-        <ul className="mb-10">
-          {plan?.features?.map((feature, featureIndex) => (
-            <li key={featureIndex} className="flex items-center gap-2">
-              <div className="p-1 rounded-full bg-[#3598F126] -mt-4">
-                <MdOutlineDone className="size-5 text-[#037EEE]" />
-              </div>
-              <p className="text-sm sm:text-lg lg:text-xl text-black mb-5">
-                {feature}
-              </p>
-            </li>
-          ))}
-        </ul>
       </div>
-      {plan?.price != 0 ? (
+      {plan?.price != 0 && usertoken && (
         <div>
           <motion.button
             variants={buttonVariants}
@@ -105,14 +102,12 @@ const SubscriptionCard = ({
               damping: 7,
             }}
             onClick={() => handlePayment(plan)}
-            className="flex items-center justify-center gap-2 w-full py-3 sm:text-xl lg:text-2xl rounded-2xl text-white font-bold bg-[#2B4257]"
+            className="flex items-center justify-center gap-2 w-full py-3 sm:text-xl lg:text-2xl rounded-2xl text-white font-bold bg-[#2B4257]  mt-10"
           >
             Subscribe
             <FaArrowRightLong />
           </motion.button>
         </div>
-      ) : (
-        <></>
       )}
 
       {/* <Modal

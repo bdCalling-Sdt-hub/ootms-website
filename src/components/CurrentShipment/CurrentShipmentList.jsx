@@ -9,6 +9,7 @@ import { FaTruckFront } from "react-icons/fa6";
 import Link from "next/link";
 import { useGetCurrentShipmentQuery } from "@/redux/api/currentShipmentApi";
 import { getImageUrl } from "@/helpers/config/envConfig";
+import TowerLoader from "../ui/Loader";
 
 const CurrentShipmentList = () => {
   const [page, setPage] = useState(1);
@@ -69,7 +70,11 @@ const CurrentShipmentList = () => {
           </Form>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 min-h-[50vh]">
-          {currentShipment?.data?.attributes?.loadRequests?.length > 0 ? (
+          {isFetching ? (
+            <div className="lg:col-span-2">
+              <TowerLoader />
+            </div>
+          ) : currentShipment?.data?.attributes?.loadRequests?.length > 0 ? (
             currentShipment?.data?.attributes?.loadRequests?.map((truck) => (
               <Link href={`current-shipment/${truck?._id}`} key={truck?._id}>
                 <div className="flex flex-col p-5 border rounded-lg shadow-md bg-white">

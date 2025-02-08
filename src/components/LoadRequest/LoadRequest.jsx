@@ -20,6 +20,7 @@ import {
 } from "@/redux/api/loadRequestApi";
 import { toast } from "sonner";
 import DirverAssignLoadRequest from "./DirverAssignLoadRequest";
+import TowerLoader from "../ui/Loader";
 
 const LoadRequest = () => {
   const [page, setPage] = useState(1);
@@ -103,7 +104,11 @@ const LoadRequest = () => {
           {tab === "loadRequest" ? (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch my-10 min-h-[50vh]">
-                {allLoad?.data?.attributes?.loadRequests?.length > 0 ? (
+                {isFetching ? (
+                  <div className="flex justify-center  md:col-span-2 lg:col-span-3">
+                    <TowerLoader />
+                  </div>
+                ) : allLoad?.data?.attributes?.loadRequests?.length > 0 ? (
                   allLoad?.data?.attributes?.loadRequests?.map((truck) => (
                     <DirverAssignLoadRequest
                       key={truck?.id}
@@ -131,25 +136,30 @@ const LoadRequest = () => {
                     },
                   }}
                 >
-                  {allLoad?.data?.attributes?.loadRequests?.length > 0 && (
-                    <Pagination
-                      showSizeChanger={false}
-                      align="center"
-                      onChange={(page) => setPage(page)}
-                      pageSize={9}
-                      current={page}
-                      total={
-                        allLoad?.data?.attributes?.pagination?.totalResults
-                      }
-                    />
-                  )}
+                  {!isFetching &&
+                    allLoad?.data?.attributes?.loadRequests?.length > 0 && (
+                      <Pagination
+                        showSizeChanger={false}
+                        align="center"
+                        onChange={(page) => setPage(page)}
+                        pageSize={9}
+                        current={page}
+                        total={
+                          allLoad?.data?.attributes?.pagination?.totalResults
+                        }
+                      />
+                    )}
                 </ConfigProvider>
               </div>
             </>
           ) : (
             <>
               <div className="p-5 grid gap-5 lg:grid-cols-2 xl:grid-cols-3 min-h-[50vh]">
-                {allLoad?.data?.attributes?.loadRequests?.length > 0 ? (
+                {isFetching ? (
+                  <div className="flex justify-center  md:col-span-2 lg:col-span-3">
+                    <TowerLoader />
+                  </div>
+                ) : allLoad?.data?.attributes?.loadRequests?.length > 0 ? (
                   allLoad?.data?.attributes?.loadRequests?.map(
                     (truck, index) => <MyRequest key={index} data={truck} />
                   )
@@ -174,17 +184,18 @@ const LoadRequest = () => {
                     },
                   }}
                 >
-                  {allLoad?.data?.attributes?.loadRequests?.length > 0 && (
-                    <Pagination
-                      showSizeChanger={false}
-                      onChange={(page) => setPage(page)}
-                      pageSize={9}
-                      current={page}
-                      total={
-                        allLoad?.data?.attributes?.pagination?.totalResults
-                      }
-                    />
-                  )}
+                  {!isFetching &&
+                    allLoad?.data?.attributes?.loadRequests?.length > 0 && (
+                      <Pagination
+                        showSizeChanger={false}
+                        onChange={(page) => setPage(page)}
+                        pageSize={9}
+                        current={page}
+                        total={
+                          allLoad?.data?.attributes?.pagination?.totalResults
+                        }
+                      />
+                    )}
                 </ConfigProvider>
               </div>
             </>

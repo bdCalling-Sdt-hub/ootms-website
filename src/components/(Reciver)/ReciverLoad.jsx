@@ -14,6 +14,7 @@ import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
 import Link from "next/link";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
+import TowerLoader from "../ui/Loader";
 
 const ReciverLoad = () => {
   const cookies = new Cookies();
@@ -42,7 +43,7 @@ const ReciverLoad = () => {
   return (
     <div className="pt-20 pb-10 bg-[#F3F3F3]">
       {isFetching ? (
-        <p>Loading...</p>
+        <TowerLoader />
       ) : isError ? (
         <div className="flex justify-center items-center flex-col text-center min-h-screen m-auto text-base-color ">
           <Container>

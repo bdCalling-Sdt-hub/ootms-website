@@ -26,6 +26,8 @@ import {
 import GoogleMapAllTrack from "../LeafletMap/GoogleMapAllTrack";
 import MyAllLoads from "./MyAllLoads";
 import ShipmentEditForm from "./ShipmentEditForm";
+import TowerLoader from "../ui/Loader";
+import { getImageUrl } from "@/helpers/config/envConfig";
 
 const dragColumns = [
   {
@@ -61,6 +63,8 @@ const DispatchingPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
 
+  const url = getImageUrl();
+
   const { data: allTrucks, isFetching: loading } = useGetAllTrucksQuery({
     page,
   });
@@ -92,8 +96,6 @@ const DispatchingPage = () => {
   const [reciverData, setReciverData] = useState(null);
   const [shipperData, setShipperData] = useState(null);
   const [currentData, setCurrentData] = useState(null);
-
-  console.log("currentData", currentData?.Hazmat);
 
   const [open, setOpen] = useState(false);
 
@@ -195,6 +197,7 @@ const DispatchingPage = () => {
     }
   };
 
+  console.log("currentDriverModalData", currentDriverModalData);
   return (
     <div className="min-h-screen py-10  px-5 lg:px-10 ">
       {/* {isFetching ? (
@@ -209,18 +212,22 @@ const DispatchingPage = () => {
             Available Trucks
           </p>
           <div className=" flex flex-col gap-5 overflow-x-auto overflow-y-clip">
-            {allTrucks?.data?.attributes?.data?.map((data) => (
-              <>
-                <Trucks
-                  key={data.key}
-                  data={data}
-                  setOpen={setOpen}
-                  open={open}
-                  setCurrentDriverModalData={setCurrentDriverModalData}
-                  setDragData={setDragData}
-                />
-              </>
-            ))}
+            {loading ? (
+              <TowerLoader />
+            ) : (
+              allTrucks?.data?.attributes?.data?.map((data) => (
+                <>
+                  <Trucks
+                    key={data.key}
+                    data={data}
+                    setOpen={setOpen}
+                    open={open}
+                    setCurrentDriverModalData={setCurrentDriverModalData}
+                    setDragData={setDragData}
+                  />
+                </>
+              ))
+            )}
 
             <div className="flex justify-center  mt-2">
               <ConfigProvider
@@ -234,12 +241,16 @@ const DispatchingPage = () => {
                   },
                 }}
               >
-                <Pagination
-                  onChange={(page) => setPage(page)}
-                  pageSize={4}
-                  current={page}
-                  total={allTrucks?.data?.attributes?.pagination?.totalResults}
-                />
+                {allTrucks?.data?.attributes?.data?.length && !loading && (
+                  <Pagination
+                    onChange={(page) => setPage(page)}
+                    pageSize={4}
+                    current={page}
+                    total={
+                      allTrucks?.data?.attributes?.pagination?.totalResults
+                    }
+                  />
+                )}
               </ConfigProvider>
             </div>
             <Modal
@@ -279,31 +290,60 @@ const DispatchingPage = () => {
                   <div className="flex items-center gap-x-5">
                     <div className="p-1 rounded-full bg-[#2B4257] w-fit">
                       <Image
-                        src={AllImages.user}
+                        src={
+                          currentDriverModalData?.driverInfo?.image
+                            ? `${url.replace(
+                                /\/+$/,
+                                ""
+                              )}/${currentDriverModalData?.driverInfo?.image?.replace(
+                                /^\/+/,
+                                ""
+                              )}`
+                            : AllImages.user
+                        }
                         alt="user"
                         width={0}
                         height={0}
                         sizes="100vw"
-                        className="w-12 h-12 "
+                        className="w-12 h-12 rounded-full"
                       />
                     </div>
+
                     <div>
                       <p className="text-xl font-semibold">
                         {currentDriverModalData?.driverName ||
                           currentDriverModalData?.driverInfo?.driverName}
                       </p>
-                      {/* <p className="mt-1 text-lg flex items-center">
-                  <span className="pr-2 mr-1 border-r border-[#474747] flex items-center">
-                    <IoMdStar className="text-[#FFCE31] mr-1 inline-block text-lg" />
-                    4.65
-                  </span>
-                  <span>+995 654654</span>
-                </p> */}
+
+                      {currentDriverModalData?.availablePalletSpace ===
+                      currentDriverModalData?.palletSpace ? (
+                        <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                          <div className="w-fit p-1 rounded-full bg-[#B8E2A2] flex justify-center items-center">
+                            <span className="w-3 h-3 rounded-full bg-[#90BA7A]"></span>
+                          </div>
+                          <p>The truck is fully available.</p>
+                        </div>
+                      ) : currentDriverModalData?.availablePalletSpace === 0 ? (
+                        <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                          <div className="w-fit p-1 rounded-full bg-[#e2a2a2] flex justify-center items-center">
+                            <span className="w-3 h-3 rounded-full bg-[#ba7a7a]"></span>
+                          </div>
+                          <p>The truck is fully loaded.</p>
+                        </div>
+                      ) : (
+                        currentDriverModalData?.availablePalletSpace > 0 &&
+                        currentDriverModalData?.availablePalletSpace <=
+                          currentDriverModalData?.palletSpace && (
+                          <div className="text-lg font-semibold mb-1 flex items-center gap-x-2">
+                            <div className="w-fit p-1 rounded-full bg-[#e1e2a2] flex justify-center items-center">
+                              <span className="w-3 h-3 rounded-full bg-[#bab67a]"></span>
+                            </div>
+                            <p>The truck has low pallet space.</p>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
-                  {/* <div className="p-3 rounded-full w-fit bg-[#FDFDFD] border border-[#DDDDDD]">
-                      <FaPhone className="w-6 h-6" />
-                    </div> */}
                 </div>
                 <div ref={inputRef} className="bg-[#EEF2FC] rounded-lg">
                   {/* Assign And Cancle  */}

@@ -1,38 +1,72 @@
 "use client";
+import ReAssign from "@/components/CurrentShipment/ReAssign";
 import Container from "@/components/ui/Container";
-import { useGetSingleLoadRequestQuery } from "@/redux/api/loadRequestApi";
+import {
+  useCancleLoadRequestMutation,
+  useGetSingleLoadRequestQuery,
+} from "@/redux/api/loadRequestApi";
+import { Button, Modal } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+import React, { useState } from "react";
+import { FaStar } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
-import LeafletDeliveryMap from "../LeafletMap/LeafletDeliveryMap";
-import ReAssign from "./ReAssign";
-import CurrentShipmentChatMenu from "./CurrentShipmentChatMenu";
-import GoogleDeliveryMap from "../LeafletMap/GoogleDeliveryMap";
-import dayjs from "dayjs";
+import { toast } from "sonner";
 import TowerLoader from "../ui/Loader";
 
-const SingleCurrentShipment = () => {
-  const router = useRouter();
+const SingleMyLoadReq = () => {
   const params = useParams();
-
-  const { data, isFetching } = useGetSingleLoadRequestQuery(params?.id);
-
-  const [open, setOpen] = useState(false);
+  const { data, isFetching, isError } = useGetSingleLoadRequestQuery(
+    params?.id
+  );
+  const [cancleLoadRequest] = useCancleLoadRequestMutation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false); // Modal state
+  const router = useRouter();
+
+  isError && router.push("/load-request");
+
+  const loadId = data?.data?.attributes[0]?._id;
+
+  const handleCancelRequest = async () => {
+    const data = {
+      loadReqId: loadId,
+      action: "reject",
+    };
+    const toastId = toast.loading("Cancelling Load Request...");
+    try {
+      const res = await cancleLoadRequest(data).unwrap();
+
+      router.push("/load-request?req=myRequest");
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      setIsCancelModalOpen(false); // Close modal after confirmation
+    } catch (error) {
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+
+    // Redirect or trigger API call to cancel the request (replace with actual API call if needed)
+    // router.push("/dispatching"); // Example redirection after cancellation
+  };
 
   return (
-    <div className="pt-20 pb-10 bg-[#F3F3F3]">
+    <div className="py-20 bg-[#F3F3F3]">
       <Container>
         <div className="flex justify-between items-center mb-10">
           <IoChevronBackOutline
             className="text-3xl cursor-pointer text-[#2B4257] font-semibold"
             onClick={() => window.history.back()}
           />
-          <p className="text-4xl text-[#2B4257] font-semibold">
-            {" "}
-            Current Shipment
-          </p>
+          <p className="text-4xl text-[#2B4257] font-semibold">My Request</p>
           <div></div>
         </div>
         {isFetching ? (
@@ -52,9 +86,9 @@ const SingleCurrentShipment = () => {
                       <p className="text-lg font-semibold">Driver Name: </p>
                       <div className="flex items-center gap-2">
                         {/* <p>
-                      <FaStar className="text-yellow-400" />
-                    </p>
-                    <p>4.5</p> */}
+                          <FaStar className="text-yellow-400" />
+                        </p>
+                        <p>4.5</p> */}
                         <p>{data?.data?.attributes[0]?.driver?.fullName}</p>
                       </div>
                     </div>
@@ -70,20 +104,18 @@ const SingleCurrentShipment = () => {
                     </div>
                     <div>
                       <p className="text-lg font-semibold">Driver Address: </p>
-                      <p>{data?.data?.attributes[0]?.driver?.address}</p>
+                      <p>{data?.data?.attributes[0]?.load?.receivingAddress}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Truck Information */}
-              <div className="w-full flex flex-col">
-                <p className="text-2xl font-semibold mt-10 md:mt-0">
-                  Truck Information
-                </p>
+              <div className="w-full flex flex-col mt-10">
+                <p className="text-2xl font-semibold">Truck Information</p>
                 <hr className="w-56 mb-4" />
                 <div className="flex flex-col gap-5 mt-2">
-                  <div className="flex flex-col md:flex-row justify-between">
+                  <div className="lg:flex justify-between">
                     <div>
                       <p className="text-lg font-semibold">Truck Number: </p>
                       <p>{data?.data?.attributes[0]?.truck?.truckNumber}</p>
@@ -96,7 +128,7 @@ const SingleCurrentShipment = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row justify-between">
+                  <div className="lg:flex justify-between">
                     <div>
                       <p className="text-lg font-semibold">Pallet Spaces: </p>
                       <p>
@@ -122,12 +154,12 @@ const SingleCurrentShipment = () => {
               </div>
             </div>
 
-            <div className="md:mt-10">
-              <h2 className="text-xl font-semibold mt-10 md:mt-0 mb-4">
+            <div className="mt-10">
+              <h2 className="text-xl font-semibold mb-4">
                 Reciver&#39;s Information
               </h2>
               <hr className="my-6 border-[#9D9D9D] opacity-60" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid lg:grid-cols-2 gap-4">
                 <div>
                   <p className="font-semibold">Reciver Name</p>
 
@@ -146,8 +178,8 @@ const SingleCurrentShipment = () => {
                 <div>
                   <p className="font-semibold">Reciver Address</p>
                   {data?.data?.attributes[0]?.load?.receivingAddress},{" "}
-                  {data?.data?.attributes[0]?.load?.receiverCity},{" "}
-                  {data?.data?.attributes[0]?.load?.receiverState}
+                  {data?.data?.attributes[0]?.load?.receiverState},{" "}
+                  {data?.data?.attributes[0]?.load?.receiverCity}
                 </div>
               </div>
             </div>
@@ -157,7 +189,7 @@ const SingleCurrentShipment = () => {
               <p className="text-2xl font-semibold">Load Information</p>
               <hr className="w-56 mb-4" />
               <div className="flex space-x-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid lg:grid-cols-2 gap-4">
                   <div>
                     <p className="text-lg font-semibold">Load Type: </p>
                     <p>{data?.data?.attributes[0]?.load?.loadType}</p>
@@ -198,6 +230,7 @@ const SingleCurrentShipment = () => {
                         )
                       : ""}
                   </div>
+
                   <div>
                     <p className="text-lg font-semibold mb-2">
                       Pickup Date & Time:{" "}
@@ -248,54 +281,65 @@ const SingleCurrentShipment = () => {
                     </div>
                   </div>
                 </div>
+                <div className="flex flex-col gap-4"></div>
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 justify-center py-10 mt-10">
-              <button
-                onClick={() => setOpen(!open)}
-                className=" bg-[#BDC4CB] lg:px-44 md:px-10 px-8  text-gray-800 py-3 font-semibold  rounded flex items-center justify-center"
-              >
-                Track On Map
-              </button>
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className=" font-semibold bg-[#2B4257] lg:px-44 md:px-10 px-8  text-white py-2  rounded"
-              >
-                Re-Assign
-              </button>
+            {/* Button to find a new driver */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-2">
+              <div className="mt-8 text-center">
+                <Button
+                  type="primary"
+                  size="large"
+                  className="bg-transparent text-[#2B4257] border border-[#2B4257] px-4 rounded-lg"
+                  onClick={() => setIsCancelModalOpen(true)} // Open confirmation modal
+                >
+                  Cancel The Request
+                </Button>
+              </div>
+              <div className="mt-8 text-center">
+                <Button
+                  // onClick={() => router.push("/dispatching")}
+                  onClick={() => setIsOpen(!isOpen)}
+                  type="primary"
+                  size="large"
+                  className="bg-[#2B4257] px-4 rounded-lg"
+                >
+                  Find A New Driver
+                </Button>
+              </div>
             </div>
           </div>
         )}
       </Container>
-      {!isFetching && (
-        <CurrentShipmentChatMenu
-          data={data?.data?.attributes[0]}
-          isShiper={true}
-        />
-      )}
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="rounded-xl p-5  flex flex-col items-center justify-center bg-primary-color">
-            <div
-              className="w-fit ml-auto cursor-pointer mb-3"
-              onClick={() => setOpen(!open)}
-            >
-              <IoMdCloseCircleOutline className="text-3xl" />
-            </div>
-            {/* <h2 className="text-lg font-semibold mb-4">Assign Driver</h2>  */}
-            <div className=" h-[70vh] w-[70vw]">
-              {/* <label className="block text-gray-700 font-bold mb-2" htmlFor="driver">Driver</label>                                    */}
-              {/* <LeafletDeliveryMap /> */}
-              <GoogleDeliveryMap data={data?.data?.attributes[0]} />
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        title="Confirm Cancellation"
+        open={isCancelModalOpen}
+        onOk={handleCancelRequest}
+        onCancel={() => setIsCancelModalOpen(false)}
+        okText="Yes, Cancel"
+        cancelText="No, Keep Request"
+        okButtonProps={{
+          style: {
+            backgroundColor: "#FF4D4F",
+            borderColor: "#FF4D4F",
+            color: "white",
+          }, // Red color for cancel
+        }}
+        cancelButtonProps={{
+          style: {
+            backgroundColor: "#2B4257",
+            borderColor: "#2B4257",
+            color: "white",
+          }, // Dark blue for keep request
+        }}
+      >
+        <p>Are you sure you want to cancel this load request?</p>
+      </Modal>
+
       {isOpen && (
         <ReAssign
-          location={data?.data?.attributes[0]?.driver?.location?.coordinates}
-          isNearBy={true}
+          isNearBy={false}
           setIsOpen={setIsOpen}
           loadId={data?.data?.attributes[0]?.load?._id}
           id={params?.id}
@@ -305,4 +349,4 @@ const SingleCurrentShipment = () => {
   );
 };
 
-export default SingleCurrentShipment;
+export default SingleMyLoadReq;

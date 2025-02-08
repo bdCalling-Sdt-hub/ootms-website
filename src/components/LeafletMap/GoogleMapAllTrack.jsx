@@ -130,6 +130,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useGetNearestDriverForUserMutation } from "@/redux/api/loadApi";
+import TowerLoader from "../ui/Loader";
 
 const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
   const [postUserLocation] = useGetNearestDriverForUserMutation();
@@ -247,7 +248,7 @@ const GoogleMapAllTrack = ({ setOpen, setCurrentDriverModalData }) => {
     setCurrentDriverModalData,
   ]);
 
-  return <div>{map || <div>Loading map...</div>}</div>;
+  return <div>{map || <TowerLoader />}</div>;
 };
 
 export default GoogleMapAllTrack;

@@ -117,10 +117,6 @@ const Navbar = () => {
       name: "About App",
       link: "/about-app",
     },
-    {
-      name: "Pricing",
-      link: "/pricing",
-    },
   ];
   const AfterLoginMenu = [
     {

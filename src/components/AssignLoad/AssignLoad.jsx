@@ -9,6 +9,11 @@ import Container from "../ui/Container";
 
 const AssignLoad = () => {
   let loadDataFromLocal = JSON.parse(localStorage.getItem("myXlLoad"));
+  const [selectedLoads, setSelectedLoads] = useState([]);
+
+  const onChange = (checkedValues) => {
+    setSelectedLoads(checkedValues);
+  };
 
   const [loadId, SetLoadId] = useState();
   const navigate = useRouter();
@@ -50,11 +55,12 @@ const AssignLoad = () => {
           </div>
           <Form className="mt-10" onFinish={onFinish}>
             {/* Load checkboxes section */}
-            <div className="">
-              <Form.Item name="loads" valuePropName="checked">
-                <Checkbox.Group className="flex flex-col items-start gap-y-5">
-                  {/* Load 1 */}
-
+            <div>
+              <Form.Item name="loads">
+                <Checkbox.Group
+                  className="flex flex-col items-start gap-y-5"
+                  onChange={onChange}
+                >
                   {loadDataFromLocal?.map((data, index) => (
                     <div
                       key={data?._id}
@@ -67,16 +73,16 @@ const AssignLoad = () => {
                         Load - {index + 1}
                       </Checkbox>
                       <div className="text-2xl font-normal">
-                        <p>shipper Name: {data?.shipperName}</p>
-                        <p>Reciver Name: {data?.receiverName}</p>
+                        <p>Shipper Name: {data?.shipperName}</p>
+                        <p>Receiver Name: {data?.receiverName}</p>
                       </div>
                       <div className="ml-6 text-2xl">
                         <p className="flex items-center">
-                          <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />{" "}
+                          <PiArrowSquareUpLight className="text-base-color text-3xl font-extrabold" />
                           <span>{data?.shippingAddress}</span>
                         </p>
                         <p className="flex items-center">
-                          <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />{" "}
+                          <PiArrowSquareDownLight className="text-base-color text-3xl font-extrabold" />
                           <span>{data?.receivingAddress}</span>
                         </p>
                       </div>
@@ -89,7 +95,12 @@ const AssignLoad = () => {
             {/* Submit button */}
             <Form.Item>
               <button
-                className="w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8"
+                disabled={selectedLoads.length === 0}
+                className={`w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8 ${
+                  selectedLoads.length === 0
+                    ? "disabled:cursor-not-allowed opacity-50"
+                    : ""
+                }`}
                 htmltype="submit"
               >
                 Assign To Driver

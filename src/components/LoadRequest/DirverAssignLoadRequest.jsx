@@ -28,6 +28,39 @@ const DirverAssignLoadRequest = ({ truck, showModalRequest }) => {
   };
 
   const onFinish = async (id, action) => {
+    // navigate.push("/sign-in");
+    const toastId = toast.loading("Load Request...");
+
+    try {
+      let data = {
+        loadReqId: id,
+        action: action,
+      };
+      console.log("data", data);
+
+      const res = await handleAssignLoadRequest(data).unwrap();
+
+      console.log("res: ", res);
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      if (action === "accept") {
+        router.push("/current-shipment");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message || "An error occurred during Assign Load",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+  };
+
+  const onReject = async (id, action) => {
     if (action === "reject") {
       Modal.confirm({
         title: "Are you sure you want to reject this load?",
@@ -132,7 +165,7 @@ const DirverAssignLoadRequest = ({ truck, showModalRequest }) => {
         <div className=" flex justify-center items-center gap-5 mt-1 w-[90%] mx-auto">
           <Button
             onClick={() => {
-              onFinish(truck?.id, "reject");
+              onReject(truck?.id, "reject");
             }}
             className="!bg-[#DDDDDD] w-full py-2 rounded font-semibold !text-black border border-[#2B4257]"
           >

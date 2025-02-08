@@ -79,9 +79,9 @@ const ExcelDataForm = ({ handleOpenExcelFromModalCancle }) => {
         weight: "2000",
         loadDetails: "Fragile items, handle with care",
         productType: "Electronics",
-        pickupDate: "01-15-2025",
-        deliveryDate: "01-20-2025",
-        billOfLading: "0123456789",
+        pickupDate: "01-15-2025, 12:00 AM",
+        deliveryDate: "01-20-2025, 12:00 AM",
+        billOfLading: "0123456789999vcxdsvsdvfsvbdsvdvbdsvdvdvdsv dsvdsv",
         poNumber: "987654321",
         trailerSize: "15",
         "Hazmat (remove any item if you don't need to mention)":

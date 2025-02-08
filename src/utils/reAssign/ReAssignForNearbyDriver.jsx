@@ -1,3 +1,4 @@
+import TowerLoader from "@/components/ui/Loader";
 import { useGetNearByDriverByDriverLocationQuery } from "@/redux/api/preferredDiver";
 import {
   ConfigProvider,
@@ -14,6 +15,8 @@ const ReAssignForNearbyDriver = ({ location, isNearBy, columns, onFinish }) => {
   //*
   //*
   //*
+  const [selectedDriver, setSelectedDriver] = useState(null);
+
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(3);
@@ -35,18 +38,23 @@ const ReAssignForNearbyDriver = ({ location, isNearBy, columns, onFinish }) => {
     };
   }
 
-  const { data: nearestDriver } = useGetNearByDriverByDriverLocationQuery(
-    {
-      long: location?.[0],
-      lat: location?.[1],
-      page,
-      searchTerm,
-      limit,
-    },
-    {
-      skip: !isNearBy,
-    }
-  );
+  const { data: nearestDriver, isFetching } =
+    useGetNearByDriverByDriverLocationQuery(
+      {
+        long: location?.[0],
+        lat: location?.[1],
+        page,
+        searchTerm,
+        limit,
+      },
+      {
+        skip: !isNearBy,
+      }
+    );
+
+  const handleDriverChange = (e) => {
+    setSelectedDriver(e.target.value);
+  };
 
   console.log("nearestDriver", nearestDriver);
   return (
@@ -78,41 +86,52 @@ const ReAssignForNearbyDriver = ({ location, isNearBy, columns, onFinish }) => {
       >
         Select a Driver
       </Typography.Title>
-      <ConfigProvider
-        theme={{
-          components: {
-            Table: {
-              padding: 10,
-              margin: 10,
-              cellFontSize: 12,
-              headerBg: "rgb(189,196,222)",
+
+      {isFetching ? (
+        <div className="flex justify-center items-center flex-col">
+          <TowerLoader />
+        </div>
+      ) : (
+        <ConfigProvider
+          theme={{
+            components: {
+              Table: {
+                padding: 10,
+                margin: 10,
+                cellFontSize: 12,
+                headerBg: "rgb(189,196,222)",
+              },
             },
-          },
-        }}
-      >
-        <Form.Item name="driver">
-          <Radio.Group className="grid grid-cols-1 gap-3 overflow-x-hidden ">
-            {nearestDriver?.data?.data?.map((driver) => (
-              <Radio
-                className=" overflow-x-auto"
-                value={driver._id}
-                key={driver._id}
-              >
-                <div className="cursor-pointer  flex flex-col gap-5  overflow-x-auto overflow-y-clip">
-                  <Table
-                    columns={columns}
-                    dataSource={[driver]}
-                    pagination={false}
-                    bordered
-                    style={{ maxWidth: "100%", overflowX: "auto" }}
-                    scroll={{ x: "100%" }} // Ensure the table can scroll to show all content
-                  />
-                </div>
-              </Radio>
-            ))}
-          </Radio.Group>
-        </Form.Item>
-      </ConfigProvider>
+          }}
+        >
+          <Form.Item name="driver">
+            <Radio.Group
+              className="grid grid-cols-1 gap-3 overflow-x-hidden "
+              onChange={handleDriverChange}
+            >
+              {nearestDriver?.data?.data?.map((driver) => (
+                <Radio
+                  className=" overflow-x-auto"
+                  value={driver._id}
+                  key={driver._id}
+                >
+                  <div className="cursor-pointer  flex flex-col gap-5  overflow-x-auto overflow-y-clip">
+                    <Table
+                      columns={columns}
+                      dataSource={[driver]}
+                      pagination={false}
+                      bordered
+                      style={{ maxWidth: "100%", overflowX: "auto" }}
+                      scroll={{ x: "100%" }} // Ensure the table can scroll to show all content
+                    />
+                  </div>
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Form.Item>
+        </ConfigProvider>
+      )}
+
       <div className="flex justify-center  mt-2">
         <ConfigProvider
           theme={{
@@ -128,7 +147,7 @@ const ReAssignForNearbyDriver = ({ location, isNearBy, columns, onFinish }) => {
           {nearestDriver?.data?.data?.length > 0 && (
             <Pagination
               onChange={(page) => setPage(page)}
-              pageSize={3}
+              pageSize={limit}
               current={page}
               total={nearestDriver?.data?.pagination?.totalResults}
             />
@@ -138,7 +157,10 @@ const ReAssignForNearbyDriver = ({ location, isNearBy, columns, onFinish }) => {
 
       <Form.Item>
         <button
-          className="w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8"
+          disabled={!selectedDriver}
+          className={`w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8 ${
+            !selectedDriver ? "disabled:cursor-not-allowed opacity-50" : ""
+          }`}
           htmltype="submit"
         >
           Continue

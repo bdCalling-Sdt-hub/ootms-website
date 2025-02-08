@@ -3,6 +3,7 @@ import { ConfigProvider, Pagination } from "antd";
 import React, { useState } from "react";
 import MyLoad from "../map-truck/MyLoad";
 import { useGetAllPendingLoadsQuery } from "@/redux/api/loadApi";
+import TowerLoader from "../ui/Loader";
 
 const MyAllLoads = ({ open, handleDragEnd, handleOpenShipperEditFrom }) => {
   const [allLoadsPage, setAllLoadsPage] = useState(1);
@@ -13,6 +14,7 @@ const MyAllLoads = ({ open, handleDragEnd, handleOpenShipperEditFrom }) => {
   };
 
   const debounceSearch = debounce((value) => {
+    setAllLoadsPage(1);
     setSearchTerm(value);
   }, 500);
 
@@ -45,7 +47,9 @@ const MyAllLoads = ({ open, handleDragEnd, handleOpenShipperEditFrom }) => {
           />
         </div>
         <div className=" flex flex-col gap-5">
-          {allPendingLoads?.data?.results?.length > 0 ? (
+          {isFetching ? (
+            <TowerLoader />
+          ) : allPendingLoads?.data?.results?.length > 0 ? (
             allPendingLoads?.data?.results?.map((item, index) => (
               <MyLoad
                 data={item}
@@ -60,7 +64,6 @@ const MyAllLoads = ({ open, handleDragEnd, handleOpenShipperEditFrom }) => {
           ) : (
             <div className="text-center">No loads found</div>
           )}
-          {}
         </div>
       </motion.div>
       <div className="flex justify-center  mt-2">
@@ -75,7 +78,7 @@ const MyAllLoads = ({ open, handleDragEnd, handleOpenShipperEditFrom }) => {
             },
           }}
         >
-          {allPendingLoads?.data?.results?.length > 0 && (
+          {allPendingLoads?.data?.results?.length > 0 && !isFetching && (
             <Pagination
               showSizeChanger={false}
               onChange={(allLoadsPage) => setAllLoadsPage(allLoadsPage)}

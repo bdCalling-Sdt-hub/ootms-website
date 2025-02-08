@@ -14,8 +14,10 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import TowerLoader from "../ui/Loader";
 
 const AssignLoadForMultipleDriver = ({ loadId }) => {
+  const [selectedDriver, setSelectedDriver] = useState(null);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [limit, setLimit] = useState(3);
@@ -85,7 +87,11 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
   }
-  const { data: preferredDriver } = useGetPreferredDriverQuery({
+  const handleDriverChange = (e) => {
+    setSelectedDriver(e.target.value);
+  };
+
+  const { data: preferredDriver, isFetching } = useGetPreferredDriverQuery({
     page,
     searchTerm,
     limit,
@@ -128,7 +134,7 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
       <Container>
         <div className="">
           <p className="text-2xl text-center font-semibold">
-            Give your driver phone number
+            Give your driver phone number, Name
           </p>
 
           <Form
@@ -141,13 +147,13 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
               level={4}
               style={{ color: "#222222" }}
             >
-              Driver Phone Number
+              Search Driver
             </Typography.Title>
 
             <Input
               type="text"
               onChange={handleSearch}
-              placeholder="Enter your Driver Phone Number"
+              placeholder="Search Driver"
               className="py-2 px-3 text-xl bg-site-color !border !border-[#BDC4DE] rounded text-base-color hover:bg-transparent hover:border-secoundary-color focus:bg-transparent focus:border-secoundary-color"
             />
 
@@ -171,25 +177,34 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
               }}
             >
               <Form.Item name="driver">
-                <Radio.Group className="grid grid-cols-1 gap-3 overflow-x-hidden ">
-                  {preferredDriver?.data?.attributes?.results?.map((driver) => (
-                    <Radio
-                      className=" overflow-x-auto"
-                      value={driver._id}
-                      key={driver._id}
-                    >
-                      <div className="cursor-pointer  flex flex-col gap-5  overflow-x-auto overflow-y-clip">
-                        <Table
-                          columns={columns}
-                          dataSource={[driver]}
-                          pagination={false}
-                          bordered
-                          style={{ maxWidth: "100%", overflowX: "auto" }}
-                          scroll={{ x: "100%" }} // Ensure the table can scroll to show all content
-                        />
-                      </div>
-                    </Radio>
-                  ))}
+                <Radio.Group
+                  className="grid grid-cols-1 gap-3 overflow-x-hidden "
+                  onChange={handleDriverChange}
+                >
+                  {isFetching ? (
+                    <TowerLoader />
+                  ) : (
+                    preferredDriver?.data?.attributes?.results?.map(
+                      (driver) => (
+                        <Radio
+                          className=" overflow-x-auto"
+                          value={driver._id}
+                          key={driver._id}
+                        >
+                          <div className="cursor-pointer  flex flex-col gap-5  overflow-x-auto overflow-y-clip">
+                            <Table
+                              columns={columns}
+                              dataSource={[driver]}
+                              pagination={false}
+                              bordered
+                              style={{ maxWidth: "100%", overflowX: "auto" }}
+                              scroll={{ x: "100%" }} // Ensure the table can scroll to show all content
+                            />
+                          </div>
+                        </Radio>
+                      )
+                    )
+                  )}
                 </Radio.Group>
               </Form.Item>
             </ConfigProvider>
@@ -206,23 +221,29 @@ const AssignLoadForMultipleDriver = ({ loadId }) => {
                 }}
               >
                 {preferredDriver?.data?.attributes?.pagination?.totalResults >
-                  3 && (
-                  <Pagination
-                    onChange={(page) => setPage(page)}
-                    pageSize={3}
-                    current={page}
-                    total={
-                      preferredDriver?.data?.attributes?.pagination
-                        ?.totalResults
-                    }
-                  />
-                )}
+                  3 &&
+                  !isFetching && (
+                    <Pagination
+                      onChange={(page) => setPage(page)}
+                      pageSize={3}
+                      current={page}
+                      total={
+                        preferredDriver?.data?.attributes?.pagination
+                          ?.totalResults
+                      }
+                    />
+                  )}
               </ConfigProvider>
             </div>
 
             <Form.Item>
               <button
-                className="w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8"
+                disabled={!selectedDriver}
+                className={`w-full py-3 border border-[#2B4257] hover:border-[#2B4257] text-xl text-primary-color bg-[#2B4257] font-semibold rounded-2xl mt-8 ${
+                  !selectedDriver
+                    ? "disabled:cursor-not-allowed opacity-50"
+                    : ""
+                }`}
                 htmltype="submit"
               >
                 Continue

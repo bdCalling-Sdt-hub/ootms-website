@@ -8,6 +8,7 @@ import { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { AllImages } from "../../../public/assets/AllImages";
 import Container from "../ui/Container";
+import TowerLoader from "../ui/Loader";
 
 const MyProfile = () => {
   const { data: myProfile, isFetching } = useMyProfileQuery();
@@ -59,338 +60,284 @@ const MyProfile = () => {
 
   // const toggleOnlyView = () => setIsOnlyView(!isOnlyView);
 
-  if (isFetching || loading) {
-    return (
-      <div>
-        <div className="my-10 flex justify-center items-center">
-          <Spin size="large" />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div>
       <div className="min-h-screen my-16 md:mt-20">
-        <Container>
-          <div className="flex flex-col sm:flex-row justify-between items-center ">
-            {/* {isCompleted ? <></> : <></>} */}
-            <>
-              <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
-                {myProfile?.data?.attributes?.userDetails?.isComplete ? (
-                  <>Edit Your Profile</>
-                ) : (
-                  <> Please Complete Your Profile</>
-                )}
-              </h1>
-            </>
+        {isFetching ? (
+          <div className="h-full flex justify-center items-center">
+            <TowerLoader />
+          </div>
+        ) : (
+          <Container>
+            <div className="flex flex-col sm:flex-row justify-between items-center ">
+              {/* {isCompleted ? <></> : <></>} */}
+              <>
+                <h1 className="text-next-btn text-3xl md:text-3xl lg:text-4xl font-semibold mb-6 order-last sm:order-first">
+                  {myProfile?.data?.attributes?.userDetails?.isComplete ? (
+                    <>Edit Your Profile</>
+                  ) : (
+                    <> Please Complete Your Profile</>
+                  )}
+                </h1>
+              </>
 
-            <div className="mb-10 sm:mb-0 flex flex-col gap-6">
-              <Button
-                onClick={onEdit}
-                type="primary"
-                className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
-              >
-                <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />{" "}
-                {myProfile?.data?.attributes?.userDetails?.isComplete ? (
-                  <>Edit Profile</>
-                ) : (
-                  <> Complete your Profile</>
-                )}
-              </Button>
-              {myProfile?.data?.attributes?.userDetails?.isSocialLogin ===
-                false && (
+              <div className="mb-10 sm:mb-0 flex flex-col gap-6">
                 <Button
-                  onClick={onPassChange}
+                  onClick={onEdit}
                   type="primary"
                   className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
                 >
-                  <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />
-                  Change Your Password
+                  <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />{" "}
+                  {myProfile?.data?.attributes?.userDetails?.isComplete ? (
+                    <>Edit Profile</>
+                  ) : (
+                    <> Complete your Profile</>
+                  )}
                 </Button>
-              )}
-            </div>
-          </div>
-
-          <Form
-            // disabled={isOnlyView}
-            onFinish={onFinish}
-            layout="vertical"
-            className="bg-transparent w-full"
-          >
-            <div className="flex flex-col sm:flex-row items-center gap-10">
-              <div className="rounded-full border-2 border-add-profile-border overflow-hidden">
-                <Image
-                  src={userImage}
-                  alt="profile_img"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
-                />
-              </div>
-            </div>
-
-            <div className="mt-16">
-              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
-                {/*  First Name  */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
+                {myProfile?.data?.attributes?.userDetails?.isSocialLogin ===
+                  false && (
+                  <Button
+                    onClick={onPassChange}
+                    type="primary"
+                    className="px-8 py-6 text-lg md:text-xl font-semibold bg-next-btn border  text-site-color rounded-3xl shadow-inner shadow-[#00000040]"
                   >
-                    Full Name
-                  </Typography.Title>
-                  <Form.Item
-                    name="fullName"
-                    initialValue={
-                      myProfile?.data?.attributes?.userDetails?.fullName
-                    }
-                    className="text-white"
-                  >
-                    <Input
-                      readOnly
-                      placeholder="Enter your fullName"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
-                    />
-                  </Form.Item>
-                </div>
-
-                {/* Email  */}
-
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Email
-                  </Typography.Title>
-                  <Form.Item
-                    name="email"
-                    initialValue={
-                      myProfile?.data?.attributes?.userDetails?.email
-                    }
-                    className="text-white"
-                  >
-                    <Input
-                      readOnly
-                      placeholder="Enter your email"
-                      className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
-                    />
-                  </Form.Item>
-                </div>
-
-                {/* Address  */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Address
-                  </Typography.Title>
-                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.userDetails?.address ||
-                      "Please Complete your profile"}
-                  </div>
-                </div>
-                {/* Phone  */}
-                <div>
-                  <Typography.Title
-                    level={4}
-                    className="text-profile-text-color font-bold"
-                  >
-                    Phone
-                  </Typography.Title>
-                  <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
-                    {myProfile?.data?.attributes?.userDetails?.phoneNumber ||
-                      "Please Complete your profile"}
-                  </div>
-                </div>
-
-                {myProfile?.data?.attributes?.userDetails?.isComplete ? (
-                  <>
-                    {myProfile?.data?.attributes?.userDetails?.role ===
-                      "user" && (
-                      <>
-                        {/* {data.roll === "user" && ( */}
-                        {/*  Tax ID  */}
-                        <div>
-                          <Typography.Title
-                            level={4}
-                            className="text-profile-text-color font-bold"
-                          >
-                            Tax ID
-                          </Typography.Title>
-                          <Form.Item
-                            name="taxid"
-                            initialValue={
-                              myProfile?.data?.attributes?.userDetails?.taxid
-                            }
-                            className="text-white"
-                          >
-                            <Input
-                              readOnly
-                              placeholder="Enter your Tax ID"
-                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
-                            />
-                          </Form.Item>
-                        </div>
-                      </>
-                    )}
-
-                    {myProfile?.data?.attributes?.userDetails?.role ===
-                      "driver" && (
-                      <>
-                        {/* Truck Number */}
-                        <div>
-                          <Typography.Title
-                            level={4}
-                            className="text-profile-text-color font-bold"
-                          >
-                            Truck Number
-                          </Typography.Title>
-                          <Form.Item
-                            name="truckNumber"
-                            initialValue={
-                              myTruck?.data?.attributes?.truck[0]?.truckNumber
-                            }
-                            className="text-white"
-                          >
-                            <Input
-                              readOnly
-                              placeholder="Enter your Truck Number"
-                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
-                            />
-                          </Form.Item>
-                        </div>
-                        {/* CDL Number */}
-                        <div>
-                          <Typography.Title
-                            level={4}
-                            className="text-profile-text-color font-bold"
-                          >
-                            CDL Number
-                          </Typography.Title>
-                          <Form.Item
-                            name="cdlNumber"
-                            initialValue={
-                              myTruck?.data?.attributes?.truck[0]?.cdlNumber
-                            }
-                            className="text-white"
-                          >
-                            <Input
-                              readOnly
-                              placeholder="Enter your CDL Number"
-                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
-                            />
-                          </Form.Item>
-                        </div>
-                        {/* Trailer Size */}
-                        <div>
-                          <Typography.Title
-                            level={4}
-                            className="text-profile-text-color font-bold"
-                          >
-                            Trailer Size
-                          </Typography.Title>
-                          <Form.Item
-                            name="trailerSize"
-                            initialValue={
-                              myTruck?.data?.attributes?.trailer[0]?.trailerSize
-                            }
-                            className="text-white"
-                          >
-                            <Input
-                              readOnly
-                              placeholder="Enter your Trailer Size"
-                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
-                            />
-                          </Form.Item>
-                        </div>
-                        {/* Pallet Space */}
-                        <div>
-                          <Typography.Title
-                            level={4}
-                            className="text-profile-text-color font-bold"
-                          >
-                            Pallet Space
-                          </Typography.Title>
-                          <Form.Item
-                            name="palletSpace"
-                            initialValue={
-                              myTruck?.data?.attributes?.trailer[0]?.palletSpace
-                            }
-                            className="text-white"
-                          >
-                            <Input
-                              readOnly
-                              placeholder="Enter your Pallet Space"
-                              className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
-                            />
-                          </Form.Item>
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <></>
+                    <MdEdit className="bg-white text-black rounded-full text-3xl p-1" />
+                    Change Your Password
+                  </Button>
                 )}
               </div>
-
-              {/* <h2 className="mb-1 text-xl font-semibold">
-                Attach Medical Documents
-              </h2> */}
-              {/* <Form.Item
-                name="medicalDocuments"
-                className="text-base-color"
-                rules={[
-                  {
-                    required: true,
-                    message: "Medical Documents is Required",
-                  },
-                ]}
-              >
-                <Dragger className="p-6   border-red-300 rounded-md">
-                  <div className="flex items-center justify-center !py-10">
-                    <p className="">
-                      <MdOutlineFileUpload className="size-16 text-secondary-color" />
-                    </p>
-                    <p className="text-secondary-color text-3xl">Upload file</p>
-                  </div>
-                </Dragger>
-              </Form.Item> */}
-
-              {/* {isOnlyView ? (
-                <div></div>
-              ) : (
-                <Form.Item>
-                  <motion.button
-                    variants={buttonVariants}
-                    whileTap="tap"
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 7,
-                    }}
-                    className="px-20 py-3 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color font-semibold rounded-lg mt-8"
-                    htmltype="submit"
-                  >
-                    Save Changes
-                  </motion.button>
-                </Form.Item>
-              )} */}
             </div>
 
-            {/* <Button
-              className="bg-next-btn py-6 text-next-text font-bold text-xl mb-12 rounded-xl mt-8"
-              type="primary"
-              block
-              htmlType="submit"
+            <Form
+              // disabled={isOnlyView}
+              onFinish={onFinish}
+              layout="vertical"
+              className="bg-transparent w-full"
             >
-              Save Profile
-            </Button> */}
-          </Form>
-        </Container>
+              <div className="flex flex-col sm:flex-row items-center gap-10">
+                <div className="rounded-full border-2 border-add-profile-border overflow-hidden">
+                  <Image
+                    src={userImage}
+                    alt="profile_img"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="h-[150px] w-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] lg:w-[250px] object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-2 gap-5 items-center">
+                  {/*  First Name  */}
+                  <div>
+                    <Typography.Title
+                      level={4}
+                      className="text-profile-text-color font-bold"
+                    >
+                      Full Name
+                    </Typography.Title>
+                    <Form.Item
+                      name="fullName"
+                      initialValue={
+                        myProfile?.data?.attributes?.userDetails?.fullName
+                      }
+                      className="text-white"
+                    >
+                      <Input
+                        readOnly
+                        placeholder="Enter your fullName"
+                        className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                      />
+                    </Form.Item>
+                  </div>
+
+                  {/* Email  */}
+
+                  <div>
+                    <Typography.Title
+                      level={4}
+                      className="text-profile-text-color font-bold"
+                    >
+                      Email
+                    </Typography.Title>
+                    <Form.Item
+                      name="email"
+                      initialValue={
+                        myProfile?.data?.attributes?.userDetails?.email
+                      }
+                      className="text-white"
+                    >
+                      <Input
+                        readOnly
+                        placeholder="Enter your email"
+                        className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                      />
+                    </Form.Item>
+                  </div>
+
+                  {/* Address  */}
+                  <div>
+                    <Typography.Title
+                      level={4}
+                      className="text-profile-text-color font-bold"
+                    >
+                      Address
+                    </Typography.Title>
+                    <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
+                      {myProfile?.data?.attributes?.userDetails?.address ||
+                        "Please Complete your profile"}
+                    </div>
+                  </div>
+                  {/* Phone  */}
+                  <div>
+                    <Typography.Title
+                      level={4}
+                      className="text-profile-text-color font-bold"
+                    >
+                      Phone
+                    </Typography.Title>
+                    <div className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color   ">
+                      {myProfile?.data?.attributes?.userDetails?.phoneNumber ||
+                        "Please Complete your profile"}
+                    </div>
+                  </div>
+
+                  {myProfile?.data?.attributes?.userDetails?.isComplete ? (
+                    <>
+                      {myProfile?.data?.attributes?.userDetails?.role ===
+                        "user" && (
+                        <>
+                          {/* {data.roll === "user" && ( */}
+                          {/*  Tax ID  */}
+                          <div>
+                            <Typography.Title
+                              level={4}
+                              className="text-profile-text-color font-bold"
+                            >
+                              Tax ID
+                            </Typography.Title>
+                            <Form.Item
+                              name="taxid"
+                              initialValue={
+                                myProfile?.data?.attributes?.userDetails?.taxid
+                              }
+                              className="text-white"
+                            >
+                              <Input
+                                readOnly
+                                placeholder="Enter your Tax ID"
+                                className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color "
+                              />
+                            </Form.Item>
+                          </div>
+                        </>
+                      )}
+
+                      {myProfile?.data?.attributes?.userDetails?.role ===
+                        "driver" && (
+                        <>
+                          {/* Truck Number */}
+                          <div>
+                            <Typography.Title
+                              level={4}
+                              className="text-profile-text-color font-bold"
+                            >
+                              Truck Number
+                            </Typography.Title>
+                            <Form.Item
+                              name="truckNumber"
+                              initialValue={
+                                myTruck?.data?.attributes?.truck[0]?.truckNumber
+                              }
+                              className="text-white"
+                            >
+                              <Input
+                                readOnly
+                                placeholder="Enter your Truck Number"
+                                className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                              />
+                            </Form.Item>
+                          </div>
+                          {/* CDL Number */}
+                          <div>
+                            <Typography.Title
+                              level={4}
+                              className="text-profile-text-color font-bold"
+                            >
+                              CDL Number
+                            </Typography.Title>
+                            <Form.Item
+                              name="cdlNumber"
+                              initialValue={
+                                myTruck?.data?.attributes?.truck[0]?.cdlNumber
+                              }
+                              className="text-white"
+                            >
+                              <Input
+                                readOnly
+                                placeholder="Enter your CDL Number"
+                                className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                              />
+                            </Form.Item>
+                          </div>
+                          {/* Trailer Size */}
+                          <div>
+                            <Typography.Title
+                              level={4}
+                              className="text-profile-text-color font-bold"
+                            >
+                              Trailer Size
+                            </Typography.Title>
+                            <Form.Item
+                              name="trailerSize"
+                              initialValue={
+                                myTruck?.data?.attributes?.trailer[0]
+                                  ?.trailerSize
+                              }
+                              className="text-white"
+                            >
+                              <Input
+                                readOnly
+                                placeholder="Enter your Trailer Size"
+                                className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                              />
+                            </Form.Item>
+                          </div>
+                          {/* Pallet Space */}
+                          <div>
+                            <Typography.Title
+                              level={4}
+                              className="text-profile-text-color font-bold"
+                            >
+                              Pallet Space
+                            </Typography.Title>
+                            <Form.Item
+                              name="palletSpace"
+                              initialValue={
+                                myTruck?.data?.attributes?.trailer[0]
+                                  ?.palletSpace
+                              }
+                              className="text-white"
+                            >
+                              <Input
+                                readOnly
+                                placeholder="Enter your Pallet Space"
+                                className="py-2 px-3 text-xl bg-white border border-[#E6E7E6] text-base-color"
+                              />
+                            </Form.Item>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+            </Form>
+          </Container>
+        )}
       </div>
     </div>
   );

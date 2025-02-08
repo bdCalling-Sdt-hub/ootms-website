@@ -26,6 +26,7 @@ import { IoSend } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { AllImages } from "../../../public/assets/AllImages";
+import TowerLoader from "../ui/Loader";
 
 const CurrentShipmentChat = ({
   data,
@@ -162,9 +163,7 @@ const CurrentShipmentChat = ({
           >
             {isAllMessageFetching ? (
               <div className="flex items-center justify-center h-full">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900">
-                  {" "}
-                </div>
+                <TowerLoader />
               </div>
             ) : (
               chatMessages?.map((msg, index) => (
